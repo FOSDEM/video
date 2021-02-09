@@ -12,8 +12,10 @@ Here's what you'll need to do to get your talk video in:
 - Your room manager will then review your talk.
 - Make sure your room ends up marked with state "done" at https://upload.video.fosdem.org/overview .
 - Validate your final video using the link at the bottom of https://penta.fosdem.org/submission/FOSDEM21/event/123456 .
-![penta submission Final Video URL](final_video_url.png)
-This is what will be broadcast at FOSDEM 2021. In case this looks good, no feedback is needed from you. In case of any issues, please contact [video@fosdem.org](mailto:video@fosdem.org) . Hints:
+
+  ![penta submission Final Video URL](final_video_url.png)
+
+  - This is what will be broadcast at FOSDEM 2021. In case this looks good, no feedback is needed from you. In case of any issues, please contact [video@fosdem.org](mailto:video@fosdem.org) . Hints:
   - Never share this link. Share your talk's unique event id.
   - Particularly check the end of the video. Make sure FOSDEM has the full recording.
 
