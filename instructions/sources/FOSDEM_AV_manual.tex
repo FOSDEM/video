@@ -95,16 +95,16 @@
 Video is a big task, so there are many people working together to make it all happen. Here's all the teams:
 
 \subsection{AW, H, K, U and J teams}
-You should be a team of two per building: AW, H, K, UA and UD respectively. J (probably) has a dedicated knowledgeable volunteer.
+You should be a team of at least two per building: AW, H, K, UA and UD respectively. J (probably) has a dedicated knowledgeable volunteer.
 
 Coordination with video operations control (VOC) happens through walkies and chat: irc://irc.freenode.net\#fosdem-video or \#fosdem-video:matrix.org . The chat is web accessible through https://riot.im/app/\#/room/\#fosdem-video:matrix.org .
 
 Your tasks before the conference starts:
 \begin{itemize}
-  \item take the equipment to the rooms in your building
-  \item work from the biggest to the smallest room
-  \item do basic setup: cam, sound, plug in cables, basic audio checks with microphones, ... See below for details.
-  \item ensure the rooms are ready before the first talk starts
+  \item (Friday) take the equipment to the rooms in your building
+  \item (Friday) work from the biggest to the smallest room
+  \item (Friday) do basic setup: cam, sound, plug in cables, basic audio checks with microphones, ... See below for details.
+  \item (days of the conference) ensure the rooms are ready before the first talk starts
 \end{itemize}
 
 During the day, you'll have a fixed spot in the building. The below spots should also appear in https://nav.fosdem.org .
@@ -119,7 +119,8 @@ During the day, you'll have a fixed spot in the building. The below spots should
 
 Your job during the conference, with the backup from the VOC team, is to do the following in your building:
 \begin{itemize}
-	\item monitor video. Hint: bring at least one laptop running mpv. (You will also get one laptop per team, but that one can only monitor four streams.)
+  \item monitor video and update scene if necessary. See the ``Monitoring and control of video streams`` section for more details;
+  \item assist speakers and respond to problem reports in the building;
   \item proactively fix problems with video. In some rooms, this includes preventatively replacing batteries!
 \end{itemize}
 
@@ -131,6 +132,9 @@ Your job is to constantly monitor all the equipment and streams for problems, an
 
 Do not run out to fix problems yourselves. Delegate to the per building teams. Maintaining contact between everyone is your main priority.
 
+For more details on the monitoring, see ``Monitoring and control of video streams``. 
+
+
 \subsection{In the devroom}
 If you are volunteering for video inside a devroom, please:
 \begin{itemize}
@@ -141,6 +145,22 @@ If you are volunteering for video inside a devroom, please:
 \end{itemize}
 
 Please do \emph{NOT} disconnect or turn off any equipment yourself. That is the task of the per building team only.
+
+\section{Monitoring and control of video streams}
+
+There should be the following monitoring available:
+
+\begin{itemize}
+  \item Page with video previews of camera, slides and mix streams. It can show all rooms, or a single building;
+  \item Grafana with audio levels of the camera's input, for all rooms and selectable for a set of rooms;
+  \item Ability to stream every box's stream to check for issues in video or audio;
+  \item Control interface for the video mix, to select the scene to be shown;
+  \item (TBD) Host-level monitoring for all involved infrastructure, to see network outages and such.
+\end{itemize}
+
+Access to those systems is provided on Friday. Every per-building team should have a way to see the monitoring, either via the in-room beamer, or some spare large screen.
+
+
 
 \section{Rooms}
 We have 30 rooms: 14 small, 14 large and 2 extra large rooms. Each type of room has a different audio/video setup.
@@ -232,15 +252,14 @@ The connections there are as follows:
 \end{figure}
 
 \section{FOSDEM video boxes}
-The FOSDEM video box will take care of the streaming and recording.
+The FOSDEM video box and its control laptop will take care of the streaming and recording.
 There is no need to operate the controls on the camera (once on and in the correct video mode, which the setup team will have done). The setup team should also have connected the following:
 \begin{itemize}
   \item at least one network cable
   \item a power cable, connected to mains, with the box already turned on
-  \item slides boxes only:
+  \item slides boxes (the one for the speaker) only:
     \begin{itemize}
       \item The right HDMI connection should be connected to the projector
-      \item The VGA connection should be connected to the projector, if the beamer is VGA-only
       \item The left HDMI connection should have a loose HDMI cable, for connecting to the presenter laptop
     \end{itemize}
   \item Cam boxes only:
@@ -255,19 +274,19 @@ The power switch is at the back, on a standard power supply:
   \includegraphics[width = 120mm]{videobox_psu.jpg}
 \end{figure}
 
-Order of connections and powering on does not matter, each order will work. There is no need to reboot the box after connections have changed, and there is no physical mechanism to safely power down the box.
-Fully powering on the box takes about half a minute, and it will take approximately 10 seconds before anything can be seen on the LCD display. This is normal. Boot up is about twice as slow after an unexpected power loss.
+Order of connections and powering on does not matter, each order will work. There is no need to reboot the box after connections have changed.
+Fully booting the laptop takes about a minute, and it should show a graphical interface with data on the left and video on the right.
 
 \emph{Do not attempt to power off the box unassisted, as this may damage the integrity of the system.}
-In the event of power loss or accidental unplugging, the system should fully auto-recover by itself. If you suspect it may be malfunctioning, first try to open the live stream yourself on any device. When problems persist, contact the control and monitoring team (see chapter ``During the event'' for full details). They may already be aware of the problem, but quick reporting helps cut down on reaction times.
+In the event of power loss or accidental unplugging, the system should fully auto-recover by itself. If you suspect it may be malfunctioning and there is not enough diagnostic information, contact the control and monitoring team (see chapter ``During the event'' for full details). They may already be aware of the problem, but quick reporting helps cut down on reaction times.
 
-While the box contains a network switch (all three ports are connected), \emph{do not connect your own equipment} to the box. The boxes are on a special subnet with reserved bandwidth for the video streaming, and any other equipment may compromise the quality of the broadcast.
+While the box contains a network switch (all four ports are connected), \emph{do not connect your own equipment} to the box. The boxes are on a special subnet with reserved bandwidth for the video streaming, and any other equipment may compromise the quality of the broadcast.
 
-\emph{The slides boxes have only HDMI input and HDMI and VGA output.}
-For speakers with only VGA outputs, the per-building video team will have convertors that can be loaned.
-The HDMI signal is automatically scaled to 720p (1280x720) at 50Hz. Matching this on the presenter laptop is a good idea, but not a requirement.
+\emph{The boxes have only HDMI input and HDMI output.}
+For speakers with only VGA outputs, the per-building video team is required to ask them for their time machine license registration. Mini-DP and some other connectors might be available with the per-building team.
+The HDMI signal is automatically scaled to 1080p (1920x1080) at 50Hz. Matching this on the presenter laptop is a good idea, but not a requirement.
 
-\emph{The LCD display will inform you of all vital information about the current status of the box.} It shows a preview of the stream image (auto-refreshing screenshot, not live video), the current input resolution and refresh rate (should be 720p at 50Hz), its network status (connected/disconnected), the recording status (yes/no), the streaming status (yes/no) and audio volume level (average over the last few seconds).
+\emph{The control latop display will inform you of all vital information about the current status of the box.} It shows the stream video on the right, signal and its network status (connected/disconnected), the recording status (yes/no), the streaming status (yes/no) and audio volume level (average over the last few seconds).
 
 The boxes report all this information to control while their network status is good, where the control and monitoring team keeps on eye on all rooms. If something is wrong, they may send somebody your way to correct it. Please follow the instructions (if any) of video team members. Keeping an eye on the box vitals and correcting any problems you notice is encouraged.
 
@@ -275,7 +294,7 @@ The boxes report all this information to control while their network status is g
 We use the Manfrotto MVH 502. This should hopefully be self-explanatory. Please offer feedback to VOC if that is not the case.
 
 \section{Camera}
-FOSDEM 2020 will use one camera models: the Sony HXR-NX100.
+FOSDEM 2023 will use one camera models: the Sony HXR-NX100.
 
 \subsection{Standard camera settings and quick check list}
 \begin{tabular}{| l | l |}
@@ -425,7 +444,7 @@ It is expected of the devroom video volunteers that they keep an eye on the foll
   \item The audio volume is not too low or too high (clipping is bad!)
   \item The camera is aimed at the speaker, \emph{not} the projection screen (the projection screen is captured separately!)
   \item None of the video equipment is stolen or tampered with
-  \item The video box is turned on and has OK network status.
+  \item The video and control laptop box are turned on and have OK network status.
 \end{itemize}
 The main task is ensuring audio quality. Video quality, while important, is only a secondary concern. A recording without video is still usable, but a recording without audio is completely useless.
 
