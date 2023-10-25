@@ -462,5 +462,101 @@ The correct way to wear a lapel mic is as follows:
 
 Video team members will be both monitoring remotely as well as visiting rooms with problems. If you have questions, concerns or problems and there is no video team member nearby, contact them through the \texttt{\#fosdem-video} channel on the Freenode IRC service or https://riot.im/app/\#/room/\#fosdem-video:matrix.org . If your video box shows issues on the LCD, most likely somebody is already on their way to you. When communicating with video team members, please mention the \emph{room number} as opposed to the devroom name. Devrooms move around, room numbers stay constant.
 
+\section{System infrastructure overview}
+
+This section explains how the video streaming and recording works in general for FOSDEM, to use as a helper to understanding the system and dealing with issues.
+
+The system's code and recipes for deployment are available in FOSDEM's GitHub repo ``infrastructure``, in the ``ansible`` subdirectory. Below is a list of components (some software, some whole-system) that are the pieces of the whole thing.
+
+\subsection{sproxy}
+
+``sproxy`` is a small piece of software available in https://github.com/FOSDEM/sproxy and FOSDEM's Debian packages repository. It's written in C and it's role is to receive a stream of bytes on ``stdin`` in a ring-buffer and provide the following TCP endpoints (up to 32) to clients:
+
+\begin{itemize}
+  \item Port 8899 - this provides the stream from the current point onward. This is used for normal video clients that want to access the stream as it's being pushed at the moment;
+  \item Port 8898 - this provides the stream with half of what's currently in the buffer, to allow clients to quickly start displaying the stream. This is used mostly for debug purposes, as it just makes it faster to find a keyframe;
+  \item Port 8899 - this provides the stream from the current point onward, after it receives some HTTP headers. This was implemented for compatibility with some streaming devices for the 2020 edition.
+\end{itemize}
+
+The main use of ``sproxy`` is to allow multiple clients to access a MPEG-TS encapsulated video (H.264, AAC) in real time without the need of any previous setup. MPEG-TS allows this, as it's not relevant when in the stream the client starts reading, as the encapsulation is self-synchronizing.
+
+``sproxy`` is the successor of multicast UDP running over the network, as that proved to create hard to debug problems with even moderate packet loss (which TCP doesn't have).
+
+\subsection{video-box}
+
+Implemented in role ``video-box``.
+
+The ``video-box`` is in general a capture device that provides ``sproxy`` interface from its video and audio capture, plus some monitoring functions.
+
+Its hardware consists of a laptop and a box that connects to the laptop via a short USB 3 USB-C cable. In the box you can find:
+
+\begin{itemize}
+  \item HDMI capture device, based on the MacroSilicon MS2131 chip. The two HDMI ports on the box are connected to it;
+  \item A 4-port USB network controller that also acts as switch;
+  \item An USB hub (dock), that is used to connect both the above devices to the laptop.
+\end{itemize}
+
+The laptop is used to:
+
+\begin{itemize}
+  \item Capture video and audio from the HDMI capture device, synchronize them (with a fixed offset) and encode them using the hardware acceleration available in the CPU/GPU;
+  \item Present the captured video via ``sproxy`` to the network;
+  \item Provide a preview of the video on the screen with a bar to show the sound levels (upper right);
+  \item Provide status for the box and stream (upper left);
+  \item Provide a terminal for debugging if needed (bottom left);
+  \item Make a backup recording on its disk of the full stream for emergencies;
+  \item Show the nice purple FOSDEM color as a background. 
+\end{itemize}
+
+\subsection{video-voctop}
+
+Implemented in role ``video-voctop``.
+
+The ``voctop`` is the video mixer that fetches the streams for the camera and presenter from a room, and provides the "finished" video stream to the streaming and recording infrastructure. The finished stream is again presented via ``sproxy``.
+
+The mixing is done using ``voctomix`` (version 1). There are three sources for ``voctomix``:
+
+\begin{itemize}
+  \item ``cam``, fetched from the box marked to be camera in the room;
+  \item ``grabber``, fetched from the box marked to be slides/presenter in the room;
+  \item ``background``.
+\end{itemize}
+
+All streams are chewed and converted exactly to what voctomix requires (raw video, 1080p, 25fps, SAR/DAR 1:1) and via a single ``fmpeg`` instance and two ``sproxy`` instances, a 720p and 1080p streams are provided for the streaming back-end to use.
+
+The reason for two outputs of the same ``ffmpeg`` is because the laptop runs out of memory bandwidth if another copy of the raw stream is taken out of ``voctomix``.
+
+``voctomix`` provides control via text protocol on port ``9999`` and that is used by the control server to switch the possible views/mixes of the stream:
+
+\begin{itemize}
+  \item Full-screen camera;
+  \item Full-screen presentation;
+  \item Mix, large top-left presentation, small camera bottom right (the default);
+  \item Mix, large top-left camera, small presentation bottom right;
+\end{itemize}
+
+Another piece of software, ``audiofetcher`` reads the audio stream, pushes its sound levels to an InfluxDB database on the control server, and also provides a Prometheus endpoint for the same.
+
+\subsection{video-control-server}
+
+Monitoring of sound levels
+monitoring of what is visible in the streams
+Database of what is in what room
+DHCP
+
+\subsection{video-streambackend}
+
+Fetches video from voctops
+Writes HLS and large video fragments for sreview;
+Provides NFS for sreview;
+
+\subsection{video-streamfrontend}
+
+Serves HLS fragments coming from the backend
+
+\subsection{video-streamdump}
+
+The ``streamdump``'s role is to connect to all video-boxes and all voctops, and to stream the video they provide to record it to be used for restore for emergencies.
+
 \end{document}
  
