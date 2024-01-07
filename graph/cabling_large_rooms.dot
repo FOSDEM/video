@@ -1,24 +1,32 @@
 digraph G {
-	label="FOSDEM 2019 large rooms video cabling setup:\nh1301, h1302, h1308, h1309, h2215, ua2114, ua2118, ua2220, ub2252a, ud2120, ud2208, ud2218a";
+	label="FOSDEM 2024 large rooms video cabling setup:\nh1301, h1302, h1308, h1309, h2215, ua2114, ua2118, ua2220, ub2252a, ud2120, ud2208, ud2218a";
 	concentrate = true;
 	compound = true;
 	node [shape = box];
+
+	cam_power_strip [label="camera side power strip\n>=3 CEE 7/3 or 7/5 sockets"];
+
 	usb_powerbank [label = "USB powerbank\n10.4k mAh"];
 	speaker_microphone [label = "speaker microphone\nsennheiser avx me2\nesk avx bodypack transmitter\nautonomy: 15h (BA30 battery)/11h (2x AA)\n2030 mAh", URL="https://en-us.sennheiser.com/global-downloads/file/6524/AVX_Manual_06_2015_EN.pdf"];
-	subgraph cluster_speaker_microphone_receiver {
-		label = "speaker microphone receiver\nsennheiser ekp avx receiver\nDC autonomy: >4h (BA20 battery)\n430 mAh\nAC autonomy: ∞\nphantom auto power on/off"
-		URL = "https://en-us.sennheiser.com/global-downloads/file/6524/AVX_Manual_06_2015_EN.pdf";
-		speaker_microphone_receiver_usb_power_connector [label = "power input port\nmicro usb female"];
-		speaker_microphone_receiver_xlr_connector [label = "XLR male plug"];
+	audience_microphone [label="audience microphone\nsennheiser avx 835\nautonomy: 13h (BA10 battery)/11h (2x AA)\n2200 mAh", URL="https://en-us.sennheiser.com/global-downloads/file/6524/AVX_Manual_06_2015_EN.pdf"];
+
+	subgraph cluster_mic_receivers {
+		label="sennheiser ekp avx receivers\nDC autonomy: >4h (BA20 battery)\n430 mAh\nAC autonomy: ∞\nphantom auto power on/off";
+		subgraph cluster_speaker_microphone_receiver {
+			label = "speaker microphone receiver"
+				URL = "https://en-us.sennheiser.com/global-downloads/file/6524/AVX_Manual_06_2015_EN.pdf";
+			speaker_microphone_receiver_usb_power_connector [label = "power input port\nmicro usb female"];
+			speaker_microphone_receiver_xlr_connector [label = "XLR male plug"];
+		}
+
+		subgraph cluster_audience_microphone_receiver {
+			label = "audience microphone receiver"
+				URL = "https://en-us.sennheiser.com/global-downloads/file/6524/AVX_Manual_06_2015_EN.pdf";
+			audience_microphone_receiver_usb_power_connector [label = "power input port\nmicro usb female"];
+			audience_microphone_receiver_xlr_connector [label = "XLR male plug"];
+		}
 	}
 
-	audience_microphone [label="audience microphone\nsennheiser avx 835\nautonomy: 13h (BA10 battery)/11h (2x AA)\n2200 mAh", URL="https://en-us.sennheiser.com/global-downloads/file/6524/AVX_Manual_06_2015_EN.pdf"];
-	subgraph cluster_audience_microphone_receiver {
-		label = "audience microphone receiver\nsennheiser ekp avx receiver\nDC autonomy: >4h (BA20 battery)\n430 mAh\nAC autonomy: ∞\nphantom auto power on/off"
-		URL = "https://en-us.sennheiser.com/global-downloads/file/6524/AVX_Manual_06_2015_EN.pdf";
-		audience_microphone_receiver_usb_power_connector [label = "power input port\nmicro usb female"];
-		audience_microphone_receiver_xlr_connector [label = "XLR male plug"];
-	}
 	subgraph cluster_mix_panel {
 		label = "FOSDEM audio mix panel\nYamaha MG10";
 		url = "http://usa.yamaha.com/products/live_sound/mixers/analog-mixers/mg_standard_model/mg10/";
@@ -28,11 +36,11 @@ digraph G {
 		mix_panel_out_2 [label="mix panel out right\nXLR male port\nbalanced right or mono"];
 		mix_panel_ac_in [label="AC in"];
 	}
-	speaker_laptop [label = "speaker laptop"];
-	speaker_laptop_optional_adapter [label = "optional vga->hdmi adapter", style="dotted"];
+
+
 	subgraph cluster_camera {
 		label="camera\nSony HXR-NX100"
-		URL="https://pro.sony.com/bbsccms/assets/files/micro/nxcam/latest/Sony_HXR-NX100.pdf";
+			URL="https://pro.sony.com/bbsccms/assets/files/micro/nxcam/latest/Sony_HXR-NX100.pdf";
 		camera_xlr_in_1 [label = "audio in CH1\nXLR female port\n48V phantom power"];
 		camera_xlr_in_2 [label = "audio in CH2\nXLR female port\n48V phantom power"];
 		camera_hdmi_out [label = "HDMI out\nHDMI A (full size) female"];
@@ -40,9 +48,8 @@ digraph G {
 		camera_ac_in [label="camera AC input"];
 	}
 
-	subgraph cluster_fosdem_network {
+	subgraph fosdem_network {
 		label="FOSDEM video boxes"
-		#style = filled;
 		color = lightgrey;
 		node [style = filled];
 		//parts
@@ -62,34 +69,37 @@ digraph G {
 			speaker_box_ac_in [label="AC in"];
 		}
 	}
-	cam_power_strip [label="camera side power strip\n>=3 CEE 7/3 or 7/5 sockets"];
-	speaker_power_strip [label="speaker side power strip\n>=3 CEE 7/3 or 7/5 sockets"];
+
 	subgraph cluster_ulb_hardware {
 		label = "ULB hardware";
 		room_amplification [label="room amplification system"];
 		room_projector [label="room projector HDMI in\nHDMI port\nfemale\nexception: H2215 VGA"];
 	}
+	speaker_power_strip [label="speaker side power strip\n>=3 CEE 7/3 or 7/5 sockets"];
+
+	room_projector_optional_adapter [label = "optional vga->hdmi adapter", style="dotted"];
+	speaker_laptop [label = "speaker laptop"];
+
 	headphones [label="Sennheiser HD201 headphones\n3.5mm trs stereo male\nrental budgetcam", URL="https://en-us.sennheiser.com/over-ear-headphones-hd-201"];
 	video_vlan [label="FOSDEM video vlan", style="dotted"];
 
-	speaker_microphone -> speaker_microphone_receiver_xlr_connector [label = "1.9 GHz wireless", lhead = cluster_speaker_microphone_receiver ];
+	speaker_microphone -> speaker_microphone_receiver_xlr_connector [label = "1.9 GHz wireless", lhead = cluster_speaker_microphone_receiver, style = dashed ];
 	usb_powerbank -> speaker_microphone_receiver_usb_power_connector [label = "USB A -> micro USB cable\nincluded in mic kit"];
 	speaker_microphone_receiver_xlr_connector -> mix_panel_mic_1_in;
 
-	audience_microphone -> audience_microphone_receiver_xlr_connector [label = "1.9 GHz wireless", lhead = cluster_audience_microphone_receiver ];
+	audience_microphone -> audience_microphone_receiver_xlr_connector [label = "1.9 GHz wireless", lhead = cluster_audience_microphone_receiver, style = dashed ];
 	usb_powerbank -> audience_microphone_receiver_usb_power_connector [label = "USB A -> micro USB cable\nincluded in mic kit"];
 	audience_microphone_receiver_xlr_connector -> mix_panel_mic_2_in;
 
 	mix_panel_out_1 -> camera_xlr_in_1 [label = "xlr cable\nfemale/male"];
 	mix_panel_out_2 -> room_amplification [label = "xlr cable\nfemale/male"];
 	speaker_laptop -> speaker_box_hdmi_in [label = "direct hdmi cable male/male"];
-	speaker_laptop -> speaker_laptop_optional_adapter [label = "VGA cable\nmale/male", style = "dotted"];
-	speaker_laptop_optional_adapter -> speaker_box_hdmi_in [label = "HDMI cable male/male", style = "dotted"];
+	speaker_box_hdmi_out -> room_projector_optional_adapter [label = "VGA cable\nmale/male", style = "dotted"];
+	room_projector_optional_adapter -> room_projector [label = "HDMI cable male/male", style = "dotted"];
 	camera_hdmi_out -> cam_box_hdmi_in [label = "HDMI cable\nHDMI A (full size)\nmale/male"];
 	speaker_box_hdmi_out -> room_projector [label = "HDMI cable\nmale/male"];
 	camera_audio_monitor -> headphones;
-	speaker_box_switch -> video_vlan [dir = "both", label = "ethernet cable"];
-	cam_box_switch -> video_vlan [dir = "both", label = "ethernet cable"];
+	video_vlan -> speaker_box_switch  [dir = "both", label = "ethernet cable"];
 	speaker_box_switch -> cam_box_switch [dir = "both", label = "ethernet cable"];
 
 	# AC power

@@ -1,9 +1,12 @@
 digraph G {
-	label = "FOSDEM 2019 12 small rooms video cabling setup:\naw1120, aw1121, aw1125, aw1126, h2213, h2214, k3201, k3401, k4201, k4401, k4601, ud2119";
+	label = "FOSDEM 2024 12 small rooms video cabling setup:\naw1120, aw1121, aw1125, aw1126, h2213, h2214, k3201, k3401, k4201, k4401, k4601, ud2119";
 	concentrate = true;
 	compound = true;
 	node [shape = box];
+
+	cam_power_strip [label="camera side power strip\n>=4 CEE 7/3 or 7/5 sockets"];
 	usb_powerbank [label = "USB powerbank\n10.4k mAh"];
+
 	speaker_microphone [label="speaker microphone\nsennheiser avx me2\nesk avx bodypack transmitter\nautonomy: 15h (BA30 battery)/11h (2x AA)", URL="https://en-us.sennheiser.com/global-downloads/file/6524/AVX_Manual_06_2015_EN.pdf"];
 	subgraph cluster_speaker_microphone_receiver {
 		label = "speaker microphone receiver\nsennheiser ekp avx receiver\nDC autonomy: >4h (BA20 battery)\nAC autonomy: ∞\nphantom auto power on/off"
@@ -12,10 +15,10 @@ digraph G {
 		speaker_microphone_receiver_xlr_connector [label = "XLR male plug"];
 	}
 	speaker_laptop [label = "speaker laptop"];
-	speaker_laptop_optional_adapter [label = "optional vga->hdmi adapter", style="dotted"];
+	room_projector_optional_adapter [label = "optional vga->hdmi adapter", style="dotted"];
 	subgraph cluster_camera {
 		label="camera\nSony HXR-NX100"
-		URL="https://pro.sony.com/bbsccms/assets/files/micro/nxcam/latest/Sony_HXR-NX100.pdf";
+			URL="https://pro.sony.com/bbsccms/assets/files/micro/nxcam/latest/Sony_HXR-NX100.pdf";
 		camera_xlr_in [label = "audio in CH1\nXLR female port\n48V phantom power"];
 		camera_hdmi_out [label = "HDMI out\nHDMI A (full size) female"];
 		camera_internal_mic [label="audio in CH2\ninternal microphone"];
@@ -24,44 +27,41 @@ digraph G {
 	}
 
 	subgraph fosdem_network {
-#style = filled;
 		color = lightgrey;
 		node [style = filled];
 		//parts
 		subgraph cluster_cam_box {
 			label = "camera box";
 			URL = "https://github.com/FOSDEM/video";
-				cam_box_hdmi_in [label="HDMI in\nHDMI A (full size) female"];
-				cam_box_switch [label="3x Gbit dumb switch"];
-				cam_box_ac_in [label="AC in"];
-			}
-			subgraph cluster_speaker_box {
-				label = "speaker box";
-				URL = "https://github.com/FOSDEM/video";
-				speaker_box_hdmi_in [label="HDMI in\nleft HDMI port\nfemale"];
-				speaker_box_hdmi_out [label="HDMI out\nright HDMI port\nfemale"];
-				speaker_box_switch [label="3x Gbit dumb switch"];
-				speaker_box_ac_in [label="AC in"];
-			}
+			cam_box_hdmi_in [label="HDMI in\nHDMI A (full size) female"];
+			cam_box_switch [label="3x Gbit dumb switch"];
+			cam_box_ac_in [label="AC in"];
+		}
+		subgraph cluster_speaker_box {
+			label = "speaker box";
+			URL = "https://github.com/FOSDEM/video";
+			speaker_box_hdmi_in [label="HDMI in\nleft HDMI port\nfemale"];
+			speaker_box_hdmi_out [label="HDMI out\nright HDMI port\nfemale"];
+			speaker_box_switch [label="3x Gbit dumb switch"];
+			speaker_box_ac_in [label="AC in"];
+		}
 	}
 
-	cam_power_strip [label="camera side power strip\n>=4 CEE 7/3 or 7/5 sockets"];
 	speaker_power_strip [label="speaker side power strip\n>=4 CEE 7/3 or 7/5 sockets"];
 	room_projector [label="room projector HDMI in\nHDMI port\nfemale"];
 	headphones [label="Sennheiser HD201 headphones\n3.5mm trs stereo male\nrental budgetcam", URL="https://en-us.sennheiser.com/over-ear-headphones-hd-201"];
 	video_vlan [label="FOSDEM video vlan", style="dotted"];
 
-	speaker_microphone -> speaker_microphone_receiver_xlr_connector [label = "1.9 GHz wireless", lhead = cluster_speaker_microphone_receiver ];
+	speaker_microphone -> speaker_microphone_receiver_xlr_connector [label = "1.9 GHz wireless", lhead = cluster_speaker_microphone_receiver, style = dashed ];
 	usb_powerbank -> speaker_microphone_receiver_usb_power_connector [label = "USB A -> micro USB cable\nincluded in mic kit"];
 	speaker_microphone_receiver_xlr_connector -> camera_xlr_in [label = "direct xlr plug (no cable)"];
 	speaker_laptop -> speaker_box_hdmi_in [label = "direct HDMI cable male/male"];
-	speaker_laptop -> speaker_laptop_optional_adapter [label = "VGA cable\nmale/male", style = "dotted"];
-	speaker_laptop_optional_adapter -> speaker_box_hdmi_in [label = "HDMI cable male/male", style = "dotted"];
+	room_projector_optional_adapter -> room_projector [label = "VGA cable\nmale/male", style = "dotted"];
+	speaker_box_hdmi_out -> room_projector_optional_adapter [label = "HDMI cable male/male", style = "dotted"];
 	camera_hdmi_out -> cam_box_hdmi_in [label = "HDMI cable\nHDMI A (full size)\nmale/male"];
 	speaker_box_hdmi_out -> room_projector [label = "HDMI cable\nmale/male"];
 	camera_audio_monitor -> headphones;
 	speaker_box_switch -> video_vlan [dir = "both", label = "ethernet cable"];
-	cam_box_switch -> video_vlan [dir = "both", label = "ethernet cable"];
 	speaker_box_switch -> cam_box_switch [dir = "both", label = "ethernet cable"];
 
 	# AC power

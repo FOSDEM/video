@@ -1,38 +1,39 @@
 digraph G {
-	label="FOSDEM 2019 xxl rooms video cabling setup:\njanson, k1105";
+	label="FOSDEM 2024 xxl rooms video cabling setup:\njanson, k1105";
 	concentrate = true;
 	compound = true;
 	node [shape = box];
+
+
 	speaker_microphone [label="speaker microphone\nULB provided\nSennheiser G3 series\n G3 bodypack transmitter\nautonomy: ?h (2x AA)",URL="https://en-us.sennheiser.com/global-downloads/file/671/Set100PG3_US_INT.pdf"];
 	audience_microphone_1 [label="audience microphone\nULB provided\nSennheiser G3 series\nautonomy: ?h\nDC: ?xAA batteries", URL="https://en-us.sennheiser.com/global-downloads/file/671/Set100PG3_US_INT.pdf"];
 	audience_microphone_2 [label="audience microphone\nULB provided\nSennheiser G3 series\nautonomy: ?h\nDC: ?xAA batteries", URL="https://en-us.sennheiser.com/global-downloads/file/671/Set100PG3_US_INT.pdf"];
-	subgraph cluster_speaker_microphone_receiver {
-		label="speaker microphone receiver\nULB provided\nSennheiser G3 series\nautonomy: ?\n?AC powered EM{1,3}00?\n?DC: ?xAA batteries";
-		URL = "https://en-us.sennheiser.com/global-downloads/file/671/Set100PG3_US_INT.pdf";
-		speaker_microphone_receiver_audio_out [label = "audio out\n3.5mm trs ?unbalanced ?mono female port"];
-	}
-	subgraph cluster_audience_microphone_1_receiver {
-		label="speaker microphone receiver\nULB provided\nSennheiser G3 series\nautonomy: ?\n?AC powered EM{1,3}00?\n?DC: ?xAA batteries";
-		URL = "https://en-us.sennheiser.com/global-downloads/file/671/Set100PG3_US_INT.pdf";
-		audience_microphone_1_receiver_audio_out [label = "audio out\n3.5mm trs ?unbalanced ?mono female port"];
-	}
-	subgraph cluster_audience_microphone_2_receiver {
-		label="speaker microphone receiver\nULB provided\nSennheiser G3 series\nautonomy: ?\n?AC powered EM{1,3}00?\n?DC: ?xAA batteries";
-		URL = "https://en-us.sennheiser.com/global-downloads/file/671/Set100PG3_US_INT.pdf";
-		audience_microphone_2_receiver_audio_out [label = "audio out\n3.5mm trs ?unbalanced ?mono female port"];
+
+	subgraph cluster_microphone_receivers {
+		label = "ULB provided\nSennheiser G3 series\nautonomy: ?\n?AC powered EM{1,3}00?\n?DC: ?xAA batteries";
+		subgraph cluster_speaker_microphone_receiver {
+			label="speaker microphone receiver";
+			URL = "https://en-us.sennheiser.com/global-downloads/file/671/Set100PG3_US_INT.pdf";
+			speaker_microphone_receiver_audio_out [label = "audio out\n3.5mm trs ?unbalanced ?mono female"];
+		}
+		subgraph cluster_audience_microphone_1_receiver {
+			label="audience microphone receiver";
+			URL = "https://en-us.sennheiser.com/global-downloads/file/671/Set100PG3_US_INT.pdf";
+			audience_microphone_1_receiver_audio_out [label = "audio out\n3.5mm trs ?unbalanced ?mono female"];
+		}
+		subgraph cluster_audience_microphone_2_receiver {
+			label="audience microphone receiver";
+			URL = "https://en-us.sennheiser.com/global-downloads/file/671/Set100PG3_US_INT.pdf";
+			audience_microphone_2_receiver_audio_out [label = "audio out\n3.5mm trs ?unbalanced ?mono female"];
+		}
 	}
 
-	subgraph cluster_speaker_laptop {
-		label = "speaker laptop";
-		speaker_laptop_vga_out = "HDMI OUT (female)";
-		speaker_laptop_hdmi_out = "HDMI out";
-		speaker_laptop_other_screen_out = "other screen out\n(not VGA or HDMI)";
-		speaker_laptop_power_in = "AC power in";
-	}
-	vga_hdmi_adapter [label = "optional vga->hdmi adapter", style="dotted"];
+	room_projector_optional_adapter [label = "optional vga->hdmi adapter", style="dotted"];
+	speaker_laptop [label = "speaker laptop"];
+
 	subgraph cluster_camera {
 		label="camera\nSony HXR-NX100"
-		URL="https://pro.sony.com/bbsccms/assets/files/micro/nxcam/latest/Sony_HXR-NX100.pdf";
+			URL="https://pro.sony.com/bbsccms/assets/files/micro/nxcam/latest/Sony_HXR-NX100.pdf";
 		camera_xlr_in_1 [label = "audio in CH1\nXLR female port\n48V phantom power"];
 		camera_xlr_in_2 [label = "audio in CH2\nXLR female port\n48V phantom power"];
 		camera_hdmi_out [label = "HDMI out\nHDMI A (full size) female"];
@@ -42,25 +43,24 @@ digraph G {
 	}
 
 	subgraph fosdem_network {
-			#style = filled;
-			color = lightgrey;
-			node [style = filled];
-			//parts
-			subgraph cluster_cam_box {
-				label = "camera box";
-				URL = "https://github.com/FOSDEM/video";
-				cam_box_hdmi_in [label="HDMI in\nHDMI A (full size) female"];
-				cam_box_switch [label="3x Gbit dumb switch"];
-				cam_box_ac_in [label="AC in"];
-			}
-			subgraph cluster_speaker_box {
-				label = "speaker box";
-				URL = "https://github.com/FOSDEM/video";
-				speaker_box_hdmi_in [label="HDMI in\nleft HDMI port\nfemale"];
-				speaker_box_hdmi_out [label="HDMI out\nright HDMI port\nfemale"];
-				speaker_box_switch [label="3x Gbit dumb switch"];
-				speaker_box_ac_in [label="AC in"];
-			}
+		color = lightgrey;
+		node [style = filled];
+		//parts
+		subgraph cluster_cam_box {
+			label = "camera box";
+			URL = "https://github.com/FOSDEM/video";
+			cam_box_hdmi_in [label="HDMI in\nHDMI A (full size) female"];
+			cam_box_switch [label="3x Gbit dumb switch"];
+			cam_box_ac_in [label="AC in"];
+		}
+		subgraph cluster_speaker_box {
+			label = "speaker box";
+			URL = "https://github.com/FOSDEM/video";
+			speaker_box_hdmi_in [label="HDMI in\nleft HDMI port\nfemale"];
+			speaker_box_hdmi_out [label="HDMI out\nright HDMI port\nfemale"];
+			speaker_box_switch [label="3x Gbit dumb switch"];
+			speaker_box_ac_in [label="AC in"];
+		}
 	}
 
 	subgraph cluster_mix_panel {
@@ -75,27 +75,27 @@ digraph G {
 	}
 	cam_power_strip [label="camera side power strip\n>=4 CEE 7/3 or 7/5 sockets"];
 	speaker_power_strip [label="speaker side power strip\n>=4 CEE 7/3 or 7/5 sockets"];
+
 	room_projector [label="room projector HDMI in\nHDMI port\nfemale"];
 	headphones [label="Sennheiser HD201 headphones\n3.5mm trs stereo male\nrental budgetcam", URL="https://en-us.sennheiser.com/over-ear-headphones-hd-201"];
 	video_vlan [label="FOSDEM video vlan", style="dotted"];
 
-	speaker_microphone -> speaker_microphone_receiver_audio_out [label = "+-600 MHz analog wireless", lhead = cluster_speaker_microphone_receiver ];
-	audience_microphone_1 -> audience_microphone_1_receiver_audio_out [label = "+-600 MHz analog wireless", lhead = cluster_audience_microphone_1_receiver ];
-	audience_microphone_2 -> audience_microphone_2_receiver_audio_out [label = "+-600 MHz analog wireless", lhead = cluster_audience_microphone_2_receiver ];
+	speaker_microphone -> speaker_microphone_receiver_audio_out [label = "+-600 MHz analog wireless", lhead = cluster_speaker_microphone_receiver, style = dashed ];
+	audience_microphone_1 -> audience_microphone_1_receiver_audio_out [label = "+-600 MHz analog wireless", lhead = cluster_audience_microphone_1_receiver, style = dashed ];
+	audience_microphone_2 -> audience_microphone_2_receiver_audio_out [label = "+-600 MHz analog wireless", lhead = cluster_audience_microphone_2_receiver, style = dashed ];
 	speaker_microphone_receiver_audio_out -> mix_panel_mic_1_in [label = "3.5mm trs mono unbalanced male to XLR male"];
 	audience_microphone_1_receiver_audio_out -> mix_panel_mic_2_in [label = "3.5mm trs mono unbalanced male to XLR male"];
 	audience_microphone_2_receiver_audio_out -> mix_panel_mic_3_in [label = "3.5mm trs mono unbalanced male to XLR male"];
 
 	mix_panel_out_1 -> camera_xlr_in_1 [label = "xlr cable\nfemale/male"];
 	mix_panel_out_2 -> camera_xlr_in_2 [label = "xlr cable\nfemale/male"];
-	speaker_laptop_hdmi_out -> speaker_box_hdmi_in [label = "vga cable male/male"];
-	speaker_laptop_vga_out -> vga_hdmi_adapter [label = "VGA cable\nmale/male", style = "dotted"];
-	vga_hdmi_adapter -> speaker_box_hdmi_in [label = "HDMI cable male/male", style = "dotted"];
+	speaker_laptop -> speaker_box_hdmi_in [label = "direct hdmi cable male/male"];
+	speaker_box_hdmi_out -> room_projector_optional_adapter [label = "VGA cable\nmale/male", style = "dotted"];
+	room_projector_optional_adapter -> room_projector [label = "HDMI cable male/male", style = "dotted"];
 	camera_hdmi_out -> cam_box_hdmi_in [label = "HDMI cable\nHDMI A (full size)\nmale/male"];
 	speaker_box_hdmi_out -> room_projector [label = "HDMI cable\nmale/male"];
 	camera_audio_monitor -> headphones;
 	speaker_box_switch -> video_vlan [dir = "both", label = "ethernet cable"];
-	cam_box_switch -> video_vlan [dir = "both", label = "ethernet cable"];
 	speaker_box_switch -> cam_box_switch [dir = "both", label = "ethernet cable"];
 
 	# AC power
@@ -103,6 +103,6 @@ digraph G {
 	cam_power_strip -> cam_box_ac_in;
 	cam_power_strip -> mix_panel_ac_in;
 
-	speaker_power_strip -> speaker_laptop_power_in;
+	speaker_power_strip -> speaker_laptop;
 	speaker_power_strip -> speaker_box_ac_in;
 }
