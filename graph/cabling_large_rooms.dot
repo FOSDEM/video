@@ -48,27 +48,49 @@ digraph G {
 		camera_ac_in [label="camera AC input"];
 	}
 
+
 	subgraph fosdem_network {
-		label="FOSDEM video boxes"
 		color = lightgrey;
 		node [style = filled];
 		//parts
-		subgraph cluster_cam_box {
-			label = "camera box";
-			URL = "https://github.com/FOSDEM/video";
-			cam_box_hdmi_in [label="HDMI in\nHDMI A (full size) female"];
-			cam_box_switch [label="3x Gbit dumb switch"];
-			cam_box_ac_in [label="AC in"];
+
+		subgraph cam {
+			label = "";
+			subgraph cluster_cam_laptop {
+				label = "cam box laptop";
+				cam_laptop_ac_in [label="AC in"];
+				cam_laptop_usb [label="USB"];
+			}
+			subgraph cluster_cam_box {
+				label = "camera box";
+				URL = "https://github.com/FOSDEM/video";
+				cam_box_hdmi_in [label="HDMI in\nHDMI A (full size) female"];
+				cam_box_switch [label="3x Gbit dumb switch"];
+				cam_box_usb [label="USB"];
+			}
+			cam_laptop_usb -> cam_box_usb [ dir = "both" ];
 		}
-		subgraph cluster_speaker_box {
-			label = "speaker box";
-			URL = "https://github.com/FOSDEM/video";
-			speaker_box_hdmi_in [label="hdmi in\nleft hdmi port\nfemale"];
-			speaker_box_hdmi_out [label="hdmi out\nright hdmi port\nfemale"];
-			speaker_box_switch [label="3x Gbit dumb switch"];
-			speaker_box_ac_in [label="AC in"];
+
+		subgraph speaker {
+			label="";
+			subgraph cluster_speaker_box {
+				label = "speaker box";
+				URL = "https://github.com/FOSDEM/video";
+				speaker_box_hdmi_in [label="HDMI in\nleft HDMI port\nfemale"];
+				speaker_box_hdmi_out [label="HDMI out\nright HDMI port\nfemale"];
+				speaker_box_switch [label="3x Gbit dumb switch"];
+				speaker_box_usb [label="USB"];
+			}
+				subgraph cluster_speaker_video_laptop {
+				label = "speaker box laptop"
+				speaker_video_laptop_ac_in [label="AC in"];
+				speaker_video_laptop_usb [label="USB"];
+			}
+			speaker_video_laptop_usb -> speaker_box_usb [ dir = "both" ];
 		}
+	
 	}
+
 
 	subgraph cluster_ulb_hardware {
 		label = "ULB hardware";
@@ -104,9 +126,9 @@ digraph G {
 
 	# AC power
 	cam_power_strip -> camera_ac_in;
-	cam_power_strip -> cam_box_ac_in;
+	cam_power_strip -> cam_laptop_ac_in;
 	cam_power_strip -> mix_panel_ac_in;
 
 	speaker_power_strip -> speaker_laptop;
-	speaker_power_strip -> speaker_box_ac_in;
+	speaker_power_strip -> speaker_video_laptop_ac_in;
 }

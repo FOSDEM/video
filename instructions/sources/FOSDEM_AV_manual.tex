@@ -125,7 +125,7 @@ Your job during the conference, with the backup from the VOC team, is to do the 
 
 
 \subsection{Video operations control or VOC}
-You are in the NOC in the K building, with ssh access to all video machines: video boxes in the rooms, vocto machines near VOC, streaming backends and frontends, and the web pages showing the videos to our visitors.
+You are in the NOC in the K building, with ssh access to all video machines: video laptops in the rooms, vocto machines near VOC, streaming backends and frontends, and the web pages showing the videos to our visitors.
 
 Your job is to constantly monitor all the equipment and streams for problems, and to arrange fixes for any that occur. You have visual monitoring of all audio streams.
 
@@ -184,7 +184,7 @@ The connections there are as follows:
   \item USB cable from laptop to video-box (2 laptops/boxes)
   \item Network cable (video VLAN) to the presenter box (any port)
   \item Network cable form the presenter to camera box (any port, one on each box)
-  \item Laptops, camera, presenter box, video box to AC power
+  \item Laptops, camera to AC power
   \item XLR cable from the microphone receiver to channel 1 (LEFT) of the camera
   \item USB powerbank to the microphone receiver
   \item HDMI from the camera to the HDMI port of the video box
@@ -209,7 +209,7 @@ The connections there are as follows:
   \item USB cable from laptop to video-box (2 laptops/boxes)
   \item Network cable (video VLAN) to the presenter box (any port)
   \item Network cable form the presenter to camera box (any port, one on each box)
-  \item Laptops, camera, presenter box, video box, audio mixer to AC power
+  \item Laptops, camera, audio mixer to AC power
   \item Microphone receiver for the speaker microphone to channel 1 of the mixer
   \item Microphone receiver for the audience microphone to channel 2 of the mixer
   \item XLR cable from the left channel of the audio mixer to channel 1 (LEFT) of the camera
@@ -237,7 +237,7 @@ The connections there are as follows:
   \item USB cable from laptop to video-box (2 laptops/boxes)
   \item Network cable (video VLAN) to the presenter box (any port)
   \item Network cable form the presenter to camera box (any port, one on each box)
-  \item Laptops, camera, presenter box, video box to AC power
+  \item Laptops, camera to AC power
   \item XLR cable from the left channel of the audio mixer (ULB provided) to channel 1 (LEFT) of the camera
   \item HDMI from the camera to the HDMI port of the video box
   \item VGA cable from the presenter box left HDMI port to the beamer in the room (if the beamer is VGA; use the provided adapter)
@@ -270,11 +270,13 @@ There is no need to operate the controls on the camera (once on and in the corre
     \end{itemize}
 \end{itemize}
 
+\iffalse
 The power switch is at the back, on a standard power supply:
 \begin{figure}[H]
   \centering
   \includegraphics[width = 120mm]{videobox_psu.jpg}
 \end{figure}
+\fi
 
 Order of connections and powering on does not matter, each order will work. There is no need to reboot the box after connections have changed.
 Fully booting the laptop takes about a minute, and it should show a graphical interface with data on the left and video on the right.
@@ -294,6 +296,8 @@ The boxes report all this information to control while their network status is g
 
 \section{Tripod}
 We use the Manfrotto MVH 502. This should hopefully be self-explanatory. Please offer feedback to VOC if that is not the case.
+
+\clearpage
 
 \section{Camera}
 FOSDEM 2024 will use one camera model: the Sony HXR-NX100.
@@ -332,8 +336,6 @@ Do not forget to hook up the other end of the HDMI cable to the FOSDEM Video Box
   \centering
 \includegraphics[width = 120mm]{Sony01.jpg}
 \end{figure}
-
-\clearpage
 
 \subsubsection{Microphone}
 Plug the XLR cable of the audio system into Input1.
