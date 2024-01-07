@@ -15,6 +15,7 @@
 %\usepackage[margin=3.0cm]{geometry}
 \usepackage{lastpage} % number of last page 
 \usepackage[protrusion=true,expansion=true]{microtype}        % Better typography
+
 \usepackage{pifont}% http://ctan.org/pkg/pifont
 \usepackage{rotating}
 \usepackage[table]{xcolor} 
@@ -97,7 +98,7 @@ Video is a big task, so there are many people working together to make it all ha
 \subsection{AW, H, K, U and J teams}
 You should be a team of at least three per building: AW, H, K and U respectively. J (probably) has a dedicated knowledgeable volunteer.
 
-Coordination with video operations control (VOC) happens through Matrix in \#fosdem-video, walkies and chat: irc://irc.freenode.net\#fosdem-video. The chat is web accessible through https://riot.im/app/\#/room/\#fosdem-video:matrix.org .
+Coordination with video operations control (VOC) happens through Matrix in \#fosdem-video, walkies.% and chat: irc://irc.freenode.net\#fosdem-video. The chat is web accessible through https://riot.im/app/\#/room/\#fosdem-video:matrix.org .
 
 Your tasks before the conference starts:
 \begin{itemize}
@@ -117,7 +118,7 @@ During the day, you'll have a fixed spot in the building. The below spots should
 
 Your job during the conference, with the backup from the VOC team, is to do the following in your building:
 \begin{itemize}
-  \item monitor video and update scene if necessary. See the ``Monitoring and control of video streams`` section for more details;
+  \item monitor video and update scene if necessary. See the ``Monitoring and control of video streams'' section for more details;
   \item assist speakers and respond to problem reports in the building;
   \item proactively fix problems with video. In some rooms, this includes preventatively replacing batteries!
 \end{itemize}
@@ -126,11 +127,11 @@ Your job during the conference, with the backup from the VOC team, is to do the 
 \subsection{Video operations control or VOC}
 You are in the NOC in the K building, with ssh access to all video machines: video boxes in the rooms, vocto machines near VOC, streaming backends and frontends, and the web pages showing the videos to our visitors.
 
-Your job is to constantly monitor all the equipment and streams for problems, and to arrange fixes for any that occur. They have visual monitoring of all audio streams.
+Your job is to constantly monitor all the equipment and streams for problems, and to arrange fixes for any that occur. You have visual monitoring of all audio streams.
 
 Do not run out to fix problems yourselves. Delegate to the per building teams. Maintaining contact between everyone is your main priority.
 
-For more details on the monitoring, see ``Monitoring and control of video streams``. 
+For more details on the monitoring, see ``Monitoring and control of video streams''. 
 
 
 \subsection{In the devroom}
@@ -138,8 +139,8 @@ If you are volunteering for video inside a devroom, please:
 \begin{itemize}
   \item stay near the video equipment, keeping it safe (from people tripping over cables for example!)
   \item make sure the camera is aimed at the speaker
-  \item monitor the devroom video/audio feeds (headphone!) for problems
-  \item signal problems to VOC by irc/matrix
+  \item monitor the devroom video/audio feeds (headphones!) for problems
+  \item signal problems to VOC via matrix
 \end{itemize}
 
 Please do \emph{NOT} disconnect or turn off any equipment yourself. That is the task of the per building team only.
@@ -149,7 +150,7 @@ Please do \emph{NOT} disconnect or turn off any equipment yourself. That is the 
 There should be the following monitoring available:
 
 \begin{itemize}
-  \item Page with video previews of camera, slides and mix streams, with sound leves. It can show all rooms, or a single building. This is the main tool and is available at https://control.video.fosdem.org/showbuilding.php;
+  \item Page with video previews of camera, slides and mix streams, with sound leves. It can show all rooms, or a single building.\\ This is the main tool and is available at https://control.video.fosdem.org/showbuilding.php;
   \item Grafana with audio levels of the camera's input, for all rooms and selectable for a set of rooms;
   \item Ability to stream every box's stream to check for issues in video or audio - this usually an \texttt{mpv} invocation;
   \item Control interface for the video mix, to select the scene to be shown;
@@ -182,13 +183,13 @@ The connections there are as follows:
 \begin{itemize}
   \item USB cable from laptop to video-box (2 laptops/boxes)
   \item Network cable (video VLAN) to the presenter box (any port)
-  \item Network cable form the presenter to camera box (any port, on each side)
-  \item Laptops, camera, presenter box, video box to the AC power
+  \item Network cable form the presenter to camera box (any port, one on each box)
+  \item Laptops, camera, presenter box, video box to AC power
   \item XLR cable from the microphone receiver to channel 1 (LEFT) of the camera
   \item USB powerbank to the microphone receiver
   \item HDMI from the camera to the HDMI port of the video box
-  \item VGA cable from the presenter box left VGA port to the beamer in the room (if the beamer is VGA)
-  \item HDMI cable from the pesenter box to the beamer in the room (if the beamer is HDMI)
+  \item VGA cable from the presenter box left HDMI port to the beamer in the room (if the beamer is VGA; use the provided adapter)
+  \item HDMI cable from the presenter box to the beamer in the room (if the beamer is HDMI)
   \item HDMI cable from the speaker's laptop to the right HDMI port of the presenter box
 \end{itemize}
 \subsubsection{Cabling diagram}
@@ -207,15 +208,16 @@ The connections there are as follows:
 \begin{itemize}
   \item USB cable from laptop to video-box (2 laptops/boxes)
   \item Network cable (video VLAN) to the presenter box (any port)
-  \item Network cable form the presenter to camera box (any port, on each side)
-  \item Laptops, camera, presenter box, video box, audio mixer to the AC power
-  \item Microphone receiver for the speaker's microphone to channel 1 of the mixer
+  \item Network cable form the presenter to camera box (any port, one on each box)
+  \item Laptops, camera, presenter box, video box, audio mixer to AC power
+  \item Microphone receiver for the speaker microphone to channel 1 of the mixer
   \item Microphone receiver for the audience microphone to channel 2 of the mixer
   \item XLR cable from the left channel of the audio mixer to channel 1 (LEFT) of the camera
   \item XLR cable from the AUX channel of the audio mixer to the room PA or speaker
   \item USB powerbank to the microphone receivers
   \item HDMI from the camera to the HDMI port of the video box
-  \item HDMI cable from the pesenter box to the beamer in the room
+  \item VGA cable from the presenter box left HDMI port to the beamer in the room (if the beamer is VGA; use the provided adapter)
+  \item HDMI cable from the presenter box to the beamer in the room (if the beamer is HDMI)
   \item HDMI cable from the speaker's laptop to the right HDMI port of the presenter box
 \end{itemize}
 \subsubsection{Cabling diagram}
@@ -234,11 +236,12 @@ The connections there are as follows:
 \begin{itemize}
   \item USB cable from laptop to video-box (2 laptops/boxes)
   \item Network cable (video VLAN) to the presenter box (any port)
-  \item Network cable form the presenter to camera box (any port, on each side)
-  \item Laptops, camera, presenter box, video box to the AC power
+  \item Network cable form the presenter to camera box (any port, one on each box)
+  \item Laptops, camera, presenter box, video box to AC power
   \item XLR cable from the left channel of the audio mixer (ULB provided) to channel 1 (LEFT) of the camera
   \item HDMI from the camera to the HDMI port of the video box
-  \item HDMI cable from the pesenter box to the beamer in the room;
+  \item VGA cable from the presenter box left HDMI port to the beamer in the room (if the beamer is VGA; use the provided adapter)
+  \item HDMI cable from the presenter box to the beamer in the room (if the beamer is HDMI)
   \item HDMI cable from the speaker's laptop to the right HDMI port of the presenter box
 \end{itemize}
 
@@ -263,7 +266,7 @@ There is no need to operate the controls on the camera (once on and in the corre
     \end{itemize}
   \item Cam boxes only:
     \begin{itemize}
-      \item An HDMI cable to the (powered on) camera (the SDI connection is for backup and normally not in use)
+      \item An HDMI cable to the (powered on) camera
     \end{itemize}
 \end{itemize}
 
@@ -277,7 +280,7 @@ Order of connections and powering on does not matter, each order will work. Ther
 Fully booting the laptop takes about a minute, and it should show a graphical interface with data on the left and video on the right.
 
 \emph{Do not attempt to power off the box unassisted, as this may damage the integrity of the system.}
-In the event of power loss or accidental unplugging, the system should stay up due to the built-in battery, we don't exect it to stay long enough without power to actually go down. If you suspect it may be malfunctioning and there is not enough diagnostic information, contact the control and monitoring team (see chapter ``During the event'' for full details). They may already be aware of the problem, but quick reporting helps cut down on reaction times.
+In the event of power loss or accidental unplugging, the system should stay up due to the built-in battery, we don't expect it to stay without power long enough to actually go down. If you suspect it may be malfunctioning and there is not enough diagnostic information, contact the control and monitoring team (see chapter ``During the event'' for full details). They may already be aware of the problem, but quick reporting helps cut down on reaction times.
 
 While the box contains a network switch (all four ports are connected), \emph{do not connect your own equipment} to the box. The boxes are on a special subnet with reserved bandwidth for the video streaming, and any other equipment may compromise the quality of the broadcast.
 
@@ -293,23 +296,25 @@ The boxes report all this information to control while their network status is g
 We use the Manfrotto MVH 502. This should hopefully be self-explanatory. Please offer feedback to VOC if that is not the case.
 
 \section{Camera}
-FOSDEM 2024 will use one camera models: the Sony HXR-NX100.
+FOSDEM 2024 will use one camera model: the Sony HXR-NX100.
 
-\subsection{Standard camera settings and quick check list}
+\subsection{Standard camera settings and quick checklist}
 \begin{tabular}{| l | l |}
+\hline
 Resolution & 1280x720 \\
 Refresh rate & 50p \\
-MIC-CHANNEL1(left) &  Speaker and audience microphone \\
+MIC-CHANNEL1(left) & Speaker and audience microphone \\
 MIC-CHANNEL2(right) & Internal microphone \\
 Power source & Cable AND Battery \\
 Lens cover & Remove! \\
 Camera/Tripod & Cam must be attached to tripod plate \\
+\hline
 \end{tabular}
 
 \subsection{Setup for large and extra large rooms}
 
 \subsubsection{Screw camera on mount}
-Screw the camera onto the tripod. Every camera has a screw hole at the bottom that can be used for this. The plate has a distinct ``point camera in this direction''-arrow, pay attention to this. The screw can be tightened by a coin or similar object.
+Screw the camera onto the tripod. Every camera has a screw hole at the bottom that can be used for this. The plate has a distinct ``point camera in this direction'' arrow, pay attention to this. The screw can be tightened by a coin or similar object.
 
 \begin{figure}[H]
   \centering
@@ -318,16 +323,17 @@ Screw the camera onto the tripod. Every camera has a screw hole at the bottom th
 
 \subsubsection{Power and HDMI connectors}
 First plug in the battery at the back, then plug in both the HDMI and the power cable.
-
 Both connectors can be found next to each other to the right of the battery slot at the back.
 Look at the picture if you're unsure.
 
-Do not forget to hook up the other end of the HDMI cable to the FOSDEM Video Box, and the power cable into the mains.
+Do not forget to hook up the other end of the HDMI cable to the FOSDEM Video Box and the power cable into the mains.
 
 \begin{figure}[H]
   \centering
 \includegraphics[width = 120mm]{Sony01.jpg}
 \end{figure}
+
+\clearpage
 
 \subsubsection{Microphone}
 Plug the XLR cable of the audio system into Input1.
@@ -350,12 +356,12 @@ Does the camera ask for a time and date? Then you can skip this section, as it a
 Does the camera NOT ask for a time and date? Then we have to reset things.
 
 First we reset all but the picture profile settings to factory default:
-Menu $\rightarrow$ "Others" (three drawers icon) $\rightarrow$ Initialize $\rightarrow$ OK.
+Menu $\rightarrow$ ``Others'' (three drawers icon) $\rightarrow$ Initialize $\rightarrow$ OK.
 
-Now we set time and date. Not important. Just clicking the SET button a few times to get through this.
+Now we set date/time. Not important. Just click the SET button a few times to get through this.
 
-Now, we reset picture profile 4 (the default picture profile) to factory default:
-Menu $\rightarrow$ Camera set (camera icon) $\rightarrow$ Picture profile $\rightarrow$ PP4 $\rightarrow$ Setting $\rightarrow$ Reset $\rightarrow$ Yes
+Then we reset picture profile 4 (the default picture profile) to factory default:
+Menu $\rightarrow$ Camera set (camera icon) $\rightarrow$ Picture profile $\rightarrow$ PP4 $\rightarrow$ Setting $\rightarrow$ Reset $\rightarrow$ Yes.
 
 \subsubsection{Audio settings}
 The audio settings can only be done through the hardware switches on the camera.
@@ -363,9 +369,12 @@ Make sure to set the switches to the correct positions, as these directly affect
 If unsure, verify with the image below.
 
 \begin{tabular}{| l || l | l | l | l |}
-Input & Left switch & Middle switch & Right switch & dial \\ \hline
+\hline
+Input & Left switch & Middle switch & Right switch & dial \\
+\hline
 Input1 & BOTTOM (Mic 48V) & MIDDLE (EXT MIC) & BOTTOM (MANUAL) & 5 \\
 Input2 & BOTTOM (Mic 48V) & TOP (INT MIC) & BOTTOM (MANUAL) & 5 \\
+\hline
 \end{tabular}
 
 \begin{figure}[H]
@@ -382,7 +391,7 @@ To configure the audio levels, use the following procedure for small rooms:
   \item For channel 1 (speaker microphone) yell while wearing the microphone and make sure the levels don't go over the end (using the dial);
 \end{itemize}
 
-For the other rooms:
+For the other (large, XXL) rooms:
 
 \begin{itemize}
   \item Set the levels to 5 for both channels;
@@ -412,7 +421,7 @@ The resolution information displayed on the OSD relates to recording to the SD c
 For rooms with low light conditions only, press button 3 (LOWLUX) to have the camera auto adapt to low light levels. A candle icon appears in the bottom right corner of the OSD screen.
 
 \subsubsection{Remove the lens cover}
-Do not forget to remove the lens cover. Store it in the camera bag for safe keeping.
+\emph{Do not forget to remove the lens cover.} Store it in the camera bag for safe keeping.
 
 \begin{figure}[H]
   \centering
@@ -455,21 +464,22 @@ The correct way to wear a lapel mic is as follows:
   \item The microphone is attached to the topmost layer of clothes (so there's nothing above it that would touch it);
   \item If there is no place where the microphone can be attached, a lanyard can be used for this purpose, on top of all the clothing of the speaker;
   \item The microphone receiver is attached to the belt of the speaker. If not possible, it's attached on top of a pocket;
-  \item If the speaker has neither a belt nor pockets, he/she can hold the receiver in hand, or worst case scenario, it can be attached with duct tape to the waist (with a full loop around the waist).\emph{(this is a joke, do not duct-tape speakers))}
+  \item If the speaker has neither a belt nor pockets, he/she can hold the receiver in hand, or worst case scenario, it can be attached with duct tape to the waist (with a full loop around the waist) \emph{(this is a joke, do not duct-tape speakers)}
   \item The speaker is notified that if he's not facing in the direction of the microphone (e.g. not looking straight) the audio will be less audible.
 \end{itemize}
 
-Video team members will be both monitoring remotely as well as visiting rooms with problems. If you have questions, concerns or problems and there is no video team member nearby, contact them through the \texttt{\#fosdem-video} channel on the Freenode IRC service or https://riot.im/app/\#/room/\#fosdem-video:matrix.org or in \texttt{FOSDEM Video}. If your video box shows issues on the LCD, most likely somebody is already on their way to you. When communicating with video team members, please mention the \emph{room number} as opposed to the devroom name. Devrooms move around, room numbers stay constant.
+Video team members will be both monitoring remotely as well as visiting rooms with problems. If you have questions, concerns or problems and there is no video team member nearby, contact them 
+%through the \texttt{\#fosdem-video} channel on the Freenode IRC service or https://riot.im/app/\#/room/\#fosdem-video:matrix.org or 
+in \texttt{FOSDEM Video}. If your video box shows issues on the LCD, most likely somebody is already on their way to you. When communicating with video team members, please mention the \emph{room number} as opposed to the devroom name. Devrooms move around, room numbers stay constant.
 
 \section{System infrastructure overview}
 
 This section explains how the video streaming and recording works in general for FOSDEM, to use as a helper to understanding the system and dealing with issues.
-
 The system's code and recipes for deployment are available in FOSDEM's GitHub repo \texttt{infrastructure}, in the \texttt{ansible} subdirectory. Below is a list of components (some software, some whole-system) that are the pieces of the whole thing.
 
 \subsection{sproxy}
 
-\texttt{sproxy} is a small piece of software available in https://github.com/FOSDEM/sproxy and FOSDEM's Debian packages repository. It's written in C and it's role is to receive a stream of bytes on \texttt{stdin} in a ring-buffer and provide the following TCP endpoints (up to 32) to clients:
+\texttt{sproxy} is a small piece of software available in https://github.com/FOSDEM/sproxy and FOSDEM's Debian package repository. It's written in C and its role is to receive a stream of bytes on \texttt{stdin} in a ring-buffer and provide the following TCP endpoints (up to 32) to clients:
 
 \begin{itemize}
   \item Port 8899 - this provides the stream from the current point onward. This is used for normal video clients that want to access the stream as it's being pushed at the moment;
@@ -511,7 +521,7 @@ The laptop is used to:
 
 Implemented in role \texttt{video-voctop}.
 
-The \texttt{voctop} is the video mixer that fetches the streams for the camera and presenter from a room, and provides the "finished" video stream to the streaming and recording infrastructure. The finished stream is again presented via ``sproxy``.
+The \texttt{voctop} is the video mixer that fetches the streams for the camera and presenter from a room, and provides the ``finished'' video stream to the streaming and recording infrastructure. The finished stream is again presented via \texttt{sproxy}.
 
 The mixing is done using \texttt{voctomix} (version 1). There are three sources for \texttt{voctomix}:
 
@@ -521,11 +531,11 @@ The mixing is done using \texttt{voctomix} (version 1). There are three sources 
   \item \texttt{background}.
 \end{itemize}
 
-All streams are chewed and converted exactly to what voctomix requires (raw video, 1080p, 25fps, SAR/DAR 1:1) and via a single \texttt{fmpeg} instance and two \texttt{sproxy} instances, a 720p and 1080p streams are provided for the streaming back-end to use.
+All streams are chewed and converted exactly to what voctomix requires (raw video, 1080p, 25fps, SAR/DAR 1:1) and via a single \texttt{ffmpeg} instance and two \texttt{sproxy} instances, a 720p and 1080p streams are provided for the streaming back-end to use.
 
-The reason for two outputs of the same \texttt{ffmpeg} is because the laptop runs out of memory bandwidth if another copy of the raw stream is taken out of \texttt{voctomix}.
+The reason for using two outputs from the same \texttt{ffmpeg} instance is the laptop runs out of memory bandwidth if another copy of the raw stream is taken out of \texttt{voctomix}.
 
-\texttt{voctomix} provides control via text protocol on port \texttt{9999} and that is used by the control server to switch the possible views/mixes of the stream:
+\texttt{voctomix} provides control via text protocol on port \texttt{9999} which is used by the control server to switch the possible views/mixes of the stream:
 
 \begin{itemize}
   \item Full-screen camera;
@@ -543,15 +553,15 @@ Partially implemented in role \texttt{video-control-server}. Partially, because 
 The following tasks are handled by the control server:
 
 \begin{itemize}
-  \item A database (with interface) of the mapping room->voctop->camerabox->slidesbox. This is queried from the voctops and streambackend to know where to get the data for a particular room;
+  \item A database (with interface) of the mapping room$\rightarrow$voctop$\rightarrow$camerabox$\rightarrow$slidesbox. This is queried from the voctops and streambackend to know where to get the data for a particular room;
   \item An InfluxDB database with sound levels to which the \texttt{audiofetcher} from the voctop pushes data;
   \item A Grafana instance to plot the sound levels;
-  \item A preview page with all rooms (or selectable by building) that shows camera/slides/mix and sound levels for every room (\texttt{showbuilding.php});
-  \item A control interface for every room that can be used to change the current video mix (\texttt{vocto.php}). It's authenticated with users/passwords provided to devroom managers;
-  \item DHCP and DNS server for the video VLAN
+  \item A preview page with all rooms (selectable by building) showing camera/slides/mix and sound levels for every room (\texttt{showbuilding.php});
+  \item A control interface for every room for changing the current video mix (\texttt{vocto.php}). It's authenticated with users/passwords provided to devroom managers;
+  \item DHCP and DNS server for the video VLAN.
 \end{itemize}
 
-The majority of the traffic of the control server is the fetching of raw video frames from the voctops, it amounts to a steady 300Mbps. This was the initial reason to move this node on-site.
+The majority of the traffic to the control server is the fetching of raw video frames from the voctops, and amounts to a steady 300Mbps. This was the initial reason to move this node on-site.
 
 \subsection{video-streambackend}
 
@@ -564,7 +574,7 @@ This is a (currently) single physical server outside of ULB that fetches all mix
   \item Half-hour dumps of video streams, to be processed by \texttt{sreview}
 \end{itemize}
 
-These both are created by using \texttt{ffmpeg}. The HLS stream is served via \texttt{nginx} to the streamfrontends, and the dumps are served via either \texttt{ssh}/\texttt{sshfs} or NFS to \texttt{sreview}.
+These are both created by using \texttt{ffmpeg}. The HLS stream is served via \texttt{nginx} to the streamfrontends, and the dumps are served via either \texttt{ssh}/\texttt{sshfs} or NFS to \texttt{sreview}.
 
 \subsection{video-streamfrontend}
 
