@@ -54,8 +54,9 @@ We will not use separate networks, but it never hurts to have some logic in your
 addressing plan.
 
 * Servers, control hosts etc. are in 185.175.218.0/26
-* Vocto laptops are in 185.175.218.64/26
-* Videoboxes are in 185.175.218.128/26
+* Vocto laptops are in 185.175.218.64/27
+* Staff laptops are in 185.175.218.96/27
+* Videoboxes are in 185.175.218.128/25
 
 ### Generating DHCP bindings and DNS records
 
