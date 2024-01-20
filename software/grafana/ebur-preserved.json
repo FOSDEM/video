@@ -60,10 +60,6 @@
   "liveNow": false,
   "panels": [
     {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_INFLUXDB}"
-      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -75,7 +71,7 @@
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
-            "axisPlacement": "hidden",
+            "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
             "fillOpacity": 0,
@@ -159,7 +155,7 @@
           ],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
@@ -170,16 +166,13 @@
       "repeatDirection": "h",
       "targets": [
         {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
           "query": "SELECT  mean(S) as S, mean(M) as M FROM \"ebur\" WHERE $timeFilter and stream =~ /^$room$/ GROUP BY time($__interval) fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series"
         }
       ],
+      "title": "$room levels",
       "type": "timeseries"
     }
   ],
@@ -211,13 +204,13 @@
     ]
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "ebur",
-  "uid": "15BPZFO4k",
+  "title": "ebur preserved",
+  "uid": "b300dd3e-5d97-454d-b510-b8859efeb624",
   "version": 1,
   "weekStart": ""
 }
