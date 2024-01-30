@@ -43,8 +43,8 @@ $app->get('/watch/{room}', function ($room) use ($app) {
 		'title' => 'Stream ' . $app['config']['rooms'][$room],
 		'room' => $room,
 		'room_name' => $app['config']['rooms'][$room],
-        	'room_slug' => $room_slug,
-        	'chat_name' => $chat_name
+		'room_slug' => $room,
+		'chat_name' => $chat_name
 	]);
 });
 
