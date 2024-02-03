@@ -37,7 +37,7 @@ $app->get('/watch/{room}', function ($room) use ($app) {
         $chat_name = str_replace(')', '_', $chat_name);
         $chat_name = str_replace(' ', '_', $chat_name);
 	$chat_name = strtolower($chat_name);
-    	$chat_name = '2023-'.$chat_name;
+    	$chat_name = '2024-'.$chat_name;
 
 	return $app['twig']->render('watch.twig', [
 		'title' => 'Stream ' . $app['config']['rooms'][$room],
