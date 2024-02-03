@@ -32,12 +32,12 @@ $app->get('/watch/{room}', function ($room) use ($app) {
 	    $room_slug = str_replace('-', '_', $room_slug);
 	    $room_slug = strtolower($room_slug);
 
-    	$chat_name = $app['config']['rooms'][$room];
+	$chat_name = $app['config']['rooms'][$room];
         $chat_name = str_replace('(', '', $chat_name);
         $chat_name = str_replace(')', '_', $chat_name);
         $chat_name = str_replace(' ', '_', $chat_name);
 	$chat_name = strtolower($chat_name);
-    	$chat_name = '2023-'.$chat_name;
+	$chat_name = '2024-'.$chat_name;
 
 	return $app['twig']->render('watch.twig', [
 		'title' => 'Stream ' . $app['config']['rooms'][$room],
