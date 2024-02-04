@@ -1,2 +1,2 @@
-#! /bin/bash
+#!/bin/sh
 mpv --lavfi-complex='[aid1] asplit [t1] [ao] ; [t1] showvolume=w=1000:h=100 [t2] ; [vid1]  [t2]  overlay [vo]' $1
