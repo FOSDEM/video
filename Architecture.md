@@ -47,10 +47,10 @@ All the voctomix scripts can be seen in `software/ansible/playbooks/roles/voctop
 
 ## Video streaming and recording
 
-The voctops then forward the streams are forwarded to the main restreamer at scaleway and the backup, from the streamed-out H.264 UDP stream, using the `streamcast.sh` and `streamcast_backup.sh` scripts.
+The voctop then forwards the H.264 UDP stream to the main restreamer at scaleway and the backup, using the `streamcast.sh` and `streamcast_backup.sh` scripts.
 
-The recordings of the final material are done on the main restreamer and the backup. In addition, all udp multicast streams (the single streams from every video box as well as the merged stream per room) are also dumped on two separate laptops with the ansible role `stream-dumper`.
+The recordings of the final material are done on the main restreamer and the backup. In addition, all UDP multicast streams (the single streams from every videobox as well as the merged stream per room) are also dumped on two separate laptops with the ansible role `stream-dumper`.
 
-The main restreamer is nginx with the RTMP module (https://github.com/arut/nginx-rtmp-module) and receives the streams via RTMP. It makes there the primary recordings and server HLS to the caching servers.
+The main restreamer is nginx that receives streams via RTMP (https://github.com/arut/nginx-rtmp-module). It stores primary recordings and serves HLS to the caching servers.
 
 The end-users connect to the caching servers and see the streams via HLS.
