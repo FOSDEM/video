@@ -78,14 +78,17 @@
 // The pins that need to be wired are D0_*, one GND, one +3.3V and one +5V
 // When using another type of display, the pins will probably be named DAT, CLK, etc
 
-#define DISPLAY_PIN_DAT             11  // radxa pin 10 (next to 3v3)
-#define DISPLAY_PIN_CLK             10  // radxa pin 12 (next to gnd)
-#define DISPLAY_PIN_CS              13  // radxa pin 17
-#define DISPLAY_PIN_DC              19  // radxa pin 25 (between two gnd's)
-#define DISPLAY_PIN_RST             20  // radxa pin 37 (next to gnd)
-#define DISPLAY_PIN_BL              22  // radxa pin 33 (next to gnd), not present on all displays
+// The following pin definitions
+// are defined in a way that allows plugging the display directly
+// onto the Radxa X2L header for testing.
+#define DISPLAY_PIN_DAT             2
+#define DISPLAY_PIN_CLK             25
+#define DISPLAY_PIN_CS              23
+#define DISPLAY_PIN_DC              3
+#define DISPLAY_PIN_RST             6
+#define DISPLAY_PIN_BL              15
 
-#define DISPLAY_WIDTH               320
+#define DISPLAY_WIDTH               240
 #define DISPLAY_HEIGHT              240
 #define DISPLAY_ROTATION            ST7789_LANDSCAPE
 #define DISPLAY_TEXT_COLS           42
@@ -98,7 +101,7 @@
 //      GND, DAT, CLK, NC (we don't use the last one)
 // you can recognise the GND by the fact that it is solid-connected
 // to the GND filled plane
-#define NSW_PIN_DAT                 14  // radxa pin 19 (next to gnd)
-#define NSW_PIN_CLK                 15  // radxa pin 18
+#define NSW_PIN_DAT                 20
+#define NSW_PIN_CLK                 21
 
 #define NSW_NUM_PORTS               5
