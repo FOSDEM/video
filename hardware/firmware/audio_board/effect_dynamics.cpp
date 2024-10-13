@@ -192,7 +192,9 @@ void AudioEffectDynamics::update(void) {
 		float totalGain = gatedb + compdb + makeupdb + limitdb;
 
 		float multiplier = dbToUnit(totalGain);
-		currentGain = multiplier;
+
+		// Count only the gain reduction stages
+		currentGain = dbToUnit(gatedb + compdb + limitdb);
 
 		int16_t result = sample * multiplier;
 		block->data[i] = result;
