@@ -9,6 +9,7 @@
 #ifdef DISPLAY
 
 #include <ST7735_t3.h>
+#include "effect_dynamics.h"
 
 #endif
 
@@ -77,6 +78,7 @@ AudioAnalyzeRMS rms3;           //xy=621,1180
 AudioAnalyzeRMS rms1;           //xy=622,1115
 AudioAnalyzeRMS rms2;           //xy=622,1148
 AudioAnalyzeRMS rms4;           //xy=622,1213
+AudioEffectDynamics dyn1;
 AudioMixer4 mixer1;         //xy=787,364
 AudioMixer4 mixer4; //xy=788,502
 AudioMixer4 mixer2;         //xy=789,428
@@ -119,12 +121,13 @@ AudioConnection patchCord15(i2s_quad1, 2, peak2, 0);
 AudioConnection patchCord16(i2s_quad1, 2, rms2, 0);
 AudioConnection patchCord1(i2s_quad1, 0, peak1, 0);
 AudioConnection patchCord2(i2s_quad1, 0, rms1, 0);
-AudioConnection patchCord3(i2s_quad1, 0, mixer1, 0);
-AudioConnection patchCord4(i2s_quad1, 0, mixer4, 0);
-AudioConnection patchCord5(i2s_quad1, 0, mixer7, 0);
-AudioConnection patchCord6(i2s_quad1, 0, mixer10, 0);
-AudioConnection patchCord7(i2s_quad1, 0, mixer13, 0);
-AudioConnection patchCord8(i2s_quad1, 0, mixer16, 0);
+AudioConnection patchCordD(i2s_quad1, 0, dyn1, 0);
+AudioConnection patchCord3(dyn1, 0, mixer1, 0);
+AudioConnection patchCord4(dyn1, 0, mixer4, 0);
+AudioConnection patchCord5(dyn1, 0, mixer7, 0);
+AudioConnection patchCord6(dyn1, 0, mixer10, 0);
+AudioConnection patchCord7(dyn1, 0, mixer13, 0);
+AudioConnection patchCord8(dyn1, 0, mixer16, 0);
 AudioConnection patchCord25(i2s_quad1, 1, mixer1, 3);
 AudioConnection patchCord26(i2s_quad1, 1, mixer4, 3);
 AudioConnection patchCord27(i2s_quad1, 1, mixer7, 3);
@@ -283,8 +286,8 @@ reset_state()
 	set_mix(2, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Headphones
-	set_mix(3, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f);
-	set_mix(4, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	set_mix(3, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	set_mix(4, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	// USB out
 	set_mix(5, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
@@ -402,6 +405,12 @@ onPacketReceived(OSCMessage msg)
 void
 setup()
 {
+	// All units are dBfs
+	dyn1.gate(-46.0f, MIN_T, 0.8f);
+	//dyn1.compression(-30.0f, 0.5f, 0.8f, 4.0f);
+	dyn1.compression(0.0f); // Disable compressor
+	dyn1.limit(-24.0f);
+	dyn1.makeupGain(24.0f);
 
 #ifdef DISPLAY
 	display.initR(INITR_MINI160x80_ST7735S);
@@ -472,7 +481,7 @@ float levels_peak[12];
 #ifdef DISPLAY
 
 void
-drawMeter(int16_t x, int16_t y, int16_t w, int16_t h, float level)
+drawMeter(int16_t x, int16_t y, int16_t w, int16_t h, float level, float dynamics)
 {
 	int16_t red_thresh = h / 4 * 3;
 	int16_t yellow_thresh = h / 2;
@@ -482,7 +491,11 @@ drawMeter(int16_t x, int16_t y, int16_t w, int16_t h, float level)
 
 	// Green section
 	int gfill = max(min(value, yellow_thresh), 0);
-	display.fillRect(x, y + h - gfill, w, gfill, ST7735_GREEN);
+	uint16_t bc = ST7735_GREEN;
+	if(dynamics < 1.0f) {
+		bc = ST7735_CYAN;
+	}
+	display.fillRect(x, y + h - gfill, w, gfill, bc);
 	display.fillRect(x, y + h - yellow_thresh, w, yellow_thresh - gfill, RGB(0, 100, 0));
 
 	// Yellow section
@@ -554,7 +567,7 @@ loop()
 				display.drawString(channel_info[i].label, 5 + ((i % 6) * 12), offset + (SCREEN_HEIGHT / 2) - 9);
 			}
 			drawMeter(6 + (12 * (i % 6)), offset + 1, 10, (SCREEN_HEIGHT / 2) - 13,
-				DbtoLevel(rmsToDb(levels_rms[i])));
+				DbtoLevel(rmsToDb(levels_rms[i])), i == 0 ? dyn1.currentGain : 1.0f);
 
 		}
 		if (last_draw < (millis() - 16)) {
