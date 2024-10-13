@@ -79,6 +79,9 @@ AudioAnalyzeRMS rms1;           //xy=622,1115
 AudioAnalyzeRMS rms2;           //xy=622,1148
 AudioAnalyzeRMS rms4;           //xy=622,1213
 AudioEffectDynamics dyn1;
+AudioEffectDynamics dyn2;
+AudioEffectDynamics dyn3;
+AudioEffectDynamics dyn4;
 AudioMixer4 mixer1;         //xy=787,364
 AudioMixer4 mixer4; //xy=788,502
 AudioMixer4 mixer2;         //xy=789,428
@@ -111,39 +114,42 @@ AudioAnalyzePeak peak10;         //xy=1342,366
 AudioAnalyzePeak peak8;          //xy=1343,303
 AudioAnalyzePeak peak11;         //xy=1343,397
 AudioAnalyzePeak peak12;         //xy=1343,428
-AudioConnection patchCord9(i2s_quad1, 2, mixer1, 1);
-AudioConnection patchCord10(i2s_quad1, 2, mixer4, 1);
-AudioConnection patchCord11(i2s_quad1, 2, mixer7, 1);
-AudioConnection patchCord12(i2s_quad1, 2, mixer10, 1);
-AudioConnection patchCord13(i2s_quad1, 2, mixer13, 1);
-AudioConnection patchCord14(i2s_quad1, 2, mixer16, 1);
-AudioConnection patchCord15(i2s_quad1, 2, peak2, 0);
-AudioConnection patchCord16(i2s_quad1, 2, rms2, 0);
+AudioConnection patchCordD2(i2s_quad1, 2, dyn2, 0);
+AudioConnection patchCord9(dyn2, 0, mixer1, 1);
+AudioConnection patchCord10(dyn2, 0, mixer4, 1);
+AudioConnection patchCord11(dyn2, 0, mixer7, 1);
+AudioConnection patchCord12(dyn2, 0, mixer10, 1);
+AudioConnection patchCord13(dyn2, 0, mixer13, 1);
+AudioConnection patchCord14(dyn2, 0, mixer16, 1);
+AudioConnection patchCord15(dyn2, 0, peak2, 0);
+AudioConnection patchCord16(dyn2, 0, rms2, 0);
 AudioConnection patchCord1(i2s_quad1, 0, peak1, 0);
 AudioConnection patchCord2(i2s_quad1, 0, rms1, 0);
-AudioConnection patchCordD(i2s_quad1, 0, dyn1, 0);
+AudioConnection patchCordD1(i2s_quad1, 0, dyn1, 0);
 AudioConnection patchCord3(dyn1, 0, mixer1, 0);
 AudioConnection patchCord4(dyn1, 0, mixer4, 0);
 AudioConnection patchCord5(dyn1, 0, mixer7, 0);
 AudioConnection patchCord6(dyn1, 0, mixer10, 0);
 AudioConnection patchCord7(dyn1, 0, mixer13, 0);
 AudioConnection patchCord8(dyn1, 0, mixer16, 0);
-AudioConnection patchCord25(i2s_quad1, 1, mixer1, 3);
-AudioConnection patchCord26(i2s_quad1, 1, mixer4, 3);
-AudioConnection patchCord27(i2s_quad1, 1, mixer7, 3);
-AudioConnection patchCord28(i2s_quad1, 1, mixer10, 3);
-AudioConnection patchCord29(i2s_quad1, 1, mixer13, 3);
-AudioConnection patchCord30(i2s_quad1, 1, mixer16, 3);
-AudioConnection patchCord31(i2s_quad1, 1, peak4, 0);
-AudioConnection patchCord32(i2s_quad1, 1, rms4, 0);
-AudioConnection patchCord17(i2s_quad1, 3, mixer1, 2);
-AudioConnection patchCord18(i2s_quad1, 3, mixer4, 2);
-AudioConnection patchCord19(i2s_quad1, 3, mixer7, 2);
-AudioConnection patchCord20(i2s_quad1, 3, mixer10, 2);
-AudioConnection patchCord21(i2s_quad1, 3, mixer13, 2);
-AudioConnection patchCord22(i2s_quad1, 3, mixer16, 2);
-AudioConnection patchCord23(i2s_quad1, 3, peak3, 0);
-AudioConnection patchCord24(i2s_quad1, 3, rms3, 0);
+AudioConnection patchCordD4(i2s_quad1, 1, dyn4, 0);
+AudioConnection patchCord25(dyn4, 0, mixer1, 3);
+AudioConnection patchCord26(dyn4, 0, mixer4, 3);
+AudioConnection patchCord27(dyn4, 0, mixer7, 3);
+AudioConnection patchCord28(dyn4, 0, mixer10, 3);
+AudioConnection patchCord29(dyn4, 0, mixer13, 3);
+AudioConnection patchCord30(dyn4, 0, mixer16, 3);
+AudioConnection patchCord31(dyn4, 0, peak4, 0);
+AudioConnection patchCord32(dyn4, 0, rms4, 0);
+AudioConnection patchCordD3(i2s_quad1, 3, dyn3, 0);
+AudioConnection patchCord17(dyn3, 0, mixer1, 2);
+AudioConnection patchCord18(dyn3, 0, mixer4, 2);
+AudioConnection patchCord19(dyn3, 0, mixer7, 2);
+AudioConnection patchCord20(dyn3, 0, mixer10, 2);
+AudioConnection patchCord21(dyn3, 0, mixer13, 2);
+AudioConnection patchCord22(dyn3, 0, mixer16, 2);
+AudioConnection patchCord23(dyn3, 0, peak3, 0);
+AudioConnection patchCord24(dyn3, 0, rms3, 0);
 AudioConnection patchCord33(pink1, 0, mixer2, 3);
 AudioConnection patchCord34(pink1, 0, mixer5, 3);
 AudioConnection patchCord35(pink1, 0, mixer8, 3);
@@ -247,6 +253,13 @@ AudioAnalyzePeak *ent_peak[12] = {
 	&peak12,
 };
 
+AudioEffectDynamics *ent_dynamics[4] = {
+	&dyn1,
+	&dyn2,
+	&dyn3,
+	&dyn4,
+};
+
 bool echo = false;
 bool send_meters = false;
 
@@ -280,14 +293,14 @@ void
 reset_state()
 {
 	// room PA
-	set_mix(1, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	set_mix(1, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
 	// livestream
-	set_mix(2, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	set_mix(2, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Headphones
-	set_mix(3, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-	set_mix(4, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	set_mix(3, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	set_mix(4, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	// USB out
 	set_mix(5, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
@@ -406,11 +419,12 @@ void
 setup()
 {
 	// All units are dBfs
-	dyn1.gate(-46.0f, MIN_T, 0.8f);
-	//dyn1.compression(-30.0f, 0.5f, 0.8f, 4.0f);
-	dyn1.compression(0.0f); // Disable compressor
-	dyn1.limit(-24.0f);
-	dyn1.makeupGain(24.0f);
+	for (int i = 0; i < 4; i++) {
+		ent_dynamics[i]->gate(-46.0f, MIN_T, 0.8f);
+		ent_dynamics[i]->compression(0.0f); // Disable compressor
+		ent_dynamics[i]->limit(-12.0f);
+		ent_dynamics[i]->makeupGain(12.0f);
+	}
 
 #ifdef DISPLAY
 	display.initR(INITR_MINI160x80_ST7735S);
@@ -477,6 +491,7 @@ DbtoLevel(float db)
 float levels_rms[12];
 float levels_smooth[12];
 float levels_peak[12];
+float gainreduction[4];
 
 #ifdef DISPLAY
 
@@ -492,7 +507,7 @@ drawMeter(int16_t x, int16_t y, int16_t w, int16_t h, float level, float dynamic
 	// Green section
 	int gfill = max(min(value, yellow_thresh), 0);
 	uint16_t bc = ST7735_GREEN;
-	if(dynamics < 1.0f) {
+	if (dynamics < 1.0f) {
 		bc = ST7735_CYAN;
 	}
 	display.fillRect(x, y + h - gfill, w, gfill, bc);
@@ -507,6 +522,9 @@ drawMeter(int16_t x, int16_t y, int16_t w, int16_t h, float level, float dynamic
 	int rfill = max(min(value, h), red_thresh) - red_thresh;
 	display.fillRect(x, y + h - red_thresh - rfill, w, rfill, ST7735_RED);
 	display.fillRect(x, y, w, h - red_thresh - rfill, RGB(100, 0, 0));
+
+	// Dynamics line
+	display.fillRect(x, y, 1, h * (1.0f - dynamics), ST7735_RED);
 }
 
 #endif
@@ -545,6 +563,9 @@ loop()
 			}
 			levels_peak[i] = ent_peak[i]->read();
 		}
+		for (int i = 0; i < 4; i++) {
+			gainreduction[i] = ent_dynamics[i]->currentGain;
+		}
 
 #ifdef DISPLAY
 		display.fillScreen(RGB(0, 0, 0));
@@ -567,7 +588,7 @@ loop()
 				display.drawString(channel_info[i].label, 5 + ((i % 6) * 12), offset + (SCREEN_HEIGHT / 2) - 9);
 			}
 			drawMeter(6 + (12 * (i % 6)), offset + 1, 10, (SCREEN_HEIGHT / 2) - 13,
-				DbtoLevel(rmsToDb(levels_rms[i])), i == 0 ? dyn1.currentGain : 1.0f);
+				DbtoLevel(rmsToDb(levels_rms[i])), i < 4 ? gainreduction[i] : 1.0f);
 
 		}
 		if (last_draw < (millis() - 16)) {
