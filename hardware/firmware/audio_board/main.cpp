@@ -403,6 +403,12 @@ void
 setup()
 {
 
+	while (!SerialUSB1); // wait for serial monitor open
+	if (CrashReport) {
+		SerialUSB1.print(CrashReport);
+		delay(5000);
+	}
+
 #ifdef DISPLAY
 	display.initR(INITR_MINI160x80_ST7735S);
 	display.useFrameBuffer(true);
