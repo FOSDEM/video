@@ -31,6 +31,7 @@ typedef struct ChanInfo {
 		char desc[16];
 		uint8_t link;
 		float highpass;
+		float gate;
 } ChanInfo;
 
 #define RGB(r, g, b) (((r&0xF8)<<8)|((g&0xFC)<<3)|(b>>3))
@@ -299,6 +300,16 @@ set_highpass(int channel, float frequency)
 	channel_info[channel].highpass = frequency;
 }
 
+void
+set_gate(int channel, float threshold)
+{
+	if (channel > 3) {
+		return;
+	}
+	channel_info[channel].gate = threshold;
+	ent_dynamics[channel]->gate(threshold, MIN_T, 0.8f);
+}
+
 float
 get_crosspoint(int channel, int bus)
 {
@@ -379,6 +390,20 @@ onOscChannel(OSCMessage &msg, int patternOffset)
 			snprintf(address, 22, "/ch/%d/eq/1/f", channel);
 			OSCMessage response(address);
 			response.add(channel_info[channel].highpass);
+			slip.beginPacket();
+			response.send(slip);
+			slip.endPacket();
+		}
+		return;
+	}
+
+	if(msg.match("/gate/thr", addr) > 0) {
+		if (msg.isFloat(0)) {
+			set_gate(channel, msg.getFloat(0));
+		} else {
+			snprintf(address, 22, "/ch/%d/gate/thr", channel);
+			OSCMessage response(address);
+			response.add(channel_info[channel].gate);
 			slip.beginPacket();
 			response.send(slip);
 			slip.endPacket();
@@ -471,7 +496,7 @@ setup()
 
 	for (int i = 0; i < 4; i++) {
 		// All units are dBfs
-		ent_dynamics[i]->gate(-46.0f, MIN_T, 0.8f);
+		set_gate(i, -46.0f);
 		ent_dynamics[i]->compression(0.0f); // Disable compressor
 		ent_dynamics[i]->limit(-12.0f);
 		ent_dynamics[i]->makeupGain(12.0f);

@@ -59,11 +59,13 @@ def main():
     parser.add_argument('--set', action='append', help='Set crosspoint gain in SRC-DST:GAIN format')
     parser.add_argument('--show', action='store_true', help='Display mixing matrix after adjustments')
     parser.add_argument('--highpass', action='append', help='Set channel highpass frequency in SRC:HZ format')
+    parser.add_argument('--gate', action='append', help='Set channel gate threshold in SRC:DBFS format')
     args = parser.parse_args()
 
     inputs = ['IN1', 'IN2', 'IN3', 'PC', 'USB1', 'USB2']
     outputs = ['OUT1', 'OUT2', 'HP1', 'HP2', 'USB1', 'USB2']
     highpass = []
+    gate = []
 
     client = SLIPClient(args.device, 1152000)
 
@@ -77,6 +79,11 @@ def main():
         client.send(message)
         response = client.receive()
         highpass.append(response.params[0])
+        
+        message = OscMessageBuilder(f"/ch/{ch}/gate/thr").build()
+        client.send(message)
+        response = client.receive()
+        gate.append(response.params[0])
     for ch in range(0, 6):
         message = OscMessageBuilder(f"/bus/{ch}/config/name").build()
         client.send(message)
@@ -105,15 +112,30 @@ def main():
             message = OscMessageBuilder(f"/ch/{channel}/eq/1/f")
             message.add_arg(f)
             client.send(message.build())
+    if args.gate is not None:
+        writing = True
+        for change in args.gate:
+            src, dbfs = change.split(':', maxsplit=1)
+            channel = inputs.index(src)
+            dbfs = float(dbfs)
+            message = OscMessageBuilder(f"/ch/{channel}/gate/thr")
+            message.add_arg(dbfs)
+            client.send(message.build())
 
     if writing and not args.show:
             return
 
     result = []
-    head = ['#', 'Highpass', '|'] + outputs
+    head = ['#', '|', 'Highpass','Gate', '|'] + outputs
 
     for ch in range(0, 6):
-        row = [inputs[ch], f"{int(highpass[ch])} Hz" if highpass[ch]>0 else '.', '|']
+        row = [
+                inputs[ch],
+                '|',
+                f"{int(highpass[ch])} Hz" if highpass[ch]>0 else '.',
+                f"{gate[ch]} dBfs" if gate[ch] != 0 else '.',
+                '|',
+            ]
         for bus in range(0, 6):
             message = OscMessageBuilder(f"/ch/{ch}/mix/{bus}/level").build()
             client.send(message)
