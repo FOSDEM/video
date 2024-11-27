@@ -433,6 +433,13 @@ onPacketReceived(OSCMessage msg)
 void
 setup()
 {
+	// Wait for the crash reporter to attach
+	if(CrashReport) {
+		while(!SerialUSB1);
+
+		SerialUSB1.print(CrashReport);
+	}
+
 	for (int i = 0; i < 4; i++) {
 		// All units are dBfs
 		ent_dynamics[i]->gate(-46.0f, MIN_T, 0.8f);
