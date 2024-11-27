@@ -78,6 +78,10 @@ AudioAnalyzeRMS rms3;           //xy=621,1180
 AudioAnalyzeRMS rms1;           //xy=622,1115
 AudioAnalyzeRMS rms2;           //xy=622,1148
 AudioAnalyzeRMS rms4;           //xy=622,1213
+AudioFilterBiquad biquad1;
+AudioFilterBiquad biquad2;
+AudioFilterBiquad biquad3;
+AudioFilterBiquad biquad4;
 AudioEffectDynamics dyn1;
 AudioEffectDynamics dyn2;
 AudioEffectDynamics dyn3;
@@ -114,7 +118,8 @@ AudioAnalyzePeak peak10;         //xy=1342,366
 AudioAnalyzePeak peak8;          //xy=1343,303
 AudioAnalyzePeak peak11;         //xy=1343,397
 AudioAnalyzePeak peak12;         //xy=1343,428
-AudioConnection patchCordD2(i2s_quad1, 2, dyn2, 0);
+AudioConnection patchCordE2(i2s_quad1, 2, biquad2, 0);
+AudioConnection patchCordD2(biquad2, dyn2);
 AudioConnection patchCord9(dyn2, 0, mixer1, 1);
 AudioConnection patchCord10(dyn2, 0, mixer4, 1);
 AudioConnection patchCord11(dyn2, 0, mixer7, 1);
@@ -125,14 +130,16 @@ AudioConnection patchCord15(dyn2, 0, peak2, 0);
 AudioConnection patchCord16(dyn2, 0, rms2, 0);
 AudioConnection patchCord1(i2s_quad1, 0, peak1, 0);
 AudioConnection patchCord2(i2s_quad1, 0, rms1, 0);
-AudioConnection patchCordD1(i2s_quad1, 0, dyn1, 0);
+AudioConnection patchCordE1(i2s_quad1, 0, biquad1, 0);
+AudioConnection patchCordD1(biquad1, dyn1);
 AudioConnection patchCord3(dyn1, 0, mixer1, 0);
 AudioConnection patchCord4(dyn1, 0, mixer4, 0);
 AudioConnection patchCord5(dyn1, 0, mixer7, 0);
 AudioConnection patchCord6(dyn1, 0, mixer10, 0);
 AudioConnection patchCord7(dyn1, 0, mixer13, 0);
 AudioConnection patchCord8(dyn1, 0, mixer16, 0);
-AudioConnection patchCordD4(i2s_quad1, 1, dyn4, 0);
+AudioConnection patchCordE4(i2s_quad1, 1, biquad4, 0);
+AudioConnection patchCordD4(biquad4, dyn4);
 AudioConnection patchCord25(dyn4, 0, mixer1, 3);
 AudioConnection patchCord26(dyn4, 0, mixer4, 3);
 AudioConnection patchCord27(dyn4, 0, mixer7, 3);
@@ -141,7 +148,8 @@ AudioConnection patchCord29(dyn4, 0, mixer13, 3);
 AudioConnection patchCord30(dyn4, 0, mixer16, 3);
 AudioConnection patchCord31(dyn4, 0, peak4, 0);
 AudioConnection patchCord32(dyn4, 0, rms4, 0);
-AudioConnection patchCordD3(i2s_quad1, 3, dyn3, 0);
+AudioConnection patchCordE3(i2s_quad1, 3, biquad3, 0);
+AudioConnection patchCordD3(biquad3, dyn3);
 AudioConnection patchCord17(dyn3, 0, mixer1, 2);
 AudioConnection patchCord18(dyn3, 0, mixer4, 2);
 AudioConnection patchCord19(dyn3, 0, mixer7, 2);
@@ -258,6 +266,13 @@ AudioEffectDynamics *ent_dynamics[4] = {
 	&dyn2,
 	&dyn3,
 	&dyn4,
+};
+
+AudioFilterBiquad *ent_biquad[4] = {
+	&biquad1,
+	&biquad2,
+	&biquad3,
+	&biquad4,
 };
 
 bool echo = false;
@@ -418,12 +433,20 @@ onPacketReceived(OSCMessage msg)
 void
 setup()
 {
-	// All units are dBfs
 	for (int i = 0; i < 4; i++) {
+		// All units are dBfs
 		ent_dynamics[i]->gate(-46.0f, MIN_T, 0.8f);
 		ent_dynamics[i]->compression(0.0f); // Disable compressor
 		ent_dynamics[i]->limit(-12.0f);
 		ent_dynamics[i]->makeupGain(12.0f);
+
+		// 100Hz highpass
+		ent_biquad[i]->setHighpass(0, 100, 0.7071);
+
+		// Bypass the other 3 bands
+		ent_biquad[i]->setLowShelf(1, 1000, 1.0f, 1.0f);
+		ent_biquad[i]->setLowShelf(2, 1000, 1.0f, 1.0f);
+		ent_biquad[i]->setLowShelf(3, 1000, 1.0f, 1.0f);
 	}
 
 #ifdef DISPLAY
