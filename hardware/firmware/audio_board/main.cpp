@@ -30,6 +30,7 @@ typedef struct ChanInfo {
 		char label[4];
 		char desc[16];
 		uint8_t link;
+		float highpass;
 } ChanInfo;
 
 #define RGB(r, g, b) (((r&0xF8)<<8)|((g&0xFC)<<3)|(b>>3))
@@ -284,6 +285,20 @@ set_crosspoint(int channel, int bus, float gain)
 	matrix[bus][channel / 4]->gain(channel % 4, gain);
 }
 
+void
+set_highpass(int channel, float frequency)
+{
+	if (channel > 3) {
+		return;
+	}
+	if (frequency > 0) {
+		ent_biquad[channel]->setHighpass(0, frequency, 0.7071);
+	} else {
+		ent_biquad[channel]->setLowShelf(0, 1000, 1.0f, 1.0f);
+	}
+	channel_info[channel].highpass = frequency;
+}
+
 float
 get_crosspoint(int channel, int bus)
 {
@@ -350,6 +365,20 @@ onOscChannel(OSCMessage &msg, int patternOffset)
 			snprintf(address, 22, "/ch/%d/config/name", channel);
 			OSCMessage response(address);
 			response.add(channel_info[channel].desc);
+			slip.beginPacket();
+			response.send(slip);
+			slip.endPacket();
+		}
+		return;
+	}
+
+	if (msg.match("/eq/1/f", addr) > 0) {
+		if (msg.isFloat(0)) {
+			set_highpass(channel, msg.getFloat(0));
+		} else {
+			snprintf(address, 22, "/ch/%d/eq/1/f", channel);
+			OSCMessage response(address);
+			response.add(channel_info[channel].highpass);
 			slip.beginPacket();
 			response.send(slip);
 			slip.endPacket();
@@ -434,8 +463,8 @@ void
 setup()
 {
 	// Wait for the crash reporter to attach
-	if(CrashReport) {
-		while(!SerialUSB1);
+	if (CrashReport) {
+		while (!SerialUSB1);
 
 		SerialUSB1.print(CrashReport);
 	}
@@ -448,7 +477,7 @@ setup()
 		ent_dynamics[i]->makeupGain(12.0f);
 
 		// 100Hz highpass
-		ent_biquad[i]->setHighpass(0, 100, 0.7071);
+		set_highpass(i, 100.0f);
 
 		// Bypass the other 3 bands
 		ent_biquad[i]->setLowShelf(1, 1000, 1.0f, 1.0f);
