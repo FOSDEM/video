@@ -40,7 +40,7 @@ In case of using a brand new box ([G17081UBK](https://www.gainta.com/en/g17081ub
 If the Hagibis capture card is inside its case, it should be disassembled:
 - Remove bumpers on bottom together with any glue residue
 - Remove the screws from under the bumper
-- Pull on the bottom lid. If needed, insert a thin tool through one of the HDMI port holes and gently push the port downwards.
+- Pull on the bottom lid. If needed, insert a thin tool through one of the HDMI port holes and gently push on the sides of the HDMI port to move it downwards. IMPORTANT - you need to push on the sides and not in the middle of the HDMI port, because it will bend.
 - Insert the thin tool into the gap between the lid and the case and open the box
 - Salvage the board and discard the rest
 
@@ -50,6 +50,7 @@ Discarded parts should be kept in separate containers for further usage.
 
 #### Attach neutrik connector to back plate (`attach_neutrik_connector_to_back_plate`)
 - Use the M3x10 bolts and respective nuts to attach the connector
+- One lower bolt may need to be removed if it does not fit with the inner aluminum heatplate
 
 #### Crimp fan connectors (`crimp_fan_connectors`)
 - Cut the fan wires to about 70mm
@@ -61,6 +62,8 @@ Discarded parts should be kept in separate containers for further usage.
 - If in doubt about the pin order, take a power board and consult the labels on the board
 - Use the [MTA100 crimping tool](https://www.modellbahnunion.com/HO-gauge/Crimping-tool.htm?shop=modellbahn-union-en&a=article&ProdNr=Zimo-CRIMPTOOL&p=802) to crimp the individual wires
 - It would be beneficial to hold multiple connectors in one vise grip and pipeline the crimping process
+
+<img src="pics/crimp_fan_connectors.jpg" width="40%" />
 
 #### Cut power cable (`cut_pwr_cable`)
 - Prepare 2x1.5mm² red-black low voltage copper cable
@@ -78,12 +81,16 @@ Discarded parts should be kept in separate containers for further usage.
 I always forget to do this and then curse when I get to inserting the barrel jack into the panel.
 This should be done before soldering because otherwise the thread might lock because of the heat.
 
+<img src="pics/remove_ring_from_barrel_jack.jpg" width="25%" />
+
 #### Solder power cable to barrel jack (`solder_pwr_cable_to_barrel_jack`)
 - Hold the [barrel jack](https://www.schurter.com/en/datasheet/4840.2200) in a vise
 - Solder the wires to the pins in the following configuration:
     - The bigger plank is the (+) wire (red cable)
-    - The pin opposite that plank is the (-)
+    - The pin opposite that plank is the (-) wire
     - The third pin is unused
+
+<img src="pics/solder_pwr_cable_to_barrel_jack.jpg" width="40%" />
 
 
 #### Insert power cable through back panel (`insert_pwr_cable_through_back_panel`)
@@ -99,17 +106,24 @@ Looking at the terminal from the front (holes), the pin order is the following:
     - Left pin is +12V (red)
     - Right pin is GND (black)
 - If in doubt about the pin order, take a power board and consult the labels on the board
+- Repeat the steps for both the power cable and the radxa power cable
+
+<img src="pics/attach_terminal_to_pwr_cable.jpg" width="25%" />
+<img src="pics/attach_terminal_to_radxa_pwr_cable.png" width="25%" />
 
 #### Strip ends of radxa power cable (`strip_ends_of_radxa_pwr_cable`)
 - The cables come with the ends stripped to about 2mm - they should instead be stripped to 5mm
 
 #### Mount fuse on power brd (`mount_fuse_on_pwr_brd`)
 - Snap the fuse onto the fuse holder
+<img src="pics/mount_fuse_on_pwr_brd.png" width="30%" />
 
 #### Mount teensy on audio brd (`mount_teensy_on_audio_brd`)
 - The teensy's direction is indicated by the "USB" label on the silkscreen
 - Lay the audio board on a flat, soft surface
 - Gently push the teensy downwards with two fingers placed symmetrically
+
+<img src="pics/mount_teensy_on_audio_brd.png" width="35%" />
 
 #### Place display on display hat (`place_display_on_display_hat`)
 - Push the display onto the header, in a way that all holes align
@@ -132,6 +146,7 @@ into the threaded standoffs that will be used
 - Use a cotton swab and isopropyl alcohol to clean the area where the CPU will contact the baseplate.
 This is between the two rectangular cutouts under the Radxa X4.
 
+<img src="pics/clean_baseplate_thermal_area.png" width="40%" />
 
 #### Clean radxa cpu (`clean_radxa_cpu`)
 - Use a cotton swab and isopropyl alcohol to clean the CPU crystal
@@ -150,9 +165,13 @@ This is between the two rectangular cutouts under the Radxa X4.
 #### Mount display holders on baseplate (`mount_display_holders_on_baseplate`)
 - Screw the display holders onto the baseplate with M3x5 bolts
 
+<img src="pics/mount_display_holders_on_baseplate.png" width="35%" />
+
 #### Mount hagibis rear on baseplate (`mount_hagibis_rear_on_baseplate`)
 - Use M4x5 bolts in the two rear holes of the Hagibis capture card. They might require some effort to screw in - this is fine.
 - This must be done before bolting the front holes, since the rear holes use thicker bolts that guide the board orientation.
+
+<img src="pics/mount_hagibis_rear_on_baseplate.png" width="35%" />
 
 #### Mount hagibis front on baseplate (`mount_hagibis_front_on_baseplate`)
 - Use M3x5 bolts and serrated washers
@@ -173,6 +192,8 @@ cabling layout can be realistic.
 #### Base assembled (`base_assembled`)
 Preparation is now done, and we can begin cable management.
 
+<img src="pics/base_assembled.png" width="80%" />
+
 #### Connect power cable to power board (`connect_pwr_cable_to_pwr_board`)
 - Insert the terminal into the right terminal (labeled "PWR IN").
 - Do not swap the two terminals!
@@ -180,6 +201,9 @@ Preparation is now done, and we can begin cable management.
 #### Connect radxa to power board (`connect_radxa_to_pwr_board`)
 - Insert the terminal into the left terminal (labeled "PWR OUT").
 - Do not swap the two terminals!
+- On the radxa side, connect to "PWR IN" and match the negative cable - it is labeled with a minus:
+
+<img src="pics/connect_radxa_to_pwr_board.png" width="25%" />
 
 #### [Mark](https://github.com/markvdb) confusing MTA100 cables (`mark_duped_mta100_cables`):
 - Use red paint (or nail polish) to mark the two end connectors of the following MTA100 cables:
@@ -223,7 +247,7 @@ Preparation is now done, and we can begin cable management.
 #### Attach cables to baseplate (`attach_cables_to_baseplate`)
 - Use screw-in cable ties to attach the cables to the baseplate
 - Fix the cable ties in place with flanged nuts
-- Use an already-built box as a template for the topology. If one is not available, use your imagination!
+- Use an already-built box as a template for the topology. If one is not available, ~use your imagination~ look at the picture in `base_assembled`!
 
 #### Base wired (`base_wired`)
 - We are now done with everything on the baseplate!
@@ -244,6 +268,8 @@ towards the broken grill
     - One of them ties the two middle holes (next to each other) to one of the box bars
     - The other two tie the faraway holes on the two sides
 - Make sure the tying happens on the inside, and not on the outside
+
+<img src="pics/attach_onlyfans_to_box.png" width="35%" />
 
 #### Attach base to box (`attach_base_to_box`)
 - On all 6 accessible plastic columns, arrange the following:
