@@ -71,7 +71,7 @@ Discarded parts should be kept in separate containers for further usage.
 - Use the [MTA100 crimping tool](https://www.modellbahnunion.com/HO-gauge/Crimping-tool.htm?shop=modellbahn-union-en&a=article&ProdNr=Zimo-CRIMPTOOL&p=802) to crimp the individual wires
 - It would be beneficial to hold multiple connectors in one vise grip and pipeline the crimping process
 
-<img src="pics/crimp_fan_connectors.jpg" width="40%" />
+<img src="pics/crimp_fan_connectors.jpg" height="300px" />
 
 #### Cut power cable (`cut_pwr_cable`)
 
@@ -93,7 +93,7 @@ Discarded parts should be kept in separate containers for further usage.
 I always forget to do this and then curse when I get to inserting the barrel jack into the panel.
 This should be done before soldering because otherwise the thread might lock because of the heat.
 
-<img src="pics/remove_ring_from_barrel_jack.jpg" width="25%" />
+<img src="pics/remove_ring_from_barrel_jack.jpg" height="300px" />
 
 #### Solder power cable to barrel jack (`solder_pwr_cable_to_barrel_jack`)
 
@@ -103,7 +103,7 @@ This should be done before soldering because otherwise the thread might lock bec
     - The pin opposite that plank is the (-) wire
     - The third pin is unused
 
-<img src="pics/solder_pwr_cable_to_barrel_jack.jpg" width="40%" />
+<img src="pics/solder_pwr_cable_to_barrel_jack.jpg" height="250px" />
 
 
 #### Insert power cable through back panel (`insert_pwr_cable_through_back_panel`)
@@ -124,8 +124,8 @@ Looking at the terminal from the front (holes), the pin order is the following:
 - If in doubt about the pin order, take a power board and consult the labels on the board
 - Repeat the steps for both the power cable and the radxa power cable
 
-<img src="pics/attach_terminal_to_pwr_cable.jpg" width="25%" />
-<img src="pics/attach_terminal_to_radxa_pwr_cable.png" width="25%" />
+<img src="pics/attach_terminal_to_pwr_cable.jpg" height="200px" />
+<img src="pics/attach_terminal_to_radxa_pwr_cable.png" height="200px" />
 
 #### Strip ends of radxa power cable (`strip_ends_of_radxa_pwr_cable`)
 
@@ -134,7 +134,7 @@ Looking at the terminal from the front (holes), the pin order is the following:
 #### Mount fuse on power brd (`mount_fuse_on_pwr_brd`)
 
 - Snap the fuse onto the fuse holder
-<img src="pics/mount_fuse_on_pwr_brd.png" width="30%" />
+<img src="pics/mount_fuse_on_pwr_brd.png" height="250px" />
 
 #### Mount teensy on audio brd (`mount_teensy_on_audio_brd`)
 
@@ -142,7 +142,7 @@ Looking at the terminal from the front (holes), the pin order is the following:
 - Lay the audio board on a flat, soft surface
 - Gently push the teensy downwards with two fingers placed symmetrically
 
-<img src="pics/mount_teensy_on_audio_brd.png" width="35%" />
+<img src="pics/mount_teensy_on_audio_brd.png" height="250px" />
 
 #### Place display on display hat (`place_display_on_display_hat`)
 
@@ -171,7 +171,7 @@ into the threaded standoffs that will be used
 - Use a cotton swab and isopropyl alcohol to clean the area where the CPU will contact the baseplate.
 This is between the two rectangular cutouts under the Radxa X4.
 
-<img src="pics/clean_baseplate_thermal_area.png" width="40%" />
+<img src="pics/clean_baseplate_thermal_area.png" height="200px" />
 
 #### Clean radxa cpu (`clean_radxa_cpu`)
 
@@ -195,14 +195,14 @@ This is between the two rectangular cutouts under the Radxa X4.
 
 - Screw the display holders onto the baseplate with M3x5 bolts
 
-<img src="pics/mount_display_holders_on_baseplate.png" width="35%" />
+<img src="pics/mount_display_holders_on_baseplate.png" height="150px" />
 
 #### Mount hagibis rear on baseplate (`mount_hagibis_rear_on_baseplate`)
 
 - Use M4x5 bolts in the two rear holes of the Hagibis capture card. They might require some effort to screw in - this is fine.
 - This must be done before bolting the front holes, since the rear holes use thicker bolts that guide the board orientation.
 
-<img src="pics/mount_hagibis_rear_on_baseplate.png" width="35%" />
+<img src="pics/mount_hagibis_rear_on_baseplate.png" height="300px" />
 
 #### Mount hagibis front on baseplate (`mount_hagibis_front_on_baseplate`)
 
@@ -228,7 +228,7 @@ cabling layout can be realistic.
 
 Preparation is now done, and we can begin cable management.
 
-<img src="pics/base_assembled.png" width="80%" />
+<img src="pics/base_assembled.png" width="100%" />
 
 #### Connect power cable to power board (`connect_pwr_cable_to_pwr_board`)
 
@@ -241,7 +241,7 @@ Preparation is now done, and we can begin cable management.
 - Do not swap the two terminals!
 - On the radxa side, connect to "PWR IN" and match the negative cable - it is labeled with a minus:
 
-<img src="pics/connect_radxa_to_pwr_board.png" width="25%" />
+<img src="pics/connect_radxa_to_pwr_board.png" height="250px" />
 
 #### [Mark](https://github.com/markvdb) confusing MTA100 cables (`mark_duped_mta100_cables`):
 
@@ -321,7 +321,7 @@ towards the broken grill
     - The other two tie the faraway holes on the two sides
 - Make sure the tying happens on the inside, and not on the outside
 
-<img src="pics/attach_onlyfans_to_box.png" width="35%" />
+<img src="pics/attach_onlyfans_to_box.png" height="250px" />
 
 #### Attach base to box (`attach_base_to_box`)
 
