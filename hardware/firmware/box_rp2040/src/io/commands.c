@@ -339,7 +339,7 @@ void io_handle_cmd(char* line, io_state_t* state) {
         uint16_t fan_id = parse_number(&line);
         uint16_t speed = parse_number(&line);
 
-        if (fan_ctl_set_fan_speed(fan_id, speed)) {
+        if (fan_ctl_set_fan_speed_target(fan_id, speed)) {
             io_say("ok pb.fan.speed.target\n");
         } else {
             io_say("fail pb.fan.speed.target\n");

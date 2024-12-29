@@ -82,6 +82,27 @@ bool fan_ctl_set_pwm(uint8_t fan_id, uint8_t duty) {
 }
 
 bool fan_ctl_set_fan_speed(uint8_t fan_id, uint16_t speed) {
+    uint8_t fanconfig1;
+    if (!fan_ctl_i2c_read(EMC2301_REG_FANCONFIG1 + 0x10*fan_id, &fanconfig1)) {
+        return false;
+    }
+    fanconfig1 |= (1 << 7);    // enable PID controller
+    if (!fan_ctl_i2c_write_and_check(EMC2301_REG_FANCONFIG1 + 0x10*fan_id, fanconfig1)) {
+        return false;
+    }
+
+    uint8_t lsb = (speed << 3) && 0xf8;
+    uint8_t msb = (speed >> 5) && 0xff;
+    if (!fan_ctl_i2c_write(EMC2301_REG_TACHTARGETLSB + 0x10 * fan_id, lsb)) {
+        return false;
+    }
+    if (!fan_ctl_i2c_write(EMC2301_REG_TACHTARGETMSB + 0x10 * fan_id, msb)) {
+        return false;
+    }
+    return true;
+}
+
+bool fan_ctl_set_fan_speed_target(uint8_t fan_id, uint16_t speed) {
     if (speed > 12000)
         return false;
 
