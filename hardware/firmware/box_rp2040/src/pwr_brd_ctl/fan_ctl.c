@@ -7,12 +7,14 @@
 #include "fan_ctl_regs.h"
 #include "pwr_brd_ctl.h"
 
-uint64_t time_last_cmd[NUMFAN];
+uint64_t time_next_cmd[NUMFAN];
 uint16_t desired_fan_speed[NUMFAN];
 
 void pwr_brd_fan_init() {
+    uint64_t now = time_us_64();
+
     for (int i = 0; i < NUMFAN; i++) {
-        time_last_cmd[i] = 0;
+        time_next_cmd[i] = now;
         desired_fan_speed[i] = DESIRED_RPM;
     }
 }
@@ -123,12 +125,13 @@ bool fan_ctl_get_fan_status(uint8_t* dest) {
 
 Standard fan control:
 
-- if fan speed is 0 and desired fan speed is not 0, go to max
+- if fan should be off, turn it off, unless it's already turned off
+- if the fan speed is within a threshold, do nothing
+- if fan speed is 0 and desired fan speed is more than 0, go to max
 - if fan speed is above needed by more than 2x, lower pwm = pwm / 2
-- if fan speed is above needed by less than 2x, lower pwm = pwm - 1
+- if fan speed is above needed, pwm = pwm - 1
 - if fan speed is below needed, pwm = pwm + 1
 - any change is given 1s to take effect
-- the fan speed is within a threshold, so if we are at less than desired + threshold and above desired - threshold, we do nothing
 
 */
 
@@ -136,34 +139,88 @@ void pwr_brd_fan_task() {
     uint64_t now = time_us_64();
 
     for (int i = 0; i < NUMFAN; i++) {
-        if (time_last_cmd[i] + CMD_WAIT_TIME_US < now) continue;
+        if (now < time_next_cmd[i]) {
+            continue;
+        }
 
-        {
-            uint16_t fanspeed;
-            uint8_t pwm;
+        time_next_cmd[i] = now + CMD_WAIT_TIME_US;
 
-            fan_ctl_get_fan_speed(i, &fanspeed);
-            if (fanspeed == 0 && desired_fan_speed[i] != 0 ) {
-                fan_ctl_set_pwm(i, 255);
-            } else if (fanspeed != 0 && desired_fan_speed[i] == 0) {
+        uint16_t fanspeed;
+        fan_ctl_get_fan_speed(i, &fanspeed);
+
+        if (desired_fan_speed[i] == 0) {
+            // fan should be off
+
+            if (fanspeed > 0) {
+                // turn off fan
                 fan_ctl_set_pwm(i, 0);
-            } else if (fanspeed == 0 && desired_fan_speed[i] == 0) {
-                goto end;
-            } else if (fanspeed > desired_fan_speed[i] - DESIRED_RPM_THRESH && fanspeed < desired_fan_speed[i] + DESIRED_RPM_THRESH) {
-                goto end;
-            } else if (fanspeed > desired_fan_speed[i] * 2) {
-                fan_ctl_get_pwm(i, &pwm);
-                fan_ctl_set_pwm(i, pwm / 2 );
-            } else if (fanspeed > desired_fan_speed[i] + DESIRED_RPM_THRESH) {
-                fan_ctl_get_pwm(i, &pwm);
-                fan_ctl_set_pwm(i, pwm - 1 );
-            } else if (fanspeed < desired_fan_speed[i] - DESIRED_RPM_THRESH) {
-                fan_ctl_get_pwm(i, &pwm);
-                fan_ctl_set_pwm(i, pwm + 1 );
             }
-end:
-            time_last_cmd[i] = now;
+            // otherwise, fan is off, as requested
+
+            continue;
+        }
+
+        // in all cases below, fan should be on
+
+        if (
+            fanspeed > desired_fan_speed[i] - DESIRED_RPM_THRESH &&
+            fanspeed < desired_fan_speed[i] + DESIRED_RPM_THRESH
+        ) {
+            // fan is within threshold, do nothing
+            continue;
+        }
+
+        uint8_t pwm;
+        fan_ctl_get_pwm(i, &pwm);
+
+        if (fanspeed == 0) {
+            // initial spin-up
+            // set to full speed
+
+            if (pwm >= FAN_MAX_PWM) {
+                // fan is already at full speed
+                // it could be defective or disconnected
+                // nothing to do
+                continue;
+            }
+
+            fan_ctl_set_pwm(i, FAN_MAX_PWM);
+            continue;
+        }
+
+        if (fanspeed > desired_fan_speed[i] * 2) {
+            // fan is way too fast, dividing PWM in half
+            fan_ctl_set_pwm(i, pwm >> 1);
+            continue;
+        }
+
+        if (fanspeed > desired_fan_speed[i] + DESIRED_RPM_THRESH) {
+            // fan is a bit too fast
+
+            if (pwm < 1) {
+                // fan is already at minimum PWN, nothing to do
+                continue;
+            }
+
+            // decrease PWM by 1
+            fan_ctl_set_pwm(i, pwm - 1);
+
+            // give it more time to spin down
+            time_next_cmd[i] = now + 2 * CMD_WAIT_TIME_US;
+            continue;
+        }
+
+        if (fanspeed < desired_fan_speed[i] - DESIRED_RPM_THRESH) {
+            // fan is a bit too slow
+
+            if (pwm >= FAN_MAX_PWM) {
+                // fan is already at max PWM, nothing to do
+                continue;
+            }
+
+            // increase PWM by 1
+            fan_ctl_set_pwm(i, pwm + 1);
+            continue;
         }
     }
-
 }

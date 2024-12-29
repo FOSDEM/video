@@ -8,6 +8,7 @@
 #define DESIRED_RPM (5000)
 #define DESIRED_RPM_THRESH (1000)
 #define NUMFAN (5)
+#define FAN_MAX_PWM (10)
 
 bool fan_ctl_get_fan_speed(uint8_t fan_id, uint16_t* dest);
 bool fan_ctl_get_fan_status(uint8_t* dest);
