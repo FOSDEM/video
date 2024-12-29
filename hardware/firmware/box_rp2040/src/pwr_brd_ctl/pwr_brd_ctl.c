@@ -110,20 +110,14 @@ void pwr_brd_i2c_bus_scan(bool found[NUM_I2C_ADDR]) {
     }
 }
 
-void pwr_brd_i2c_dump_all_regs(uint8_t addr) {
-    io_say("begin pb.i2c.dump_all_regs:\n");
+void pwr_brd_i2c_dump_all_regs(int16_t reg_values[NUM_I2C_REG], uint8_t addr) {
+    for (uint8_t reg = 0; reg < NUM_I2C_REG; reg++) {
+        uint8_t val;
 
-    for (uint8_t reg = 0x0; reg < 0xfe; reg++) {
-        uint8_t val = 0;
-        io_say("reg ");
-        io_say_uint(reg);
-        io_say(": ");
-        if(pwr_brd_i2c_read_reg(addr, reg, &val, 1)) {
-            io_say_uint(val);
+        if (pwr_brd_i2c_read_reg(addr, reg, &val, 1)) {
+            reg_values[reg] = val;
         } else {
-            io_say("fail");
+            reg_values[reg] = PICO_ERROR_GENERIC;
         }
-        io_say("\n");
     }
-    io_say("ok pb.i2c.dump_all_regs\n");
 }

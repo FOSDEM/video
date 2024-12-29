@@ -115,7 +115,6 @@
 #define PWR_BRD_I2C_BAUD                (10 * 1000)
 #define PWR_BRD_I2C_TIMEOUT_US          20000
 #define PWR_BRD_FAN_CTL_ADDR            0x4d
-
 #define PWR_BRD_TEMP_SENS_ADDR          0x4b
 #define PWR_BRD_EXPANDER_ADDR           0b0100010
 #define PWR_BRD_EXPANDER_PIN_DIRS       0b11111011

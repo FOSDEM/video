@@ -220,8 +220,29 @@ void io_handle_cmd(char* line, io_state_t* state) {
             io_say("loops over all possible i²c addresses and tries to read them\n");
             return;
         }
+
+        io_say("begin pb.i2c.dump_all_regs:\n");
+
+        int16_t reg_values[NUM_I2C_REG];
         uint16_t addr = parse_number(&line);
-        pwr_brd_i2c_dump_all_regs(addr);
+        pwr_brd_i2c_dump_all_regs(reg_values, addr);
+
+        for (uint8_t reg = 0; reg < NUM_I2C_REG; reg++) {
+            io_say("reg ");
+            io_say_uint(reg);
+            io_say(": ");
+
+            if (reg_values[reg] >= 0) {
+                io_say_uint(reg_values[reg]);
+            }
+            else {
+                io_say("fail");
+            }
+
+            io_say("\n");
+        }
+
+        io_say("ok pb.i2c.dump_all_regs\n");
         return;
     }
 
