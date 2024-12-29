@@ -173,6 +173,13 @@ void pwr_brd_fan_task() {
         uint8_t pwm;
         fan_ctl_get_pwm(i, &pwm);
 
+        if (pwm > FAN_MAX_PWM) {
+            // PWM was set by the fan controller's default power on value
+            // bring it back down to the max value
+            fan_ctl_set_pwm(i, FAN_MAX_PWM);
+            continue;
+        }
+
         if (fanspeed == 0) {
             // initial spin-up
             // set to full speed
