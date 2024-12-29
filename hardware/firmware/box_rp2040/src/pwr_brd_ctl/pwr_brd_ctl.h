@@ -3,14 +3,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define FAN_WAIT_LOOPS (1000)
-#define CMD_WAIT_TIME_US (1000*1000)
-#define DESIRED_RPM (3000)
-#define DESIRED_RPM_THRESH (1000)
-#define NUMFAN (5)
 #define NUM_I2C_ADDR (1 << 7)
 #define NUM_I2C_REG (0xfe)
-
 
 void pwr_brd_ctl_init();
 void pwr_brd_fan_task();

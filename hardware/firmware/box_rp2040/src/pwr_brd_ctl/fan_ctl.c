@@ -5,10 +5,7 @@
 #include "config.h"
 #include "fan_ctl.h"
 #include "fan_ctl_regs.h"
-#include "io/serial.h"
 #include "pwr_brd_ctl.h"
-
-#define FAN_CTL_I2C_TIMEOUT 200000
 
 uint64_t time_last_cmd[NUMFAN];
 uint16_t desired_fan_speed[NUMFAN];
@@ -42,8 +39,6 @@ bool fan_ctl_i2c_write_and_check(uint8_t reg_id, uint8_t val) {
     }
     return true;
 }
-
-#define FAN_TACH_CONSTANT (7864320)
 
 bool fan_ctl_get_fan_speed(uint8_t fan_id, uint16_t* dest) {
     uint8_t lsb, msb;
@@ -98,10 +93,6 @@ bool fan_ctl_get_fan_status(uint8_t* dest) {
     return fan_ctl_i2c_read(EMC2301_REG_FANSTATUS, dest);
 }
 
-
-#define likely(x)       __builtin_expect(!!(x), 1)
-#define unlikely(x)     __builtin_expect(!!(x), 0)
-
 /*
 
 Standard fan control:
@@ -116,17 +107,9 @@ Standard fan control:
 */
 
 void pwr_brd_fan_task() {
-    static uint16_t cnt=0;
-    int i;
-    uint64_t now;
+    uint64_t now = time_us_64();
 
-    cnt++;
-
-    if (likely(cnt % FAN_WAIT_LOOPS != 0))
-        return;
-
-    now = time_us_64();
-    for (i = 0; i < NUMFAN; i++) {
+    for (int i = 0; i < NUMFAN; i++) {
         if (time_last_cmd[i] + CMD_WAIT_TIME_US < now) continue;
 
         {
