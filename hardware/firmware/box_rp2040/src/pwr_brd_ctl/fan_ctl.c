@@ -49,6 +49,11 @@ bool fan_ctl_get_fan_speed(uint8_t fan_id, uint16_t* dest) {
         return false;
     }
 
+    if (msb == 0xFF && lsb == 0xF0) {
+        *dest = 0;
+        return true;
+    }
+
     uint16_t tacho = ((msb << 8) | lsb) >> 3;
 
     // To avoid doubles, the fan pole multiplier was multiplied by 2 to make it an integer.
