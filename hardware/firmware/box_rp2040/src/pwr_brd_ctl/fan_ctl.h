@@ -5,7 +5,7 @@
 
 #define FAN_TACH_CONSTANT (7864320)
 #define CMD_WAIT_TIME_US (1000*1000)
-#define DESIRED_RPM (3000)
+#define DESIRED_RPM (5000)
 #define DESIRED_RPM_THRESH (1000)
 #define NUMFAN (5)
 
