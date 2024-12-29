@@ -197,7 +197,20 @@ void io_handle_cmd(char* line, io_state_t* state) {
     }
 
     if (hop_word(&line, "pb.i2c.scan")) {
-        pwr_brd_i2c_bus_scan();
+        io_say("begin pb.i2c.scan:\n");
+
+        bool found[NUM_I2C_ADDR];
+        pwr_brd_i2c_bus_scan(found);
+
+        for (int addr = 0; addr < NUM_I2C_ADDR; ++addr) {
+            if (found[addr]) {
+                io_say("found device at ");
+                io_say_uint(addr);
+                io_say("\n");
+            }
+        }
+
+        io_say("ok pb.i2c.scan\n");
         return;
     }
 

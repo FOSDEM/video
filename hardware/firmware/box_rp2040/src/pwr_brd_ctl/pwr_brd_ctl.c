@@ -90,10 +90,8 @@ bool pwr_brd_i2c_write_reg(uint8_t dev_addr, uint8_t reg_id, uint8_t* src, uint8
     return true;
 }
 
-void pwr_brd_i2c_bus_scan() {
-    io_say("begin pb.i2c.scan:\n");
-
-    for (int addr = 0; addr < (1 << 7); ++addr) {
+void pwr_brd_i2c_bus_scan(bool found[NUM_I2C_ADDR]) {
+    for (int addr = 0; addr < NUM_I2C_ADDR; ++addr) {
         // Perform a 1-byte dummy read from the probe address. If a slave
         // acknowledges this address, the function returns the number of bytes
         // transferred. If the address byte is ignored, the function returns
@@ -108,13 +106,8 @@ void pwr_brd_i2c_bus_scan() {
             ret = i2c_read_blocking_until(PWR_BRD_I2C_INST, addr, &rxdata, 1, false, make_timeout_time_ms(20));
         }
 
-        if (ret >= 0) {
-            io_say("found device at ");
-            io_say_uint(addr);
-            io_say("\n");
-        }
+        found[addr] = ret >= 0;
     }
-    io_say("ok pb.i2c.scan\n");
 }
 
 void pwr_brd_i2c_dump_all_regs(uint8_t addr) {
