@@ -163,8 +163,8 @@ void pwr_brd_fan_task() {
         // in all cases below, fan should be on
 
         if (
-            fanspeed > desired_fan_speed[i] - DESIRED_RPM_THRESH &&
-            fanspeed < desired_fan_speed[i] + DESIRED_RPM_THRESH
+            fanspeed > desired_fan_speed[i] - DESIRED_RPM_THRESH_LOWER &&
+            fanspeed < desired_fan_speed[i] + DESIRED_RPM_THRESH_UPPER
         ) {
             // fan is within threshold, do nothing
             continue;
@@ -194,7 +194,7 @@ void pwr_brd_fan_task() {
             continue;
         }
 
-        if (fanspeed > desired_fan_speed[i] + DESIRED_RPM_THRESH) {
+        if (fanspeed > desired_fan_speed[i] + DESIRED_RPM_THRESH_UPPER) {
             // fan is a bit too fast
 
             if (pwm < 1) {
@@ -210,7 +210,7 @@ void pwr_brd_fan_task() {
             continue;
         }
 
-        if (fanspeed < desired_fan_speed[i] - DESIRED_RPM_THRESH) {
+        if (fanspeed < desired_fan_speed[i] - DESIRED_RPM_THRESH_LOWER) {
             // fan is a bit too slow
 
             if (pwm >= FAN_MAX_PWM) {
