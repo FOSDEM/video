@@ -94,12 +94,12 @@ import_arduino_library(${VENDOR_ROOT} ST7735_t3/src)
 import_arduino_library(${VENDOR_ROOT} OSC)
 
 set(SOURCES 
-	main.cpp
 	teensy4_usb_descriptor.c
-	storage.cpp
-	display.cpp
-	helpers.cpp
-	teensyaudio.cpp
+	src/main.cpp
+	src/storage.cpp
+	src/display.cpp
+	src/helpers.cpp
+	src/teensyaudio.cpp
 )
 
 # Build this project
