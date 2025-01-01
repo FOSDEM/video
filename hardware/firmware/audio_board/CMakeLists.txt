@@ -93,8 +93,17 @@ set_property(SOURCE ${VENDOR_ROOT}/Audio/memcpy_audio.S PROPERTY LANGUAGE C)
 import_arduino_library(${VENDOR_ROOT} ST7735_t3/src)
 import_arduino_library(${VENDOR_ROOT} OSC)
 
+set(SOURCES 
+	main.cpp
+	teensy4_usb_descriptor.c
+	storage.cpp
+	display.cpp
+	helpers.cpp
+	teensyaudio.cpp
+)
+
 # Build this project
-add_executable(${PROJECT_NAME}.elf main.cpp teensy4_usb_descriptor.c storage.cpp display.cpp helpers.cpp ${TEENSY_SOURCES} ${TEENSY_LIB_SOURCES})
+add_executable(${PROJECT_NAME}.elf ${SOURCES} ${TEENSY_SOURCES} ${TEENSY_LIB_SOURCES})
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES COMPILE_FLAGS "-Wall -O2")
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES COMPILE_DEFINITIONS "${TEENSY_DEFINITIONS} ${INCLUDE_DIRECTORIES} -D__arm__ ")
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINK_FLAGS "-Os -Wl,--gc-sections,--defsym=__rtc_localtime=0 --specs=nano.specs -mcpu=${MCPU} -mthumb -T${LINKER_FILE}")
