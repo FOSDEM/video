@@ -93,6 +93,11 @@ set_property(SOURCE ${VENDOR_ROOT}/Audio/memcpy_audio.S PROPERTY LANGUAGE C)
 import_arduino_library(${VENDOR_ROOT} ST7735_t3/src)
 import_arduino_library(${VENDOR_ROOT} OSC)
 
+set(FEATURES
+	USE_EEPROM
+	USE_DISPLAY
+)
+
 set(SOURCES 
 	teensy4_usb_descriptor.c
 	src/main.cpp
@@ -108,6 +113,10 @@ set_target_properties(${PROJECT_NAME}.elf PROPERTIES COMPILE_FLAGS "-Wall -O2")
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES COMPILE_DEFINITIONS "${TEENSY_DEFINITIONS} ${INCLUDE_DIRECTORIES} -D__arm__ ")
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINK_FLAGS "-Os -Wl,--gc-sections,--defsym=__rtc_localtime=0 --specs=nano.specs -mcpu=${MCPU} -mthumb -T${LINKER_FILE}")
 target_include_directories(${PROJECT_NAME}.elf PRIVATE ${INCLUDE_DIRECTORIES})
+
+target_compile_definitions(${PROJECT_NAME}.elf PRIVATE ${FEATURES})
+string(JOIN " " FEATURES_LIST ${FEATURES})
+target_compile_definitions(${PROJECT_NAME}.elf PRIVATE FEATURES="${FEATURES_LIST}")
 
 # Build HEX file
 set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)

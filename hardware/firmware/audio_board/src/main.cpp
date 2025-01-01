@@ -1,21 +1,17 @@
-#include <Audio.h>
-#include <Wire.h>
-
+#include <OSCBundle.h>
 #include <OSCMessage.h>
 #include <SLIPEncodedSerial.h>
 
 #include "config.h"
-#include "helpers.h"
-
 #include "teensyaudio.h"
 
-#ifdef EEPROM
+#ifdef USE_EEPROM
 
 #include "storage.h"
 
 #endif
 
-#ifdef DISPLAY
+#ifdef USE_DISPLAY
 
 #include "display.h"
 
@@ -31,14 +27,11 @@ ChanInfo channel_info[] = {
     {CHAN_MAGENTA, "USB", "USB1", 1}, {CHAN_MAGENTA, "USB", "USB2", 2},
 };
 
-#ifdef DISPLAY
+#ifdef USE_DISPLAY
 ST7735_t3 display = ST7735_t3(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCK, TFT_RST);
 #endif
 
 SLIPEncodedUSBSerial slip(Serial);
-
-bool echo = false;
-bool send_meters = false;
 
 float gains[CHANNELS][BUSES];
 uint64_t mutes;
@@ -60,7 +53,7 @@ void set_gain(int channel, int bus, int gain) {
                        gain * !is_muted(channel, bus) * bus_multipliers[bus] *
                            channel_multipliers[channel]);
 
-#ifdef EEPROM
+#ifdef USE_EEPROM
     eeprom_save_gains(gains);
 #endif
 }
@@ -69,7 +62,7 @@ void mute(int channel, int bus) {
     mutes |= mute_mask(channel, bus); // side effect
     set_gain(channel, bus, gains[bus][channel]);
 
-#ifdef EEPROM
+#ifdef USE_EEPROM
     eeprom_save_mutes(&mutes);
 #endif
 }
@@ -78,7 +71,7 @@ void unmute(int channel, int bus) {
     mutes &= ~mute_mask(channel, bus); // side effect
     set_gain(channel, bus, gains[bus][channel]);
 
-#ifdef EEPROM
+#ifdef USE_EEPROM
     eeprom_save_mutes(&mutes);
 #endif
 }
@@ -105,13 +98,13 @@ void default_state() {
     for (i = 0; i < CHANNELS; ++i)
         channel_multipliers[i] = 1.0f;
 
-#ifdef EEPROM
+#ifdef USE_EEPROM
     eeprom_save_all(gains, &mutes, bus_multipliers, channel_multipliers);
 #endif
 }
 
 void reset_state() {
-#ifdef EEPROM
+#ifdef USE_EEPROM
     eeprom_load_all(gains, &mutes, bus_multipliers, channel_multipliers);
 
     int i, j;
@@ -196,6 +189,30 @@ void onOscChannel(OSCMessage &msg, int patternOffset) {
     }
 }
 
+void onOscInfo(OSCMessage &msg) {
+    char addrbuf[22];
+    OSCBundle info;
+
+    int i;
+
+    info.add("/info/buses").add((uint8_t)BUSES);
+    info.add("/info/channels").add((uint8_t)CHANNELS);
+    info.add("/info/features").add(FEATURES);
+
+    for (i = 0; i < BUSES; ++i) {
+        snprintf(addrbuf, 22, "/bus/%d/config/name", i);
+        info.add(addrbuf).add(channel_info[CHANNELS + i].desc);
+    }
+    for (i = 0; i < CHANNELS; ++i) {
+        snprintf(addrbuf, 22, "/ch/%d/config/name", i);
+        info.add(addrbuf).add(channel_info[i].desc);
+    }
+
+    slip.beginPacket();
+    info.send(slip);
+    slip.endPacket();
+}
+
 void onOscBus(OSCMessage &msg, int patternOffset) {
     char buf[12];
     char address[22];
@@ -218,12 +235,12 @@ void onOscBus(OSCMessage &msg, int patternOffset) {
 
     if (msg.match("/config/name", addr) > 0) {
         if (msg.isString(0)) {
-            msg.getString(0, channel_info[bus + 6].desc,
-                          sizeof(channel_info[bus + 6].desc));
+            msg.getString(0, channel_info[CHANNELS + bus].desc,
+                          sizeof(channel_info[CHANNELS + bus].desc));
         } else {
             snprintf(address, 22, "/bus/%d/config/name", bus);
             OSCMessage response(address);
-            response.add(channel_info[bus + 6].desc);
+            response.add(channel_info[CHANNELS + bus].desc);
             slip.beginPacket();
             response.send(slip);
             slip.endPacket();
@@ -235,10 +252,11 @@ void onOscBus(OSCMessage &msg, int patternOffset) {
 void onPacketReceived(OSCMessage msg) {
     msg.route("/ch", onOscChannel);
     msg.route("/bus", onOscBus);
+    msg.dispatch("/info", onOscInfo);
 }
 
 void setup() {
-#ifdef DISPLAY
+#ifdef USE_DISPLAY
     display_setup(&display);
 #endif
     reset_state();
@@ -271,7 +289,7 @@ void loop() {
 
     update_levels(levels_smooth, levels_rms, levels_peak);
 
-#ifdef DISPLAY
+#ifdef USE_DISPLAY
     update_display(&display, levels_rms, channel_info);
 
     if (last_draw < (millis() - 16)) {
