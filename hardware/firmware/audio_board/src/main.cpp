@@ -2,7 +2,11 @@
 #include <OSCMessage.h>
 #include <SLIPEncodedSerial.h>
 
+#include <stdint.h>
+
 #include "config.h"
+#include "helpers.h"
+
 #include "teensyaudio.h"
 
 #ifdef USE_EEPROM
@@ -32,96 +36,6 @@ ST7735_t3 display = ST7735_t3(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCK, TFT_RST);
 #endif
 
 SLIPEncodedUSBSerial slip(Serial);
-
-float gains[CHANNELS][BUSES];
-uint64_t mutes;
-
-float channel_multipliers[CHANNELS];
-float bus_multipliers[BUSES];
-
-int mute_mask(int channel, int bus) { return 1 << (bus * BUSES + channel); }
-
-float get_gain(int channel, int bus) { return gains[bus][channel]; }
-
-bool is_muted(int channel, int bus) { return mutes & mute_mask(channel, bus); }
-
-// checking if muted
-void set_gain(int channel, int bus, int gain) {
-    gains[bus][channel] = gain;
-
-    raw_set_crosspoint(channel, bus,
-                       gain * !is_muted(channel, bus) * bus_multipliers[bus] *
-                           channel_multipliers[channel]);
-
-#ifdef USE_EEPROM
-    eeprom_save_gains(gains);
-#endif
-}
-
-void mute(int channel, int bus) {
-    mutes |= mute_mask(channel, bus); // side effect
-    set_gain(channel, bus, gains[bus][channel]);
-
-#ifdef USE_EEPROM
-    eeprom_save_mutes(mutes);
-#endif
-}
-
-void unmute(int channel, int bus) {
-    mutes &= ~mute_mask(channel, bus); // side effect
-    set_gain(channel, bus, gains[bus][channel]);
-
-#ifdef USE_EEPROM
-    eeprom_save_mutes(mutes);
-#endif
-}
-
-const PROGMEM float default_gains[BUSES][CHANNELS] = {
-    // room PA
-    {0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f},
-    // livestream
-    {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f},
-    // Headphones
-    {1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f},
-    {1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f},
-    // USB out
-    {1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-    {0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f}};
-
-void default_state() {
-    int i;
-
-    memcpy(gains, default_gains, sizeof(gains));
-    mutes = 0;
-    for (i = 0; i < BUSES; ++i)
-        bus_multipliers[i] = 1.0f;
-    for (i = 0; i < CHANNELS; ++i)
-        channel_multipliers[i] = 1.0f;
-
-#ifdef USE_EEPROM
-    eeprom_save_all(gains, mutes, bus_multipliers, channel_multipliers);
-#endif
-}
-
-void reset_state() {
-#ifdef USE_EEPROM
-    eeprom_load_all(gains, mutes, bus_multipliers, channel_multipliers);
-
-    int i, j;
-    for (i = 0; i < BUSES; ++i) {
-        for (j = 0; j < CHANNELS; ++j)
-            if (isnan(gains[i][j]))
-                goto no_eeprom;
-        raw_set_mix(i, gains[i]);
-    }
-
-    return;
-no_eeprom:
-    default_state();
-#else
-    default_state();
-#endif
-}
 
 void onOscChannel(OSCMessage &msg, int patternOffset) {
     char buf[12];
@@ -156,6 +70,34 @@ void onOscChannel(OSCMessage &msg, int patternOffset) {
             slip.endPacket();
         }
         return;
+    } else if (msg.match("/levels", addr) > 0) {
+        OSCBundle response;
+        Levels &levels = audio_get_levels();
+
+        snprintf(address, 22, "/ch/%d/levels/rms", channel);
+        response.add(address).add(rmsToDb(levels.rms[channel]));
+
+        snprintf(address, 22, "/ch/%d/levels/peak", channel);
+        response.add(address).add(rmsToDb(levels.peak[channel]));
+
+        snprintf(address, 22, "/ch/%d/levels/smooth", channel);
+        response.add(address).add(rmsToDb(levels.smooth[channel]));
+
+        slip.beginPacket();
+        response.send(slip);
+        slip.endPacket();
+        return;
+    } else if (msg.match("/multiplier", addr) > 0) {
+        if (msg.isFloat(0))
+            set_channel_multiplier(channel, msg.getFloat(0));
+        else {
+            snprintf(address, 22, "/ch/%d/multiplier", channel);
+            OSCMessage response(address);
+            response.add(get_channel_multiplier(channel));
+            slip.beginPacket();
+            response.send(slip);
+            slip.endPacket();
+        }
     }
 
     // /ch/<num>/mix
@@ -175,14 +117,40 @@ void onOscChannel(OSCMessage &msg, int patternOffset) {
         }
     }
     if (bus < 0)
-        return;
+        goto mutes;
 
-    if (msg.isFloat(0)) {
+    if (msg.isFloat(0))
         set_gain(channel, bus, msg.getFloat(0));
-    } else {
+    else {
         snprintf(address, 22, "/ch/%d/mix/%d/level", channel, bus);
         OSCMessage response(address);
-        response.add(get_gain(channel, bus));
+        response.add((float)get_gain(channel, bus));
+        slip.beginPacket();
+        response.send(slip);
+        slip.endPacket();
+    }
+
+mutes:
+    for (int i = 0; i < 6; i++) {
+        sprintf(buf, "/%d/muted", i);
+        int offset = msg.match(buf, addr);
+        if (offset) {
+            bus = i;
+            break;
+        }
+    }
+    if (bus < 0)
+        return;
+
+    if (msg.isBoolean(0)) {
+        if (msg.getBoolean(0))
+            unmute(channel, bus);
+        else
+            mute(channel, bus);
+    } else {
+        snprintf(address, 22, "/ch/%d/mix/%d/muted", channel, bus);
+        OSCMessage response(address);
+        response.add(is_muted(channel, bus));
         slip.beginPacket();
         response.send(slip);
         slip.endPacket();
@@ -246,6 +214,33 @@ void onOscBus(OSCMessage &msg, int patternOffset) {
             slip.endPacket();
         }
         return;
+    } else if (msg.match("/levels", addr) > 0) {
+        OSCBundle response;
+        Levels &levels = audio_get_levels();
+
+        snprintf(address, 22, "/bus/%d/levels/rms", bus);
+        response.add(address).add(rmsToDb(levels.rms[CHANNELS + bus]));
+
+        snprintf(address, 22, "/bus/%d/levels/peak", bus);
+        response.add(address).add(rmsToDb(levels.peak[CHANNELS + bus]));
+
+        snprintf(address, 22, "/bus/%d/levels/smooth", bus);
+        response.add(address).add(rmsToDb(levels.smooth[CHANNELS + bus]));
+
+        slip.beginPacket();
+        response.send(slip);
+        slip.endPacket();
+    } else if (msg.match("/multiplier", addr) > 0) {
+        if (msg.isFloat(0))
+            set_bus_multiplier(bus, msg.getFloat(0));
+        else {
+            snprintf(address, 22, "/bus/%d/multiplier", bus);
+            OSCMessage response(address);
+            response.add(get_bus_multiplier(bus));
+            slip.beginPacket();
+            response.send(slip);
+            slip.endPacket();
+        }
     }
 }
 
@@ -259,16 +254,12 @@ void setup() {
 #ifdef USE_DISPLAY
     display_setup(display);
 #endif
-    reset_state();
+    audio_load_state();
 
     audio_setup();
 
     slip.begin(115200);
 }
-
-float levels_rms[CHANNELS + BUSES];
-float levels_smooth[CHANNELS + BUSES];
-float levels_peak[CHANNELS + BUSES];
 
 unsigned long last_draw = 0;
 
@@ -287,10 +278,12 @@ void loop() {
         }
     }
 
-    update_levels(levels_smooth, levels_rms, levels_peak);
+    Levels &levels = audio_get_levels();
+
+    audio_update_levels(levels);
 
 #ifdef USE_DISPLAY
-    update_display(display, levels_rms, channel_info);
+    update_display(display, levels.rms, channel_info);
 
     if (last_draw < (millis() - 16)) {
         display.updateScreen();
