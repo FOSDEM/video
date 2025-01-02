@@ -22,9 +22,9 @@
 
 #define RGB(r, g, b) (((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3))
 
-void display_setup(ST7735_t3 *display);
+void display_setup(ST7735_t3 &display);
 
-void update_display(ST7735_t3 *display, float levels_rms[CHANNELS + BUSES],
+void update_display(ST7735_t3 &display, float levels_rms[CHANNELS + BUSES],
                     ChanInfo channel_info[CHANNELS + BUSES]);
 
 #endif

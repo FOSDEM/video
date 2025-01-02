@@ -63,7 +63,7 @@ void mute(int channel, int bus) {
     set_gain(channel, bus, gains[bus][channel]);
 
 #ifdef USE_EEPROM
-    eeprom_save_mutes(&mutes);
+    eeprom_save_mutes(mutes);
 #endif
 }
 
@@ -72,7 +72,7 @@ void unmute(int channel, int bus) {
     set_gain(channel, bus, gains[bus][channel]);
 
 #ifdef USE_EEPROM
-    eeprom_save_mutes(&mutes);
+    eeprom_save_mutes(mutes);
 #endif
 }
 
@@ -99,13 +99,13 @@ void default_state() {
         channel_multipliers[i] = 1.0f;
 
 #ifdef USE_EEPROM
-    eeprom_save_all(gains, &mutes, bus_multipliers, channel_multipliers);
+    eeprom_save_all(gains, mutes, bus_multipliers, channel_multipliers);
 #endif
 }
 
 void reset_state() {
 #ifdef USE_EEPROM
-    eeprom_load_all(gains, &mutes, bus_multipliers, channel_multipliers);
+    eeprom_load_all(gains, mutes, bus_multipliers, channel_multipliers);
 
     int i, j;
     for (i = 0; i < BUSES; ++i) {
@@ -257,7 +257,7 @@ void onPacketReceived(OSCMessage msg) {
 
 void setup() {
 #ifdef USE_DISPLAY
-    display_setup(&display);
+    display_setup(display);
 #endif
     reset_state();
 
@@ -290,7 +290,7 @@ void loop() {
     update_levels(levels_smooth, levels_rms, levels_peak);
 
 #ifdef USE_DISPLAY
-    update_display(&display, levels_rms, channel_info);
+    update_display(display, levels_rms, channel_info);
 
     if (last_draw < (millis() - 16)) {
         display.updateScreen();

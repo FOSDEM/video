@@ -28,12 +28,12 @@ void eeprom_load_gains(float gains[BUSES][CHANNELS]) {
                       sizeof(float) * BUSES * CHANNELS);
 }
 
-void eeprom_save_mutes(uint64_t *mutes) {
-    eeprom_update_block(mutes, (uint8_t *)EEPROM_MUTES_OFFSET, sizeof(mutes));
+void eeprom_save_mutes(uint64_t &mutes) {
+    eeprom_update_block(&mutes, (uint8_t *)EEPROM_MUTES_OFFSET, sizeof(mutes));
 }
 
-void eeprom_load_mutes(uint64_t *mutes) {
-    eeprom_read_block(mutes, (uint8_t *)EEPROM_MUTES_OFFSET, sizeof(mutes));
+void eeprom_load_mutes(uint64_t &mutes) {
+    eeprom_read_block(&mutes, (uint8_t *)EEPROM_MUTES_OFFSET, sizeof(mutes));
 }
 
 void eeprom_save_channel_multipliers(float multipliers[CHANNELS]) {
@@ -55,7 +55,7 @@ void eeprom_load_bus_multipliers(float multipliers[BUSES]) {
                       sizeof(float) * BUSES);
 }
 
-void eeprom_save_all(float gains[BUSES][CHANNELS], uint64_t *mutes,
+void eeprom_save_all(float gains[BUSES][CHANNELS], uint64_t &mutes,
                      float bus_multipliers[BUSES],
                      float channel_multipliers[CHANNELS]) {
     eeprom_save_gains(gains);
@@ -63,7 +63,7 @@ void eeprom_save_all(float gains[BUSES][CHANNELS], uint64_t *mutes,
     eeprom_save_bus_multipliers(bus_multipliers);
     eeprom_save_channel_multipliers(channel_multipliers);
 }
-void eeprom_load_all(float gains[BUSES][CHANNELS], uint64_t *mutes,
+void eeprom_load_all(float gains[BUSES][CHANNELS], uint64_t &mutes,
                      float bus_multipliers[BUSES],
                      float channel_multipliers[CHANNELS]) {
     eeprom_load_gains(gains);
