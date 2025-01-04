@@ -19,9 +19,6 @@
 [submodule "hardware/firmware/audio_board/vendor/OSC"]
 	path = hardware/firmware/audio_board/vendor/OSC
 	url = https://github.com/CNMAT/OSC
-[submodule "vendor/Adafruit_SSD1306"]
-	path = vendor/Adafruit_SSD1306
-	url = https://github.com/adafruit/Adafruit_SSD1306
 [submodule "vendor/Adafruit_BusIO"]
 	path = vendor/Adafruit_BusIO
 	url = https://github.com/adafruit/Adafruit_BusIO
@@ -37,3 +34,12 @@
 [submodule "hardware/firmware/box_rp2040/vendor/rp2040_tca9534"]
 	path = hardware/firmware/box_rp2040/vendor/rp2040_tca9534
 	url = git@github.com:dexterlb/rp2040_tca9534.git
+[submodule "hardware/firmware/audio_board/vendor/Adafruit-GFX-Library"]
+	path = hardware/firmware/audio_board/vendor/Adafruit-GFX-Library
+	url = https://github.com/adafruit/Adafruit-GFX-Library
+[submodule "hardware/firmware/audio_board/vendor/Adafruit_BusIO"]
+	path = hardware/firmware/audio_board/vendor/Adafruit_BusIO
+	url = https://github.com/adafruit/Adafruit_BusIO
+[submodule "hardware/firmware/audio_board/vendor/Adafruit-ST7735-Library"]
+	path = hardware/firmware/audio_board/vendor/Adafruit-ST7735-Library
+	url = https://github.com/adafruit/Adafruit-ST7735-Library
