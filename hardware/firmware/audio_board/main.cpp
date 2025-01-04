@@ -1,28 +1,32 @@
+#define DISPLAY 1
+
 #include <Audio.h>
 #include <Wire.h>
-
-#define DISPLAY 1
 
 #include <OSCMessage.h>
 #include <SLIPEncodedSerial.h>
 
 #ifdef DISPLAY
 
-#include <ST7735_t3.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_ST7735.h>
 
-#endif
-
-
-#define TFT_DC (12)
-#define TFT_CS (10)
-#define TFT_MOSI (11)
-#define TFT_RST (0xFF)
-#define TFT_SCK (13)
+#define SCREEN_DC (12)
+#define SCREEN_CS (10)
+#define SCREEN_MOSI (11)
+#define SCREEN_RST (-1)
+#define SCREEN_SCK (13)
 
 #define SCREEN_WIDTH 80 // OLED display width, in pixels
 #define SCREEN_HEIGHT 160 // OLED display height, in pixels
 #define SCREEN_ADDRESS 0x3C
-#define OLED_RESET (-1)
+
+Adafruit_ST77xx display(
+	SCREEN_WIDTH, SCREEN_HEIGHT,
+	SCREEN_CS, SCREEN_DC, SCREEN_MOSI, SCREEN_SCK, SCREEN_RST
+);
+
+#endif
 
 typedef struct ChanInfo {
 		uint16_t color;
@@ -53,10 +57,6 @@ ChanInfo channel_info[] = {
 	{CHAN_MAGENTA, "USB", "USB L",       1},
 	{CHAN_MAGENTA, "USB", "USB R",       2},
 };
-
-#ifdef DISPLAY
-ST7735_t3 display = ST7735_t3(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCK, TFT_RST);
-#endif
 
 SLIPEncodedUSBSerial slip(Serial);
 
@@ -400,14 +400,19 @@ onPacketReceived(OSCMessage msg)
 }
 
 void
-setup()
-{
-
-#ifdef DISPLAY
+initDisplay(uint16_t colour) {
 	display.initR(INITR_MINI160x80_ST7735S);
 	display.useFrameBuffer(true);
 	display.fillScreen(ST7735_RED);
 	display.updateScreen();
+}
+
+void
+setup()
+{
+#ifdef DISPLAY
+	delay(10000);
+	initDisplay(ST7735_RED);
 #endif
 
 	AudioMemory(64);
