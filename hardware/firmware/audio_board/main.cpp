@@ -21,8 +21,7 @@
 #define SCREEN_HEIGHT 160 // OLED display height, in pixels
 #define SCREEN_ADDRESS 0x3C
 
-Adafruit_ST77xx display(
-	SCREEN_WIDTH, SCREEN_HEIGHT,
+Adafruit_ST7735 display(
 	SCREEN_CS, SCREEN_DC, SCREEN_MOSI, SCREEN_SCK, SCREEN_RST
 );
 
@@ -401,17 +400,17 @@ onPacketReceived(OSCMessage msg)
 
 void
 initDisplay(uint16_t colour) {
-	display.initR(INITR_MINI160x80_ST7735S);
-	display.useFrameBuffer(true);
-	display.fillScreen(ST7735_RED);
-	display.updateScreen();
+	display.initR(INITR_BLACKTAB);
+	// display.useFrameBuffer(true);
+	display.fillScreen(colour);
+	// display.updateScreen();
 }
 
 void
 setup()
 {
 #ifdef DISPLAY
-	delay(10000);
+	delay(1000);
 	initDisplay(ST7735_RED);
 #endif
 
@@ -539,31 +538,35 @@ loop()
 		}
 
 #ifdef DISPLAY
-		display.fillScreen(RGB(0, 0, 0));
-
-		display.setTextSize(1);
-		display.setTextColor(RGB(0, 0, 0));
-
-		for (int i = 0; i < 12; i++) {
-			uint16_t offset = 0;
-			if (i < 6) {
-			} else {
-				// Outputs
-				offset += (SCREEN_HEIGHT / 2);
-			}
-			uint16_t w = channel_info[i].link == 0 ? 12 : 24;
-			if (channel_info[i].link != 2) {
-				display.fillRoundRect(4 + ((i % 6) * 12), offset + (SCREEN_HEIGHT / 2) - 11, w, 10, 1,
-					channel_info[i].color);
-
-				display.drawString(channel_info[i].label, 5 + ((i % 6) * 12), offset + (SCREEN_HEIGHT / 2) - 9);
-			}
-			drawMeter(6 + (12 * (i % 6)), offset + 1, 10, (SCREEN_HEIGHT / 2) - 13,
-				DbtoLevel(rmsToDb(levels_rms[i])));
-
-		}
 		if (last_draw < (millis() - 16)) {
-			display.updateScreen();
+			display.fillScreen(RGB(0, 0, 0));
+
+			display.setTextSize(1);
+			display.setTextColor(RGB(0, 0, 0));
+
+			for (int i = 0; i < 12; i++) {
+				uint16_t offset = 0;
+				if (i < 6) {
+				} else {
+					// Outputs
+					offset += (SCREEN_HEIGHT / 2);
+				}
+				uint16_t w = channel_info[i].link == 0 ? 12 : 24;
+				if (channel_info[i].link != 2) {
+					display.fillRoundRect(4 + ((i % 6) * 12), offset + (SCREEN_HEIGHT / 2) - 11, w, 10, 1,
+						channel_info[i].color);
+
+					display.setCursor(
+						5 + ((i % 6) * 12),
+						offset + (SCREEN_HEIGHT / 2) - 9
+					);
+					display.print(channel_info[i].label);
+				}
+				drawMeter(6 + (12 * (i % 6)), offset + 1, 10, (SCREEN_HEIGHT / 2) - 13,
+					DbtoLevel(rmsToDb(levels_rms[i])));
+
+			}
+
 			last_draw = millis();
 		}
 #endif
