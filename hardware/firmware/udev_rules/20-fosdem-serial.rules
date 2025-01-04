@@ -1,2 +1,13 @@
 SUBSYSTEM=="tty", ATTRS{idVendor}=="f05d", ATTRS{idProduct}=="4001", SYMLINK+="tty_fosdem_box_ctl"
-SUBSYSTEM=="tty", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="048a", SYMLINK+="tty_fosdem_audio_ctl"
+# SUBSYSTEM=="tty", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="048a", SYMLINK+="tty_fosdem_audio_ctl"
+
+ACTION=="remove", GOTO="fosdem_serial_end"
+SUBSYSTEM!="tty", GOTO="fosdem_serial_end"
+SUBSYSTEMS=="usb", IMPORT{builtin}="usb_id"
+ENV{ID_SERIAL}!="FOSDEM_Audio*", GOTO="fosdem_serial_end"
+KERNEL!="ttyACM[0-9]*", GOTO="fosdem_serial_end"
+
+ENV{ID_USB_INTERFACE_NUM}=="00", SYMLINK+="tty_fosdem_audio_ctl"
+ENV{ID_USB_INTERFACE_NUM}=="02", SYMLINK+="tty_fosdem_audio_debug"
+
+LABEL="fosdem_serial_end"
