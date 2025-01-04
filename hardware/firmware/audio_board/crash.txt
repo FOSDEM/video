@@ -1,0 +1,21 @@
+this branch contains instrumentation to debug the USB audio crashes.
+
+in order to reproduce the crash, use something like this:
+
+alsaloop -C hw:0 -P hw:0 -t 10000
+
+(just pipe some audio from capture to output)
+
+
+the file ../udev_rules/20-fosdem-serial.rules can be placed in /etc/udev/rules.d
+in order to enumerate the serial endpoints correctly.
+
+afterwards, a serial terminal can be connected to /dev/tty_fosdem_audio_debug:
+    picocom --imap lfcrlf --echo /dev/tty_fosdem_audio_debug
+
+the audio board will only boot after this terminal has been connected. If a crash happens,
+information will be printed into this terminal.
+
+You can use the following comand to find the line number of the crash:
+    arm-none-eabi-addr2line -e build/teensy_audio.elf 0xFOO
+where 0xFOO is the address from the crash report.
