@@ -404,9 +404,12 @@ setup()
 {
 
 	while (!SerialUSB1); // wait for serial monitor open
+	SerialUSB1.print("hi\n");
+	delay(1000);
 	if (CrashReport) {
 		SerialUSB1.print(CrashReport);
-		delay(5000);
+	} else {
+		SerialUSB1.print("no crash report, continuing\n");
 	}
 
 #ifdef DISPLAY
