@@ -19,9 +19,15 @@
 [submodule "hardware/firmware/audio_board/vendor/OSC"]
 	path = hardware/firmware/audio_board/vendor/OSC
 	url = https://github.com/CNMAT/OSC
-[submodule "hardware/firmware/audio_board/vendor/ST7735_t3"]
-	path = hardware/firmware/audio_board/vendor/ST7735_t3
-	url = https://github.com/PaulStoffregen/ST7735_t3
+[submodule "vendor/Adafruit_SSD1306"]
+	path = vendor/Adafruit_SSD1306
+	url = https://github.com/adafruit/Adafruit_SSD1306
+[submodule "vendor/Adafruit_BusIO"]
+	path = vendor/Adafruit_BusIO
+	url = https://github.com/adafruit/Adafruit_BusIO
+[submodule "vendor/Adafruit-GFX-Library"]
+	path = vendor/Adafruit-GFX-Library
+	url = https://github.com/adafruit/Adafruit-GFX-Library
 [submodule "hardware/pcbs/kicad_libs/mta100"]
 	path = hardware/pcbs/kicad_libs/mta100
 	url = https://github.com/MartijnBraam/MTA-100
