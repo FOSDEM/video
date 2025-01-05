@@ -37,7 +37,7 @@ void draw_meter(ST7735_t3 &display, int16_t x, int16_t y, int16_t w, int16_t h,
     display.fillRect(x, y, w, h - red_thresh - rfill, RGB(100, 0, 0));
 }
 
-void draw_channel(ST7735_t3 &display, int rms, int id, ChanInfo &channel_info) {
+void draw_channel(ST7735_t3 &display, float rms, int id, ChanInfo &channel_info) {
     uint16_t offset = 0;
     if (id < CHANNELS) {
     } else {
