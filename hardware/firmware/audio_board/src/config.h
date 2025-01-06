@@ -4,4 +4,7 @@
 #define CHANNELS 6
 #define BUSES 6
 
+#define SCREEN_WIDTH 80
+#define SCREEN_HEIGHT 160
+
 #endif

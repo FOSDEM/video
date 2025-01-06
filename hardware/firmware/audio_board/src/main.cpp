@@ -31,10 +31,6 @@ ChanInfo channel_info[] = {
     {CHAN_MAGENTA, "USB", "USB1", 1}, {CHAN_MAGENTA, "USB", "USB2", 2},
 };
 
-#ifdef USE_DISPLAY
-ST7735_t3 display = ST7735_t3(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCK, TFT_RST);
-#endif
-
 SLIPEncodedUSBSerial slip(Serial);
 
 void onOscChannel(OSCMessage &msg, int patternOffset) {
@@ -252,7 +248,7 @@ void onPacketReceived(OSCMessage msg) {
 
 void setup() {
 #ifdef USE_DISPLAY
-    display_setup(display);
+    display_setup();
 #endif
     audio_load_state();
 
@@ -283,10 +279,10 @@ void loop() {
     audio_update_levels(levels);
 
 #ifdef USE_DISPLAY
-    update_display(display, levels.rms, channel_info);
+    display_update_vu(levels.rms, channel_info);
 
     if (last_draw < (millis() - 16)) {
-        display.updateScreen();
+        display_update_screen();
         last_draw = millis();
     }
 #endif
