@@ -102,11 +102,6 @@ void raw_set_mix(int bus, float in1, float in2, float in3, float in4, float in5,
     matrix[bus][1]->gain(3, 0.0f);
 }
 
-void raw_set_mix(int bus, float bus_gains[CHANNELS]) {
-    raw_set_mix(bus, bus_gains[0], bus_gains[1], bus_gains[2], bus_gains[3],
-                bus_gains[4], bus_gains[5]);
-}
-
 int mute_mask(int channel, int bus) { return 1 << (bus * BUSES + channel); }
 
 bool is_muted(int channel, int bus) {
@@ -120,7 +115,7 @@ float calc_real_gain(int channel, int bus, int gain) {
 
 // checking if muted
 void set_gain(int channel, int bus, int gain) {
-    gains[bus][channel] = gain;
+    gains[channel][bus] = gain;
 
     raw_set_crosspoint(channel, bus, calc_real_gain(channel, bus, gain));
 
@@ -129,12 +124,12 @@ void set_gain(int channel, int bus, int gain) {
 #endif
 }
 
-float get_gain(int channel, int bus) { return gains[bus][channel]; }
+float get_gain(int channel, int bus) { return gains[channel][bus]; }
 
 // FIXME: put `unmute` and `unmute` in the same function
 void mute(int channel, int bus) {
     mutes |= mute_mask(channel, bus); // side effect
-    set_gain(channel, bus, gains[bus][channel]);
+    set_gain(channel, bus, gains[channel][bus]);
 
 #ifdef USE_EEPROM
     eeprom_save_mutes(mutes);
@@ -143,7 +138,7 @@ void mute(int channel, int bus) {
 
 void unmute(int channel, int bus) {
     mutes &= ~mute_mask(channel, bus); // side effect
-    set_gain(channel, bus, gains[bus][channel]);
+    set_gain(channel, bus, gains[channel][bus]);
 
 #ifdef USE_EEPROM
     eeprom_save_mutes(mutes);
@@ -151,10 +146,9 @@ void unmute(int channel, int bus) {
 }
 
 void set_bus_multiplier(int bus, float multiplier) {
-    int i;
     bus_multipliers[bus] = multiplier;
-    for (i = 0; i < CHANNELS; ++i)
-        set_gain(i, bus, gains[bus][i]);
+    for (int channel = 0; channel < CHANNELS; ++channel)
+        set_gain(channel, bus, gains[channel][bus]);
 #ifdef USE_EEPROM
     eeprom_save_bus_multipliers(bus_multipliers);
 #endif
@@ -163,10 +157,9 @@ void set_bus_multiplier(int bus, float multiplier) {
 float get_bus_multiplier(int bus) { return bus_multipliers[bus]; }
 
 void set_channel_multiplier(int channel, float multiplier) {
-    int i;
     channel_multipliers[channel] = multiplier;
-    for (i = 0; i < BUSES; ++i)
-        set_gain(channel, i, gains[i][channel]);
+    for (int bus = 0; bus < BUSES; ++bus)
+        set_gain(channel, bus, gains[channel][bus]);
 #ifdef USE_EEPROM
     eeprom_save_bus_multipliers(bus_multipliers);
 #endif
@@ -181,7 +174,8 @@ const PROGMEM float default_bus_multipliers[BUSES] = {1.0f, 1.0f, 1.0f,
 const PROGMEM float default_channel_multipliers[CHANNELS] = {1.0f, 1.0f, 1.0f,
                                                              1.0f, 1.0f, 1.0f};
 const PROGMEM uint64_t default_mutes = 0;
-const PROGMEM float default_gains[BUSES][CHANNELS] = {
+// FIXME: real matrix with mics
+const PROGMEM float default_gains[CHANNELS][BUSES] = {
     // room PA
     {0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f},
     // livestream
@@ -207,9 +201,9 @@ void reset_channel_multipliers() {
 
 void apply_all() {
     int i, j;
-    for (i = 0; i < BUSES; ++i)
-        for (j = 0; j < CHANNELS; ++j)
-            set_gain(j, i, gains[i][j]);
+    for (i = 0; i < CHANNELS; ++i)
+        for (j = 0; j < BUSES; ++j)
+            set_gain(i, j, gains[i][j]);
 }
 
 void audio_reset_default_state() {
@@ -221,8 +215,8 @@ void audio_reset_default_state() {
 
 bool gains_ok() {
     int i, j;
-    for (i = 0; i < BUSES; ++i)
-        for (j = 0; j < CHANNELS; ++j)
+    for (i = 0; i < CHANNELS; ++i)
+        for (j = 0; j < BUSES; ++j)
             if (isnan(gains[i][j]))
                 return false;
 

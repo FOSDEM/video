@@ -177,6 +177,39 @@ void onOscInfo(OSCMessage &msg) {
     slip.endPacket();
 }
 
+void onOscState(OSCMessage &msg, int patternOffset) {
+    char addrbuf[31];
+    OSCBundle info;
+
+    int i, j;
+
+    for (i = 0; i < CHANNELS; ++i) {
+        for (j = 0; j < BUSES; ++j) {
+            snprintf(addrbuf, 30, "/ch/%d/mix/%d/level", i, j);
+            info.add(addrbuf).add(get_gain(i, j));
+
+            snprintf(addrbuf, 30, "/ch/%d/mix/%d/muted", i, j);
+            info.add(addrbuf).add(!!is_muted(i, j));
+
+            snprintf(addrbuf, 30, "/ch/%d/mix/%d/raw", i, j);
+            info.add(addrbuf).add(raw_get_crosspoint(i, j));
+        }
+    }
+
+    for (i = 0; i < CHANNELS; ++i) {
+        snprintf(addrbuf, 22, "/ch/%d/multiplier", i);
+        info.add(addrbuf).add(get_channel_multiplier(i));
+    }
+    for (j = 0; j < BUSES; ++j) {
+        snprintf(addrbuf, 22, "/bus/%d/multiplier", j);
+        info.add(addrbuf).add(get_bus_multiplier(j));
+    }
+
+    slip.beginPacket();
+    info.send(slip);
+    slip.endPacket();
+}
+
 void onOscBus(OSCMessage &msg, int patternOffset) {
     char buf[12];
     char address[22];
@@ -244,6 +277,7 @@ void onPacketReceived(OSCMessage msg) {
     msg.route("/ch", onOscChannel);
     msg.route("/bus", onOscBus);
     msg.dispatch("/info", onOscInfo);
+    msg.route("/state", onOscState);
 }
 
 void setup() {
