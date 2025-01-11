@@ -3,7 +3,6 @@
 #include <SLIPEncodedSerial.h>
 
 #include <stdint.h>
-
 #include "config.h"
 #include "helpers.h"
 
@@ -281,6 +280,12 @@ void onPacketReceived(OSCMessage msg) {
 }
 
 void setup() {
+    if (CrashReport) {
+        // Wait until the debug interface is ready
+        while (!SerialUSB1);
+        SerialUSB1.print(CrashReport);
+    }
+
 #ifdef USE_DISPLAY
     display_setup();
 #endif
