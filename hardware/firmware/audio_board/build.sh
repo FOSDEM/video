@@ -17,7 +17,7 @@ fi
 if [[ ! -d "${build_dir}" ]]; then
     mkdir "${build_dir}"
     cd "${build_dir}"
-    cmake "${cdir}"
+    cmake "${cdir}" -D CMAKE_BUILD_TYPE=RelWithDebInfo
 fi
 
 echo "building"
