@@ -272,11 +272,35 @@ void onOscBus(OSCMessage &msg, int patternOffset) {
     }
 }
 
+void onOscLevels(OSCMessage &msg, int patternOffset) {
+    Levels &levels = audio_get_levels();
+    OSCMessage response("/levels");
+
+    float payload[(CHANNELS + BUSES)*3+1];
+    size_t offset=CHANNELS+BUSES;
+    for(size_t i=0;i<offset;i++){
+	payload[1+i] = levels.rms[i];
+	payload[1+i+offset] = levels.peak[i];
+	payload[1+i+(offset*2)] = levels.smooth[i];
+    }
+    uint8_t enc[sizeof(payload)] = {0};
+    memcpy(&enc, &payload, sizeof(payload));
+    enc[0] = (char)CHANNELS;
+    enc[1] = (char)BUSES;
+    enc[2] = 3;
+    enc[3] = (unsigned char)0xFF;
+    response.add(enc, sizeof(payload));
+    slip.beginPacket();
+    response.send(slip);
+    slip.endPacket();
+}
+
 void onPacketReceived(OSCMessage msg) {
     msg.route("/ch", onOscChannel);
     msg.route("/bus", onOscBus);
     msg.dispatch("/info", onOscInfo);
     msg.route("/state", onOscState);
+    msg.route("/levels", onOscLevels);
 }
 
 void setup() {
