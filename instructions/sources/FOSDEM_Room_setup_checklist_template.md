@@ -20,7 +20,7 @@
 |`[ ]` Set camera resolution to 1920x1080|
 |`[ ]` Set camera refresh rato to 50p
 |`[ ]` Remove the lens cover of the camera
-|`[ ]` Install camera box on the tripod|
+|`[ ]` Install camera box on the tripod with zip ties|
 |`[ ]` Connect camera box to power
 |`[ ]` Connect camera to the camera box with HDMI cable
 | |
@@ -44,8 +44,8 @@
 | |
 |&nbsp;&nbsp;&nbsp;&nbsp;**Tests**|
 | |
-|`[ ]` Make sure you see picture on the camera laptop|
-|`[ ]` Make sure you see picture on the slides laptop and beamer when there's signal present|
+|`[ ]` Make sure you see picture on the camera box|
+|`[ ]` Make sure you see picture on the slides box and projector when there's signal present|
 | |
 |`[ ]` Talk into all microphones and check levels|
 |`[ ]` &nbsp;&nbsp;&nbsp;&nbsp;Within 80% on camera|
