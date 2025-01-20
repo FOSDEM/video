@@ -91,9 +91,10 @@ void onOscChannel(OSCMessage &msg, int patternOffset) {
         send(response);
         return;
     } else if (msg.match("/multiplier", addr) > 0) {
-        if (msg.isFloat(0))
+        if (msg.isFloat(0)) {
             set_channel_multiplier(channel, msg.getFloat(0));
-        else {
+            send(msg);
+        } else {
             snprintf(address, 22, "/ch/%d/multiplier", channel);
             OSCMessage response(address);
             response.add(get_channel_multiplier(channel));
