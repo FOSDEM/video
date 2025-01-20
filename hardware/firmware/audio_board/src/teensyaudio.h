@@ -3,6 +3,8 @@
 
 #include "config.h"
 
+#include "types.h"
+
 #include <stdbool.h>
 
 void audio_setup();
@@ -30,13 +32,13 @@ float raw_get_crosspoint(int channel, int bus);
 
 // void raw_set_mix(int bus, float channel_gains[CHANNELS]);
 
-typedef struct {
-    float smooth[CHANNELS + BUSES];
-    float peak[CHANNELS + BUSES];
-    float rms[CHANNELS + BUSES];
-} Levels;
-
 void audio_update_levels(Levels &levels);
 Levels &audio_get_levels();
+
+void audio_reset_default_state();
+
+#ifdef USE_EEPROM
+uint8_t audio_eeprom_save_all();
+#endif
 
 #endif
