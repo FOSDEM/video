@@ -148,9 +148,9 @@ mutes:
 
     if (msg.isBoolean(0)) {
         if (msg.getBoolean(0))
-            unmute(channel, bus);
-        else
             mute(channel, bus);
+        else
+            unmute(channel, bus);
         send(msg);
     } else {
         snprintf(address, 22, "/ch/%d/mix/%d/muted", channel, bus);
@@ -350,7 +350,7 @@ void setup() {
     audio_setup();
 
     slip.begin(115200);
-    Serial.println("board ready");
+    SerialUSB1.println("board ready");
 }
 
 unsigned long last_draw = 0;

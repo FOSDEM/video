@@ -112,23 +112,20 @@ float calc_real_gain(int channel, int bus, int gain) {
            state.channel_multipliers[channel];
 }
 
-// checking if muted
 void set_gain(int channel, int bus, int gain) {
     state.gains[channel][bus] = gain;
-
     raw_set_crosspoint(channel, bus, calc_real_gain(channel, bus, gain));
 }
 
 float get_gain(int channel, int bus) { return state.gains[channel][bus]; }
 
-// FIXME: put `unmute` and `unmute` in the same function
 void mute(int channel, int bus) {
-    state.mutes |= mute_mask(channel, bus); // side effect
+    state.mutes |= mute_mask(channel, bus);
     set_gain(channel, bus, state.gains[channel][bus]);
 }
 
 void unmute(int channel, int bus) {
-    state.mutes &= ~mute_mask(channel, bus); // side effect
+    state.mutes &= ~mute_mask(channel, bus);
     set_gain(channel, bus, state.gains[channel][bus]);
 }
 
