@@ -18,7 +18,7 @@
 |`[ ]` Set INPUT2 to MAN on the 3rd slider
 |`[ ]` Set INPUT2 to 5 on the volume knob
 |`[ ]` Set camera resolution to 1920x1080|
-|`[ ]` Set camera refresh rato to 50p
+|`[ ]` Set camera refresh rate to 50p
 |`[ ]` Remove the lens cover of the camera
 |`[ ]` Install camera box on the tripod with zip ties|
 |`[ ]` Connect camera box to power
