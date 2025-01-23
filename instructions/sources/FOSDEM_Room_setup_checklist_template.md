@@ -31,10 +31,10 @@
 |`[ ]` Connect audience(handheld) microphone to IN2 on the slides box
 |`[ ]` Connect short XLR cable from OUT2 on the slides box to the room's audio
 |`[ ]` Connect cables for charging from the slides box USB ports to the microphone receiver's batteries
-|`[ ]` Connect cables for charging from the slides box USB ports to the microphone transmiter's batteries -Alway have batteries charging
-|`[ ]` Connect HDMI cable form the slides box HDMI OUT to the room's projector - may need to use HDMI-to-X converters
+|`[ ]` Connect cables for charging from the slides box USB ports to the microphone transmitter's batteries -Always have batteries charging
+|`[ ]` Connect HDMI cable from the slides box HDMI OUT to the room's projector - may need to use HDMI-to-X converters
 |`[ ]` Connect HDMI cables to the slides box HDMI IN port to be used by the presenter - leave other end on the desk
-|`[ ]` Connect XLR cable from OUT1 on the slides box to INPUT1 on the camera - check suggested cable route at the botom
+|`[ ]` Connect XLR cable from OUT1 on the slides box to INPUT1 on the camera - check suggested cable route at the bottom
 |`[ ]` Run ethernet cable from any port on the slides box to any port on the camera box - check suggested cable route at the bottom
 | |
 |`[ ]` Connect headphones to camera|
