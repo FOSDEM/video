@@ -41,7 +41,8 @@
 |`[ ]` Write the room name on the whiteboard to point the camera to|
 |`[ ]` Point camera to where the speaker will be without getting the presentation in frame|
 |`[ ]` Mark on the floor where the speaker should be (skip for Janson, K.1105 and H.2215)|
-| |
+|`[ ]` Leave the signs folder on the desk next to the slides box
+| |~~~~
 |&nbsp;&nbsp;&nbsp;&nbsp;**Tests**|
 | |
 |`[ ]` Make sure you see picture on the camera box|
