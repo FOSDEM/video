@@ -1,11 +1,11 @@
-# **Build checklist for room [ROOM_NUMBER]**
+# **Build checklist for room ROOM_NUMBER**
 
 |&nbsp;&nbsp;&nbsp;&nbsp;**Before build up**|
 |-----------|
-|`[ ]` Bring equipment to room [ROOM_NUMBER]|
+|`[ ]` Bring equipment to room ROOM_NUMBER|
 |&nbsp;&nbsp;&nbsp;&nbsp;**Build up** |
 |`[ ]` Unpack tripod|
-|`[ ]` Place tripod at [CAMERA_POSITION]|
+|`[ ]` Place tripod at CAMERA_POSITION|
 |`[ ]` Level tripod|
 |`[ ]` Install camera on tripod|
 |`[ ]` Connect camera power and install camera battery
@@ -66,4 +66,4 @@
 |`[ ]` &nbsp;&nbsp;&nbsp;&nbsp;Connect microphone batteries to chargers|
 |-----------|
 
-Suggested route for the XLR and network cable is as follows: [CABLE_RUN]
+Suggested route for the XLR and network cable is as follows: CABLE_RUN
