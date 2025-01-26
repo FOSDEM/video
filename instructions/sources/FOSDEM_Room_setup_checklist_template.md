@@ -15,7 +15,7 @@ fontsize: "9pt"
 |`[ ]` Set INPUT1 to MAN on 3rd slider
 |`[ ]` Set INPUT1 to 5 on volume knob
 |`[ ]` Set INPUT2 to MIC/MIC +48V on 1st slider
-|`[ ]` Set INPUT2 to INT MIC on2nd slider
+|`[ ]` Set INPUT2 to INT MIC on 2nd slider
 |`[ ]` Set INPUT2 to MAN on 3rd slider
 |`[ ]` Set INPUT2 to 5 on volume knob
 |`[ ]` Set camera resolution to 1920x1080|
