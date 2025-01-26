@@ -64,6 +64,9 @@
 ||
 |`[ ]` If no issues are seen from the VOC:|
 |`[ ]` &nbsp;&nbsp;&nbsp;&nbsp;Connect microphone batteries to chargers|
-|-----------|
+| |
+|`[ ]` **Tape this checklist to the camera box**|
+| |
+| |
 
 Suggested route for the XLR and network cable is as follows: Along the right wall (without windows) when looking from the stage. The cables can be taped directly to the wall in order not to be on the stairs.
