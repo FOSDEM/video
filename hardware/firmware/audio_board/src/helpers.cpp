@@ -1,25 +1,32 @@
 #include <math.h>
 
-float rmsToDb(float rms_in) {
-    // 0.64 == +4 dBu
-    // 0.57 == +2 dBu
-    // 0.47 = 0 dBu
-    // 0.37 = -2 dBu
-    // 0.3  = -4 dBu
-    // 0.24 = -6 dBu
-    // 0.19 = -8 dBu
-    // 0.15 = -10 dBu
-    // 0.12 = -12 dBu
-    // 0.09 = -14 dBu
-    // 0.07 = -16 dBu
-    // 0.06 = -18 dBu
-    // 0.048 = -20 dBu
-    // 0.037 = -22 dBu
+#define GAIN (1.2258f)
 
-    float Vrms = rms_in * 1.648f;
-    float dB = 20.0f * log10f(Vrms / 0.775f);
-    return dB;
+float db(float vrms) { return 20.0f * log10f(vrms / 0.775f); }
+
+// the inverse eof db(vrms)
+float vrms(float db) { return powf(10, (db / 20.0f)) * 0.775f; }
+
+float rmsToDb(float in_v) {
+    // 1.002 == +4 dBu
+    // 0.796 == +2 dBu
+    // 0.632 == +0 dBu
+    // 0.502 == -2 dBu
+    // 0.399 == -4 dBu
+    // 0.317 == -6 dBu
+    // 0.252 == -8 dBu
+    // 0.200 == -10 dBu
+    // 0.159 == -12 dBu
+    // 0.126 == -14 dBu
+    // 0.100 == -16 dBu
+    // 0.080 == -18 dBu
+    // 0.063 == -20 dBu
+    // 0.050 == -22 dBu
+    return db(in_v * GAIN);
 }
+
+// the inverse of rmsToDb
+float dbToRms(float db) { return vrms(db) / GAIN; }
 
 float DbtoLevel(float db) {
     float e = 2.71828f;
