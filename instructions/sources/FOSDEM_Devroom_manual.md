@@ -1,7 +1,7 @@
 # FOSDEM 2025 A/V devroom manager manual, day DAY, room ROOM
 ## Where to get help
 
-* On Matrix: `#video:fosdem.org`
+* On Matrix: `#video:fosdem.org`. When using matrix, always mention your room name. Best way is to change your nick name in the room by typing `/myroomnick [k3401] your_nick_name`
 * In person: there is a per-building team in every building, together with FIT or NOC (AW.1125, H.2111, UB4.228, UD2.119)
 * For core issues, the NOC/VOC is in K at the end of corridor in front of K.1.105. Please come to that room only for emergencies.
 * Emergency: Vasil Kolev on `+359888508044` or Mark Van den Borre on `+32486961726`.
