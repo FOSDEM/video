@@ -1,5 +1,6 @@
 #! /usr/bin/python
  
+from __future__ import print_function
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
@@ -28,21 +29,21 @@ if data['needs_video_team_intervention']:
     # FIXME. Do something
     sys.exit(1)
 
-print "Checking if we have the schedule..."
+print("Checking if we have the schedule...")
 if os.path.isfile(os.path.basename(penta_url)):
     penta = os.path.basename(penta_url)
 else:
-    print "Getting the schedule..."
+    print("Getting the schedule...")
     penta = wget.download(penta_url)
 
-print "Parsing the schedule file..."
+print("Parsing the schedule file...")
 pentaparse = ET.parse(penta).getroot()
 # FIXME Either keep the downloaded penta xml file and make sure it doesn't get downloaded again, or throw it out and always get a fresh one.
 
-print "Finding the talk to process..."
+print("Finding the talk to process...")
 talk = pentaparse.find(".//event[@id='"+data['event_id']+"']")
 
-print "Creating relevant file names for this talk..."
+print("Creating relevant file names for this talk...")
 title = talk.find('title').text
 track = talk.find('track').text
 slug_track = slugify(track)
@@ -60,29 +61,29 @@ postrollimgname = postrollbasename+ '.jpg'
 postrolltsname = postrollbasename+ '.ts'
 finalcut = outdir+ videobasename+ '.mp4'
 
-print "Creating tmpdir"
+print("Creating tmpdir")
 try:
-	os.makedirs(tmpdir, 0755)
+	os.makedirs(tmpdir, 0o755)
 except:
 	pass
 
-print "Creating outdir..."
+print("Creating outdir...")
 try:
-	os.makedirs(outdir, 0755)
+	os.makedirs(outdir, 0o755)
 except:
 	pass
 
-print "Getting list of speakers for this talk..."
+print("Getting list of speakers for this talk...")
 persons = [p.text for p in talk.find('persons')]
 personsline = ''
 for p in persons:
     personsline += p + '   '
 
-print "Grabbing the part of the video we need..."
+print("Grabbing the part of the video we need...")
 url = data['url'] + "?start=" + data['start'] + "&end=" + data['end']
 filename =  wget.download(url,out=nakedvideomp4name)
 
-print "Creating custom preroll image from talk metadata..."
+print("Creating custom preroll image from talk metadata...")
 img = Image.open("preroll.jpg")
 draw = ImageDraw.Draw(img)
 font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf", 64)
@@ -90,14 +91,14 @@ draw.text((0, 0),title,(0,0,0),font=font)
 draw.text((0, 100),personsline,(0,0,0),font=font)
 img.save(prerollimgname)
 
-print "Processing preroll and postroll images into video..." 
+print("Processing preroll and postroll images into video...") 
 subprocess.check_call(['ffmpeg', '-y', '-loop', '1' , '-i', prerollimgname, '-c:v', 'libx264', '-r', '25', '-frames:v',  '125', prerolltsname])
 subprocess.check_call(['ffmpeg', '-y', '-loop', '1' , '-i', "postroll.jpg", '-c:v', 'libx264', '-r', '25', '-frames:v',  '125', postrolltsname])
 
-print "Concatenating preroll, video and postroll..."
+print("Concatenating preroll, video and postroll...")
 subprocess.check_call(['ffmpeg', '-y', '-i', nakedvideomp4name, '-c', 'copy', nakedvideotsname])
 concatcommand = 'ffmpeg -y -f mpegts -i "concat:'+prerolltsname+ '|'+ nakedvideotsname+ '|'+ postrolltsname+'" -c copy -bsf:a aac_adtstoasc '+ finalcut
 subprocess.check_call(concatcommand, shell=True)
 
-print "Cleaning up temporary directory..."
+print("Cleaning up temporary directory...")
 shutil.rmtree(tmpdir)
