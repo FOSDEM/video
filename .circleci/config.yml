@@ -91,9 +91,9 @@ workflows:
   build:
     jobs:
     - build_firmware:
-    #    filters:
-    #      tags:
-    #        only: /.*/
+        filters:
+          tags:
+            only: /.*/
     - package:
         requires:
         - build_firmware
