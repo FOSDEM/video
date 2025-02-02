@@ -13,10 +13,10 @@
 
 To ensure proper recording/stream of the talks in the room
 
-## What it consits of
+## What it consists of
 
 * Making sure the speaker has a microphone;
-* That the microphones' sound leves are OK;
+* That the microphones' sound levels are OK;
 	* This means that their levels peak at 90% in the camera audio bars and there is no noise.
 * That during the talk the camera sees just the presenter, with the proper settings for the light;
 * That the stream has the proper picture on it, via the control of the video mixing (explained below).
