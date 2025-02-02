@@ -181,19 +181,21 @@ void fan_ctl_task() {
             continue;
         }
 
-	int difference = desired_fan_speed[i] - fanspeed;
+        int difference = desired_fan_speed[i] - fanspeed;
         uint8_t pwm;
         fan_ctl_get_pwm(i, &pwm);
-	float smooth = 0.0005f;
-	pwm += ((difference>>2) * (1.0f - exp(-smooth)));
-        fan_ctl_set_pwm(i, pwm);
+
+        // Adjust the smoothing factor to make the transition smoother
+        float smooth = 0.001f;
+        pwm += ((difference >> 2) * (1.0f - exp(-smooth * abs(difference))));
 
         if (pwm > FAN_MAX_PWM) {
-            // PWM was set by the fan controller's default power on value
-            // bring it back down to the max value
-            fan_ctl_set_pwm(i, FAN_MAX_PWM);
-            continue;
+            pwm = FAN_MAX_PWM;
+        } else if (pwm < 0) {
+            pwm = 0;
         }
+
+        fan_ctl_set_pwm(i, pwm);
 
         if (fanspeed == 0) {
             // initial spin-up
@@ -209,6 +211,5 @@ void fan_ctl_task() {
             fan_ctl_set_pwm(i, FAN_MAX_PWM);
             continue;
         }
-
     }
 }
