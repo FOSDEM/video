@@ -25,11 +25,12 @@ jobs:
           build-essential cmake \
           gcc-arm-none-eabi binutils-arm-none-eabi libstdc++-arm-none-eabi-newlib \
           libusb-1.0.0-dev libfreetype-dev \
-          python3
+          python3 pipx
 
     # I have no idea why git fails locally otherwise, but...
     - run: git config --global --add safe.directory /tmp/_circleci_local_build_repo
     - checkout
+    - run: pipx run ruff check  # Lint Python code with ruff
     - run: chown -R $(id -nu):$(id -ng) . # another fix for wrong permissions in local builds
 
     - run: bash ./hardware/firmware/box_rp2040/build.sh
