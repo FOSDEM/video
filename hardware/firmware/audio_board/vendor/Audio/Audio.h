@@ -124,6 +124,9 @@
 #include "output_adat.h"
 #include "play_memory.h"
 #include "play_queue.h"
+#include "play_sd_raw.h"
+#include "play_sd_wav.h"
+#include "play_serialflash_raw.h"
 #include "record_queue.h"
 #include "synth_tonesweep.h"
 #include "synth_sine.h"
@@ -134,5 +137,6 @@
 #include "synth_karplusstrong.h"
 #include "synth_simple_drum.h"
 #include "synth_pwm.h"
+#include "synth_wavetable.h"
 
 #endif

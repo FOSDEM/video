@@ -24,36 +24,29 @@
  * THE SOFTWARE.
  */
 
-#ifndef effect_fade_h_
-#define effect_fade_h_
+#ifndef play_sd_raw_h_
+#define play_sd_raw_h_
 
 #include <Arduino.h>     // github.com/PaulStoffregen/cores/blob/master/teensy4/Arduino.h
 #include <AudioStream.h> // github.com/PaulStoffregen/cores/blob/master/teensy4/AudioStream.h
+#include <SD.h>          // github.com/PaulStoffregen/SD/blob/Juse_Use_SdFat/src/SD.h
 
-class AudioEffectFade : public AudioStream
+class AudioPlaySdRaw : public AudioStream
 {
-	const uint32_t MAX_FADE = 0xFFFFFFFFu; // fader fully up - pass through
-	const uint32_t MILLIS_MULT = (int) (AUDIO_SAMPLE_RATE_EXACT) / 100;
 public:
-	AudioEffectFade(void)
-	  : AudioStream(1, inputQueueArray), position(MAX_FADE) {}
-	void fadeIn(uint32_t milliseconds) {
-		uint32_t samples = (uint32_t)(milliseconds * MILLIS_MULT + 5u) / 10u;
-		//Serial.printf("fadeIn, %u samples\n", samples);
-		fadeBegin(samples, 1);
-	}
-	void fadeOut(uint32_t milliseconds) {
-		uint32_t samples = (uint32_t)(milliseconds * MILLIS_MULT + 5u) / 10u;
-		//Serial.printf("fadeOut, %u samples\n", samples);
-		fadeBegin(samples, 0);
-	}
+	AudioPlaySdRaw(void) : AudioStream(0, NULL) { begin(); }
+	void begin(void);
+	bool play(const char *filename);
+	void stop(void);
+	bool isPlaying(void) { return playing; }
+	uint32_t positionMillis(void);
+	uint32_t lengthMillis(void);
 	virtual void update(void);
 private:
-	void fadeBegin(uint32_t samples, uint8_t dir);
-	uint32_t position; // 0 = off, MAX_FADE = on
-	uint32_t rate;
-	uint8_t direction; // 0 = fading out, 1 = fading in
-	audio_block_t *inputQueueArray[1];
+	File rawfile;
+	uint32_t file_size;
+	volatile uint32_t file_offset;
+	volatile bool playing;
 };
 
 #endif

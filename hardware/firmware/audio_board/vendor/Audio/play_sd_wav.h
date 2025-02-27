@@ -24,36 +24,45 @@
  * THE SOFTWARE.
  */
 
-#ifndef effect_fade_h_
-#define effect_fade_h_
+#ifndef play_sd_wav_h_
+#define play_sd_wav_h_
 
 #include <Arduino.h>     // github.com/PaulStoffregen/cores/blob/master/teensy4/Arduino.h
 #include <AudioStream.h> // github.com/PaulStoffregen/cores/blob/master/teensy4/AudioStream.h
+#include <SD.h>          // github.com/PaulStoffregen/SD/blob/Juse_Use_SdFat/src/SD.h
 
-class AudioEffectFade : public AudioStream
+class AudioPlaySdWav : public AudioStream
 {
-	const uint32_t MAX_FADE = 0xFFFFFFFFu; // fader fully up - pass through
-	const uint32_t MILLIS_MULT = (int) (AUDIO_SAMPLE_RATE_EXACT) / 100;
 public:
-	AudioEffectFade(void)
-	  : AudioStream(1, inputQueueArray), position(MAX_FADE) {}
-	void fadeIn(uint32_t milliseconds) {
-		uint32_t samples = (uint32_t)(milliseconds * MILLIS_MULT + 5u) / 10u;
-		//Serial.printf("fadeIn, %u samples\n", samples);
-		fadeBegin(samples, 1);
-	}
-	void fadeOut(uint32_t milliseconds) {
-		uint32_t samples = (uint32_t)(milliseconds * MILLIS_MULT + 5u) / 10u;
-		//Serial.printf("fadeOut, %u samples\n", samples);
-		fadeBegin(samples, 0);
-	}
+	AudioPlaySdWav(void) : AudioStream(0, NULL), block_left(NULL), block_right(NULL) { begin(); }
+	void begin(void);
+	bool play(const char *filename);
+	void togglePlayPause(void);
+	void stop(void);
+	bool isPlaying(void);
+	bool isPaused(void);
+	bool isStopped(void);
+	uint32_t positionMillis(void);
+	uint32_t lengthMillis(void);
 	virtual void update(void);
 private:
-	void fadeBegin(uint32_t samples, uint8_t dir);
-	uint32_t position; // 0 = off, MAX_FADE = on
-	uint32_t rate;
-	uint8_t direction; // 0 = fading out, 1 = fading in
-	audio_block_t *inputQueueArray[1];
+	File wavfile;
+	bool consume(uint32_t size);
+	bool parse_format(void);
+	uint32_t header[10];		// temporary storage of wav header data
+	uint32_t data_length;		// number of bytes remaining in current section
+	uint32_t total_length;		// number of audio data bytes in file
+	uint32_t bytes2millis;
+	audio_block_t *block_left;
+	audio_block_t *block_right;
+	uint16_t block_offset;		// how much data is in block_left & block_right
+	uint8_t buffer[512];		// buffer one block of data
+	uint16_t buffer_offset;		// where we're at consuming "buffer"
+	uint16_t buffer_length;		// how much data is in "buffer" (512 until last read)
+	uint8_t header_offset;		// number of bytes in header[]
+	uint8_t state;
+	uint8_t state_play;
+	uint8_t leftover_bytes;
 };
 
 #endif

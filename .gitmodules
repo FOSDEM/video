@@ -31,3 +31,12 @@
 [submodule "hardware/firmware/box_rp2040/vendor/rp2040_tca9534"]
 	path = hardware/firmware/box_rp2040/vendor/rp2040_tca9534
 	url = git@github.com:dexterlb/rp2040_tca9534.git
+[submodule "hardware/firmware/audio_board/vendor/SD"]
+	path = hardware/firmware/audio_board/vendor/SD
+	url = https://github.com/PaulStoffregen/SD
+[submodule "hardware/firmware/audio_board/vendor/SdFat"]
+	path = hardware/firmware/audio_board/vendor/SdFat
+	url = https://github.com/PaulStoffregen/SdFat
+[submodule "hardware/firmware/audio_board/vendor/SerialFlash"]
+	path = hardware/firmware/audio_board/vendor/SerialFlash
+	url = https://github.com/PaulStoffregen/SerialFlash
