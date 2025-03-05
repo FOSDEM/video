@@ -7,6 +7,9 @@
 
 #define USB_ENABLED (USB_INSTANCE >= 0)
 
+#define VENDOR_REQUEST_TEMPERATURE (0x10)
+#define VENDOR_REQUEST_FANSPEED (0x11)
+
 void usb_init(void);
 void usb_task(void);
 
