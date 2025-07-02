@@ -1,0 +1,161 @@
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.action_replicate_layout 392:Plugin executed on: 'win32'
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.action_replicate_layout 393:Plugin executed with python version: '3.11.5 (main, Jan 19 2024, 08:13:45) [MSC v.1936 64 bit (AMD64)]'
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.action_replicate_layout 394:KiCad build version: 8.0.1
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.action_replicate_layout 395:Plugin version: 3.0.3
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.action_replicate_layout 396:Frame repr: <wx._core.Frame object at 0x000002054AD2F130>
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.action_replicate_layout 420:Preparing replicator with J3 as a reference
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.replicate_layout 117:getting a list of all footprints on board
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.action_replicate_layout 468:source anchor footprint is 'J3'
+Located on: ['Switch', 'usbc_port1']
+With filenames: ['switch.kicad_sch', 'usbc_port.kicad_sch']
+With sheet_id:['Switch', 'usbc_port1']
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.action_replicate_layout 475:Corresponding footprints are 
+[('J4', ['Switch', 'usbc_port']), ('J3', ['Switch', 'usbc_port1'])]
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.action_replicate_layout 487:Showing dialog
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.replicate_layout 472:constructing a list of sheets suitable for replication on level:'usbc_port1', file:'usbc_port.kicad_sch'
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.replicate_layout 509:suitable sheets are:[['Switch', 'usbc_port']]
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.replicate_layout 1507:Level selected: ['Switch', 'usbc_port1']
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.replicate_layout 1331:Filtering list of tracks
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.action_replicate_layout 493:Toolbar position: wx.Point(2340, 111)
+02-04 19:09:14 com_github_MitjaNemec_ReplicateLayout.action_replicate_layout 498:Dialog position: wx.Point(1901, 111)
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 472:constructing a list of sheets suitable for replication on level:'usbc_port1', file:'usbc_port.kicad_sch'
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 509:suitable sheets are:[['Switch', 'usbc_port']]
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.action_replicate_layout 240:Replicating layout
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 288:Starting replication of sheets: [['Switch', 'usbc_port']]
+on level: ['Switch', 'usbc_port1']
+with tracks=True, zone=True, text=True, text=True, intersecting=False, remove=False, locked footprints=False, group_only=False
+02-04 19:09:26 root 332:updating GUI message: 'Preparing for replication'
+02-04 19:09:26 root 337:updating GUI with: 0
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 358:Getting the list of source footprints
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 368:Getting the list of all the remaining footprints
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 375:Getting source tracks
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 1331:Filtering list of tracks
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 379:Getting source zones
+02-04 19:09:26 root 337:updating GUI with: 50
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 383:Getting source text items
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 387:Getting source drawing items
+02-04 19:09:26 root 332:updating GUI message: 'Replicating footprints'
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 861:Replicating footprints
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 868:Replicating footprints on sheet ['Switch', 'usbc_port']
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:617dc550-82c3-4df8-9499-6a70cd94aacb
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:dad8f241-b0ef-4a12-9af6-b4f974081311
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:bc518bf9-4bd7-4837-95a2-c4bf00cd127b
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:0f831823-e428-45b2-bd3b-e4874faf2ce0
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:c58ad63a-6c35-493f-9255-0d7dbbe42c79
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:90eceeaa-542b-42e9-8551-8662137ad1a1
+02-04 19:09:26 root 337:updating GUI with: 11
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:6dd849ba-400b-42aa-88e1-47a912cb53f8
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:cd070c1c-1182-4ffe-8ece-c5364f9a0265
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:e3716fe1-d871-4626-a904-0c0f431718dd
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:c1941f27-d3d9-4c4f-8577-f6ac939ba3fa
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:6ba61794-6d48-4ec1-8866-ef021b2ecd4c
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:8ac449e3-483e-4f4b-a9d0-b40d19717f4e
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:4cc1c4ac-c1f8-49ea-8916-b832a7f23275
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:cae0dcfb-f3c8-4a0f-98d8-012cadfefdc0
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:59750e8f-6e35-48d5-ae1b-20e9a1b1c4ab
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:c3700ef3-880a-4601-a981-94cd35b2ef27
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:ebdb8fe0-f5d0-4c7a-8304-9bb437782e86
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:e04f795b-327b-4d14-811d-54b1e7c5a2b5
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:370365a1-3159-4944-af9d-fbdc8aecacd4
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:cf4f97c9-0acb-4eb2-a53c-f06483d4ac13
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:1eed5d48-cd8c-47ff-acd6-baa324142c65
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:55958421-586f-4406-8034-551f3f76ccf7
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:eea192c5-5afb-4a31-bc71-d22c4adae160
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:fe987c8a-6d69-4a97-8d4f-c17f1fca8d2f
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:3435874b-6a15-411c-8b89-79a78f5696cd
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:732a5dd2-1867-499a-868f-c800e8caa46d
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:80e16e7a-a21a-4ab9-89d2-4f9250bad021
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:8985b140-37e0-4438-9890-6b7f68509c06
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:53913ffd-1af5-4bae-86c4-c0d6d0d66ba1
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:ae0989ee-7abf-42e0-976a-887cbe64cf29
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:88f3b70c-3602-44b0-b28e-197bc5a34200
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:d030ddb5-1a14-48f4-b302-d231834acb34
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:d64cf8aa-9241-47b4-b150-66f1aa9afacc
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:5cae8148-a6f8-40a1-9915-f3d779aaa1b1
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:2f96b5aa-9665-4f67-9044-1b17337e0f1e
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:bb5d5d8f-3172-4136-9d42-e82c810f3064
+02-04 19:09:26 root 337:updating GUI with: 41
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:774c7e4c-3e20-448a-8e08-99adbdd2369b
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:804742bb-9e5d-4ba7-9c0d-d164d5c6f517
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:d7763ad1-b61a-4e0b-95b4-c6e0727ec3c5
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:0877ba1c-9b60-4c3e-9ba2-06fd850eef74
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:d805915f-fe20-4d41-921c-b2d91a21f958
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:be2a3a84-e7de-41d8-aff8-d445e2b00b3b
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:c70897d1-7d1b-45c9-96ac-92f654cd6e46
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:33ed02b0-69be-4551-b662-281e75c27fea
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:cd33966b-e4f7-4161-a7cb-4643a049d7c5
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:55269e0f-aa74-4b8b-87f2-1f7f12ebad7f
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:7856249d-2b51-435b-8ea6-5e4052ae41ea
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:a6eb33aa-cb8c-4344-978c-f71fb91f8e3a
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:20b75584-c742-4508-a934-36ccb08dbadc
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:fde8b76f-51c3-4e39-a739-3a75f58c0928
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:8fc6fbba-5709-4ba3-aafa-b008fab8a9d2
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:c779d7bb-2a55-4949-8692-f55904af35e0
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:7a02aaf7-98be-4280-88a2-9a0956c45e8c
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:f634e036-996b-4209-bb7a-61444bfd3e1f
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:38e148ab-bfbd-4116-841f-6a01ad44e4f9
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:7a8c21af-fc68-475c-a76c-51f5ff59215b
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:75095bd7-6901-47aa-a436-27bb82e08e0d
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:868a9624-1484-4ca3-a8a5-9ac591869dcb
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:fe2eab0b-1d33-4fba-8264-22f6756026a1
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:880f2f8d-6e11-4c7c-91a1-6b4728a8e878
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:ad2d454f-d340-48ff-9fcd-d2bad73ba7f5
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:d9a17f88-74bf-44ef-a66a-3d7c87b1c2e6
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:bd95ac7d-80bf-4784-957e-cd0261aa100d
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:ebb7b300-7009-4452-afc1-d68f91bd565d
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:5ed9cac8-5442-49a6-b144-ed6cef598323
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:bc30cde9-53ca-4e6a-a8e5-78efcc5de312
+02-04 19:09:26 root 337:updating GUI with: 70
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:6e8eef40-db3e-4832-88e5-9d26a937cd6c
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:a758d947-219a-41e7-b72e-580be789c6de
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:a330a29f-8fc0-4958-9c62-cc035ee0d117
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:9d8efb63-47aa-46aa-8524-49498e73f0cc
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:1f2a9d73-3896-4c31-9f57-30982daf8b47
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:8bea550e-b9b0-4867-a81c-481eefc725a3
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:4a6525de-5809-4a0c-81e7-a11a4a190ae6
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:c43dfc9f-60b8-4dc6-9c4e-ba48f2976994
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:ad353fcd-ce61-46f0-afcc-99e1a89c54fc
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:088fc4d4-5987-4c05-a5ab-e272e7666927
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:fb232be6-4d5a-489d-b75f-3ef1066c30ee
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:02d96ced-5d58-4ab5-b532-5608990f2b15
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:7c33d989-0b55-49cb-9d3d-d5073ad20ccc
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:442990ec-4ee3-4a12-843f-815c56ca9df8
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:75372c65-dabd-480e-ac4a-9bbf16928bdc
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:238385ea-6724-4dfa-990f-307a7a77a988
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:f8306822-dfbb-4135-a5c2-85f8affe8008
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:5a962ff1-6063-4a58-b7a6-c9f3044753b5
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:669149b1-32ae-4de2-af1b-518fc2691a18
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:39daac8c-0af2-4465-b904-eaaedd895af8
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:b49ce573-956e-46a5-bc3c-c96a6148519c
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:15a11efa-cd3e-4f20-aafc-733cedefe8e6
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:2cbc9314-2cea-49cd-9e32-7011bafa8e7c
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:661180f6-eba8-4bf7-946c-84528a5b9bc8
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:b496d184-812e-47ac-bd9b-7f174fea87b1
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:91801fe3-b229-4ad5-9c2a-4552b24e64e3
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:fe2614a8-1ccc-4fad-b3e3-832d23c052f7
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:3d498a02-3d79-40b0-8a11-2e16f3ccd0f3
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:644fa239-3616-43ed-919a-8e4c01edebbd
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:e028fbe0-b733-46a7-b23a-e3669810d66c
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:3a35b950-d434-4c0b-b549-5ffa9c797ac6
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:542586cf-e61e-4fc4-bc6a-979db94c4b42
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:df4ba57a-88bf-4d7b-a4a3-0de94789913f
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:1580b1ce-c9e1-446a-93e6-b0ed3db11f3a
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 985:Src text UUid:765de3fd-7bed-4bf4-8085-452ad8d53525
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 986:Dst text UUid:ef7f81c6-f54b-4e28-9e9a-d17c594cf36a
+02-04 19:09:26 root 332:updating GUI message: 'Replicating tracks'
+02-04 19:09:26 root 337:updating GUI with: 0
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 1009:Replicating tracks
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 1015:Replicating tracks on sheet ['Switch', 'usbc_port']
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 792:Net pairs for sheet ['Switch', 'usbc_port'] :[('unconnected-(U6-VBUS_DET-Pad20)', 'unconnected-(U5-VBUS_DET-Pad20)'), ('unconnected-(U6-XO-Pad19)', 'unconnected-(U5-XO-Pad19)'), ('unconnected-(U6-EEPWR{slash}~{PWR_SEL}-Pad29)', 'unconnected-(U5-EEPWR{slash}~{PWR_SEL}-Pad29)'), ('unconnected-(U6-XI-Pad18)', 'unconnected-(U5-XI-Pad18)'), ('unconnected-(U7-SDA-PadC3)', 'unconnected-(U8-SDA-PadC3)'), ('unconnected-(U6-~{PHY_INT}-Pad1)', 'unconnected-(U5-~{PHY_INT}-Pad1)'), ('unconnected-(U6-GPIO9-Pad27)', 'unconnected-(U5-GPIO9-Pad27)'), ('unconnected-(U6-RXER-Pad44)', 'unconnected-(U5-RXER-Pad44)'), ('unconnected-(U6-NC-Pad14)', 'unconnected-(U5-NC-Pad14)'), ('Net-(J3-VBUS-PadA4)', 'Net-(J4-VBUS-PadA4)'), ('unconnected-(U6-TXEN-Pad43)', 'unconnected-(U5-TXEN-Pad43)'), ('unconnected-(U7-~{INT}-PadB2)', 'unconnected-(U8-~{INT}-PadB2)'), ('unconnected-(U6-TCK-Pad38)', 'unconnected-(U5-TCK-Pad38)'), ('unconnected-(J3-SBU1-PadA8)', 'unconnected-(J4-SBU1-PadA8)'), ('Net-(J3-CC1)', 'Net-(J4-CC1)'), ('/Switch/usbc_port1/RX+', '/Switch/usbc_port/RX+'), ('/Switch/usbc_port1/USB_D+', '/Switch/usbc_port/USB_D+'), ('GND', 'GND'), ('unconnected-(U6-EEDI-Pad32)', 'unconnected-(U5-EEDI-Pad32)'), ('/Switch/usbc_port1/USB_D-', '/Switch/usbc_port/USB_D-'), ('unconnected-(U6-GPIO6-Pad54)', 'unconnected-(U5-GPIO6-Pad54)'), ('+3.3V', '+3.3V'), ('VDDCORE', 'VDDCORE'), ('unconnected-(U6-~{RESET}-Pad24)', 'unconnected-(U5-~{RESET}-Pad24)'), ('unconnected-(U6-GPIO0-Pad46)', 'unconnected-(U5-GPIO0-Pad46)'), ('unconnected-(U6-GPIO7-Pad53)', 'unconnected-(U5-GPIO7-Pad53)'), ('unconnected-(U6-TMS-Pad39)', 'unconnected-(U5-TMS-Pad39)'), ('unconnected-(U7-VBUSIN-PadA2)', 'unconnected-(U8-VBUSIN-PadA2)'), ('unconnected-(U7-VCONN-PadB1)', 'unconnected-(U8-VCONN-PadB1)'), ('/Switch/usbc_port1/ETH_TX+', '/Switch/usbc_port/ETH_TX+'), ('unconnected-(U6-RXDV-Pad42)', 'unconnected-(U5-RXDV-Pad42)'), ('unconnected-(U6-GPIO1-Pad23)', 'unconnected-(U5-GPIO1-Pad23)'), ('unconnected-(U6-GPIO5-Pad55)', 'unconnected-(U5-GPIO5-Pad55)'), ('/Switch/usbc_port1/TX-', '/Switch/usbc_port/TX-'), ('unconnected-(U6-TDO{slash}~{PHY_RST}-Pad37)', 'unconnected-(U5-TDO{slash}~{PHY_RST}-Pad37)'), ('Net-(C37-Pad2)', 'Net-(C33-Pad2)'), ('Net-(J3-CC2)', 'Net-(J4-CC2)'), ('unconnected-(U6-RXCLK-Pad41)', 'unconnected-(U5-RXCLK-Pad41)'), ('/Switch/usbc_port1/RX-', '/Switch/usbc_port/RX-'), ('unconnected-(U6-GPIO3-Pad45)', 'unconnected-(U5-GPIO3-Pad45)'), ('/Switch/usbc_port1/ETH_RX+', '/Switch/usbc_port/ETH_RX+'), ('/Switch/usbc_port1/ETH_RX-', '/Switch/usbc_port/ETH_RX-'), ('unconnected-(U6-TXCLK-Pad47)', 'unconnected-(U5-TXCLK-Pad47)'), ('unconnected-(U6-GPIO2-Pad22)', 'unconnected-(U5-GPIO2-Pad22)'), ('unconnected-(U7-VDD-PadA3)', 'unconnected-(U8-VDD-PadA3)'), ('unconnected-(U6-GPIO4-Pad56)', 'unconnected-(U5-GPIO4-Pad56)'), ('unconnected-(U6-USB_RBIAS-Pad16)', 'unconnected-(U5-USB_RBIAS-Pad16)'), ('unconnected-(U6-EEDO{slash}~{AUTOMDIX_EN}-Pad31)', 'unconnected-(U5-EEDO{slash}~{AUTOMDIX_EN}-Pad31)'), ('Net-(C41-Pad2)', 'Net-(C8-Pad2)'), ('', ''), ('/Switch/usbc_port1/TX+', '/Switch/usbc_port/TX+'), ('unconnected-(U7-SCL-PadB3)', 'unconnected-(U8-SCL-PadB3)'), ('unconnected-(J3-SBU2-PadB8)', 'unconnected-(J4-SBU2-PadB8)'), ('unconnected-(U6-GPIO8-Pad26)', 'unconnected-(U5-GPIO8-Pad26)'), ('unconnected-(U6-GPIO10-Pad28)', 'unconnected-(U5-GPIO10-Pad28)'), ('unconnected-(U6-TDI-Pad40)', 'unconnected-(U5-TDI-Pad40)'), ('unconnected-(U6-PHY_SEL-Pad34)', 'unconnected-(U5-PHY_SEL-Pad34)'), ('/Switch/usbc_port1/ETH_TX-', '/Switch/usbc_port/ETH_TX-'), ('unconnected-(U6-EXRES-Pad8)', 'unconnected-(U5-EXRES-Pad8)'), ('unconnected-(U6-EECS-Pad30)', 'unconnected-(U5-EECS-Pad30)')]
+02-04 19:09:26 root 332:updating GUI message: 'Replicating zones'
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 1079:Replicating zones
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 1086:Replicating zones on sheet ['Switch', 'usbc_port']
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 792:Net pairs for sheet ['Switch', 'usbc_port'] :[('unconnected-(U6-VBUS_DET-Pad20)', 'unconnected-(U5-VBUS_DET-Pad20)'), ('unconnected-(U6-XO-Pad19)', 'unconnected-(U5-XO-Pad19)'), ('unconnected-(U6-EEPWR{slash}~{PWR_SEL}-Pad29)', 'unconnected-(U5-EEPWR{slash}~{PWR_SEL}-Pad29)'), ('unconnected-(U6-XI-Pad18)', 'unconnected-(U5-XI-Pad18)'), ('unconnected-(U7-SDA-PadC3)', 'unconnected-(U8-SDA-PadC3)'), ('unconnected-(U6-~{PHY_INT}-Pad1)', 'unconnected-(U5-~{PHY_INT}-Pad1)'), ('unconnected-(U6-GPIO9-Pad27)', 'unconnected-(U5-GPIO9-Pad27)'), ('unconnected-(U6-RXER-Pad44)', 'unconnected-(U5-RXER-Pad44)'), ('unconnected-(U6-NC-Pad14)', 'unconnected-(U5-NC-Pad14)'), ('Net-(J3-VBUS-PadA4)', 'Net-(J4-VBUS-PadA4)'), ('unconnected-(U6-TXEN-Pad43)', 'unconnected-(U5-TXEN-Pad43)'), ('unconnected-(U7-~{INT}-PadB2)', 'unconnected-(U8-~{INT}-PadB2)'), ('unconnected-(U6-TCK-Pad38)', 'unconnected-(U5-TCK-Pad38)'), ('unconnected-(J3-SBU1-PadA8)', 'unconnected-(J4-SBU1-PadA8)'), ('Net-(J3-CC1)', 'Net-(J4-CC1)'), ('/Switch/usbc_port1/RX+', '/Switch/usbc_port/RX+'), ('/Switch/usbc_port1/USB_D+', '/Switch/usbc_port/USB_D+'), ('GND', 'GND'), ('unconnected-(U6-EEDI-Pad32)', 'unconnected-(U5-EEDI-Pad32)'), ('/Switch/usbc_port1/USB_D-', '/Switch/usbc_port/USB_D-'), ('unconnected-(U6-GPIO6-Pad54)', 'unconnected-(U5-GPIO6-Pad54)'), ('+3.3V', '+3.3V'), ('VDDCORE', 'VDDCORE'), ('unconnected-(U6-~{RESET}-Pad24)', 'unconnected-(U5-~{RESET}-Pad24)'), ('unconnected-(U6-GPIO0-Pad46)', 'unconnected-(U5-GPIO0-Pad46)'), ('unconnected-(U6-GPIO7-Pad53)', 'unconnected-(U5-GPIO7-Pad53)'), ('unconnected-(U6-TMS-Pad39)', 'unconnected-(U5-TMS-Pad39)'), ('unconnected-(U7-VBUSIN-PadA2)', 'unconnected-(U8-VBUSIN-PadA2)'), ('unconnected-(U7-VCONN-PadB1)', 'unconnected-(U8-VCONN-PadB1)'), ('/Switch/usbc_port1/ETH_TX+', '/Switch/usbc_port/ETH_TX+'), ('unconnected-(U6-RXDV-Pad42)', 'unconnected-(U5-RXDV-Pad42)'), ('unconnected-(U6-GPIO1-Pad23)', 'unconnected-(U5-GPIO1-Pad23)'), ('unconnected-(U6-GPIO5-Pad55)', 'unconnected-(U5-GPIO5-Pad55)'), ('/Switch/usbc_port1/TX-', '/Switch/usbc_port/TX-'), ('unconnected-(U6-TDO{slash}~{PHY_RST}-Pad37)', 'unconnected-(U5-TDO{slash}~{PHY_RST}-Pad37)'), ('Net-(C37-Pad2)', 'Net-(C33-Pad2)'), ('Net-(J3-CC2)', 'Net-(J4-CC2)'), ('unconnected-(U6-RXCLK-Pad41)', 'unconnected-(U5-RXCLK-Pad41)'), ('/Switch/usbc_port1/RX-', '/Switch/usbc_port/RX-'), ('unconnected-(U6-GPIO3-Pad45)', 'unconnected-(U5-GPIO3-Pad45)'), ('/Switch/usbc_port1/ETH_RX+', '/Switch/usbc_port/ETH_RX+'), ('/Switch/usbc_port1/ETH_RX-', '/Switch/usbc_port/ETH_RX-'), ('unconnected-(U6-TXCLK-Pad47)', 'unconnected-(U5-TXCLK-Pad47)'), ('unconnected-(U6-GPIO2-Pad22)', 'unconnected-(U5-GPIO2-Pad22)'), ('unconnected-(U7-VDD-PadA3)', 'unconnected-(U8-VDD-PadA3)'), ('unconnected-(U6-GPIO4-Pad56)', 'unconnected-(U5-GPIO4-Pad56)'), ('unconnected-(U6-USB_RBIAS-Pad16)', 'unconnected-(U5-USB_RBIAS-Pad16)'), ('unconnected-(U6-EEDO{slash}~{AUTOMDIX_EN}-Pad31)', 'unconnected-(U5-EEDO{slash}~{AUTOMDIX_EN}-Pad31)'), ('Net-(C41-Pad2)', 'Net-(C8-Pad2)'), ('', ''), ('/Switch/usbc_port1/TX+', '/Switch/usbc_port/TX+'), ('unconnected-(U7-SCL-PadB3)', 'unconnected-(U8-SCL-PadB3)'), ('unconnected-(J3-SBU2-PadB8)', 'unconnected-(J4-SBU2-PadB8)'), ('unconnected-(U6-GPIO8-Pad26)', 'unconnected-(U5-GPIO8-Pad26)'), ('unconnected-(U6-GPIO10-Pad28)', 'unconnected-(U5-GPIO10-Pad28)'), ('unconnected-(U6-TDI-Pad40)', 'unconnected-(U5-TDI-Pad40)'), ('unconnected-(U6-PHY_SEL-Pad34)', 'unconnected-(U5-PHY_SEL-Pad34)'), ('/Switch/usbc_port1/ETH_TX-', '/Switch/usbc_port/ETH_TX-'), ('unconnected-(U6-EXRES-Pad8)', 'unconnected-(U5-EXRES-Pad8)'), ('unconnected-(U6-EECS-Pad30)', 'unconnected-(U5-EECS-Pad30)')]
+02-04 19:09:26 root 332:updating GUI message: 'Replicating text'
+02-04 19:09:26 root 337:updating GUI with: 0
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 1168:Replicating text
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 1175:Replicating text on sheet ['Switch', 'usbc_port']
+02-04 19:09:26 root 332:updating GUI message: 'Replicating drawings'
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 1219:Replicating drawings
+02-04 19:09:26 com_github_MitjaNemec_ReplicateLayout.replicate_layout 1225:Replicating drawings on sheet ['Switch', 'usbc_port']
+02-04 19:09:27 com_github_MitjaNemec_ReplicateLayout.action_replicate_layout 256:Replication complete
