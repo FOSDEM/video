@@ -1,0 +1,5 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "Library")(type "KiCad")(uri "${KIPRJMOD}/Library.pretty")(options "")(descr ""))
+  (lib (name "conn")(type "KiCad")(uri "Z:/kicad/video/hardware/pcbs/kicad_libs/conn.pretty")(options "")(descr ""))
+)
