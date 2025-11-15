@@ -114,6 +114,7 @@ set(SOURCES
 	src/display.cpp
 	src/helpers.cpp
 	src/teensyaudio.cpp
+    src/taa3040.cpp
 )
 
 # Build this project
