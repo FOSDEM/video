@@ -12,11 +12,11 @@
 
 #endif
 
+#include "taa3040.h"
 #include "teensyaudio_defaults.cpp"
 #include "teensyaudio_generated.cpp"
 
-AudioControlSGTL5000 sgtl5000_1;
-AudioControlSGTL5000 sgtl5000_2;
+AudioControlTAA3040 taa3040;
 
 AudioMixer4 *matrix[6][2] = {
     {&mixer1, &mixer2},   {&mixer4, &mixer5},   {&mixer7, &mixer8},
@@ -39,24 +39,14 @@ AudioState state;
 void audio_setup() {
     AudioMemory(64);
 
-    uint8_t adcGain = 0;
+    Wire.begin();
+    Wire1.begin();
 
-    sgtl5000_1.enable();
-    sgtl5000_1.inputSelect(AUDIO_INPUT_LINEIN);
-    sgtl5000_1.volume(0.5);
-    sgtl5000_1.lineOutLevel(13);
-    sgtl5000_1.lineInLevel(adcGain, adcGain);
-    sgtl5000_1.adcHighPassFilterDisable();
-    sgtl5000_1.muteHeadphone();
-
-    sgtl5000_2.setWire(1);
-
-    sgtl5000_2.enable();
-    sgtl5000_2.inputSelect(AUDIO_INPUT_LINEIN);
-    sgtl5000_2.volume(0.5);
-    sgtl5000_2.lineOutLevel(13);
-    sgtl5000_2.lineInLevel(adcGain, adcGain);
-    sgtl5000_2.adcHighPassFilterDisable();
+    taa3040.enable();
+    taa3040.gain(0, 36, IMPEDANCE_2k5);
+    taa3040.gain(1, 36, IMPEDANCE_2k5);
+    taa3040.gain(2, 36, IMPEDANCE_2k5);
+    taa3040.gain(3, 36, IMPEDANCE_2k5);
 }
 
 void audio_update_levels(Levels &levels) {
@@ -74,6 +64,8 @@ void audio_update_levels(Levels &levels) {
             }
             levels.peak[i] = ent_peak[i]->read();
         }
+
+        taa3040.getAsiStatus();
     }
 }
 
