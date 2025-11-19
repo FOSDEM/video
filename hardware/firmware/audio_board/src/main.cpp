@@ -101,6 +101,31 @@ void onOscChannel(OSCMessage &msg, int patternOffset) {
 
             send(response);
         }
+        return;
+    } else if (msg.match("/gain", addr) > 0) {
+        if (msg.isFloat(0)) {
+            set_channel_gain(channel, msg.getFloat(0));
+            send(msg);
+        } else {
+            snprintf(address, 22, "/ch/%d/gain", channel);
+            OSCMessage response(address);
+            response.add(get_channel_gain(channel));
+
+            send(response);
+        }
+        return;
+    } else if (msg.match("/phantom", addr) > 0) {
+        if (msg.isBoolean(0)) {
+            set_channel_phantom(channel, msg.getBoolean(0));
+            send(msg);
+        } else {
+            snprintf(address, 22, "/ch/%d/phantom", channel);
+            OSCMessage response(address);
+            response.add(get_channel_phantom(channel));
+
+            send(response);
+        }
+        return;
     }
 
     // /ch/<num>/mix

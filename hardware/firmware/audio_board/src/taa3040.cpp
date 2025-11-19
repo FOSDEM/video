@@ -22,11 +22,26 @@ bool AudioControlTAA3040::disable(void) {
     return true;
 }
 
-bool AudioControlTAA3040::gain(uint8_t channel, uint8_t gain, uint8_t impedance, uint8_t mode, uint8_t coupling) {
+bool AudioControlTAA3040::gain(uint8_t channel, uint8_t gain) {
     uint8_t offset = channel * 5;
-    setRegister(REG_P0_CH1_CFG0+offset, (impedance << 2)|(mode << 5)|(coupling<<4));
     setRegister(REG_P0_CH1_CFG1+offset, gain << 2);
     return true;
+}
+
+bool AudioControlTAA3040::inputConfig(uint8_t channel, uint8_t impedance, uint8_t mode, uint8_t coupling, bool agc) {
+    uint8_t offset = channel * 5;
+    setRegister(REG_P0_CH1_CFG0+offset, (impedance << 2)|(mode << 5)|(coupling<<4) | agc);
+    return true;
+}
+
+void AudioControlTAA3040::inputVolume(uint8_t channel, uint8_t volume) {
+    uint8_t offset = channel * 5;
+    setRegister(REG_P0_CH1_CFG2+offset, volume);
+}
+
+void AudioControlTAA3040::agcConfig(uint8_t target, uint8_t gainlimit) {
+    uint8_t gl = (gainlimit-3)/3;
+    setRegister(REG_P0_AGC_CFG0, (gl & 0xF) | (target << 4));
 }
 
 void AudioControlTAA3040::getAsiStatus() {

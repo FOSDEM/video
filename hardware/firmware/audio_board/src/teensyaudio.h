@@ -27,6 +27,12 @@ void set_bus_multiplier(int bus, float multiplier);
 float get_channel_multiplier(int channel);
 void set_channel_multiplier(int channel, float multiplier);
 
+float get_channel_gain(int channel);
+void set_channel_gain(int channel, float gain);
+
+bool get_channel_phantom(int channel);
+void set_channel_phantom(int channel, bool phantom);
+
 // void raw_set_crosspoint(int channel, int bus, float gain);
 float raw_get_crosspoint(int channel, int bus);
 

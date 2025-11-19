@@ -33,7 +33,7 @@ set(TEENSY_DEFINITIONS USB_MIDI_AUDIO_SERIAL
         LAYOUT_US_ENGLISH
         F_CPU=${CPU_CORE_SPEED}
         ${CPU_DEFINE}
-        ARDUINO_TEENSY40)
+        ARDUINO_TEENSY41)
 set(MCPU cortex-m7)
 add_compile_options(-mcpu=${MCPU} -mthumb -mthumb-interwork -mfloat-abi=hard -mfpu=fpv5-d16 -D${CPU_DEFINE} -DTEENSYDUINO=159 -DARDUINO=10607 -nostdlib)
 set(c_flags -MMD -fno-exceptions)

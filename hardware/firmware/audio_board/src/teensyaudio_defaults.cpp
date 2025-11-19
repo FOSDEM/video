@@ -21,3 +21,11 @@ const PROGMEM float default_gains[CHANNELS][BUSES] = {
     {1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
     // USB2
     {1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f}};
+
+const PROGMEM ADCState default_adc = {.agc_target = 0, .adc_maxgain = 12};
+const PROGMEM ADCChannelState default_adcchan[4] = {
+    {.gain = 36, .agc_enable = true, .volume = 201},
+    {.gain = 36, .agc_enable = true, .volume = 201},
+    {.gain = 36, .agc_enable = true, .volume = 201},
+    {.gain = 6, .agc_enable = false, .volume = 201},
+};

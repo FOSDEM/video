@@ -19,19 +19,21 @@
 AudioControlTAA3040 taa3040;
 
 AudioMixer4 *matrix[6][2] = {
-    {&mixer1, &mixer2},   {&mixer4, &mixer5},   {&mixer7, &mixer8},
+    {&mixer1, &mixer2}, {&mixer4, &mixer5}, {&mixer7, &mixer8},
     {&mixer10, &mixer11}, {&mixer13, &mixer14}, {&mixer16, &mixer17},
 };
 
 AudioAnalyzeRMS *ent_rms[12] = {
-    &rms1, &rms2, &rms3, &rms4,  &rms5,  &rms6,
+    &rms1, &rms2, &rms3, &rms4, &rms5, &rms6,
     &rms7, &rms8, &rms9, &rms10, &rms11, &rms12,
 };
 
 AudioAnalyzePeak *ent_peak[12] = {
-    &peak1, &peak2, &peak3, &peak4,  &peak5,  &peak6,
+    &peak1, &peak2, &peak3, &peak4, &peak5, &peak6,
     &peak7, &peak8, &peak9, &peak10, &peak11, &peak12,
 };
+
+int phantom_pin[PHANTOM_CHANNELS] = {PHANTOM_IN1, PHANTOM_IN2, PHANTOM_IN3};
 
 Levels levels;
 AudioState state;
@@ -43,10 +45,19 @@ void audio_setup() {
     Wire1.begin();
 
     taa3040.enable();
-    taa3040.gain(0, 36, IMPEDANCE_2k5, 0, 0);
-    taa3040.gain(1, 36, IMPEDANCE_2k5, 0, 0);
-    taa3040.gain(2, 36, IMPEDANCE_2k5, 0,0);
-    taa3040.gain(3, 6, IMPEDANCE_10k, 0, 0);
+    taa3040.inputConfig(0, IMPEDANCE_2k5, 0, 0, true);
+    taa3040.inputConfig(1, IMPEDANCE_2k5, 0, 0, true);
+    taa3040.inputConfig(2, IMPEDANCE_2k5, 0, 0, true);
+    taa3040.inputConfig(3, IMPEDANCE_10k, 0, 0, false);
+    taa3040.agcConfig(0, 42);
+}
+
+extern "C" void startup_middle_hook(void);
+FLASHMEM void startup_middle_hook(void) {
+    for (int i : phantom_pin) {
+        pinMode(i, OUTPUT);
+        digitalWrite(i, LOW);
+    }
 }
 
 void audio_update_levels(Levels &levels) {
@@ -139,6 +150,28 @@ float get_channel_multiplier(int channel) {
     return state.channel_multipliers[channel];
 }
 
+void set_channel_gain(int channel, float gain) {
+    if (gain < 0) { return; }
+    auto gainnum = (uint8_t)gain;
+    if (gainnum > 42) {
+        gainnum = 42;
+    }
+    state.adcchan[channel].gain = gainnum;
+    taa3040.gain(channel, gainnum);
+}
+
+float get_channel_gain(int channel) {
+    return (float)state.adcchan[channel].gain;
+}
+
+void set_channel_phantom(int channel, bool phantom) {
+    digitalWrite(phantom_pin[channel], phantom);
+}
+
+bool get_channel_phantom(int channel) {
+    return digitalRead(phantom_pin[channel]);
+}
+
 void reset_gains() { memcpy(state.gains, default_gains, sizeof(state.gains)); }
 
 void reset_mutes() {
@@ -149,9 +182,15 @@ void reset_bus_multipliers() {
     memcpy(state.bus_multipliers, default_bus_multipliers,
            BUSES * sizeof(float));
 }
+
 void reset_channel_multipliers() {
     memcpy(state.channel_multipliers, default_channel_multipliers,
            CHANNELS * sizeof(float));
+}
+
+void reset_adc() {
+    memcpy(&state.adc, &default_adc, sizeof(state.adc));
+    memcpy(&state.adcchan, &default_adcchan, sizeof(state.adcchan));
 }
 
 void apply_all() {
@@ -159,6 +198,12 @@ void apply_all() {
     for (i = 0; i < CHANNELS; ++i)
         for (j = 0; j < BUSES; ++j)
             set_gain(i, j, state.gains[i][j]);
+
+    for (i = 0; i< 4; ++i) {
+        taa3040.gain(i, state.adcchan[i].gain);
+        taa3040.inputVolume(i, state.adcchan[i].volume);
+    }
+    taa3040.agcConfig(state.adc.agc_target, state.adc.adc_maxgain);
 }
 
 void audio_reset_default_state() {
@@ -166,6 +211,7 @@ void audio_reset_default_state() {
     reset_mutes();
     reset_bus_multipliers();
     reset_channel_multipliers();
+    reset_adc();
 }
 
 bool gains_ok() {
