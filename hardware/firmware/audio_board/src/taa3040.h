@@ -23,7 +23,7 @@ class AudioControlTAA3040
   public:
     bool enable();
     bool disable();
-    bool gain(uint8_t channel, uint8_t gain, uint8_t impedance);
+    bool gain(uint8_t channel, uint8_t gain, uint8_t impedance,uint8_t mode, uint8_t coupling);
 
     void getAsiStatus();
 

@@ -37,16 +37,16 @@ Levels levels;
 AudioState state;
 
 void audio_setup() {
-    AudioMemory(64);
+    AudioMemory(80);
 
     Wire.begin();
     Wire1.begin();
 
     taa3040.enable();
-    taa3040.gain(0, 36, IMPEDANCE_2k5);
-    taa3040.gain(1, 36, IMPEDANCE_2k5);
-    taa3040.gain(2, 36, IMPEDANCE_2k5);
-    taa3040.gain(3, 36, IMPEDANCE_2k5);
+    taa3040.gain(0, 36, IMPEDANCE_2k5, 0, 0);
+    taa3040.gain(1, 36, IMPEDANCE_2k5, 0, 0);
+    taa3040.gain(2, 36, IMPEDANCE_2k5, 0,0);
+    taa3040.gain(3, 6, IMPEDANCE_10k, 0, 0);
 }
 
 void audio_update_levels(Levels &levels) {
