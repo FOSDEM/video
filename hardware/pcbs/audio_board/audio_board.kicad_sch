@@ -2943,7 +2943,7 @@
 	)
 	(wire
 		(pts
-			(xy 129.54 170.18) (xy 138.43 170.18)
+			(xy 121.92 170.18) (xy 138.43 170.18)
 		)
 		(stroke
 			(width 0)
@@ -2973,7 +2973,7 @@
 	)
 	(wire
 		(pts
-			(xy 111.76 172.72) (xy 121.92 172.72)
+			(xy 104.14 172.72) (xy 114.3 172.72)
 		)
 		(stroke
 			(width 0)
@@ -3003,7 +3003,7 @@
 	)
 	(wire
 		(pts
-			(xy 111.76 170.18) (xy 121.92 170.18)
+			(xy 104.14 170.18) (xy 114.3 170.18)
 		)
 		(stroke
 			(width 0)
@@ -3303,7 +3303,7 @@
 	)
 	(wire
 		(pts
-			(xy 111.76 175.26) (xy 121.92 175.26)
+			(xy 104.14 175.26) (xy 114.3 175.26)
 		)
 		(stroke
 			(width 0)
@@ -3513,7 +3513,7 @@
 	)
 	(wire
 		(pts
-			(xy 129.54 167.64) (xy 138.43 167.64)
+			(xy 121.92 167.64) (xy 138.43 167.64)
 		)
 		(stroke
 			(width 0)
@@ -3943,7 +3943,7 @@
 	)
 	(wire
 		(pts
-			(xy 111.76 167.64) (xy 121.92 167.64)
+			(xy 104.14 167.64) (xy 114.3 167.64)
 		)
 		(stroke
 			(width 0)
@@ -3963,7 +3963,7 @@
 	)
 	(wire
 		(pts
-			(xy 111.76 165.1) (xy 121.92 165.1)
+			(xy 104.14 165.1) (xy 114.3 165.1)
 		)
 		(stroke
 			(width 0)
@@ -4023,7 +4023,7 @@
 	)
 	(wire
 		(pts
-			(xy 111.76 177.8) (xy 138.43 177.8)
+			(xy 104.14 177.8) (xy 138.43 177.8)
 		)
 		(stroke
 			(width 0)
@@ -4073,7 +4073,7 @@
 	)
 	(wire
 		(pts
-			(xy 129.54 172.72) (xy 138.43 172.72)
+			(xy 121.92 172.72) (xy 138.43 172.72)
 		)
 		(stroke
 			(width 0)
@@ -4313,7 +4313,7 @@
 	)
 	(wire
 		(pts
-			(xy 129.54 165.1) (xy 138.43 165.1)
+			(xy 121.92 165.1) (xy 138.43 165.1)
 		)
 		(stroke
 			(width 0)
@@ -4353,7 +4353,7 @@
 	)
 	(wire
 		(pts
-			(xy 129.54 175.26) (xy 138.43 175.26)
+			(xy 121.92 175.26) (xy 138.43 175.26)
 		)
 		(stroke
 			(width 0)
@@ -4452,7 +4452,7 @@
 		(uuid "13f97cc4-c702-46f5-b560-1eb7f9ff81c3")
 	)
 	(label "CS_LEFT"
-		(at 111.76 172.72 0)
+		(at 104.14 172.72 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4530,6 +4530,16 @@
 			(justify right bottom)
 		)
 		(uuid "3454ae5f-57ee-4906-b56c-4dc49a9e968c")
+	)
+	(label "MOSI_R"
+		(at 125.73 165.1 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "35b5a2a8-b6ed-44db-be21-4fae47843b61")
 	)
 	(label "I2S2_BCLK"
 		(at 25.4 67.31 0)
@@ -4642,7 +4652,7 @@
 		(uuid "767dd0d2-2099-462d-939d-aa78da556c27")
 	)
 	(label "DC"
-		(at 111.76 175.26 0)
+		(at 104.14 175.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4662,7 +4672,7 @@
 		(uuid "8232b120-0e30-4071-8d28-a963cfe724bb")
 	)
 	(label "RESET"
-		(at 111.76 177.8 0)
+		(at 104.14 177.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4680,6 +4690,16 @@
 			(justify right bottom)
 		)
 		(uuid "8656b608-eec6-4ed3-ae43-643bcf3df63f")
+	)
+	(label "CS_RIGHT_R"
+		(at 125.73 170.18 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "869f6540-8d89-4805-b0d4-dd59da12894d")
 	)
 	(label "HP_L"
 		(at 160.02 130.81 0)
@@ -4720,6 +4740,26 @@
 			(justify left bottom)
 		)
 		(uuid "94ab703d-7822-4470-990a-107ca6ca8d63")
+	)
+	(label "DC_R"
+		(at 125.73 175.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "94b40c20-28fa-4c04-8157-4d9ed11ab408")
+	)
+	(label "CS_LEFT_R"
+		(at 125.73 172.72 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "96d55b1b-e342-4359-8c9d-33ce6b1fadb8")
 	)
 	(label "I2S1_TX2"
 		(at 25.4 113.03 0)
@@ -4792,7 +4832,7 @@
 		(uuid "b0cd6fde-7bcd-4c79-8d47-c89c092c399d")
 	)
 	(label "SCK"
-		(at 111.76 167.64 0)
+		(at 104.14 167.64 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4822,7 +4862,7 @@
 		(uuid "bb60b555-cc66-4d8c-9245-268565b28b9e")
 	)
 	(label "MOSI"
-		(at 111.76 165.1 0)
+		(at 104.14 165.1 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4850,6 +4890,16 @@
 			(justify right bottom)
 		)
 		(uuid "d3a8d0ac-619f-498d-b609-a6981175cee0")
+	)
+	(label "SCK_R"
+		(at 125.73 167.64 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d745cc93-4d7a-4e71-8dc1-e2586a25e8ae")
 	)
 	(label "I2S1_MCLK"
 		(at 77.47 62.23 180)
@@ -4902,7 +4952,7 @@
 		(uuid "f5f6d7fb-7691-45ab-9cb7-5cead91d0200")
 	)
 	(label "CS_RIGHT"
-		(at 111.76 170.18 0)
+		(at 104.14 170.18 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5836,7 +5886,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 125.73 165.1 90)
+		(at 118.11 165.1 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5844,7 +5894,7 @@
 		(dnp no)
 		(uuid "2ba79a38-d96c-41e4-a110-b9e5be6e14a4")
 		(property "Reference" "R5"
-			(at 130.81 164.084 90)
+			(at 123.19 164.084 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5852,7 +5902,7 @@
 			)
 		)
 		(property "Value" "47Ω"
-			(at 125.476 165.1 90)
+			(at 117.856 165.1 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5860,7 +5910,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 125.73 166.878 90)
+			(at 118.11 166.878 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5869,7 +5919,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 125.73 165.1 0)
+			(at 118.11 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5878,7 +5928,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 125.73 165.1 0)
+			(at 118.11 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5887,7 +5937,7 @@
 			)
 		)
 		(property "MPN" "R 47Ω 125mW 1% 0805"
-			(at 125.73 165.1 0)
+			(at 118.11 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5896,7 +5946,7 @@
 			)
 		)
 		(property "Purpose Pin10" ""
-			(at 125.73 165.1 90)
+			(at 118.11 165.1 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5905,7 +5955,7 @@
 			)
 		)
 		(property "Purpose Pin11" ""
-			(at 125.73 165.1 90)
+			(at 118.11 165.1 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5914,7 +5964,7 @@
 			)
 		)
 		(property "Purpose Pin12" ""
-			(at 125.73 165.1 90)
+			(at 118.11 165.1 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5923,7 +5973,7 @@
 			)
 		)
 		(property "Purpose Pin9" ""
-			(at 125.73 165.1 90)
+			(at 118.11 165.1 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6655,7 +6705,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 125.73 172.72 90)
+		(at 118.11 172.72 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6663,7 +6713,7 @@
 		(dnp no)
 		(uuid "84cca289-0975-4038-944c-926334b788fe")
 		(property "Reference" "R8"
-			(at 130.81 171.704 90)
+			(at 123.19 171.704 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6671,7 +6721,7 @@
 			)
 		)
 		(property "Value" "47Ω"
-			(at 125.476 172.72 90)
+			(at 117.856 172.72 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6679,7 +6729,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 125.73 174.498 90)
+			(at 118.11 174.498 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6688,7 +6738,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 125.73 172.72 0)
+			(at 118.11 172.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6697,7 +6747,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 125.73 172.72 0)
+			(at 118.11 172.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6706,7 +6756,7 @@
 			)
 		)
 		(property "MPN" "R 47Ω 125mW 1% 0805"
-			(at 125.73 172.72 0)
+			(at 118.11 172.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6715,7 +6765,7 @@
 			)
 		)
 		(property "Purpose Pin10" ""
-			(at 125.73 172.72 90)
+			(at 118.11 172.72 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6724,7 +6774,7 @@
 			)
 		)
 		(property "Purpose Pin11" ""
-			(at 125.73 172.72 90)
+			(at 118.11 172.72 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6733,7 +6783,7 @@
 			)
 		)
 		(property "Purpose Pin12" ""
-			(at 125.73 172.72 90)
+			(at 118.11 172.72 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6742,7 +6792,7 @@
 			)
 		)
 		(property "Purpose Pin9" ""
-			(at 125.73 172.72 90)
+			(at 118.11 172.72 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6899,7 +6949,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 125.73 167.64 90)
+		(at 118.11 167.64 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6907,7 +6957,7 @@
 		(dnp no)
 		(uuid "92fef7dd-c880-4b0e-9e0d-11bdd1c5e7d7")
 		(property "Reference" "R6"
-			(at 130.81 166.624 90)
+			(at 123.19 166.624 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6915,7 +6965,7 @@
 			)
 		)
 		(property "Value" "47Ω"
-			(at 125.476 167.64 90)
+			(at 117.856 167.64 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6923,7 +6973,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 125.73 169.418 90)
+			(at 118.11 169.418 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6932,7 +6982,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 125.73 167.64 0)
+			(at 118.11 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6941,7 +6991,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 125.73 167.64 0)
+			(at 118.11 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6950,7 +7000,7 @@
 			)
 		)
 		(property "MPN" "R 47Ω 125mW 1% 0805"
-			(at 125.73 167.64 0)
+			(at 118.11 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6959,7 +7009,7 @@
 			)
 		)
 		(property "Purpose Pin10" ""
-			(at 125.73 167.64 90)
+			(at 118.11 167.64 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6968,7 +7018,7 @@
 			)
 		)
 		(property "Purpose Pin11" ""
-			(at 125.73 167.64 90)
+			(at 118.11 167.64 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6977,7 +7027,7 @@
 			)
 		)
 		(property "Purpose Pin12" ""
-			(at 125.73 167.64 90)
+			(at 118.11 167.64 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6986,7 +7036,7 @@
 			)
 		)
 		(property "Purpose Pin9" ""
-			(at 125.73 167.64 90)
+			(at 118.11 167.64 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7254,7 +7304,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 125.73 175.26 90)
+		(at 118.11 175.26 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7262,7 +7312,7 @@
 		(dnp no)
 		(uuid "9c4729fb-2c56-4a56-882d-6bc85759f15d")
 		(property "Reference" "R9"
-			(at 130.81 174.244 90)
+			(at 123.19 174.244 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7270,7 +7320,7 @@
 			)
 		)
 		(property "Value" "47Ω"
-			(at 125.476 175.26 90)
+			(at 117.856 175.26 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7278,7 +7328,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 125.73 177.038 90)
+			(at 118.11 177.038 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7287,7 +7337,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 125.73 175.26 0)
+			(at 118.11 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7296,7 +7346,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 125.73 175.26 0)
+			(at 118.11 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7305,7 +7355,7 @@
 			)
 		)
 		(property "MPN" "R 47Ω 125mW 1% 0805"
-			(at 125.73 175.26 0)
+			(at 118.11 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7314,7 +7364,7 @@
 			)
 		)
 		(property "Purpose Pin10" ""
-			(at 125.73 175.26 90)
+			(at 118.11 175.26 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7323,7 +7373,7 @@
 			)
 		)
 		(property "Purpose Pin11" ""
-			(at 125.73 175.26 90)
+			(at 118.11 175.26 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7332,7 +7382,7 @@
 			)
 		)
 		(property "Purpose Pin12" ""
-			(at 125.73 175.26 90)
+			(at 118.11 175.26 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7341,7 +7391,7 @@
 			)
 		)
 		(property "Purpose Pin9" ""
-			(at 125.73 175.26 90)
+			(at 118.11 175.26 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7859,7 +7909,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 125.73 170.18 90)
+		(at 118.11 170.18 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7867,7 +7917,7 @@
 		(dnp no)
 		(uuid "bef8c28b-6299-4f4e-9e99-37816cdf0162")
 		(property "Reference" "R7"
-			(at 130.81 169.164 90)
+			(at 123.19 169.164 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7875,7 +7925,7 @@
 			)
 		)
 		(property "Value" "47Ω"
-			(at 125.476 170.18 90)
+			(at 117.856 170.18 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7883,7 +7933,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 125.73 171.958 90)
+			(at 118.11 171.958 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7892,7 +7942,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 125.73 170.18 0)
+			(at 118.11 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7901,7 +7951,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 125.73 170.18 0)
+			(at 118.11 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7910,7 +7960,7 @@
 			)
 		)
 		(property "MPN" "R 47Ω 125mW 1% 0805"
-			(at 125.73 170.18 0)
+			(at 118.11 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7919,7 +7969,7 @@
 			)
 		)
 		(property "Purpose Pin10" ""
-			(at 125.73 170.18 90)
+			(at 118.11 170.18 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7928,7 +7978,7 @@
 			)
 		)
 		(property "Purpose Pin11" ""
-			(at 125.73 170.18 90)
+			(at 118.11 170.18 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7937,7 +7987,7 @@
 			)
 		)
 		(property "Purpose Pin12" ""
-			(at 125.73 170.18 90)
+			(at 118.11 170.18 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7946,7 +7996,7 @@
 			)
 		)
 		(property "Purpose Pin9" ""
-			(at 125.73 170.18 90)
+			(at 118.11 170.18 90)
 			(effects
 				(font
 					(size 1.27 1.27)
