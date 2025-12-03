@@ -1,54 +1,54 @@
 // clang-format off
 
 // GUItool: begin automatically generated code
-AudioInputTDM            tdm1;           //xy=163,303
-AudioSynthNoisePink      pink1;          //xy=178,626
-AudioSynthWaveformSine   sine1;          //xy=180,586
-AudioInputUSB            usb1;           //xy=181,545
-AudioAnalyzePeak         peak5;          //xy=443,235
-AudioAnalyzePeak         peak1;          //xy=444,101
-AudioAnalyzePeak         peak2;          //xy=445,134
-AudioAnalyzePeak         peak3;          //xy=445,168
-AudioAnalyzePeak         peak6;          //xy=445,269
-AudioAnalyzePeak         peak4;          //xy=447,201
-AudioAnalyzeRMS          rms5;           //xy=458,1048
-AudioAnalyzeRMS          rms6;           //xy=460,1081
-AudioAnalyzeRMS          rms3;           //xy=461,982
-AudioAnalyzeRMS          rms1;           //xy=462,917
-AudioAnalyzeRMS          rms2;           //xy=462,950
-AudioAnalyzeRMS          rms4;           //xy=462,1015
-AudioMixer4              mixer1;         //xy=627,166
-AudioMixer4              mixer4;         //xy=628,304
-AudioMixer4              mixer2;         //xy=629,230
-AudioMixer4              mixer5;         //xy=630,368
-AudioMixer4              mixer7;         //xy=631,442
-AudioMixer4              mixer8;         //xy=633,506
-AudioMixer4              mixer10;        //xy=635,575
-AudioMixer4              mixer11;        //xy=637,639
-AudioMixer4              mixer13;        //xy=639,715
-AudioMixer4              mixer14;        //xy=641,779
-AudioMixer4              mixer16;        //xy=643,848
-AudioMixer4              mixer17;        //xy=645,912
-AudioMixer4              mixer3;         //xy=789,197
-AudioMixer4              mixer6;         //xy=791,338
-AudioMixer4              mixer9;         //xy=791,475
-AudioMixer4              mixer12;        //xy=795,605
-AudioMixer4              mixer15;        //xy=796,750
-AudioMixer4              mixer18;        //xy=797,877
-AudioOutputUSB           usb2;           //xy=1171,799
-AudioAnalyzeRMS          rms7;           //xy=1175,896
-AudioAnalyzeRMS          rms8;           //xy=1176,928
-AudioAnalyzeRMS          rms11;          //xy=1176,1023
-AudioAnalyzeRMS          rms12;          //xy=1176,1056
-AudioAnalyzeRMS          rms9;           //xy=1177,960
-AudioAnalyzeRMS          rms10;          //xy=1178,992
-AudioAnalyzePeak         peak7;          //xy=1182,72
-AudioAnalyzePeak         peak9;          //xy=1182,137
-AudioAnalyzePeak         peak10;         //xy=1182,168
-AudioAnalyzePeak         peak8;          //xy=1183,105
-AudioAnalyzePeak         peak11;         //xy=1183,199
-AudioAnalyzePeak         peak12;         //xy=1183,230
-AudioOutputTDM           tdm2;           //xy=1187,542
+AudioInputTDM2           tdm1;           //xy=103,324
+AudioSynthNoisePink      pink1;          //xy=118,647
+AudioSynthWaveformSine   sine1;          //xy=120,607
+AudioInputUSB            usb1;           //xy=121,566
+AudioAnalyzePeak         peak5;          //xy=383,256
+AudioAnalyzePeak         peak1;          //xy=384,122
+AudioAnalyzePeak         peak2;          //xy=385,155
+AudioAnalyzePeak         peak3;          //xy=385,189
+AudioAnalyzePeak         peak6;          //xy=385,290
+AudioAnalyzePeak         peak4;          //xy=387,222
+AudioAnalyzeRMS          rms5;           //xy=398,1069
+AudioAnalyzeRMS          rms6;           //xy=400,1102
+AudioAnalyzeRMS          rms3;           //xy=401,1003
+AudioAnalyzeRMS          rms1;           //xy=402,938
+AudioAnalyzeRMS          rms2;           //xy=402,971
+AudioAnalyzeRMS          rms4;           //xy=402,1036
+AudioMixer4              mixer1;         //xy=567,187
+AudioMixer4              mixer4;         //xy=568,325
+AudioMixer4              mixer2;         //xy=569,251
+AudioMixer4              mixer5;         //xy=570,389
+AudioMixer4              mixer7;         //xy=571,463
+AudioMixer4              mixer8;         //xy=573,527
+AudioMixer4              mixer10;        //xy=575,596
+AudioMixer4              mixer11;        //xy=577,660
+AudioMixer4              mixer13;        //xy=579,736
+AudioMixer4              mixer14;        //xy=581,800
+AudioMixer4              mixer16;        //xy=583,869
+AudioMixer4              mixer17;        //xy=585,933
+AudioMixer4              mixer3;         //xy=729,218
+AudioMixer4              mixer6;         //xy=731,359
+AudioMixer4              mixer9;         //xy=731,496
+AudioMixer4              mixer12;        //xy=735,626
+AudioMixer4              mixer15;        //xy=736,771
+AudioMixer4              mixer18;        //xy=737,898
+AudioOutputUSB           usb2;           //xy=1111,820
+AudioAnalyzeRMS          rms7;           //xy=1115,917
+AudioAnalyzeRMS          rms8;           //xy=1116,949
+AudioOutputI2SQuad       i2s_quad1;      //xy=1118,537
+AudioAnalyzeRMS          rms11;          //xy=1116,1044
+AudioAnalyzeRMS          rms12;          //xy=1116,1077
+AudioAnalyzeRMS          rms9;           //xy=1117,981
+AudioAnalyzeRMS          rms10;          //xy=1118,1013
+AudioAnalyzePeak         peak7;          //xy=1122,93
+AudioAnalyzePeak         peak9;          //xy=1122,158
+AudioAnalyzePeak         peak10;         //xy=1122,189
+AudioAnalyzePeak         peak8;          //xy=1123,126
+AudioAnalyzePeak         peak11;         //xy=1123,220
+AudioAnalyzePeak         peak12;         //xy=1123,251
 AudioConnection          patchCord1(tdm1, 0, peak1, 0);
 AudioConnection          patchCord2(tdm1, 0, rms1, 0);
 AudioConnection          patchCord3(tdm1, 0, mixer1, 0);
@@ -123,16 +123,16 @@ AudioConnection          patchCord71(mixer16, 0, mixer18, 0);
 AudioConnection          patchCord72(mixer17, 0, mixer18, 1);
 AudioConnection          patchCord73(mixer3, rms7);
 AudioConnection          patchCord74(mixer3, peak7);
-AudioConnection          patchCord75(mixer3, 0, tdm2, 12);
+AudioConnection          patchCord75(mixer3, 0, i2s_quad1, 0);
 AudioConnection          patchCord76(mixer6, rms8);
 AudioConnection          patchCord77(mixer6, peak8);
-AudioConnection          patchCord78(mixer6, 0, tdm2, 14);
+AudioConnection          patchCord78(mixer6, 0, i2s_quad1, 1);
 AudioConnection          patchCord79(mixer9, rms9);
 AudioConnection          patchCord80(mixer9, peak9);
-AudioConnection          patchCord81(mixer9, 0, tdm2, 8);
+AudioConnection          patchCord81(mixer9, 0, i2s_quad1, 2);
 AudioConnection          patchCord82(mixer12, rms10);
 AudioConnection          patchCord83(mixer12, peak10);
-AudioConnection          patchCord84(mixer12, 0, tdm2, 10);
+AudioConnection          patchCord84(mixer12, 0, i2s_quad1, 3);
 AudioConnection          patchCord85(mixer15, 0, usb2, 0);
 AudioConnection          patchCord86(mixer15, rms11);
 AudioConnection          patchCord87(mixer15, peak11);
