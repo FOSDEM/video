@@ -45,11 +45,15 @@ void audio_setup() {
     Wire1.begin();
 
     taa3040.enable();
-    taa3040.inputConfig(0, IMPEDANCE_2k5, 0, 0, true);
-    taa3040.inputConfig(1, IMPEDANCE_2k5, 0, 0, true);
-    taa3040.inputConfig(2, IMPEDANCE_2k5, 0, 0, true);
-    taa3040.inputConfig(3, IMPEDANCE_10k, 0, 0, false);
-    taa3040.agcConfig(0, 42);
+    taa3040.dspConfig(DECIMATION_ULTRA_LOW_LATENCY, HPF_12Hz);
+    taa3040.inputConfig(0, IMPEDANCE_2k5, TYPE_DIFFERENTIAL, COUPLE_AC, INTYP_MICROPHONE, false);
+    taa3040.inputConfig(1, IMPEDANCE_2k5, TYPE_DIFFERENTIAL, COUPLE_AC, INTYP_MICROPHONE, false);
+    taa3040.inputConfig(2, IMPEDANCE_2k5, TYPE_DIFFERENTIAL, COUPLE_AC, INTYP_MICROPHONE, false);
+    taa3040.inputConfig(3, IMPEDANCE_2k5, TYPE_DIFFERENTIAL, COUPLE_AC, INTYP_LINE, false);
+
+    //taa3040.gain(0, 42);
+    //taa3040.agcConfig(0, 13);
+    //taa3040.agcEnable(true);
 }
 
 extern "C" void startup_middle_hook(void);
@@ -203,7 +207,7 @@ void apply_all() {
         taa3040.gain(i, state.adcchan[i].gain);
         taa3040.inputVolume(i, state.adcchan[i].volume);
     }
-    taa3040.agcConfig(state.adc.agc_target, state.adc.adc_maxgain);
+    //taa3040.agcConfig(state.adc.agc_target, state.adc.adc_maxgain);
 }
 
 void audio_reset_default_state() {
