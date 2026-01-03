@@ -1,4 +1,4 @@
-|&nbsp;&nbsp;&nbsp;&nbsp;**Stuff to do**|
+|&nbsp;&nbsp;&nbsp;&nbsp;\textbf{Stuff to do} \hfill \textbf{Anything not included / wrong in the box? Leave feedback on this paper}|
 |-----------|
 |`[ ]` Bring equipment to the room|
 |`[ ]` Notify VOC (message, in Matrix) of which box is used for which purpose (slides, cam)|
