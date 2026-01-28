@@ -24,4 +24,5 @@ fi
 
 echo "building"
 cd "${build_dir}"
+export CMAKE_POLICY_VERSION_MINIMUM=3.5
 make -j8

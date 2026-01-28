@@ -13,7 +13,7 @@ def main():
         routes[f'IN{i}'] = ['OUT1', 'OUT2', 'HP1', 'HP2', 'USB1', 'USB2']
 
     for j in [1, 2]:
-        routes[f'USB{j}'] = ['OUT1', 'OUT2', 'HP1', 'HP2']
+        routes[f'USB{j}'] = ['OUT1', 'OUT2', 'HP1', 'HP2', 'PC']
 
     mutes = (1 << (len(channels) * len(buses))) - 1 
 

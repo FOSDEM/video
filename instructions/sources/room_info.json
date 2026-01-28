@@ -1,0 +1,302 @@
+[
+ {
+   "Room": "aw1120",
+   "Power": "1x10, 2x4sockets",
+   "Network": "1x15",
+   "XLR": "1x15",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the far wall from the door",
+   "camera_position": "diagonal from room entrance"
+ },
+ {
+   "Room": "aw1126",
+   "Power": "2x4sockets",
+   "Network": "1x15",
+   "XLR": "1x15",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the far wall from the door",
+   "camera_position": "diagonal from room entrance"
+ },
+ {
+   "Room": "h1301",
+   "Power": "2x4sockets",
+   "Network": "1x40",
+   "XLR": "1x40",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "None. You can figure it out!",
+   "camera_position": "at the back of the room diagonal from the front desk"
+ },
+ {
+   "Room": "h1302",
+   "Power": "2x4sockets",
+   "Network": "1x40",
+   "XLR": "1x40",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "None. You can figure it out!",
+   "camera_position": "at the back of the room diagonal from the front desk"
+ },
+ {
+   "Room": "h1308",
+   "Power": "2x4sockets",
+   "Network": "1x40",
+   "XLR": "1x40",
+   "other": "VGA2HDMI",
+   "setup_day": "Friday",
+   "best_cable_run": "None. You can figure it out!",
+   "camera_position": "at the back of the room diagonal from the front desk"
+ },
+ {
+   "Room": "h1309",
+   "Power": "2x4sockets",
+   "Network": "1x40",
+   "XLR": "1x40",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "None. You can figure it out!",
+   "camera_position": "at the back of the room diagonal from the front desk"
+ },
+ {
+   "Room": "h2213",
+   "Power": "2x4sockets",
+   "Network": "1x10",
+   "XLR": "1x10",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the wall opposite the door",
+   "camera_position": "diagonal from the room door"
+ },
+ {
+   "Room": "h2214",
+   "Power": "2x4sockets",
+   "Network": "1x10",
+   "XLR": "1x10",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the wall opposite the door",
+   "camera_position": "diagonal from the room door"
+ },
+ {
+   "Room": "h2215",
+   "Power": "2x4sockets",
+   "Network": "1x40",
+   "XLR": "1x40",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the right wall when looking from the stage",
+   "camera_position": "back left corner from the stage"
+ },
+ {
+   "Room": "ua2114",
+   "Power": "1x5, 2x4sockets",
+   "Network": "40",
+   "XLR": "40",
+   "other": "0",
+   "setup_day": "Saturday",
+   "best_cable_run": "along the right wall when looking from the stage",
+   "camera_position": "at the back right corner"
+ },
+ {
+   "Room": "ua2118",
+   "Power": "2x4sockets",
+   "Network": "40",
+   "XLR": "40",
+   "other": "0",
+   "setup_day": "Saturday",
+   "best_cable_run": "along the right wall when looking from the stage",
+   "camera_position": "at the back"
+ },
+ {
+   "Room": "ua2220",
+   "Power": "1x15, 2x4sockets",
+   "Network": "40",
+   "XLR": "40",
+   "other": "0",
+   "setup_day": "Saturday",
+   "best_cable_run": "along the right wall when looking from the stage",
+   "camera_position": "at the back right corner "
+ },
+ {
+   "Room": "ub2147",
+   "Power": "1x15, 2x4sockets",
+   "Network": "20",
+   "XLR": "20",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the left wall when looking from the stage",
+   "camera_position": "at the back left corner"
+ },
+ {
+   "Room": "ub2252a",
+   "Power": "1x15, 2x3sockets",
+   "Network": "15",
+   "XLR": "15",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the right wall when looking from the stage",
+   "camera_position": "to the right of the door"
+ },
+ {
+   "Room": "ub4132",
+   "Power": "2x4sockets",
+   "Network": "15",
+   "XLR": "15",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the right wall when looking from the stage",
+   "camera_position": "to the back right corner "
+ },
+ {
+   "Room": "ub4136",
+   "Power": "1x15, 2x4sockets",
+   "Network": "15",
+   "XLR": "15",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the left wall when looking from the stage",
+   "camera_position": "on the left side at middle length "
+ },
+ {
+   "Room": "ub5132",
+   "Power": "1x15, 2x4sockets",
+   "Network": "20",
+   "XLR": "20",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the left wall when looking from the stage",
+   "camera_position": "on the left side at middle length "
+ },
+ {
+   "Room": "ub5230",
+   "Power": "1x15, 2x4sockets",
+   "Network": "20",
+   "XLR": "20",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the left wall when looking from the stage",
+   "camera_position": "on the left side at middle length "
+ },
+ {
+   "Room": "ud2120",
+   "Power": "2x4sockets",
+   "Network": "30",
+   "XLR": "30",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "on the floor directly under the windows, next to the leftmost seats; very little taping needed",
+   "camera_position": "close to the windows, at the back of the room, near the emergency exit"
+ },
+ {
+   "Room": "ud2208",
+   "Power": "2x4sockets",
+   "Network": "20",
+   "XLR": "20",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the right wall when looking from the stage",
+   "camera_position": "diagonal from the room door"
+ },
+ {
+   "Room": "ud2218a",
+   "Power": "2x4sockets",
+   "Network": "40",
+   "XLR": "40",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "Along the right wall (without windows) when looking from the stage. The cables can be taped directly to the wall in order not to be on the stairs.",
+   "camera_position": "in the middle at the back"
+ },
+ {
+   "Room": "ud6215",
+   "Power": "2x4sockets",
+   "Network": "Unknown",
+   "XLR": "Unknown",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "Unknown, completely new room",
+   "camera_position": "Unknown, completely new room"
+ },
+ {
+   "Room": "k3201",
+   "Power": "2x4sockets",
+   "Network": "15",
+   "XLR": "15",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the left wall when looking from the stage",
+   "camera_position": "at the back left corner "
+ },
+ {
+   "Room": "k3401",
+   "Power": "2x4sockets",
+   "Network": "15",
+   "XLR": "15",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the left wall when looking from the stage",
+   "camera_position": "at the back left corner "
+ },
+ {
+   "Room": "k3601",
+   "Power": "2x4sockets",
+   "Network": "15",
+   "XLR": "15",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the left wall when looking from the stage",
+   "camera_position": "at the back left corner "
+ },
+ {
+   "Room": "k4201",
+   "Power": "2x4sockets",
+   "Network": "15",
+   "XLR": "15",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the left wall when looking from the stage",
+   "camera_position": "at the back left corner "
+ },
+ {
+   "Room": "k4401",
+   "Power": "2x4sockets",
+   "Network": "15",
+   "XLR": "15",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the left wall when looking from the stage",
+   "camera_position": "at the back left corner "
+ },
+ {
+   "Room": "k4601",
+   "Power": "2x4sockets",
+   "Network": "15",
+   "XLR": "15",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "along the left wall when looking from the stage",
+   "camera_position": "at the back left corner "
+ },
+ {
+   "Room": "J",
+   "Power": "2x4sockets",
+   "Network": "0",
+   "XLR": "0",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "N/A",
+   "camera_position": "middle of room"
+ },
+ {
+   "Room": "k1105",
+   "Power": "2x4sockets",
+   "Network": "0",
+   "XLR": "0",
+   "other": "0",
+   "setup_day": "Friday",
+   "best_cable_run": "N/A",
+   "camera_position": "Unknown"
+ }
+]

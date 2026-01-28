@@ -15,8 +15,8 @@ const PROGMEM float default_gains[CHANNELS][BUSES] = {
     {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f},
     // IN3
     {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f},
-    // PC - not in use
-    {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+    // PC
+    {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f},
     // USB1
     {1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
     // USB2

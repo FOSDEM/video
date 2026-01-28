@@ -1,7 +1,8 @@
-# FOSDEM 2025 A/V devroom manager manual, day DAY, room ROOM
+# FOSDEM A/V devroom manager manual
 ## Where to get help
 
-* On Matrix: `#video:fosdem.org`. When using matrix, always mention your room name. Best way is to change your nick name in the room by typing `/myroomnick [k3401] your_nick_name`
+* On Matrix: `#video:fosdem.org`. When using matrix, always mention your room name. Best way is to change your nick name in the room by typing `/myroomnick [ROOM] your_nick_name`
+	* Please use the actual room number, not the devroom name/topic.
 * In person: there is a per-building team in every building, together with FIT or NOC (AW.1125, H.2111, UB4.228, UD2.119)
 * For core issues, the NOC/VOC is in K at the end of corridor in front of K.1.105. Please come to that room only for emergencies.
 * Emergency: Vasil Kolev on `+359888508044` or Mark Van den Borre on `+32486961726`.
@@ -23,14 +24,11 @@ If you have your Matrix ID in pretalx, you'll be pulled directly. If you have an
 	* Ensure no necklaces, lanyards, scarves, beards or other objects that could touch the microphone during the talk;
 	* If there is no suitable place to attach the microphone, a lanyard could be used for this purpose;
 	* The microphone receiver is attached to the belt of the speaker. If this is not possible, attach it to their pocket;
-* **Make sure the microphone is turned on** and **not muted**. The audio levels can be checked on the camera.
+* **Make sure the microphone is turned on** and **not muted**. The audio levels can be checked on the camera and should be audible in the room.
 
 ## Video mixing control
 
-At `https://control.video.fosdem.org/` you can access the video control for your room.
-
-* Username: `USERNAME`
-* Password: `PASSWORD`
+In `https://pretalx.fosdem.org` you can find the link to control the video mix. If needed, share that link with the volunteer(s) that help you.
 
 The interface is pretty self-explanatory (and usable even on a mobile phone). You can see the current output, the camera and presenter box sources, and select one of four different views that will go on the stream and be recorded:
 
@@ -54,7 +52,7 @@ Be aware that whatever you choose to do will also end up in the final recordings
 * All speakers will receive a link for reviewing their video.
 	* As a devroom manager, you'll be on CC: for such emails.
 * The video team in your building may be able to help you with this, depending on their workload.
-* Contact: Wouter Verhelst <wouter@fosdem.org>.
+* Contact: the video mailing list <video@fosdem.org>.
 
 ## Misc
 
