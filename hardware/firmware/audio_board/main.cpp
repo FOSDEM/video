@@ -509,8 +509,13 @@ loop()
 	if (slip.available()) {
 		while (!slip.endofPacket()) {
 			if ((size = slip.available()) > 0) {
-				while (size--)
-					msg.fill(slip.read());
+				while (size) {
+					int c = slip.read();
+					if(c>=0) {
+					msg.fill(c);
+					size--;
+					}
+				}
 			}
 		}
 		if (!msg.hasError()) {
