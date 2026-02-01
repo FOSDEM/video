@@ -43,9 +43,9 @@ void audio_setup() {
     Wire1.begin();
 
     taa3040.enable();
-    taa3040.gain(0, 36, IMPEDANCE_2k5, 0, 0);
-    taa3040.gain(1, 36, IMPEDANCE_2k5, 0, 0);
-    taa3040.gain(2, 36, IMPEDANCE_2k5, 0,0);
+    taa3040.gain(0, 6, IMPEDANCE_2k5, 0, 0);
+    taa3040.gain(1, 6, IMPEDANCE_2k5, 0, 0);
+    taa3040.gain(2, 6, IMPEDANCE_2k5, 0,0);
     taa3040.gain(3, 6, IMPEDANCE_10k, 0, 0);
 }
 
