@@ -360,15 +360,13 @@ void loop() {
     int size;
     OSCMessage msg;
     if (slip.available()) {
-        while (!slip.endofPacket()) {
-            if ((size = slip.available()) > 0) {
-                while (size) {
-		    int c = slip.read();
-		    if (c >= 0 ) {
-                        msg.fill(c);
-			size--;
-		    }
-		}
+        while (!slip.endofPacket() && slip.available()) {
+            while (1) {
+                int c = slip.read();
+                if (c >= 0 ) {
+                    msg.fill(c);
+                    break;
+                }
             }
         }
         if (!msg.hasError()) {
