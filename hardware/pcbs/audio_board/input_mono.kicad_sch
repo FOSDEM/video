@@ -1878,6 +1878,26 @@
 		)
 		(uuid "f7238538-dd2b-49c6-8bfe-e71c6d49fbbe")
 	)
+	(label "OUT+R"
+		(at 91.44 96.52 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "1ce5b8c8-397c-4e8c-ab0b-e5285909d696")
+	)
+	(label "OUT+T"
+		(at 91.44 93.98 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "a3ffb3c5-aacb-454b-a97c-e48483c10df0")
+	)
 	(hierarchical_label "OUT+"
 		(shape output)
 		(at 205.74 95.25 0)
