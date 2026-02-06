@@ -49,14 +49,17 @@ uint8_t const * tud_descriptor_device_cb(void)
 enum {
     ITF_NUM_CDC = 0,
     ITF_NUM_CDC_DATA,
+    ITF_NUM_VENDOR,
     ITF_NUM_TOTAL
 };
 
-#define CONFIG_TOTAL_LEN  (TUD_CONFIG_DESC_LEN + TUD_CDC_DESC_LEN)
+#define CONFIG_TOTAL_LEN  (TUD_CONFIG_DESC_LEN + TUD_CDC_DESC_LEN + TUD_VENDOR_DESC_LEN)
 
 #define EPNUM_CDC_NOTIF   0x81
 #define EPNUM_CDC_OUT     0x02
 #define EPNUM_CDC_IN      0x82
+#define EPNUM_VENDOR_OUT  0x03
+#define EPNUM_VENDOR_IN   0x83
 
 uint8_t const desc_fs_configuration[] = {
     // Config number, interface count, string index, total length, attribute, power in mA
@@ -64,6 +67,9 @@ uint8_t const desc_fs_configuration[] = {
 
     // Interface number, string index, EP Out & EP In address, EP size
     TUD_CDC_DESCRIPTOR(ITF_NUM_CDC, 4, EPNUM_CDC_NOTIF, 8, EPNUM_CDC_OUT, EPNUM_CDC_IN, 64),
+
+    // Interface number, string index, EP Out & EP In address, EP size
+    TUD_VENDOR_DESCRIPTOR(ITF_NUM_VENDOR, 5, EPNUM_VENDOR_OUT, EPNUM_VENDOR_IN, 64),
 };
 
 #if TUD_OPT_HIGH_SPEED
@@ -73,6 +79,9 @@ uint8_t const desc_hs_configuration[] = {
 
     // Interface number, string index, EP Out & EP In address, EP size
     TUD_CDC_DESCRIPTOR(ITF_NUM_CDC, 4, EPNUM_CDC_NOTIF, 8, EPNUM_CDC_OUT, EPNUM_CDC_IN, 512),
+
+    // Interface number, string index, EP Out & EP In address, EP size
+    TUD_VENDOR_DESCRIPTOR(ITF_NUM_VENDOR, 5, EPNUM_VENDOR_OUT, EPNUM_VENDOR_IN, 1024),
 };
 #endif
 
@@ -102,6 +111,8 @@ char const* string_desc_arr [] =
         "FOSDEM",               // 1: Manufacturer
         "Krab controller",      // 2: Product
         "123456",               // 3: Serials, should use chip ID
+	"Serial port",
+	"Vendor port",
     };
 
 static uint16_t _desc_str[32];
