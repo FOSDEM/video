@@ -1,7 +1,0 @@
-fastapi
-
-argparse
-
-pyserial
-python-osc
-

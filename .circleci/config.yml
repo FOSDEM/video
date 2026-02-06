@@ -6,7 +6,7 @@ executors:
     - image: cimg/go:1.23
   debian:
     docker:
-    - image: debian:bookworm
+    - image: archlinux:latest
   ruby:
     docker:
     - image: cimg/ruby:3.4
@@ -18,14 +18,13 @@ jobs:
   build_firmware:
     executor: debian
     steps:
-    - run: apt-get update
     - run: >
-        apt-get install -y \
+        pacman -Syu --noconfirm \
           git \
-          build-essential cmake \
-          gcc-arm-none-eabi binutils-arm-none-eabi libstdc++-arm-none-eabi-newlib \
-          libusb-1.0.0-dev libfreetype-dev \
-          python3 pipx
+          base-devel cmake \
+          arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-newlib \
+          libusb freetype2 \
+          python openssh
 
     # I have no idea why git fails locally otherwise, but...
     - run: git config --global --add safe.directory /tmp/_circleci_local_build_repo

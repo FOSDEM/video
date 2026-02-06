@@ -1,7 +1,10 @@
+
+# This document is not up to date, pelase recheck before giving to volunteers
+
 # FOSDEM 201N A/V devroom camera operator manual, day DAY, room ROOM
 ## Where to get help
 
-* On IRC: `irc.freenode.net, #fosdem-video`
+* On Matrix: #video:fosdem.org
 * In person: there is a per-building team in the following locations:
 	* **AW**: under the stairs (in front of AW1.124)
 	* **K**: NOC (end of corridor in front of K.1.105)
@@ -13,10 +16,10 @@
 
 To ensure proper recording/stream of the talks in the room
 
-## What it consits of
+## What it consists of
 
 * Making sure the speaker has a microphone;
-* That the microphones' sound leves are OK;
+* That the microphones' sound levels are OK;
 	* This means that their levels peak at 90% in the camera audio bars and there is no noise.
 * That during the talk the camera sees just the presenter, with the proper settings for the light;
 * That the stream has the proper picture on it, via the control of the video mixing (explained below).

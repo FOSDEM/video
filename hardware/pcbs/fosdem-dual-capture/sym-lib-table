@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "HDMI-parts")(type "KiCad")(uri "${KIPRJMOD}/HDMI-parts.kicad_sym")(options "")(descr ""))
+)

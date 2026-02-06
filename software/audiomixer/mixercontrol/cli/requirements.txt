@@ -1,7 +1,0 @@
-click
-click-repl
-
-tabulate
-
-pyserial
-python-osc

@@ -51,10 +51,14 @@
 //   AudioAnalyzeFFT1024
 
 #ifndef AUDIO_BLOCK_SAMPLES
-#define AUDIO_BLOCK_SAMPLES  64
+#define AUDIO_BLOCK_SAMPLES  128
 #endif
 
-#include "AudioRate.h"
+#ifndef AUDIO_SAMPLE_RATE_EXACT
+#define AUDIO_SAMPLE_RATE_EXACT 44100.0f
+#endif
+
+#define AUDIO_SAMPLE_RATE AUDIO_SAMPLE_RATE_EXACT
 
 #define noAUDIO_DEBUG_CLASS // disable this class by default
 
@@ -84,14 +88,14 @@ public:
 		AudioStream &destination, unsigned char destinationInput)
 		: AudioConnection() { connect(source,sourceOutput, destination,destinationInput); }
 	friend class AudioStream;
-	~AudioConnection();
+	~AudioConnection(); 
 	int disconnect(void);
 	int connect(void);
 	int connect(AudioStream &source, AudioStream &destination) {return connect(source,0,destination,0);};
 	int connect(AudioStream &source, unsigned char sourceOutput,
 		AudioStream &destination, unsigned char destinationInput);
 protected:
-	AudioStream* src;	// can't use references as...
+	AudioStream* src;	// can't use references as... 
 	AudioStream* dst;	// ...they can't be re-assigned!
 	unsigned char src_index;
 	unsigned char dest_index;

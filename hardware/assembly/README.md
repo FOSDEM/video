@@ -11,7 +11,7 @@ Legend (colours to be removed after assembly on 2024-12-28):
 ### Before we begin
 
 
-#### Dissassemble old box (`prepare_box`)
+#### Disassemble old box (`prepare_box`)
 
 When salvaging a pre-2024 FOSDEM box, it should be fully disassembled.
 

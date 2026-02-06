@@ -25,13 +25,6 @@ $app->get('/watch/{room}', function ($room) use ($app) {
 		return $app['twig']->render('nostream.twig', []);
 	}
 	
-	$room_slug = str_replace('(', '', $app['config']['rooms'][$room]);
-        $room_slug = str_replace(')', '', $room_slug);
-        $room_slug = str_replace('.', '', $room_slug);
-        $room_slug = str_replace(' ', '_', $room_slug);
-	    $room_slug = str_replace('-', '_', $room_slug);
-	    $room_slug = strtolower($room_slug);
-
     	$chat_name = $app['config']['rooms'][$room];
         $chat_name = str_replace('(', '', $chat_name);
         $chat_name = str_replace(')', '_', $chat_name);
@@ -43,7 +36,7 @@ $app->get('/watch/{room}', function ($room) use ($app) {
 		'title' => 'Stream ' . $app['config']['rooms'][$room],
 		'room' => $room,
 		'room_name' => $app['config']['rooms'][$room],
-        	'room_slug' => $room_slug,
+        	'room_slug' => $room,
         	'chat_name' => $chat_name
 	]);
 });

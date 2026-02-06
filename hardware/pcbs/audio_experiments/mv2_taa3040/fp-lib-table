@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "Connector_MTA-100")(type "KiCad")(uri "${KIPRJMOD}/../../kicad_libs/mta100/mta100/Connector_MTA-100.pretty")(options "")(descr ""))
+)

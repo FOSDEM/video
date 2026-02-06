@@ -6,7 +6,7 @@ import argparse
 import subprocess
 
 # Dumps out the crash report data from the debug port of the teensy
-# and runs it through addr2line. Also deals with the port dissapearing
+# and runs it through addr2line. Also deals with the port disappearing
 # and reappearing and making sure the teensy boots after crashing
 
 parser = argparse.ArgumentParser(description="Audio crashreport decoder")

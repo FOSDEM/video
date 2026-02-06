@@ -11,7 +11,7 @@ module hdmi_holes() {
     translate([margin,far,0]) hole_for_standoff_m4_6mm();
     translate([far,far,0]) hole_for_standoff_m4_6mm();
 
-    // make front holes M3 since theire is no space for M4
+    // make front holes M3 since there is no space for M4
     // hope that if back holes are screwed in first, the
     // hagibis will not move around too much
     translate([margin,margin,0]) hole_for_standoff_m3_6mm();

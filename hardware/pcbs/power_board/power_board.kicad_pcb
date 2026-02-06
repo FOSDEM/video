@@ -3614,7 +3614,7 @@
 		(layer "F.Cu")
 		(uuid "299d74e9-3161-4a3d-aced-b5a19f82455e")
 		(at 166.85 114.935 180)
-		(descr "Terminal Block 4Ucon ItemNo. 10693, vertical (cable from top), 2 pins, pitch 3.5mm, size 8x8.3mm^2, drill diamater 1.3mm, pad diameter 2.6mm, see http://www.4uconnector.com/online/object/4udrawing/10693.pdf, script-generated with , script-generated using https://github.com/pointhi/kicad-footprint-generator/scripts/TerminalBlock_4Ucon")
+		(descr "Terminal Block 4Ucon ItemNo. 10693, vertical (cable from top), 2 pins, pitch 3.5mm, size 8x8.3mm^2, drill diameter 1.3mm, pad diameter 2.6mm, see http://www.4uconnector.com/online/object/4udrawing/10693.pdf, script-generated with , script-generated using https://github.com/pointhi/kicad-footprint-generator/scripts/TerminalBlock_4Ucon")
 		(tags "THT Terminal Block 4Ucon ItemNo. 10693 vertical pitch 3.5mm size 8x8.3mm^2 drill 1.3mm pad 2.6mm")
 		(property "Reference" "J15"
 			(at 2 2 0)
@@ -4247,7 +4247,7 @@
 		(layer "F.Cu")
 		(uuid "31067bf5-9f36-4fd3-bb21-fa5d3846ab39")
 		(at 177 114.935 180)
-		(descr "Terminal Block 4Ucon ItemNo. 10693, vertical (cable from top), 2 pins, pitch 3.5mm, size 8x8.3mm^2, drill diamater 1.3mm, pad diameter 2.6mm, see http://www.4uconnector.com/online/object/4udrawing/10693.pdf, script-generated with , script-generated using https://github.com/pointhi/kicad-footprint-generator/scripts/TerminalBlock_4Ucon")
+		(descr "Terminal Block 4Ucon ItemNo. 10693, vertical (cable from top), 2 pins, pitch 3.5mm, size 8x8.3mm^2, drill diameter 1.3mm, pad diameter 2.6mm, see http://www.4uconnector.com/online/object/4udrawing/10693.pdf, script-generated with , script-generated using https://github.com/pointhi/kicad-footprint-generator/scripts/TerminalBlock_4Ucon")
 		(tags "THT Terminal Block 4Ucon ItemNo. 10693 vertical pitch 3.5mm size 8x8.3mm^2 drill 1.3mm pad 2.6mm")
 		(property "Reference" "J14"
 			(at 2 2 0)

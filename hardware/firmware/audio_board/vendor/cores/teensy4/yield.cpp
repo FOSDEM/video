@@ -51,7 +51,7 @@ void yield(void)
 		if (Serial.available()) serialEvent();
 	}
 
-#if defined(USB_DUAL_SERIAL) || defined(USB_TRIPLE_SERIAL)
+#if defined(USB_DUAL_SERIAL) || defined(USB_TRIPLE_SERIAL) || defined(USB_MIDI_AUDIO_SERIAL)
 	if (check_flags & YIELD_CHECK_USB_SERIALUSB1) {
 		if (SerialUSB1.available()) serialEventUSB1();
 	}
