@@ -251,6 +251,7 @@ start:
 	  case STATE_PARSE1:
 		len = data_length;
 		if (size < len) len = size;
+		if (header_offset + len > sizeof(header)) len = sizeof(header) - header_offset;
 		memcpy((uint8_t *)header + header_offset, p, len);
 		header_offset += len;
 		buffer_offset += len;
