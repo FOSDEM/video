@@ -680,13 +680,37 @@
         "wire_width": 6
       },
       {
+        "name": "ADC",
+        "pcb_color": "rgb(0, 132, 0)",
+        "priority": 4,
+        "schematic_color": "rgb(42, 203, 16)"
+      },
+      {
+        "name": "Audio_out",
+        "pcb_color": "rgb(42, 203, 16)",
+        "priority": 0,
+        "schematic_color": "rgb(42, 203, 16)"
+      },
+      {
+        "name": "I2C",
+        "pcb_color": "rgb(0, 186, 222)",
+        "priority": 3,
+        "schematic_color": "rgb(0, 186, 222)"
+      },
+      {
+        "name": "I2S",
+        "pcb_color": "rgb(0, 109, 255)",
+        "priority": 2,
+        "schematic_color": "rgb(0, 109, 255)"
+      },
+      {
         "clearance": 0.4,
         "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
         "name": "Phantom",
-        "pcb_color": "rgb(0, 255, 255)",
-        "priority": 0,
+        "pcb_color": "rgb(194, 0, 194)",
+        "priority": 5,
         "schematic_color": "rgb(132, 0, 132)",
         "track_width": 1.25,
         "via_diameter": 0.6,
@@ -702,13 +726,19 @@
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
         "name": "Power",
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": 1,
-        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "pcb_color": "rgb(132, 0, 0)",
+        "priority": 6,
+        "schematic_color": "rgb(255, 0, 0)",
         "track_width": 1.25,
         "via_diameter": 0.6,
         "via_drill": 0.3,
         "wire_width": 6
+      },
+      {
+        "name": "SPI",
+        "pcb_color": "rgb(255, 137, 18)",
+        "priority": 1,
+        "schematic_color": "rgb(255, 137, 18)"
       }
     ],
     "meta": {
@@ -936,6 +966,46 @@
       {
         "netclass": "Power",
         "pattern": "-*"
+      },
+      {
+        "netclass": "ADC",
+        "pattern": "/ADC*"
+      },
+      {
+        "netclass": "I2S",
+        "pattern": "/I2S*"
+      },
+      {
+        "netclass": "I2C",
+        "pattern": "/SDA*"
+      },
+      {
+        "netclass": "I2C",
+        "pattern": "/SCL*"
+      },
+      {
+        "netclass": "SPI",
+        "pattern": "/SCK*"
+      },
+      {
+        "netclass": "SPI",
+        "pattern": "/MO*"
+      },
+      {
+        "netclass": "Audio_out",
+        "pattern": "/DAC*/*OUT*"
+      },
+      {
+        "netclass": "SPI",
+        "pattern": "/CS*"
+      },
+      {
+        "netclass": "Audio_out",
+        "pattern": "/HP*"
+      },
+      {
+        "netclass": "ADC",
+        "pattern": "/PC*/*"
       }
     ]
   },
