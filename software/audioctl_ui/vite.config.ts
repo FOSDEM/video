@@ -5,7 +5,10 @@ import checker from 'vite-plugin-checker'
 
 export default defineConfig(({ mode }) => {
   let server_cfg = {}
-  let optimize_deps = {}
+  let optimize_deps = {
+    exclude: new Array<string>(),
+    include: ['buffer'],  // used by MQTT.js
+  }
 
   if (mode === "development") {
     const api_url = process.env.API_URL
@@ -29,9 +32,7 @@ export default defineConfig(({ mode }) => {
       },
     }
 
-    optimize_deps = {
-      exclude: ['misirka'],
-    }
+    optimize_deps.exclude.push('misirka')
   }
 
   const checker_cfg = {
