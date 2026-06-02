@@ -71,7 +71,7 @@ func (a *Api) handleSetMatrixSend(param SetMatrixSendParam) (string, error) {
 	}
 
 	if param.Chan == nil || param.Bus == nil || param.Unmuted == nil {
-		return "", err
+		return "", fmt.Errorf("missing fields (need channel, bus, volume)")
 	}
 	err = a.ctl.SetMatrixSend(*param.Chan, *param.Bus, *param.Unmuted)
 	if err != nil {
@@ -117,7 +117,7 @@ func (a *Api) handleSetPhantom(param SetPhantomParam) (string, error) {
 	}
 
 	if param.Chan == nil || param.Phantom == nil {
-		return "", err
+		return "", fmt.Errorf("missing fields (need channel, phantom)")
 	}
 	err = a.ctl.SetPhantom(*param.Chan, *param.Phantom)
 	if err != nil {
@@ -152,7 +152,7 @@ func (a *Api) handleSetBusVolume(param SetBusVolumeParam) (string, error) {
 	}
 
 	if param.Bus == nil || param.Volume == nil {
-		return "", err
+		return "", fmt.Errorf("missing fields (need bus, volume)")
 	}
 	err = a.ctl.SetBusVolume(*param.Bus, *param.Volume)
 	if err != nil {

@@ -6,7 +6,7 @@ cdir="$(dirname "$(readlink -f "${0}")")"
 
 cd "${cdir}"
 
-if ! [[ package.json -ot node_modules/marker ]]; then
+if ! [[ package.json -ot node_modules/marker && package-lock.json -ot node_modules/marker ]]; then
     npm install && touch node_modules/marker
 fi
 

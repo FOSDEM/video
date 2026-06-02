@@ -21,7 +21,7 @@ type Api struct {
 	cfg          *config.ApiCfg
 	ctl          ctl.Ctl
 	dying        chan struct{}
-	refreshState chan struct{}
+	refreshState chan (chan struct{})
 	chanNames    []string
 	busNames     []string
 
@@ -36,7 +36,7 @@ func New(logger *slog.Logger, cfg *config.ApiCfg, ctlInst ctl.Ctl) *Api {
 	a.logger = logger
 	a.ctl = ctlInst
 	a.dying = make(chan struct{})
-	a.refreshState = make(chan struct{})
+	a.refreshState = make(chan (chan struct{}))
 
 	evtHandlers := backends.EventHandlers{
 		Err: func(err error) {
@@ -163,12 +163,14 @@ func (a *Api) poller() {
 	defer pollLevels.Stop()
 
 	a.pollState()
+	a.pollLevels()
 	for {
 		select {
 		case <-a.dying:
 			return
-		case <-a.refreshState:
+		case done := <-a.refreshState:
 			a.pollState()
+			close(done)
 		case <-pollState.C:
 			a.pollState()
 		case <-pollLevels.C:
@@ -179,5 +181,7 @@ func (a *Api) poller() {
 
 func (a *Api) forceRefresh() {
 	// TODO: throttling
-	a.refreshState <- struct{}{}
+	done := make(chan struct{})
+	a.refreshState <- done
+	<-done
 }
