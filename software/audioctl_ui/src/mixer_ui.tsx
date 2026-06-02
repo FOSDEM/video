@@ -12,8 +12,6 @@ export class MixerUI {
     this.client = new MixerClient(mclient)
     mclient.on_alive(() => this.on_alive())
     mclient.on_dead(() => this.on_dead())
-
-    this.container.textContent = 'connecting'
   }
 
   private client: MixerClient
@@ -70,7 +68,6 @@ export class MixerUI {
   }
 
   private async on_dead() {
-    this.container.textContent = 'reconnecting'
   }
 
   private async updateVu(state: MixerState, levels: Levels) {

@@ -30,6 +30,8 @@ function main() {
         prefix: mqtt_prefix,
       })
 
+      mixer_el.textContent = 'connecting to MQTT'
+
       mqtt_client.on_alive(() => {
         mixer_el.textContent = 'MQTT connected, waiting for audioctl to appear'
       })
@@ -38,12 +40,26 @@ function main() {
         mixer_el.textContent = 'MQTT disconnected, reconnecting'
       })
 
-      return new SubClient(mqtt_client, {
+      const mclient = new SubClient(mqtt_client, {
         prefix: "audioctl/",
         online_topic: "audioctl/online",
       })
+
+      mclient.on_dead(() => {
+        mixer_el.textContent = 'MQTT still connected but audioctl died, waiting for it to appear'
+      })
+
+      return mclient
     } else if (ws_url) {
-      return new WSClient({ ws_url: ws_url })
+      const mclient = new WSClient({ ws_url: ws_url })
+
+      mixer_el.textContent = 'connecting to websocket'
+
+      mclient.on_dead(() => {
+        mixer_el.textContent = 'websocket disconnected, reconnecting'
+      })
+
+      return mclient
     } else {
       mixer_el.innerHTML = `
         <section>
