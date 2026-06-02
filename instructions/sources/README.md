@@ -7,12 +7,3 @@ Now run:
 typst compile FOSDEM_AV_manual.typ --root ../../
 typst --features html --format html FOSDEM_AV_manual.typ --root ../../
 </pre>
-
-## obsolete TeX file
-For building the obsolete TeX file, install some dependencies:
-<pre>apt-get install texlive texlive-latex-extra calibre tex4ht</pre>
-
-Now run make:
-<pre>make</pre>
-
-It will build a pdf and epub files.

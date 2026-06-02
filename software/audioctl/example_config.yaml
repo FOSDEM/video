@@ -1,0 +1,24 @@
+api:
+  misirka:
+    http:
+      enable: true
+      bind: ':8811'
+      prefix: ''
+    ws:
+      enable: true
+      url: '/ws'
+    doc:
+      enable: true
+      path: 'doc'
+      html_path: 'doc.html'
+    mqtt:
+      enable: false
+      broker_url: 'mqtt://localhost:1883'
+      client_id: fosdem_audioctl
+      prefix: '/fosdem/audioctl/'
+  state_poll_interval_msec: 10000
+  levels_poll_interval_msec: 100
+ctl:
+  port_device: '/dev/ttyACM0'
+  # port_device: fake   # uncomment to mock the hardware
+  use_db_levels: true

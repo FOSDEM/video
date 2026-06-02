@@ -1,0 +1,29 @@
+.section > *:not(.section-header) {
+    /* indent */
+    margin-left: 1.5em;
+}
+
+.enable-box, .db-value {
+    margin-left: 1em;
+}
+
+.db-value {
+    font-family: monospace;
+}
+
+.level-indicator {
+    .container {
+        border: 1px solid #ccc;
+        width: 100px;
+        height: 15px;
+    }
+    .inner {
+        height: 100%;
+        background-color: #ebac54;
+    }
+}
+
+.slot {
+    display: flex;
+    flex-direction: row;
+}

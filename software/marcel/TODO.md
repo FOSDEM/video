@@ -1,0 +1,48 @@
+- Marcel should:
+    - be a program that runs on the videobox (started by systemd) and should
+      orchestrate other components like [Fazantix](https://github.com/FOSDEM/video-fazantix). It should be built in a way
+      that allows it to be extended to manage even more components in the
+      future.
+    - be written in whatever language you want
+        - Go has the advantage that the [Misirka](https://github.com/dexterlb/misirka/tree/master)-style API will be easy to implement
+            - If you choose another language you would have to also rewrite the misirka server in it
+            - Go also has the advantage that it can scale well to concurrently monitoring multiple components without async magic
+        - Python could also be easy to use for the yaml stuff
+- Base functionality
+    - [ ] Be configured by a yaml config file, similar to Fazantix
+    - [ ] Render fazantix config
+        - Part of marcel's config should be a template for Fazantix's config file
+        - Template language should allow stuff like conditionally excluding certain parts of config
+    - [ ] Expose a [misirka](https:github.com/dexterlb/misirka/go/misirka) API that allows setting certain parameters from e.g. a web UI
+        - Parameters should be opinionated (don't make this too generic)
+        - The fazantix config template should have access to these parameters
+        - Parameters list (may grow over time)
+            - Aspect ratio (4:3 or 16:9)
+            - Streaming mode: `RTMP Push` or `MPEG-TS Pull` (may add more later)
+            - RTMP URL (string, only available when mode is `RTMP Push`)
+            - Background image (allow user to upload PNG to replace current image)
+        - Actions
+            - Start or Restart Fazantix
+                - Render config first
+                - Call an external command that does the actual restart, like `systemctl restart fazantix`
+                    - Command should be entered in marcel's config
+    - [ ] Monitor status of HDMI inputs
+        - The actual status is retrieved by the [ms213x-status](https://github.com/FOSDEM/video-ms213x-status)
+          tool and written to a json file
+        - For now, marcel can poll the json files every second
+        - Actually it is two json files because we have two HDMI inputs (camera and slides)
+        - When a source gets plugged in to the slides input, tell fazantix (through its api) to switch scenes
+            - An example for this can be found in [the video-status implementation](https://github.com/OpenFest/mixos/blob/feat/fosbox-support/common/fosdem-box-status/video-status/cli/video_status.py#L408)
+        - The status should be exposed via the API so that it can be shown in the UI in real time
+    - [ ] Replace parts of [video-status](https://github.com/OpenFest/mixos/blob/feat/fosbox-support/common/fosdem-box-status/video-status/cli/video_status.py#L408)
+        - The video status script does lots of different things and needs to be split up
+            - [ ] Make a separate tool that talks to the power board and controls its features:
+                - Small display on the box
+                - Charging ports
+                - Network switch info
+            - [ ] Marcel should talk to that tool and tell it to do stuff:
+                - Get hardware health information
+                - Get stream data from the fazantix and show it on the display
+                - Show network info on display
+                - Let the users turn charging ports on/off from the UI
+                - Monitor temperature

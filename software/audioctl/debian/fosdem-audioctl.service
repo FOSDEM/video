@@ -1,0 +1,19 @@
+[Unit]
+Description=FOSDEM Mixer Control
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=/etc/audioctl.conf
+
+[Service]
+User=root
+Group=root
+Type=simple
+ExecStart=/usr/bin/audioctl /etc/audioctl.conf
+ProtectSystem=yes
+ProtectHome=yes
+NoNewPrivileges=yes
+PrivateTmp=yes
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

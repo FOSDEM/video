@@ -1,0 +1,20 @@
+version: "2"
+linters:
+  disable:
+  # There's a bunch of unchecked errors in defers, fix those before enabling
+  # this again
+  - errcheck
+  settings:
+    staticcheck:
+      checks:
+        - all
+        - -QF1008 # https://staticcheck.dev/docs/checks/#QF1008 Omit embedded fields from selector expression.
+        - -ST1000 # at least one file in a package should have a package comment
+        - -ST1003 # struct field Api should be API
+  exclusions:
+    rules:
+      - path: external\/go4vl
+        linters:
+          - staticcheck
+output:
+  show-stats: false

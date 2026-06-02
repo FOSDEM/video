@@ -1,0 +1,35 @@
+{
+  "name": "audioctl_ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "tsc -p tsconfig.json && eslint && eslint node_modules/misirka/ts/index.ts",
+    "lint": "eslint --fix && eslint --fix node_modules/misirka/ts/*.ts",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "misirka": "github:dexterlb/misirka#97edb75",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@eslint/css": "^1.1.0",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.6.0",
+    "eslint": "^10.2.0",
+    "globals": "^17.5.0",
+    "jiti": "^2.6.1",
+    "node": "^25.9.0",
+    "prettier": "^3.8.2",
+    "tsx-vanilla": "^1.2.0",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.58.2",
+    "vite": "^8.0.8",
+    "vite-plugin-checker": "^0.12.0",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-singlefile": "^2.3.2"
+  }
+}

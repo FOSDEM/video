@@ -1,8 +1,34 @@
 ---
 BasedOnStyle: LLVM
 IndentWidth: 4
-ColumnLimit: 80
----
-Language: Cpp
+TabWidth: 4
+UseTab: AlignWithSpaces
+BreakBeforeBraces: Attach
+
+InsertBraces: true
+
+SpacesInParentheses: false
+
+AlignConsecutiveMacros: AcrossEmptyLinesAndComments
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: false
+  PadOperators: false
+AlignConsecutiveDeclarations: Consecutive
+AlignTrailingComments: true
+AlignAfterOpenBracket: BlockIndent
+IndentAccessModifiers: true
+
 DerivePointerAlignment: false
-PointerAlignment: Right
+PointerAlignment: Left
+
+PackConstructorInitializers: BinPack
+BreakConstructorInitializers: AfterColon
+
+ColumnLimit: 0
+
+SortIncludes: false
+
+LineEnding: LF

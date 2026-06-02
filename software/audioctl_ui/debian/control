@@ -1,0 +1,16 @@
+Source: fosdem-audioctl-ui
+Priority: optional
+Build-Depends:
+ debhelper (>= 11~),
+ debhelper-compat (= 13),
+ nodejs,
+ npm
+Section: video
+Maintainer: FOSDEM Team <noreply@fosdem.org>
+Standards-Version: 4.7.1
+
+Package: fosdem-audioctl-ui
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${nodejs:Depends}
+Description: Standalone UI for the FOSDEM Audio Mixer Board
+ Static UI for the audio board (only)

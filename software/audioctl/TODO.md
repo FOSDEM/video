@@ -1,0 +1,7 @@
+- [x] Communication with audio board
+- [x] Fake audio board
+- [x] Web API
+- [ ] Expose metrics
+    - [ ] Generic metrics like uptime, etc
+    - [ ] Audio levels averaged over long periods (configurable period, default 10 seconds)
+        - This will be used for voc monitoring

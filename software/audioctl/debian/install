@@ -1,0 +1,4 @@
+#!/usr/bin/dh-exec
+
+build/* usr/bin
+example_config.yaml => etc/audioctl.conf

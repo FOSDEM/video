@@ -16,9 +16,6 @@
 [submodule "hardware/firmware/audio_board/vendor/SPI"]
 	path = hardware/firmware/audio_board/vendor/SPI
 	url = https://github.com/PaulStoffregen/SPI.git
-[submodule "hardware/firmware/audio_board/vendor/OSC"]
-	path = hardware/firmware/audio_board/vendor/OSC
-	url = https://github.com/CNMAT/OSC
 [submodule "hardware/firmware/audio_board/vendor/ST7735_t3"]
 	path = hardware/firmware/audio_board/vendor/ST7735_t3
 	url = https://github.com/PaulStoffregen/ST7735_t3

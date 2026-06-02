@@ -33,7 +33,7 @@ set(TEENSY_DEFINITIONS USB_MIDI_AUDIO_SERIAL
         LAYOUT_US_ENGLISH
         F_CPU=${CPU_CORE_SPEED}
         ${CPU_DEFINE}
-        ARDUINO_TEENSY40)
+        ARDUINO_TEENSY41)
 set(MCPU cortex-m7)
 add_compile_options(-mcpu=${MCPU} -mthumb -mthumb-interwork -mfloat-abi=hard -mfpu=fpv5-d16 -D${CPU_DEFINE} -DTEENSYDUINO=159 -DARDUINO=10607 -nostdlib)
 set(c_flags -MMD -fno-exceptions)
@@ -91,7 +91,6 @@ set_property(SOURCE ${VENDOR_ROOT}/Audio/memcpy_audio.S PROPERTY LANGUAGE C)
 #import_arduino_library(${VENDOR_ROOT} Adafruit_BusIO)
 #import_arduino_library(${VENDOR_ROOT} Adafruit_SSD1306)
 import_arduino_library(${VENDOR_ROOT} ST7735_t3/src)
-import_arduino_library(${VENDOR_ROOT} OSC)
 import_arduino_library(${VENDOR_ROOT} SD/src)
 import_arduino_library(${VENDOR_ROOT} SdFat/src)
 import_arduino_library(${VENDOR_ROOT} SdFat/src/ExFatLib)
@@ -107,13 +106,18 @@ set(FEATURES
 	USE_DISPLAY
 )
 
-set(SOURCES 
+set(SOURCES
 	teensy4_usb_descriptor.c
 	src/main.cpp
 	src/storage.cpp
 	src/display.cpp
-	src/helpers.cpp
+	src/db_conversion.cpp
 	src/teensyaudio.cpp
+    src/taa3040.cpp
+    src/cli/cli.cpp
+    src/cli/commands.cpp
+    src/debug.cpp
+    src/channels.cpp
 )
 
 # Build this project

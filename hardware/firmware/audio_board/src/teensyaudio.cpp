@@ -2,7 +2,7 @@
 #include <Wire.h>
 
 #include "config.h"
-
+#include "db_conversion.h"
 #include "teensyaudio.h"
 
 #ifdef USE_EEPROM
@@ -12,215 +12,332 @@
 
 #endif
 
+#include "taa3040.h"
 #include "teensyaudio_defaults.cpp"
 #include "teensyaudio_generated.cpp"
 
-AudioControlSGTL5000 sgtl5000_1;
-AudioControlSGTL5000 sgtl5000_2;
+AudioControlTAA3040 taa3040;
 
-AudioMixer4 *matrix[6][2] = {
-    {&mixer1, &mixer2},   {&mixer4, &mixer5},   {&mixer7, &mixer8},
-    {&mixer10, &mixer11}, {&mixer13, &mixer14}, {&mixer16, &mixer17},
+AudioMixer4* matrix[6][2] = {
+	{&mixer1, &mixer2},
+	{&mixer4, &mixer5},
+	{&mixer7, &mixer8},
+	{&mixer10, &mixer11},
+	{&mixer13, &mixer14},
+	{&mixer16, &mixer17},
 };
 
-AudioAnalyzeRMS *ent_rms[12] = {
-    &rms1, &rms2, &rms3, &rms4,  &rms5,  &rms6,
-    &rms7, &rms8, &rms9, &rms10, &rms11, &rms12,
+AudioAnalyzeRMS* ent_rms[12] = {
+	&rms1,
+	&rms2,
+	&rms3,
+	&rms4,
+	&rms5,
+	&rms6,
+	&rms7,
+	&rms8,
+	&rms9,
+	&rms10,
+	&rms11,
+	&rms12,
 };
 
-AudioAnalyzePeak *ent_peak[12] = {
-    &peak1, &peak2, &peak3, &peak4,  &peak5,  &peak6,
-    &peak7, &peak8, &peak9, &peak10, &peak11, &peak12,
+AudioAnalyzePeak* ent_peak[12] = {
+	&peak1,
+	&peak2,
+	&peak3,
+	&peak4,
+	&peak5,
+	&peak6,
+	&peak7,
+	&peak8,
+	&peak9,
+	&peak10,
+	&peak11,
+	&peak12,
 };
 
-Levels levels;
+Levels     levels;
 AudioState state;
 
 void audio_setup() {
-    AudioMemory(64);
+	AudioMemory(80);
 
-    uint8_t adcGain = 0;
+	Wire.begin();
+	Wire1.begin();
 
-    sgtl5000_1.enable();
-    sgtl5000_1.inputSelect(AUDIO_INPUT_LINEIN);
-    sgtl5000_1.volume(0.5);
-    sgtl5000_1.lineOutLevel(13);
-    sgtl5000_1.lineInLevel(adcGain, adcGain);
-    sgtl5000_1.adcHighPassFilterDisable();
-    sgtl5000_1.muteHeadphone();
+	pinMode(PIN_PHANTOM_IN1, OUTPUT);
+	pinMode(PIN_PHANTOM_IN2, OUTPUT);
+	pinMode(PIN_PHANTOM_IN3, OUTPUT);
 
-    sgtl5000_2.setWire(1);
-
-    sgtl5000_2.enable();
-    sgtl5000_2.inputSelect(AUDIO_INPUT_LINEIN);
-    sgtl5000_2.volume(0.5);
-    sgtl5000_2.lineOutLevel(13);
-    sgtl5000_2.lineInLevel(adcGain, adcGain);
-    sgtl5000_2.adcHighPassFilterDisable();
+	taa3040.enable();
 }
 
-void audio_update_levels(Levels &levels) {
-    float temp;
-    if (rms1.available()) {
-        for (int i = 0; i < CHANNELS + BUSES; i++) {
-            temp = ent_rms[i]->read();
-            levels.smooth[i] = ((levels.smooth[i] * 9) + temp) / 10;
-            temp = levels.smooth[i];
-            // VU meter drains slowly after a peak
-            if (temp < levels.rms[i]) {
-                levels.rms[i] *= 0.97;
-            } else {
-                levels.rms[i] = temp;
-            }
-            levels.peak[i] = ent_peak[i]->read();
-        }
-    }
+uint8_t get_channel_gain_dB_analog(uint8_t channel) {
+	float gain = state.channel_input_gains_dB[channel];
+
+	// the analog gain of the TAA3040 is between 0 and 42dB
+	// and has a whole-number resolution
+
+	if (gain < 0) {
+		return 0;
+	}
+	if (gain > 42) {
+		return 42;
+	}
+
+	return (uint8_t)(gain + 0.5);
 }
 
-Levels &audio_get_levels() { return levels; }
-
-void raw_set_crosspoint(int channel, int bus, float gain) {
-    matrix[bus][channel / 4]->gain(channel % 4, gain);
+float get_channel_gain_dB_digital(uint8_t channel) {
+	float gain = state.channel_input_gains_dB[channel];
+	return gain - (float)get_channel_gain_dB_analog(channel);
 }
 
-float raw_get_crosspoint(int channel, int bus) {
-    return matrix[bus][channel / 4]->getGain(channel % 4);
+float level_multiplier_chan(uint8_t chan_id) {
+	float db = get_channel_gain_dB_digital(chan_id);
+	return coef_from_dB(db);
 }
 
-void raw_set_mix(int bus, float in1, float in2, float in3, float in4, float in5,
-                 float in6) {
-    matrix[bus][0]->gain(0, in1);
-    matrix[bus][0]->gain(1, in2);
-    matrix[bus][0]->gain(2, in3);
-    matrix[bus][0]->gain(3, in4);
-    matrix[bus][1]->gain(0, in5);
-    matrix[bus][1]->gain(1, in6);
-    matrix[bus][1]->gain(2, 0.0f);
-    matrix[bus][1]->gain(3, 0.0f);
+float level_multiplier_bus(uint8_t bus_id) {
+	return 1;
+}
+
+float level_multiplier(uint8_t meter_id) {
+	if (meter_id < CHANNELS) {
+		return level_multiplier_chan(meter_id);
+	} else {
+		return level_multiplier_bus(meter_id - CHANNELS);
+	}
+}
+
+void audio_update_levels(Levels& levels) {
+	float temp;
+	if (rms1.available()) {
+		for (uint8_t i = 0; i < CHANNELS + BUSES; i++) {
+			temp             = ent_rms[i]->read() * level_multiplier(i);
+			levels.smooth[i] = ((levels.smooth[i] * 9) + temp) / 10;
+			temp             = levels.smooth[i];
+			// VU meter drains slowly after a peak
+			if (temp < levels.rms[i]) {
+				levels.rms[i] *= 0.97;
+			} else {
+				levels.rms[i] = temp;
+			}
+			levels.peak[i] = ent_peak[i]->read() * level_multiplier(i);
+		}
+
+		taa3040.getAsiStatus();
+	}
+}
+
+Levels& audio_get_levels() { return levels; }
+
+void raw_set_crosspoint(uint8_t channel, uint8_t bus, float volume) {
+	matrix[bus][channel / 4]->gain(channel % 4, volume);
+}
+
+float raw_get_crosspoint(uint8_t channel, uint8_t bus) {
+	return matrix[bus][channel / 4]->getGain(channel % 4);
 }
 
 uint64_t mute_mask(uint64_t channel, uint64_t bus) {
-    return (uint64_t)1 << (uint64_t)((channel * CHANNELS) + bus);
+	return (uint64_t)1 << (uint64_t)((channel * CHANNELS) + bus);
 }
 
-bool is_muted(int channel, int bus) {
-    return !!(state.mutes & mute_mask(channel, bus));
+void apply_phantom(uint8_t channel) {
+	bool is_on = (state.phantoms & (1 << channel)) > 0;
+	switch (channel) {
+	case 0:
+		digitalWrite(PIN_PHANTOM_IN1, is_on ? HIGH : LOW);
+		break;
+	case 1:
+		digitalWrite(PIN_PHANTOM_IN2, is_on ? HIGH : LOW);
+		break;
+	case 2:
+		digitalWrite(PIN_PHANTOM_IN3, is_on ? HIGH : LOW);
+		break;
+	}
 }
 
-float calc_real_gain(int channel, int bus, int gain) {
-    return gain * !is_muted(channel, bus) * state.bus_multipliers[bus] *
-           state.channel_multipliers[channel];
+bool is_phantom_on(uint8_t channel) {
+	return !!(state.phantoms & (1 << channel));
 }
 
-void set_gain(int channel, int bus, int gain) {
-    state.gains[channel][bus] = gain;
-    raw_set_crosspoint(channel, bus, calc_real_gain(channel, bus, gain));
+void set_phantom_on(uint8_t channel) {
+	if (channel > 2) {
+		return;
+	}
+	state.phantoms |= (1 << channel);
+	apply_phantom(channel);
 }
 
-float get_gain(int channel, int bus) { return state.gains[channel][bus]; }
-
-void mute(int channel, int bus) {
-    state.mutes |= mute_mask(channel, bus);
-    set_gain(channel, bus, state.gains[channel][bus]);
+void set_phantom_off(uint8_t channel) {
+	if (channel > 2) {
+		return;
+	}
+	state.phantoms &= ~(1 << channel);
+	apply_phantom(channel);
 }
 
-void unmute(int channel, int bus) {
-    state.mutes &= ~mute_mask(channel, bus);
-    set_gain(channel, bus, state.gains[channel][bus]);
+bool is_muted(uint8_t channel, uint8_t bus) {
+	return !!(state.mutes & mute_mask(channel, bus));
 }
 
-void set_bus_multiplier(int bus, float multiplier) {
-    state.bus_multipliers[bus] = multiplier;
-    for (int channel = 0; channel < CHANNELS; ++channel)
-        set_gain(channel, bus, state.gains[channel][bus]);
+float get_volume_dB(uint8_t channel, uint8_t bus) {
+	return state.matrix_dB[channel][bus];
 }
 
-float get_bus_multiplier(int bus) { return state.bus_multipliers[bus]; }
-
-void set_channel_multiplier(int channel, float multiplier) {
-    state.channel_multipliers[channel] = multiplier;
-    for (int bus = 0; bus < BUSES; ++bus)
-        set_gain(channel, bus, state.gains[channel][bus]);
+float get_bus_volume_dB(uint8_t bus) {
+	return state.bus_volumes_dB[bus];
 }
 
-float get_channel_multiplier(int channel) {
-    return state.channel_multipliers[channel];
+void apply_channel_input_gain(uint8_t channel) {
+	set_channel_input_gain_dB(channel, state.channel_input_gains_dB[channel]);
 }
 
-void reset_gains() { memcpy(state.gains, default_gains, sizeof(state.gains)); }
+float get_channel_input_gain_dB(uint8_t channel) {
+	return state.channel_input_gains_dB[channel];
+}
+
+float calc_real_volume(uint8_t channel, uint8_t bus) {
+	float input_volume_dB  = get_channel_gain_dB_digital(channel);
+	float matrix_volume_dB = state.matrix_dB[channel][bus];
+	float bus_volume_dB    = state.bus_volumes_dB[bus];
+
+	float volume_dB = input_volume_dB + matrix_volume_dB + bus_volume_dB;
+	float volume    = coef_from_dB(volume_dB);
+	return volume * !is_muted(channel, bus);
+}
+
+void apply_volume(uint8_t channel, uint8_t bus) {
+	raw_set_crosspoint(channel, bus, calc_real_volume(channel, bus));
+}
+
+void mute(uint8_t channel, uint8_t bus) {
+	state.mutes |= mute_mask(channel, bus);
+	apply_volume(channel, bus);
+}
+
+void unmute(uint8_t channel, uint8_t bus) {
+	state.mutes &= ~mute_mask(channel, bus);
+	apply_volume(channel, bus);
+}
+
+void set_volume_dB(uint8_t channel, uint8_t bus, float volume) {
+	state.matrix_dB[channel][bus] = volume;
+	apply_volume(channel, bus);
+}
+
+void set_bus_volume_dB(uint8_t bus, float vol) {
+	state.bus_volumes_dB[bus] = vol;
+	for (uint8_t channel = 0; channel < CHANNELS; ++channel) {
+		apply_volume(channel, bus);
+	}
+}
+
+void set_channel_input_gain_dB(uint8_t channel, float gain) {
+	state.channel_input_gains_dB[channel] = gain;
+
+	uint8_t analog_gain = get_channel_gain_dB_analog(channel);
+	taa3040.gain(channel, analog_gain, IMPEDANCE_10k, 0, 0);
+
+	for (uint8_t bus = 0; bus < BUSES; ++bus) {
+		apply_volume(channel, bus);
+	}
+}
+
+void reset_matrix() {
+	memcpy(state.matrix_dB, default_matrix_dB, sizeof(state.matrix_dB));
+}
 
 void reset_mutes() {
-    memcpy(&state.mutes, &default_mutes, sizeof(state.mutes));
+	memcpy(&state.mutes, &default_mutes, sizeof(state.mutes));
 }
 
-void reset_bus_multipliers() {
-    memcpy(state.bus_multipliers, default_bus_multipliers,
-           BUSES * sizeof(float));
+void reset_phantoms() {
+	memcpy(&state.phantoms, &default_phantoms, sizeof(state.phantoms));
 }
-void reset_channel_multipliers() {
-    memcpy(state.channel_multipliers, default_channel_multipliers,
-           CHANNELS * sizeof(float));
+
+void reset_bus_volumes() {
+	memcpy(state.bus_volumes_dB, default_bus_volumes_dB, BUSES * sizeof(float));
+}
+
+void reset_channel_input_gains() {
+	memcpy(state.channel_input_gains_dB, default_channel_input_gains_dB, CHANNELS * sizeof(float));
 }
 
 void apply_all() {
-    int i, j;
-    for (i = 0; i < CHANNELS; ++i)
-        for (j = 0; j < BUSES; ++j)
-            set_gain(i, j, state.gains[i][j]);
+	uint8_t i, j;
+	for (i = 0; i < CHANNELS; ++i) {
+		apply_channel_input_gain(i);
+		apply_phantom(i);
+		for (j = 0; j < BUSES; ++j) {
+			apply_volume(i, j);
+		}
+	}
 }
 
 void audio_reset_default_state() {
-    reset_gains();
-    reset_mutes();
-    reset_bus_multipliers();
-    reset_channel_multipliers();
+	reset_matrix();
+	reset_mutes();
+	reset_phantoms();
+	reset_bus_volumes();
+	reset_channel_input_gains();
 }
 
-bool gains_ok() {
-    int i, j;
-    for (i = 0; i < CHANNELS; ++i)
-        for (j = 0; j < BUSES; ++j)
-            if (isnan(state.gains[i][j]))
-                return false;
+bool matrix_ok() {
+	uint8_t i, j;
+	for (i = 0; i < CHANNELS; ++i) {
+		for (j = 0; j < BUSES; ++j) {
+			if (isnan(state.matrix_dB[i][j])) {
+				return false;
+			}
+		}
+	}
 
-    return true;
+	return true;
 }
 
-bool bus_multipliers_ok() {
-    int i;
-    for (i = 0; i < BUSES; ++i)
-        if (isnan(state.bus_multipliers[i]))
-            return false;
+bool bus_volumes_ok() {
+	uint8_t i;
+	for (i = 0; i < BUSES; ++i) {
+		if (isnan(state.bus_volumes_dB[i])) {
+			return false;
+		}
+	}
 
-    return true;
+	return true;
 }
 
-bool channel_multipliers_ok() {
-    int i;
-    for (i = 0; i < CHANNELS; ++i)
-        if (isnan(state.channel_multipliers[i]))
-            return false;
+bool channel_input_gains_ok() {
+	uint8_t i;
+	for (i = 0; i < CHANNELS; ++i) {
+		if (isnan(state.channel_input_gains_dB[i])) {
+			return false;
+		}
+	}
 
-    return true;
+	return true;
 }
 
 #ifdef USE_EEPROM
 uint8_t audio_eeprom_save_all() {
-    return eeprom_save_all(state, STATE_EEPROM_OFFSET);
+	return eeprom_save_all(state, STATE_EEPROM_OFFSET);
 }
 #endif
 
 void audio_load_state() {
 #ifdef USE_EEPROM
-    eeprom_load_all(state, STATE_EEPROM_OFFSET);
+	eeprom_load_all(state, STATE_EEPROM_OFFSET);
 
-    if (!gains_ok() || !bus_multipliers_ok() || !channel_multipliers_ok()) {
-        audio_reset_default_state();
-        audio_eeprom_save_all();
-    }
+	if (!matrix_ok() || !bus_volumes_ok() || !channel_input_gains_ok()) {
+		audio_reset_default_state();
+		audio_eeprom_save_all();
+	}
 
 #else
-    audio_reset_default_state();
+	audio_reset_default_state();
 #endif
-    apply_all();
+	apply_all();
 }

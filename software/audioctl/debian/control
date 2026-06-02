@@ -1,0 +1,21 @@
+Source: fosdem-audioctl
+Priority: optional
+Build-Depends:
+ debhelper (>= 11~),
+ debhelper-compat (= 13),
+ pkgconf,
+ golang-go,
+ dh-exec
+# dh-golang
+#Testsuite: autopkgtest-pkg-go
+Section: video
+Maintainer: FOSDEM Team <noreply@fosdem.org>
+Standards-Version: 4.7.2
+XS-Go-Import-Path: github.com/FOSDEM/video/software/audioctl/ctl
+
+Package: fosdem-audioctl
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: FOSDEM Audio board controller
+ Backend for controlling the FOSDEM audio board
+ Connects to the board via serial

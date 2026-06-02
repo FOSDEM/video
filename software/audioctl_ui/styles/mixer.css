@@ -1,0 +1,186 @@
+body {
+	--mixer-vu-height: 10rem;
+	--mixer-vu-width: 5.5rem;
+	--mixer-vu-margin: 0.5rem;
+}
+
+.mixer {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.channellist {
+	display: flex;
+	flex-wrap: wrap;
+	flex: 1 0 auto;
+}
+
+.mixer h2 {
+	margin: 1rem;
+	vertical-align: middle;
+	text-align: right;
+	font-size: x-large;
+}
+
+@media screen and  (min-width: 900px) {
+	.mixer h2 {
+		direction: ltr;
+		writing-mode: vertical-rl;
+		transform: rotate(180deg);
+	}
+}
+
+.channel {
+	flex: 1;
+
+	border: 1px solid black;
+	margin: 0.5rem;
+
+	/*width: var(--mixer-vu-width);*/
+	min-width: var(--mixer-vu-width);
+}
+
+.channel .controls {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.channel .send {
+	display: flex;
+	justify-content: center;
+}
+
+.channel h3 {
+	text-align: center;
+	margin: 0.5rem;
+}
+
+.channel .sliders {
+	display: flex;
+	justify-content: center;
+}
+
+.channel .db {
+	font-family: monospace;
+	/* writing-mode: sideways-lr; FIXME: use transform() or something else */
+
+}
+
+.channel input[type=range] {
+	direction: rtl;
+	writing-mode: vertical-lr;
+	margin: var(--mixer-vu-margin);
+	vertical-align: middle;
+	height: var(--mixer-vu-height);
+}
+
+.volume input[type=range] {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.phantom {
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.phantom input[type=checkbox] {
+	font-size: x-large;
+	/* accent-color: red; FIXME: disable linter warning */
+}
+
+.sends {
+	display: flex;
+	flex-direction: row;
+}
+
+.send input[type=checkbox] {
+	font-size: x-large;
+	/* accent-color: green; FIXME: disable linter warning */
+}
+
+.volume, .vu-meter {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.channel .send {
+	border: 1px dotted black;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+	display: flex;
+	flex-direction: column;
+	border-collapse: collapse;
+}
+
+.channel .send h4 {
+	vertical-align: middle;
+	text-align: right;
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+	flex-grow: 1;
+	direction: ltr;
+	writing-mode: vertical-rl;
+	transform: rotate(180deg);
+}
+
+.channel meter {
+	height: var(--mixer-vu-height);
+	direction: rtl;
+	writing-mode: vertical-lr;
+	margin: var(--mixer-vu-margin);
+	vertical-align: middle;
+	--background: #dadada;
+	--optimum: darkgoldenrod;
+	--sub-optimum: forestgreen;
+	--sub-sub-optimum: crimson;
+
+	/* The gray background in Firefox */
+	background: var(--background);
+	display: block;
+}
+
+/* The gray background in Chrome, etc. */
+meter::-webkit-meter-bar {
+	background: var(--background);
+}
+
+/* The green (optimum) bar in Firefox */
+meter:-moz-meter-optimum::-moz-meter-bar {
+	background: var(--optimum);
+}
+
+/* The green (optimum) bar in Chrome etc. */
+meter::-webkit-meter-optimum-value {
+	background: var(--optimum);
+}
+
+/* The yellow (sub-optimum) bar in Firefox */
+meter:-moz-meter-sub-optimum::-moz-meter-bar {
+	background: var(--sub-optimum);
+}
+
+/* The yellow (sub-optimum) bar in Chrome etc. */
+meter::-webkit-meter-suboptimum-value {
+	background: var(--sub-optimum);
+}
+
+/* The red (even less good) bar in Firefox */
+meter:-moz-meter-sub-sub-optimum::-moz-meter-bar {
+	background: var(--sub-sub-optimum);
+}
+
+/* The red (even less good) bar in Chrome etc. */
+meter::-webkit-meter-even-less-good-value {
+	background: var(--sub-sub-optimum);
+}
+
+.errors > * {
+	background-color: red;
+	font-weight: bold;
+	padding: 1rem;
+	font-size: x-large;
+}
+
