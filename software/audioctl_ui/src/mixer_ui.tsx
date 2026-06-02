@@ -36,24 +36,34 @@ export class MixerUI {
 
     const inputsContainer = ref<HTMLDivElement>()
     const outputsContainer = ref<HTMLDivElement>()
+    const setupModeSelector = ref<HTMLInputElement>()
 
     this.container.replaceChildren(
-      <div className='mixer'>
-        <div className='mixer'>
-          <h2>Inputs</h2>
-          <div className='inputs channellist' ref={inputsContainer}/>
+      <section>
+        <div>
+          <label htmlFor="setup-mode">Setup mode</label>
+          <input type="checkbox" id="setup-mode" ref={setupModeSelector}/>
         </div>
+
         <div className='mixer'>
-          <h2>Outputs</h2>
-          <div className='outputs channellist' ref={outputsContainer}/>
+          <div className='mixer'>
+            <h2>Inputs</h2>
+            <div className='inputs channellist' ref={inputsContainer}/>
+          </div>
+          <div className='mixer'>
+            <h2>Outputs</h2>
+            <div className='outputs channellist' ref={outputsContainer}/>
+          </div>
         </div>
-      </div>,
+      </section>,
     )
 
     this.setupInputs(inputsContainer.value!, initialState)
     this.setupOutputs(outputsContainer.value!, initialState)
 
-    this.toggleSetupMode(false)
+
+    setupModeSelector.value!.onchange = _ => this.toggleSetupMode(setupModeSelector.value!.checked)
+  this.toggleSetupMode(setupModeSelector.value!.checked)
 
     await this.client.subscribe_state(s => this.updateState(s))
     await this.client.subscribe_levels(l => this.updateVu(initialState, l))

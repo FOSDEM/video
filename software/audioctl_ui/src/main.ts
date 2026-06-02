@@ -63,10 +63,7 @@ function main() {
     return
   }
 
-  const ui = new MixerUI(mclient, mixer_el)
-
-  document.querySelector<HTMLInputElement>('#setup-mode')!.onchange =
-    e => ui.toggleSetupMode((e.target as HTMLInputElement)!.checked)
+  new MixerUI(mclient, mixer_el)
 }
 
 function linkify(l: string): string {
