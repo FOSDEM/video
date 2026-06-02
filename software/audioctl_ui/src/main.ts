@@ -14,14 +14,20 @@ function main() {
 
   const mixer_el = document.querySelector<HTMLDivElement>('#mixer')!
 
-  const mclient: MisirkaClient = (() => {
-    const params = new URLSearchParams(window.location.hash.slice(1))
+  const mclient: MisirkaClient | null = (() => {
+    const params = new URLSearchParams(window.location.search)
     const mqtt_url = params.get("mqtt_url")
+    const ws_url = params.get("ws_url")
 
     if (mqtt_url) {
+      let mqtt_prefix = params.get("mqtt_prefix")
+      if (!mqtt_prefix) {
+        mqtt_prefix = '/fosdem/'
+      }
+
       const mqtt_client = new MQTTClient({
         mqtt_url: mqtt_url,
-        prefix: "/fosdem/",
+        prefix: mqtt_prefix,
       })
 
       mqtt_client.on_alive(() => {
@@ -36,10 +42,26 @@ function main() {
         prefix: "audioctl/",
         online_topic: "audioctl/online",
       })
+    } else if (ws_url) {
+      return new WSClient({ ws_url: ws_url })
     } else {
-      return new WSClient({ ws_url: ws_url() })
+      mixer_el.innerHTML = `
+        <section>
+          You need to specify a way to connect to the backend as a query param.
+          Here are some examples:
+          <ul>
+            <li>Direct websocket: ${linkify(ws_dflt_url())}</li>
+            <li>MQTT: ${linkify(mqtt_dflt_url())}</li>
+          </ul>
+        </section>
+      `
+      return null
     }
   })()
+
+  if (!mclient) {
+    return
+  }
 
   const ui = new MixerUI(mclient, mixer_el)
 
@@ -47,9 +69,16 @@ function main() {
     e => ui.toggleSetupMode((e.target as HTMLInputElement)!.checked)
 }
 
-function ws_url() {
-  const protocol = location.protocol === "https:" ? "wss" : "ws"
-  return `${protocol}://${location.host}${location.pathname.replace(/\/?$/, '/ws')}`
+function linkify(l: string): string {
+  return `<a href="${l}">${l}</a>`
+}
+
+function ws_dflt_url() {
+  return `${location.protocol}//${location.host}${location.pathname}?ws_url=http://localhost:8811/ws`
+}
+
+function mqtt_dflt_url(): string {
+  return `${location.protocol}//${location.host}${location.pathname}?mqtt_url=http://localhost:1880&mqtt_prefix=/fosdem/`
 }
 
 main()
