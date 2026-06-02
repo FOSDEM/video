@@ -1,5 +1,7 @@
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/dexterlb/misirka/go v0.0.0-20260602094706-97edb755b398 h1:AOQF2+pqDaaECfFvBpwGN9i6JrdF+SSuy+uVZpRbkCI=
+github.com/dexterlb/misirka/go v0.0.0-20260602094706-97edb755b398/go.mod h1:RbyK6A+ngDj6DPQzLmxE5nOuXrnsIKIiRREAFhCNAbE=
 github.com/eclipse/paho.golang v0.23.0 h1:KHgl2wz6EJo7cMBmkuhpt7C576vP+kpPv7jjvSyR6Mk=
 github.com/eclipse/paho.golang v0.23.0/go.mod h1:nQRhTkoZv8EAiNs5UU0/WdQIx2NrnWUpL9nsGJTQN04=
 github.com/goccy/go-json v0.10.6 h1:p8HrPJzOakx/mn/bQtjgNjdTcN+/S6FcG2CTtQOrHVU=

@@ -2,10 +2,8 @@ module github.com/fosdem/video/software/audioctl
 
 go 1.25.0
 
-replace github.com/dexterlb/misirka/go => ../../../../../misirka/go
-
 require (
-	github.com/dexterlb/misirka/go v0.0.0-00010101000000-000000000000
+	github.com/dexterlb/misirka/go v0.0.0-20260602094706-97edb755b398
 	github.com/goccy/go-yaml v1.19.2
 	go.bug.st/serial v1.7.1
 )
