@@ -2313,7 +2313,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1a404bce-a9a2-486b-82f9-9d6995c25cb3")
-		(property "Reference" "R80"
+		(property "Reference" "R72"
 			(at 166.37 115.57 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2432,7 +2432,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/c7838b89-33be-4400-baf7-0a033ee6e87f"
-					(reference "R80")
+					(reference "R72")
 					(unit 1)
 				)
 			)
@@ -2449,7 +2449,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "41906dc7-fae0-4190-9c46-1daaddd39283")
-		(property "Reference" "R79"
+		(property "Reference" "R71"
 			(at 166.37 100.33 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2568,7 +2568,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/c7838b89-33be-4400-baf7-0a033ee6e87f"
-					(reference "R79")
+					(reference "R71")
 					(unit 1)
 				)
 			)
@@ -3014,7 +3014,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9a95618e-5a61-46d7-b2a7-6f72a2b40d9c")
-		(property "Reference" "R77"
+		(property "Reference" "R69"
 			(at 105.41 89.9541 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3131,7 +3131,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/c7838b89-33be-4400-baf7-0a033ee6e87f"
-					(reference "R77")
+					(reference "R69")
 					(unit 1)
 				)
 			)
@@ -3511,7 +3511,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "f65cfcc2-343a-494c-8af7-e1b4e34388f3")
-		(property "Reference" "R78"
+		(property "Reference" "R70"
 			(at 105.41 100.5459 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3628,7 +3628,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/c7838b89-33be-4400-baf7-0a033ee6e87f"
-					(reference "R78")
+					(reference "R70")
 					(unit 1)
 				)
 			)
