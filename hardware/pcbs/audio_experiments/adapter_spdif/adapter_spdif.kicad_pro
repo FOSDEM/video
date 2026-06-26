@@ -62,10 +62,10 @@
           "hatch_thickness": 1.0,
           "min_clearance": 0.3,
           "min_island_area": 10.0,
-          "min_thickness": 0.25,
+          "min_thickness": 0.23,
           "pad_connection": 1,
           "remove_islands": 0,
-          "thermal_relief_gap": 0.3,
+          "thermal_relief_gap": 0.23,
           "thermal_relief_spoke_width": 0.8
         }
       },
@@ -393,12 +393,12 @@
         "renderLayers": [
           "vias",
           "footprint_anchors",
+          "ratsnest",
           "grid",
           "footprints_front",
           "footprints_back",
           "tracks",
           "drc_errors",
-          "drawing_sheet",
           "bitmaps",
           "pads",
           "zones",
@@ -991,6 +991,42 @@
           "label": "#",
           "name": "${ITEM_NUMBER}",
           "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Purpose Pin7",
+          "name": "Purpose Pin7",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Purpose Pin8",
+          "name": "Purpose Pin8",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Purpose Pin14",
+          "name": "Purpose Pin14",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Purpose Pin13",
+          "name": "Purpose Pin13",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Purpose Pin5",
+          "name": "Purpose Pin5",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Purpose Pin6",
+          "name": "Purpose Pin6",
+          "show": false
         }
       ],
       "filter_string": "",
@@ -1049,7 +1085,7 @@
         "uuid": "f0cef814-4900-4bf7-8358-2f60ddcd815d"
       }
     ],
-    "used_designators": "",
+    "used_designators": "#FLG3-4,#PWR12-15",
     "variants": []
   },
   "sheets": [
