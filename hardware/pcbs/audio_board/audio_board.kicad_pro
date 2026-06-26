@@ -1173,6 +1173,18 @@
           "label": "Purpose Pin12",
           "name": "Purpose Pin12",
           "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Purpose Pin14",
+          "name": "Purpose Pin14",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Purpose Pin13",
+          "name": "Purpose Pin13",
+          "show": false
         }
       ],
       "filter_string": "",
@@ -1231,7 +1243,7 @@
         "uuid": "54443f96-c7c5-4432-b890-45b14a1547a1"
       }
     ],
-    "used_designators": "#PWR129",
+    "used_designators": "",
     "variants": []
   },
   "sheets": [
