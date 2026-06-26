@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "conn") (type "KiCad") (uri "${KIPRJMOD}/../../kicad_libs/conn.pretty") (options "") (descr ""))
+)
