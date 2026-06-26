@@ -464,7 +464,16 @@
     "equivalence_files": []
   },
   "erc": {
-    "erc_exclusions": [],
+    "erc_exclusions": [
+      [
+        "isolated_pin_label|1866900|1320800|d7d6b83d-28d9-438e-ab18-223d2c11bee0|00000000-0000-0000-0000-000000000000|/54443f96-c7c5-4432-b890-45b14a1547a1/ed335575-207f-4eab-bd63-8c911fac4ba1||",
+        "One pin is actually multiple pads in the footprint"
+      ],
+      [
+        "isolated_pin_label|1866900|927100|5e782426-4ae4-4993-85b9-baa6b7e4bedd|00000000-0000-0000-0000-000000000000|/54443f96-c7c5-4432-b890-45b14a1547a1/ed335575-207f-4eab-bd63-8c911fac4ba1||",
+        "One pin is actually multiple pads in the footprint"
+      ]
+    ],
     "meta": {
       "version": 0
     },
