@@ -576,7 +576,7 @@
 					)
 				)
 				(pin output line
-					(at 11.43 3.81 180)
+					(at 11.43 5.08 180)
 					(length 2.54)
 					(name "Y0"
 						(effects
@@ -612,7 +612,7 @@
 					)
 				)
 				(pin output line
-					(at 11.43 -1.27 180)
+					(at 11.43 0 180)
 					(length 2.54)
 					(name "Y2"
 						(effects
@@ -648,7 +648,7 @@
 					)
 				)
 				(pin output line
-					(at 11.43 -3.81 180)
+					(at 11.43 -2.54 180)
 					(length 2.54)
 					(name "Y3"
 						(effects
@@ -666,7 +666,7 @@
 					)
 				)
 				(pin output line
-					(at 11.43 1.27 180)
+					(at 11.43 2.54 180)
 					(length 2.54)
 					(name "Y1"
 						(effects
@@ -676,6 +676,24 @@
 						)
 					)
 					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 11.43 -5.08 180)
+					(length 2.54)
+					(name "Bridge"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "B"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1093,11 +1111,11 @@
 		(uuid "e13664c2-7bff-4240-b211-5937354b1c8f")
 	)
 	(no_connect
-		(at 173.99 130.81)
+		(at 173.99 129.54)
 		(uuid "1bc009a2-edd7-48da-ba72-0f1f8a1854d5")
 	)
 	(no_connect
-		(at 173.99 91.44)
+		(at 173.99 90.17)
 		(uuid "5570962d-d1b9-407b-a9f6-912cbd601518")
 	)
 	(wire
@@ -1122,7 +1140,7 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 128.27) (xy 184.15 128.27)
+			(xy 173.99 127) (xy 184.15 127)
 		)
 		(stroke
 			(width 0)
@@ -1142,7 +1160,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 83.82) (xy 196.85 83.82)
+			(xy 191.77 82.55) (xy 196.85 82.55)
 		)
 		(stroke
 			(width 0)
@@ -1172,7 +1190,7 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 88.9) (xy 184.15 88.9)
+			(xy 173.99 87.63) (xy 184.15 87.63)
 		)
 		(stroke
 			(width 0)
@@ -1202,6 +1220,16 @@
 	)
 	(wire
 		(pts
+			(xy 173.99 132.08) (xy 186.69 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4a205d82-2ef1-4fae-aec1-7c778f3a83e4")
+	)
+	(wire
+		(pts
 			(xy 95.25 91.44) (xy 95.25 92.71)
 		)
 		(stroke
@@ -1212,7 +1240,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 88.9) (xy 196.85 88.9)
+			(xy 191.77 87.63) (xy 196.85 87.63)
 		)
 		(stroke
 			(width 0)
@@ -1222,7 +1250,17 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 123.19) (xy 196.85 123.19)
+			(xy 173.99 92.71) (xy 186.69 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "545020d4-911e-4c25-b7e6-b0b867a40ed8")
+	)
+	(wire
+		(pts
+			(xy 191.77 121.92) (xy 196.85 121.92)
 		)
 		(stroke
 			(width 0)
@@ -1252,7 +1290,7 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 125.73) (xy 184.15 125.73)
+			(xy 173.99 124.46) (xy 184.15 124.46)
 		)
 		(stroke
 			(width 0)
@@ -1272,7 +1310,7 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 83.82) (xy 184.15 83.82)
+			(xy 173.99 82.55) (xy 184.15 82.55)
 		)
 		(stroke
 			(width 0)
@@ -1282,7 +1320,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 86.36) (xy 196.85 86.36)
+			(xy 191.77 85.09) (xy 196.85 85.09)
 		)
 		(stroke
 			(width 0)
@@ -1292,7 +1330,7 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 123.19) (xy 184.15 123.19)
+			(xy 173.99 121.92) (xy 184.15 121.92)
 		)
 		(stroke
 			(width 0)
@@ -1362,7 +1400,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 125.73) (xy 196.85 125.73)
+			(xy 191.77 124.46) (xy 196.85 124.46)
 		)
 		(stroke
 			(width 0)
@@ -1402,7 +1440,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 128.27) (xy 196.85 128.27)
+			(xy 191.77 127) (xy 196.85 127)
 		)
 		(stroke
 			(width 0)
@@ -1432,7 +1470,7 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 86.36) (xy 184.15 86.36)
+			(xy 173.99 85.09) (xy 184.15 85.09)
 		)
 		(stroke
 			(width 0)
@@ -1480,6 +1518,26 @@
 		)
 		(uuid "fd36f2bc-23a9-480b-a652-b463e5760c31")
 	)
+	(label "BRIDGE_CA"
+		(at 186.69 92.71 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "5e782426-4ae4-4993-85b9-baa6b7e4bedd")
+	)
+	(label "BRIDGE_CB"
+		(at 186.69 132.08 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "d7d6b83d-28d9-438e-ab18-223d2c11bee0")
+	)
 	(label "CVDD"
 		(at 106.68 82.55 0)
 		(effects
@@ -1503,7 +1561,7 @@
 	)
 	(hierarchical_label "LRCLK1"
 		(shape input)
-		(at 196.85 123.19 0)
+		(at 196.85 121.92 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1514,7 +1572,7 @@
 	)
 	(hierarchical_label "LRCLK2"
 		(shape input)
-		(at 196.85 125.73 0)
+		(at 196.85 124.46 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1525,7 +1583,7 @@
 	)
 	(hierarchical_label "BCLK2"
 		(shape input)
-		(at 196.85 86.36 0)
+		(at 196.85 85.09 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1536,7 +1594,7 @@
 	)
 	(hierarchical_label "LRCLK3"
 		(shape input)
-		(at 196.85 128.27 0)
+		(at 196.85 127 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1547,7 +1605,7 @@
 	)
 	(hierarchical_label "BCLK1"
 		(shape input)
-		(at 196.85 83.82 0)
+		(at 196.85 82.55 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1558,7 +1616,7 @@
 	)
 	(hierarchical_label "BCLK3"
 		(shape input)
-		(at 196.85 88.9 0)
+		(at 196.85 87.63 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1971,7 +2029,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_SO:TSSOP-8_4.4x3mm_P0.65mm"
+		(property "Footprint" "ics:TSSOP-8_4.4x3mm_P0.65mm_bridges"
 			(at 163.576 140.462 0)
 			(hide yes)
 			(show_name no)
@@ -2039,6 +2097,9 @@
 		(pin "5"
 			(uuid "26e17612-a0b8-433d-aa5f-89d0b649e69d")
 		)
+		(pin "B"
+			(uuid "8f33af4f-6c2d-4d62-a5f2-30dbec466f65")
+		)
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/ed335575-207f-4eab-bd63-8c911fac4ba1"
@@ -2050,7 +2111,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 187.96 123.19 270)
+		(at 187.96 121.92 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2060,7 +2121,7 @@
 		(dnp no)
 		(uuid "2c96649f-49b9-4591-8216-46476c3e76a6")
 		(property "Reference" "R68"
-			(at 190.5 121.92 90)
+			(at 190.5 120.65 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2071,7 +2132,7 @@
 			)
 		)
 		(property "Value" "47Ω"
-			(at 187.96 123.19 90)
+			(at 187.96 121.92 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2081,7 +2142,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 187.96 121.412 90)
+			(at 187.96 120.142 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2092,7 +2153,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 187.96 123.19 0)
+			(at 187.96 121.92 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2103,7 +2164,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 187.96 123.19 0)
+			(at 187.96 121.92 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2114,7 +2175,7 @@
 			)
 		)
 		(property "MPN" "R 47Ω 125mW 1% 0805"
-			(at 187.96 123.19 0)
+			(at 187.96 121.92 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2407,7 +2468,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_SO:TSSOP-8_4.4x3mm_P0.65mm"
+		(property "Footprint" "ics:TSSOP-8_4.4x3mm_P0.65mm_bridges"
 			(at 163.576 101.092 0)
 			(hide yes)
 			(show_name no)
@@ -2475,6 +2536,9 @@
 		(pin "5"
 			(uuid "6d311777-8eed-4bc2-becf-e794f875bb9f")
 		)
+		(pin "B"
+			(uuid "6c20db94-48a6-446a-a972-1d553dcbe787")
+		)
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/ed335575-207f-4eab-bd63-8c911fac4ba1"
@@ -2486,7 +2550,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 187.96 88.9 270)
+		(at 187.96 87.63 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2496,7 +2560,7 @@
 		(dnp no)
 		(uuid "6bb04c9b-849e-475d-aaa5-75418b5b424f")
 		(property "Reference" "R67"
-			(at 190.5 87.63 90)
+			(at 190.5 86.36 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2507,7 +2571,7 @@
 			)
 		)
 		(property "Value" "47Ω"
-			(at 187.96 88.9 90)
+			(at 187.96 87.63 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2517,7 +2581,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 187.96 87.122 90)
+			(at 187.96 85.852 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2528,7 +2592,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 187.96 88.9 0)
+			(at 187.96 87.63 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2539,7 +2603,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 187.96 88.9 0)
+			(at 187.96 87.63 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2550,7 +2614,7 @@
 			)
 		)
 		(property "MPN" "R 47Ω 125mW 1% 0805"
-			(at 187.96 88.9 0)
+			(at 187.96 87.63 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2712,7 +2776,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 187.96 128.27 270)
+		(at 187.96 127 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2722,7 +2786,7 @@
 		(dnp no)
 		(uuid "7ac35b6c-06f9-4063-84e6-0a8d829f8553")
 		(property "Reference" "R70"
-			(at 190.5 127 90)
+			(at 190.5 125.73 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2733,7 +2797,7 @@
 			)
 		)
 		(property "Value" "47Ω"
-			(at 187.96 128.27 90)
+			(at 187.96 127 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2743,7 +2807,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 187.96 126.492 90)
+			(at 187.96 125.222 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2754,7 +2818,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 187.96 128.27 0)
+			(at 187.96 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2765,7 +2829,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 187.96 128.27 0)
+			(at 187.96 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2776,7 +2840,7 @@
 			)
 		)
 		(property "MPN" "R 47Ω 125mW 1% 0805"
-			(at 187.96 128.27 0)
+			(at 187.96 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2882,7 +2946,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 187.96 83.82 270)
+		(at 187.96 82.55 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2892,7 +2956,7 @@
 		(dnp no)
 		(uuid "854d4906-d041-4544-aa12-040670ffaa2f")
 		(property "Reference" "R65"
-			(at 190.5 82.55 90)
+			(at 190.5 81.28 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2903,7 +2967,7 @@
 			)
 		)
 		(property "Value" "47Ω"
-			(at 187.96 83.82 90)
+			(at 187.96 82.55 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2913,7 +2977,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 187.96 82.042 90)
+			(at 187.96 80.772 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2924,7 +2988,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 187.96 83.82 0)
+			(at 187.96 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2935,7 +2999,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 187.96 83.82 0)
+			(at 187.96 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2946,7 +3010,7 @@
 			)
 		)
 		(property "MPN" "R 47Ω 125mW 1% 0805"
-			(at 187.96 83.82 0)
+			(at 187.96 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3403,7 +3467,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 187.96 125.73 270)
+		(at 187.96 124.46 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3413,7 +3477,7 @@
 		(dnp no)
 		(uuid "db24f1eb-2d5f-4972-bc0b-67e9b2d3f7c2")
 		(property "Reference" "R69"
-			(at 190.5 124.46 90)
+			(at 190.5 123.19 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3424,7 +3488,7 @@
 			)
 		)
 		(property "Value" "47Ω"
-			(at 187.96 125.73 90)
+			(at 187.96 124.46 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3434,7 +3498,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 187.96 123.952 90)
+			(at 187.96 122.682 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3445,7 +3509,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 187.96 125.73 0)
+			(at 187.96 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3456,7 +3520,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 187.96 125.73 0)
+			(at 187.96 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3467,7 +3531,7 @@
 			)
 		)
 		(property "MPN" "R 47Ω 125mW 1% 0805"
-			(at 187.96 125.73 0)
+			(at 187.96 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3572,7 +3636,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 187.96 86.36 270)
+		(at 187.96 85.09 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3582,7 +3646,7 @@
 		(dnp no)
 		(uuid "e86b38c5-ca8d-40a7-b48a-368b84f60425")
 		(property "Reference" "R66"
-			(at 190.5 85.09 90)
+			(at 190.5 83.82 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3593,7 +3657,7 @@
 			)
 		)
 		(property "Value" "47Ω"
-			(at 187.96 86.36 90)
+			(at 187.96 85.09 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3603,7 +3667,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 187.96 84.582 90)
+			(at 187.96 83.312 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3614,7 +3678,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 187.96 86.36 0)
+			(at 187.96 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3625,7 +3689,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 187.96 86.36 0)
+			(at 187.96 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3636,7 +3700,7 @@
 			)
 		)
 		(property "MPN" "R 47Ω 125mW 1% 0805"
-			(at 187.96 86.36 0)
+			(at 187.96 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
