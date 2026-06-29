@@ -3411,7 +3411,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 162.56) (xy 53.34 162.56)
+			(xy 40.64 162.56) (xy 53.34 162.56)
 		)
 		(stroke
 			(width 0)
@@ -3708,16 +3708,6 @@
 			(type default)
 		)
 		(uuid "3285643a-35e4-43f0-924c-59a622117d89")
-	)
-	(wire
-		(pts
-			(xy 48.26 170.18) (xy 53.34 170.18)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3566bc4f-0c26-4064-9412-9030d185cb39")
 	)
 	(wire
 		(pts
@@ -4201,7 +4191,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 160.02) (xy 53.34 160.02)
+			(xy 40.64 160.02) (xy 53.34 160.02)
 		)
 		(stroke
 			(width 0)
@@ -4371,7 +4361,7 @@
 	)
 	(wire
 		(pts
-			(xy 26.67 167.64) (xy 40.64 167.64)
+			(xy 40.64 167.64) (xy 53.34 167.64)
 		)
 		(stroke
 			(width 0)
@@ -4461,7 +4451,7 @@
 	)
 	(wire
 		(pts
-			(xy 26.67 165.1) (xy 53.34 165.1)
+			(xy 40.64 165.1) (xy 53.34 165.1)
 		)
 		(stroke
 			(width 0)
@@ -4621,16 +4611,6 @@
 	)
 	(wire
 		(pts
-			(xy 48.26 167.64) (xy 53.34 167.64)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "aca772bc-dcac-49bf-9c7d-a3ca49a7de78")
-	)
-	(wire
-		(pts
 			(xy 215.9 139.7) (xy 215.9 142.24)
 		)
 		(stroke
@@ -4761,7 +4741,7 @@
 	)
 	(wire
 		(pts
-			(xy 26.67 172.72) (xy 53.34 172.72)
+			(xy 40.64 172.72) (xy 53.34 172.72)
 		)
 		(stroke
 			(width 0)
@@ -4831,7 +4811,7 @@
 	)
 	(wire
 		(pts
-			(xy 26.67 170.18) (xy 40.64 170.18)
+			(xy 40.64 170.18) (xy 53.34 170.18)
 		)
 		(stroke
 			(width 0)
@@ -4981,7 +4961,7 @@
 	)
 	(wire
 		(pts
-			(xy 26.67 175.26) (xy 53.34 175.26)
+			(xy 40.64 175.26) (xy 53.34 175.26)
 		)
 		(stroke
 			(width 0)
@@ -5080,7 +5060,7 @@
 		(uuid "fc1a4447-025d-430a-a347-f8147e6f74e1")
 	)
 	(label "SPDIF_OUT"
-		(at 43.18 162.56 0)
+		(at 40.64 162.56 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5150,7 +5130,7 @@
 		(uuid "1c325c49-8cc9-4d7d-9e0f-fbb37d6736f4")
 	)
 	(label "SPDIF_IN"
-		(at 43.18 160.02 0)
+		(at 40.64 160.02 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5320,7 +5300,7 @@
 		(uuid "59d8f08b-8ce7-46c3-b741-fd51a9dfa6f2")
 	)
 	(label "I2S1_BCLK"
-		(at 26.67 175.26 0)
+		(at 40.64 175.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5340,7 +5320,7 @@
 		(uuid "60ee51ed-ff76-4b1b-a1af-a2d142da94ca")
 	)
 	(label "I2S1_LRCLK"
-		(at 26.67 172.72 0)
+		(at 40.64 172.72 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5410,7 +5390,7 @@
 		(uuid "8656b608-eec6-4ed3-ae43-643bcf3df63f")
 	)
 	(label "I2S1_TX3"
-		(at 26.67 165.1 0)
+		(at 40.64 165.1 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5530,7 +5510,7 @@
 		(uuid "b0cd6fde-7bcd-4c79-8d47-c89c092c399d")
 	)
 	(label "I2S1_RX2"
-		(at 26.67 167.64 0)
+		(at 40.64 167.64 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5570,7 +5550,7 @@
 		(uuid "bb60b555-cc66-4d8c-9245-268565b28b9e")
 	)
 	(label "I2S1_RX1"
-		(at 26.67 170.18 0)
+		(at 40.64 170.18 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5838,7 +5818,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "0990d3dc-f3b8-44ab-ad9b-f32f531ae20d")
-		(property "Reference" "R12"
+		(property "Reference" "R15"
 			(at 125.73 27.94 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5912,7 +5892,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R12")
+					(reference "R15")
 					(unit 1)
 				)
 			)
@@ -5930,7 +5910,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0c93d476-2494-4eb0-84ea-5def20625e3a")
-		(property "Reference" "R9"
+		(property "Reference" "R2"
 			(at 46.228 27.2963 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6049,7 +6029,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R9")
+					(reference "R2")
 					(unit 1)
 				)
 			)
@@ -6320,7 +6300,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "177bbf87-a4ff-4bde-abfd-967624c370b1")
-		(property "Reference" "R8"
+		(property "Reference" "R11"
 			(at 49.53 123.19 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6394,7 +6374,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R8")
+					(reference "R11")
 					(unit 1)
 				)
 			)
@@ -6412,7 +6392,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1d973f01-9405-4041-8c59-c34106aaf00c")
-		(property "Reference" "#PWR03"
+		(property "Reference" "#PWR08"
 			(at 97.79 172.72 0)
 			(hide yes)
 			(show_name no)
@@ -6473,7 +6453,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "#PWR03")
+					(reference "#PWR08")
 					(unit 1)
 				)
 			)
@@ -6704,7 +6684,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "26ac13f4-59cd-4c31-802d-6d0f3c98723e")
-		(property "Reference" "R3"
+		(property "Reference" "R4"
 			(at 49.53 77.47 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6778,7 +6758,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R3")
+					(reference "R4")
 					(unit 1)
 				)
 			)
@@ -6795,7 +6775,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2a3d1f85-3518-49cc-8a12-7cbaa3ae71cf")
-		(property "Reference" "#PWR08"
+		(property "Reference" "#PWR09"
 			(at 87.63 175.26 0)
 			(hide yes)
 			(show_name no)
@@ -6856,7 +6836,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "#PWR08")
+					(reference "#PWR09")
 					(unit 1)
 				)
 			)
@@ -6873,7 +6853,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2ba79a38-d96c-41e4-a110-b9e5be6e14a4")
-		(property "Reference" "R13"
+		(property "Reference" "R8"
 			(at 49.53 95.25 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6991,7 +6971,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R13")
+					(reference "R8")
 					(unit 1)
 				)
 			)
@@ -7089,7 +7069,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2d9e6146-a0ac-40c4-96e7-6865e702fcf8")
-		(property "Reference" "R11"
+		(property "Reference" "R13"
 			(at 60.198 27.2963 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7208,7 +7188,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R11")
+					(reference "R13")
 					(unit 1)
 				)
 			)
@@ -7611,7 +7591,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "51b3e5e0-902c-42ec-8e4a-55a31d3f7810")
-		(property "Reference" "#PWR0129"
+		(property "Reference" "#PWR05"
 			(at 97.79 165.1 0)
 			(hide yes)
 			(show_name no)
@@ -7672,7 +7652,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "#PWR0129")
+					(reference "#PWR05")
 					(unit 1)
 				)
 			)
@@ -7690,7 +7670,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "629e1af9-1ae6-4f37-9bf7-d41209c6c788")
-		(property "Reference" "#PWR02"
+		(property "Reference" "#PWR06"
 			(at 87.63 167.64 0)
 			(hide yes)
 			(show_name no)
@@ -7751,7 +7731,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "#PWR02")
+					(reference "#PWR06")
 					(unit 1)
 				)
 			)
@@ -7768,7 +7748,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "76855c2c-382c-42a2-a25f-a2e5dea45109")
-		(property "Reference" "R2"
+		(property "Reference" "R3"
 			(at 49.53 74.93 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7842,7 +7822,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R2")
+					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -7938,7 +7918,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "84cca289-0975-4038-944c-926334b788fe")
-		(property "Reference" "R16"
+		(property "Reference" "R10"
 			(at 49.53 120.65 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8056,7 +8036,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R16")
+					(reference "R10")
 					(unit 1)
 				)
 			)
@@ -8073,7 +8053,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "87dcb103-cb2c-4d07-ae7f-cf87f2ed0cdf")
-		(property "Reference" "#PWR06"
+		(property "Reference" "#PWR04"
 			(at 71.12 62.23 0)
 			(hide yes)
 			(show_name no)
@@ -8133,7 +8113,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "#PWR06")
+					(reference "#PWR04")
 					(unit 1)
 				)
 			)
@@ -8364,7 +8344,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "9373232e-1ee3-42e9-ae77-e6e1474f61c6")
-		(property "Reference" "R18"
+		(property "Reference" "R16"
 			(at 213.36 133.35 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8481,7 +8461,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R18")
+					(reference "R16")
 					(unit 1)
 				)
 			)
@@ -8499,7 +8479,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "94c7c45f-e4fc-4221-aa2b-3b429f70b1c1")
-		(property "Reference" "#PWR04"
+		(property "Reference" "#PWR02"
 			(at 63.5 62.23 0)
 			(hide yes)
 			(show_name no)
@@ -8559,7 +8539,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "#PWR04")
+					(reference "#PWR02")
 					(unit 1)
 				)
 			)
@@ -8576,7 +8556,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "9c4729fb-2c56-4a56-882d-6bc85759f15d")
-		(property "Reference" "R17"
+		(property "Reference" "R9"
 			(at 49.53 97.79 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8694,7 +8674,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R17")
+					(reference "R9")
 					(unit 1)
 				)
 			)
@@ -8712,7 +8692,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9eaa64cd-43a6-4a6c-80f2-0b6c4ecc754b")
-		(property "Reference" "R10"
+		(property "Reference" "R12"
 			(at 52.578 27.2963 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8831,7 +8811,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R10")
+					(reference "R12")
 					(unit 1)
 				)
 			)
@@ -9193,7 +9173,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "bef8c28b-6299-4f4e-9e99-37816cdf0162")
-		(property "Reference" "R15"
+		(property "Reference" "R7"
 			(at 49.53 92.71 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9311,7 +9291,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R15")
+					(reference "R7")
 					(unit 1)
 				)
 			)
@@ -9469,7 +9449,7 @@
 		(in_pos_files yes)
 		(dnp yes)
 		(uuid "c5428037-ab84-4b42-99f1-a5052e01221c")
-		(property "Reference" "R19"
+		(property "Reference" "R17"
 			(at 218.44 144.78 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9586,98 +9566,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R19")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 44.45 170.18 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "c581f6b3-bbb7-43fe-821f-7c76686edc10")
-		(property "Reference" "R4"
-			(at 46.99 168.91 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "47Ω"
-			(at 44.45 170.18 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 44.45 171.958 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 44.45 170.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 44.45 170.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "R 47Ω 125mW 1% 0805"
-			(at 44.45 170.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "a9c213aa-f1c3-4e50-9fbf-5fc148c68772")
-		)
-		(pin "2"
-			(uuid "d9a5440f-a561-4a6e-ab79-b7ea444e5333")
-		)
-		(instances
-			(project "audio_board"
-				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R4")
+					(reference "R17")
 					(unit 1)
 				)
 			)
@@ -9694,7 +9583,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "cbff9eda-08e3-425d-b719-c6002b8019fc")
-		(property "Reference" "R7"
+		(property "Reference" "R6"
 			(at 49.53 90.17 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9768,7 +9657,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R7")
+					(reference "R6")
 					(unit 1)
 				)
 			)
@@ -10245,7 +10134,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e884ae75-4399-4ce1-bbba-c38802852da9")
-		(property "Reference" "#PWR05"
+		(property "Reference" "#PWR03"
 			(at 68.58 140.97 0)
 			(hide yes)
 			(show_name no)
@@ -10306,7 +10195,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "#PWR05")
+					(reference "#PWR03")
 					(unit 1)
 				)
 			)
@@ -10448,97 +10337,6 @@
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
 					(reference "J3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 44.45 167.64 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "fa48b4c6-fd98-4ec1-aefd-4c9b44debe2a")
-		(property "Reference" "R6"
-			(at 46.99 166.37 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "47Ω"
-			(at 44.45 167.64 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 44.45 169.418 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 44.45 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 44.45 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "R 47Ω 125mW 1% 0805"
-			(at 44.45 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "78d4130d-b322-4f09-8859-8c495413576a")
-		)
-		(pin "2"
-			(uuid "a2c16f94-c217-421c-a410-9b0dee1586df")
-		)
-		(instances
-			(project "audio_board"
-				(path "/54443f96-c7c5-4432-b890-45b14a1547a1"
-					(reference "R6")
 					(unit 1)
 				)
 			)
