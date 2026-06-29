@@ -900,13 +900,13 @@
           "group_by": true,
           "label": "Exclude from BOM",
           "name": "${EXCLUDE_FROM_BOM}",
-          "show": true
+          "show": false
         },
         {
           "group_by": true,
           "label": "Exclude from Board",
           "name": "${EXCLUDE_FROM_BOARD}",
-          "show": true
+          "show": false
         },
         {
           "group_by": false,
@@ -1085,7 +1085,7 @@
         "uuid": "f0cef814-4900-4bf7-8358-2f60ddcd815d"
       }
     ],
-    "used_designators": "#FLG3-4,#PWR12-15",
+    "used_designators": "",
     "variants": []
   },
   "sheets": [

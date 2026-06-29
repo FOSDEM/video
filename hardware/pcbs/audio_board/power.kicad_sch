@@ -4231,7 +4231,7 @@
 			(justify left bottom)
 		)
 		(uuid "a4353bf0-d97d-40b9-8a11-3f0e95f8c2a6")
-		(property "Net Class" "Phantom"
+		(property "Netclass" "Phantom"
 			(at 245.8085 59.69 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4540,7 +4540,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "09bbf729-2bdb-48b1-a3e1-eed206962fcf")
-		(property "Reference" "#PWR037"
+		(property "Reference" "#PWR033"
 			(at 154.94 97.79 0)
 			(hide yes)
 			(show_name no)
@@ -4601,7 +4601,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR037")
+					(reference "#PWR033")
 					(unit 1)
 				)
 			)
@@ -4762,7 +4762,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "0b3a1100-2a30-4764-8d54-e6abcf100628")
-		(property "Reference" "#PWR027"
+		(property "Reference" "#PWR023"
 			(at 88.9 127 0)
 			(hide yes)
 			(show_name no)
@@ -4823,7 +4823,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR027")
+					(reference "#PWR023")
 					(unit 1)
 				)
 			)
@@ -5115,7 +5115,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1230347e-3107-499c-89a6-8b78b67266c3")
-		(property "Reference" "#PWR045"
+		(property "Reference" "#PWR041"
 			(at 217.17 124.46 0)
 			(hide yes)
 			(show_name no)
@@ -5176,7 +5176,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR045")
+					(reference "#PWR041")
 					(unit 1)
 				)
 			)
@@ -5328,7 +5328,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1c1bc197-dba5-4a7f-96e0-227f874c439c")
-		(property "Reference" "#PWR043"
+		(property "Reference" "#PWR039"
 			(at 207.01 124.46 0)
 			(hide yes)
 			(show_name no)
@@ -5389,7 +5389,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR043")
+					(reference "#PWR039")
 					(unit 1)
 				)
 			)
@@ -5406,7 +5406,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1c5d16e4-0fe3-485d-81c5-121a9be6b7db")
-		(property "Reference" "#PWR034"
+		(property "Reference" "#PWR030"
 			(at 138.43 77.47 0)
 			(hide yes)
 			(show_name no)
@@ -5467,7 +5467,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR034")
+					(reference "#PWR030")
 					(unit 1)
 				)
 			)
@@ -5621,7 +5621,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1f9e1459-9a73-4195-a4db-82d7b27b042d")
-		(property "Reference" "R21"
+		(property "Reference" "R19"
 			(at 147.828 104.7663 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5740,7 +5740,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "R21")
+					(reference "R19")
 					(unit 1)
 				)
 			)
@@ -5758,7 +5758,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2425638d-e148-471d-a998-29d15057b536")
-		(property "Reference" "#PWR025"
+		(property "Reference" "#PWR021"
 			(at 69.85 90.17 0)
 			(hide yes)
 			(show_name no)
@@ -5819,7 +5819,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR025")
+					(reference "#PWR021")
 					(unit 1)
 				)
 			)
@@ -5836,7 +5836,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "275be98e-d728-44db-ac71-7b32131170df")
-		(property "Reference" "#PWR046"
+		(property "Reference" "#PWR042"
 			(at 226.06 78.74 0)
 			(hide yes)
 			(show_name no)
@@ -5897,7 +5897,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR046")
+					(reference "#PWR042")
 					(unit 1)
 				)
 			)
@@ -5914,7 +5914,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2ab3d29d-c1a2-4a0f-9e92-51f0f0b47fb3")
-		(property "Reference" "#PWR044"
+		(property "Reference" "#PWR040"
 			(at 214.63 78.74 0)
 			(hide yes)
 			(show_name no)
@@ -5975,7 +5975,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR044")
+					(reference "#PWR040")
 					(unit 1)
 				)
 			)
@@ -6480,7 +6480,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "59286341-387b-4318-8cb1-c9442f8ab592")
-		(property "Reference" "#PWR038"
+		(property "Reference" "#PWR034"
 			(at 157.48 124.46 0)
 			(hide yes)
 			(show_name no)
@@ -6541,7 +6541,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR038")
+					(reference "#PWR034")
 					(unit 1)
 				)
 			)
@@ -6558,7 +6558,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "5cb8a361-d197-49e4-b6f9-13c5289c8f20")
-		(property "Reference" "#PWR023"
+		(property "Reference" "#PWR019"
 			(at 49.53 127 0)
 			(hide yes)
 			(show_name no)
@@ -6619,7 +6619,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR023")
+					(reference "#PWR019")
 					(unit 1)
 				)
 			)
@@ -6818,7 +6818,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "61fbf041-9ed3-418b-b220-a5ef4baf16df")
-		(property "Reference" "R22"
+		(property "Reference" "R20"
 			(at 198.628 107.3063 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6937,7 +6937,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "R22")
+					(reference "R20")
 					(unit 1)
 				)
 			)
@@ -6955,7 +6955,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "6f2b55d0-d9b5-4ade-a90c-3b27fc9d47c0")
-		(property "Reference" "#PWR029"
+		(property "Reference" "#PWR025"
 			(at 91.44 90.17 0)
 			(hide yes)
 			(show_name no)
@@ -7016,7 +7016,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR029")
+					(reference "#PWR025")
 					(unit 1)
 				)
 			)
@@ -7034,7 +7034,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "759b61e5-bf96-49a3-904f-a3c4ff2cd7e3")
-		(property "Reference" "#PWR047"
+		(property "Reference" "#PWR043"
 			(at 261.62 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -7094,7 +7094,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR047")
+					(reference "#PWR043")
 					(unit 1)
 				)
 			)
@@ -7111,7 +7111,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "797bde5f-6022-4890-9033-8f0d0e27496e")
-		(property "Reference" "R26"
+		(property "Reference" "R24"
 			(at 208.788 106.0363 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7230,7 +7230,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "R26")
+					(reference "R24")
 					(unit 1)
 				)
 			)
@@ -7247,7 +7247,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "7b9574c1-9575-4950-9d2f-a1dd89a7baf5")
-		(property "Reference" "#PWR031"
+		(property "Reference" "#PWR027"
 			(at 101.6 127 0)
 			(hide yes)
 			(show_name no)
@@ -7308,7 +7308,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR031")
+					(reference "#PWR027")
 					(unit 1)
 				)
 			)
@@ -7471,7 +7471,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "8868f5dd-952a-42bb-ade8-38bb41b9d0c0")
-		(property "Reference" "#PWR032"
+		(property "Reference" "#PWR028"
 			(at 102.87 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -7532,7 +7532,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR032")
+					(reference "#PWR028")
 					(unit 1)
 				)
 			)
@@ -7549,7 +7549,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "89296ec8-c365-494b-9aea-55ac03b14d38")
-		(property "Reference" "R25"
+		(property "Reference" "R23"
 			(at 203.708 89.5263 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7668,7 +7668,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "R25")
+					(reference "R23")
 					(unit 1)
 				)
 			)
@@ -7958,7 +7958,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "98c1602b-1d2a-481e-9ac3-36bf0cd45628")
-		(property "Reference" "R24"
+		(property "Reference" "R22"
 			(at 203.708 78.0963 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8077,7 +8077,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "R24")
+					(reference "R22")
 					(unit 1)
 				)
 			)
@@ -8366,7 +8366,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "a59c51c6-8a55-40a9-ac6c-b236d236c12e")
-		(property "Reference" "#PWR035"
+		(property "Reference" "#PWR031"
 			(at 146.05 124.46 0)
 			(hide yes)
 			(show_name no)
@@ -8427,7 +8427,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR035")
+					(reference "#PWR031")
 					(unit 1)
 				)
 			)
@@ -8580,7 +8580,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b69ca9e3-63b1-4c70-9129-d0054d09f7f6")
-		(property "Reference" "#PWR033"
+		(property "Reference" "#PWR029"
 			(at 134.62 62.23 0)
 			(hide yes)
 			(show_name no)
@@ -8640,7 +8640,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR033")
+					(reference "#PWR029")
 					(unit 1)
 				)
 			)
@@ -8737,7 +8737,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b9ece6a7-96b6-454f-a52a-6dff32ca6e9d")
-		(property "Reference" "#PWR021"
+		(property "Reference" "#PWR017"
 			(at 45.72 64.77 0)
 			(hide yes)
 			(show_name no)
@@ -8797,7 +8797,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR021")
+					(reference "#PWR017")
 					(unit 1)
 				)
 			)
@@ -9040,7 +9040,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "c2f03760-9305-4261-9c54-5d12276f3d45")
-		(property "Reference" "R23"
+		(property "Reference" "R21"
 			(at 203.708 67.9363 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9159,7 +9159,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "R23")
+					(reference "R21")
 					(unit 1)
 				)
 			)
@@ -9314,7 +9314,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "c612a160-2283-43b4-a87b-f4d36ae54182")
-		(property "Reference" "#PWR041"
+		(property "Reference" "#PWR037"
 			(at 196.85 124.46 0)
 			(hide yes)
 			(show_name no)
@@ -9375,7 +9375,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR041")
+					(reference "#PWR037")
 					(unit 1)
 				)
 			)
@@ -9392,7 +9392,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "c8149eea-1b29-4b20-a210-f1a7d908c61d")
-		(property "Reference" "#PWR039"
+		(property "Reference" "#PWR035"
 			(at 158.75 77.47 0)
 			(hide yes)
 			(show_name no)
@@ -9453,7 +9453,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR039")
+					(reference "#PWR035")
 					(unit 1)
 				)
 			)
@@ -9470,7 +9470,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "c97747c3-d669-4fa2-9a1e-861f0ac8997d")
-		(property "Reference" "#PWR030"
+		(property "Reference" "#PWR026"
 			(at 95.25 127 0)
 			(hide yes)
 			(show_name no)
@@ -9531,7 +9531,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR030")
+					(reference "#PWR026")
 					(unit 1)
 				)
 			)
@@ -9549,7 +9549,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d22e2366-8ff6-4617-86c2-7b6e98ff52db")
-		(property "Reference" "#PWR028"
+		(property "Reference" "#PWR024"
 			(at 91.44 64.77 0)
 			(hide yes)
 			(show_name no)
@@ -9609,7 +9609,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR028")
+					(reference "#PWR024")
 					(unit 1)
 				)
 			)
@@ -9627,7 +9627,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "d566f298-d66e-437a-b0d9-d5f183facf33")
-		(property "Reference" "#PWR022"
+		(property "Reference" "#PWR018"
 			(at 49.53 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -9688,7 +9688,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR022")
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
@@ -9979,7 +9979,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e1e60a2c-8833-44d5-b3ff-226217ebf6de")
-		(property "Reference" "R20"
+		(property "Reference" "R18"
 			(at 62.23 67.3099 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10098,7 +10098,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "R20")
+					(reference "R18")
 					(unit 1)
 				)
 			)
@@ -10251,7 +10251,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "e5bd2300-a8c3-4181-9e34-809f06745571")
-		(property "Reference" "#PWR040"
+		(property "Reference" "#PWR036"
 			(at 180.34 124.46 0)
 			(hide yes)
 			(show_name no)
@@ -10312,7 +10312,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR040")
+					(reference "#PWR036")
 					(unit 1)
 				)
 			)
@@ -10329,7 +10329,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "ec96c8f4-3cbb-4c4b-896e-476cd189b7bb")
-		(property "Reference" "#PWR042"
+		(property "Reference" "#PWR038"
 			(at 201.93 101.6 0)
 			(hide yes)
 			(show_name no)
@@ -10390,7 +10390,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR042")
+					(reference "#PWR038")
 					(unit 1)
 				)
 			)
@@ -10407,7 +10407,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "edb47461-40d0-481e-8d6d-e85c7f1d6f12")
-		(property "Reference" "#PWR026"
+		(property "Reference" "#PWR022"
 			(at 80.01 127 0)
 			(hide yes)
 			(show_name no)
@@ -10468,7 +10468,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR026")
+					(reference "#PWR022")
 					(unit 1)
 				)
 			)
@@ -10624,7 +10624,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f01b80eb-7891-43dd-9128-46c136108100")
-		(property "Reference" "#PWR024"
+		(property "Reference" "#PWR020"
 			(at 67.31 127 0)
 			(hide yes)
 			(show_name no)
@@ -10686,7 +10686,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR024")
+					(reference "#PWR020")
 					(unit 1)
 				)
 			)
@@ -10703,7 +10703,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "f1c4c86f-b6e8-4d5e-abc6-ece6f62d02d0")
-		(property "Reference" "#PWR036"
+		(property "Reference" "#PWR032"
 			(at 148.59 77.47 0)
 			(hide yes)
 			(show_name no)
@@ -10764,7 +10764,7 @@
 		(instances
 			(project "audio_board"
 				(path "/54443f96-c7c5-4432-b890-45b14a1547a1/23b45e70-9f0d-43c3-ad82-81d9481de3a2"
-					(reference "#PWR036")
+					(reference "#PWR032")
 					(unit 1)
 				)
 			)
