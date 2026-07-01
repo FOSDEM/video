@@ -5,7 +5,7 @@
 	(uuid "54443f96-c7c5-4432-b890-45b14a1547a1")
 	(paper "A4")
 	(title_block
-		(title "FOSDEM audio V2")
+		(title "FOSDEM audio rev G")
 		(rev "1")
 		(comment 1 "3 balanced inputs, 2 balanced outputs, 1 mono line-in")
 		(comment 3 "FOSDEM audio interface")
