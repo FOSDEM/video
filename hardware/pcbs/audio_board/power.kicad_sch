@@ -4231,7 +4231,7 @@
 			(justify left bottom)
 		)
 		(uuid "a4353bf0-d97d-40b9-8a11-3f0e95f8c2a6")
-		(property "Net Class" "Phantom"
+		(property "Netclass" "Phantom"
 			(at 245.8085 59.69 0)
 			(show_name no)
 			(do_not_autoplace no)

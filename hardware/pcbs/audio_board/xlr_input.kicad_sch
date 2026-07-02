@@ -3439,7 +3439,7 @@
 			(justify left bottom)
 		)
 		(uuid "12c8e43f-a6ef-4b22-9b16-ea788fd02907")
-		(property "Net Class" "Phantom"
+		(property "Netclass" "Phantom"
 			(at 85.7885 45.72 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3474,7 +3474,7 @@
 			(justify left bottom)
 		)
 		(uuid "25aa2382-ce44-49c2-975c-34ee33b67518")
-		(property "Net Class" "Phantom"
+		(property "Netclass" "Phantom"
 			(at 69.85 58.9915 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3509,7 +3509,7 @@
 			(justify left bottom)
 		)
 		(uuid "2ecec726-e79c-4b17-b10e-05655269c722")
-		(property "Net Class" "Phantom"
+		(property "Netclass" "Phantom"
 			(at 128.9685 102.87 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3544,7 +3544,7 @@
 			(justify right bottom)
 		)
 		(uuid "51571d91-5d2b-49f1-a052-216d3ecfc719")
-		(property "Net Class" "Phantom"
+		(property "Netclass" "Phantom"
 			(at 68.0085 125.73 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3578,7 +3578,7 @@
 			(justify left bottom)
 		)
 		(uuid "6aa2c19f-9b45-4b3e-b063-4e133599a155")
-		(property "Net Class" "Phantom"
+		(property "Netclass" "Phantom"
 			(at 88.392 65.786 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3612,7 +3612,7 @@
 			(justify left bottom)
 		)
 		(uuid "92b16bbd-c108-4bf3-a593-f5c43dbd6a6a")
-		(property "Net Class" "Phantom"
+		(property "Netclass" "Phantom"
 			(at 88.392 55.626 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3647,7 +3647,7 @@
 			(justify left bottom)
 		)
 		(uuid "9e754838-3989-4d94-8a3d-7fd5509f555d")
-		(property "Net Class" "Phantom"
+		(property "Netclass" "Phantom"
 			(at 68.0085 102.87 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3682,7 +3682,7 @@
 			(justify left bottom)
 		)
 		(uuid "c7c9f0e8-1bae-4483-ac1f-c7ef2b41f3cd")
-		(property "Net Class" "Phantom"
+		(property "Netclass" "Phantom"
 			(at 85.7885 31.75 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3716,7 +3716,7 @@
 			(justify left bottom)
 		)
 		(uuid "e0da3e5b-27f7-4f06-add1-3b8c63d8b490")
-		(property "Net Class" "Phantom"
+		(property "Netclass" "Phantom"
 			(at 105.918 100.584 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3751,7 +3751,7 @@
 			(justify right bottom)
 		)
 		(uuid "f99921ce-2a94-422d-8294-9b2cb0152a5f")
-		(property "Net Class" "Phantom"
+		(property "Netclass" "Phantom"
 			(at 95.9485 125.73 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3786,7 +3786,7 @@
 			(justify right bottom)
 		)
 		(uuid "fc9a230f-6f32-4712-97da-a311f1b1b933")
-		(property "Net Class" "Phantom"
+		(property "Netclass" "Phantom"
 			(at 128.9685 125.73 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5594,7 +5594,7 @@
 				)
 			)
 		)
-		(property "MPN" "C 10μF LowESR 100V P2"
+		(property "MPN" "C 10μF Audio 100V P2"
 			(at 161.29 100.33 90)
 			(hide yes)
 			(show_name no)
@@ -5738,7 +5738,7 @@
 				)
 			)
 		)
-		(property "MPN" "C 1nF LowESR 100V 0805"
+		(property "MPN" "C 1nF Audio 100V 0805"
 			(at 80.01 118.11 0)
 			(hide yes)
 			(show_name no)
@@ -6406,7 +6406,7 @@
 				)
 			)
 		)
-		(property "MPN" "C 2.2nF LowESR 100V 0805"
+		(property "MPN" "C 2.2nF Audio 100V 0805"
 			(at 154.94 114.3 0)
 			(hide yes)
 			(show_name no)
@@ -6895,7 +6895,7 @@
 				)
 			)
 		)
-		(property "MPN" "C 10μF LowESR 100V P2"
+		(property "MPN" "C 10μF Audio 100V P2"
 			(at 161.29 128.27 90)
 			(hide yes)
 			(show_name no)
@@ -7846,7 +7846,7 @@
 				)
 			)
 		)
-		(property "MPN" "C 1nF LowESR 100V 0805"
+		(property "MPN" "C 1nF Audio 100V 0805"
 			(at 80.01 110.49 0)
 			(hide yes)
 			(show_name no)

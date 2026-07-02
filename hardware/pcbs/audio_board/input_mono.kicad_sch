@@ -2090,7 +2090,7 @@
 				)
 			)
 		)
-		(property "MPN" "C 10μF LowESR 100V P2"
+		(property "MPN" "C 10μF Audio 100V P2"
 			(at 147.32 123.19 90)
 			(hide yes)
 			(show_name no)
@@ -2640,7 +2640,7 @@
 				)
 			)
 		)
-		(property "MPN" "C 1nF LowESR 100V 0805"
+		(property "MPN" "C 1nF Audio 100V 0805"
 			(at 128.27 109.22 0)
 			(hide yes)
 			(show_name no)
@@ -3203,7 +3203,7 @@
 				)
 			)
 		)
-		(property "MPN" "C 10μF LowESR 100V P2"
+		(property "MPN" "C 10μF Audio 100V P2"
 			(at 147.32 95.25 90)
 			(hide yes)
 			(show_name no)
