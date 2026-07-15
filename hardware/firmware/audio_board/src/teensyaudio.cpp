@@ -18,16 +18,18 @@
 
 AudioControlTAA3040 taa3040;
 
-AudioMixer4* matrix[6][2] = {
-	{&mixer1, &mixer2},
-	{&mixer4, &mixer5},
-	{&mixer7, &mixer8},
-	{&mixer10, &mixer11},
-	{&mixer13, &mixer14},
-	{&mixer16, &mixer17},
+AudioMixer4* matrix[8][3] = {
+	{&mixer1, &mixer2, &mixer3},
+	{&mixer5, &mixer6, &mixer7},
+	{&mixer9, &mixer10, &mixer11},
+	{&mixer13, &mixer14, &mixer15},
+	{&mixer17, &mixer18, &mixer19},
+	{&mixer21, &mixer22, &mixer23},
+	{&mixer25, &mixer26, &mixer27},
+	{&mixer29, &mixer30, &mixer31},
 };
 
-AudioAnalyzeRMS* ent_rms[12] = {
+AudioAnalyzeRMS* ent_rms[16] = {
 	&rms1,
 	&rms2,
 	&rms3,
@@ -40,9 +42,13 @@ AudioAnalyzeRMS* ent_rms[12] = {
 	&rms10,
 	&rms11,
 	&rms12,
+	&rms13,
+	&rms14,
+	&rms15,
+	&rms16,
 };
 
-AudioAnalyzePeak* ent_peak[12] = {
+AudioAnalyzePeak* ent_peak[16] = {
 	&peak1,
 	&peak2,
 	&peak3,
@@ -55,6 +61,10 @@ AudioAnalyzePeak* ent_peak[12] = {
 	&peak10,
 	&peak11,
 	&peak12,
+	&peak13,
+	&peak14,
+	&peak15,
+	&peak16,
 };
 
 Levels     levels;
@@ -125,9 +135,16 @@ void audio_update_levels(Levels& levels) {
 				levels.rms[i] = temp;
 			}
 			levels.peak[i] = ent_peak[i]->read() * level_multiplier(i);
+			levels.state[i] = false;
 		}
 
 		taa3040.getAsiStatus();
+
+		levels.state[0] = is_phantom_on(0);
+		levels.state[1] = is_phantom_on(1);
+		levels.state[2] = is_phantom_on(2);
+
+		levels.state[6] = !spdif1.isLocked();
 	}
 }
 
@@ -141,8 +158,8 @@ float raw_get_crosspoint(uint8_t channel, uint8_t bus) {
 	return matrix[bus][channel / 4]->getGain(channel % 4);
 }
 
-uint64_t mute_mask(uint64_t channel, uint64_t bus) {
-	return (uint64_t)1 << (uint64_t)((channel * CHANNELS) + bus);
+uint16_t mute_mask(uint64_t channel) {
+	return (uint16_t)1 << (uint16_t)(channel);
 }
 
 void apply_phantom(uint8_t channel) {
@@ -181,7 +198,7 @@ void set_phantom_off(uint8_t channel) {
 }
 
 bool is_muted(uint8_t channel, uint8_t bus) {
-	return !!(state.mutes & mute_mask(channel, bus));
+	return !!(state.mutes[bus] & mute_mask(channel));
 }
 
 float get_volume_dB(uint8_t channel, uint8_t bus) {
@@ -215,12 +232,12 @@ void apply_volume(uint8_t channel, uint8_t bus) {
 }
 
 void mute(uint8_t channel, uint8_t bus) {
-	state.mutes |= mute_mask(channel, bus);
+	state.mutes[bus] |= mute_mask(channel);
 	apply_volume(channel, bus);
 }
 
 void unmute(uint8_t channel, uint8_t bus) {
-	state.mutes &= ~mute_mask(channel, bus);
+	state.mutes[bus] &= ~mute_mask(channel);
 	apply_volume(channel, bus);
 }
 
@@ -252,7 +269,7 @@ void reset_matrix() {
 }
 
 void reset_mutes() {
-	memcpy(&state.mutes, &default_mutes, sizeof(state.mutes));
+	memcpy(state.mutes, &default_mutes, sizeof(state.mutes) * 2);
 }
 
 void reset_phantoms() {

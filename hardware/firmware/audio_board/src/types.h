@@ -8,7 +8,7 @@
 typedef struct {
 		float matrix_dB[CHANNELS][BUSES];
 
-		uint64_t mutes;
+	    uint16_t mutes[BUSES];
 		uint16_t phantoms;
 
 		float channel_input_gains_dB[CHANNELS];
@@ -19,6 +19,7 @@ typedef struct {
 		float smooth[CHANNELS + BUSES];
 		float peak[CHANNELS + BUSES];
 		float rms[CHANNELS + BUSES];
+	    bool state[CHANNELS + BUSES];
 } Levels;
 
 #endif
