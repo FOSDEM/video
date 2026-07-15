@@ -12,7 +12,7 @@
 
 void display_setup();
 
-void display_update_vu(float levels_rms[CHANNELS + BUSES]);
+void display_update_vu(float levels_rms[CHANNELS + BUSES], bool state[CHANNELS + BUSES]);
 
 void display_update_screen();
 
