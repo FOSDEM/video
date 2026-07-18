@@ -43,7 +43,7 @@ void loop() {
 	audio_update_levels(levels);
 
 #ifdef USE_DISPLAY
-	display_update_vu(levels.rms);
+	display_update_vu(levels.rms, levels.state);
 
 	if (last_draw < (millis() - 16)) {
 		display_update_screen();
