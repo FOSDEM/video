@@ -1,0 +1,46 @@
+@import "variables";
+
+body, html {
+  background: @background;
+  color: @color;
+  font-family: sans-serif;
+
+  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, Adwaita Sans, Cantarell, Ubuntu, roboto, noto, helvetica, arial, sans-serif;
+  font-size: 11pt;
+
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+body > header {
+  border-bottom: 1px solid @panel-border;
+  padding: 10px;
+
+  background: darken(@background, 2%);
+
+  a {
+    display: inline-block;
+    padding: 10px;
+    color: @color;
+    text-decoration: none;
+
+    &.active {
+      color: orange;
+    }
+
+    &:hover {
+      background: @background;
+    }
+  }
+}
+
+.main {
+  flex: 1;
+  overflow: auto;
+}

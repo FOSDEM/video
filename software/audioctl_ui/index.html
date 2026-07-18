@@ -4,12 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link id="favicon" rel="icon" href="data:," />
-    <link href="/styles/app.css" type="text/css" rel="stylesheet" />
-    <link href="/styles/mixer.css" type="text/css" rel="stylesheet" />
+    <link href="/styles/app.less" type="text/css" rel="stylesheet" />
+    <link href="/styles/mixer.less" type="text/css" rel="stylesheet" />
     <title>Audio control</title>
   </head>
   <body>
-    <div id="mixer"></div>
+    <header id="app-header">
+        <a href="/video">Video</a>
+        <a href="/index.html" class="active">Audio</a>
+        <a href="/config">Config</a>
+    </header>
+    <div id="mixer" class="main"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

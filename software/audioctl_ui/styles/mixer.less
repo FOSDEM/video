@@ -1,0 +1,99 @@
+@import "variables";
+
+.channellist {
+  background: @panel-bg;
+  border: 1px solid @panel-border;
+  color: @panel-color;
+  margin: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  overflow-x: auto;
+
+  display: flex;
+
+  .channel {
+    padding: 0 4px;
+    flex: 1;
+    border-right: 1px solid @seperator;
+
+    .gain input {
+      writing-mode: vertical-lr;
+      direction: rtl;
+      appearance: slider-vertical;
+      vertical-align: bottom;
+      background: transparent;
+      width: 64px;
+      margin: 10px auto;
+
+      &::-moz-range-track {
+        width: 3px;
+        cursor: pointer;
+        background: @control-bg;
+        border-radius: 2px;
+        border: none;
+      }
+
+      &::-moz-range-thumb {
+        background: linear-gradient(#c5c5c5 0%, #989898 10%, #575757 11%, #adadad 49%, #515151 50%, #ccc 53%, #cbcbcb 85%, #494949 86%, #474747);
+        border-radius: 4px;        width: 42px;
+        height: 24px;
+        border: none;
+        box-shadow: 2px 3px 4px 0 rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    h3 {
+      background: @control-bg;
+      margin: 0;
+      text-align: center;
+      padding: 5px;
+    }
+
+    .send {
+      border-bottom: 1px solid @seperator;
+
+      input[type=range] {
+        -webkit-appearance: none;
+        width: 100%;
+        background: transparent;
+
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+        }
+
+        &::-ms-track {
+          width: 100%;
+          cursor: pointer;
+          background: transparent;
+          border-color: transparent;
+          color: transparent;
+        }
+
+        &::-webkit-slider-runnable-track, &::-moz-range-track {
+          width: 100%;
+          height: 16px;
+          cursor: pointer;
+          background: @control-bg;
+          border-radius: 2px;
+          border: none;
+        }
+
+        &::-moz-range-progress {
+          background: @control-primary;
+          height: 16px;
+        }
+
+        &::-moz-range-thumb {
+          display: none;
+          background: transparent;
+          border: none;
+        }
+      }
+
+      h4 {
+        margin: 0;
+        display: none;
+      }
+    }
+  }
+}

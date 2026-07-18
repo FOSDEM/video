@@ -45,11 +45,9 @@ export class MixerUI {
 
         <div className='mixer'>
           <div className='mixer'>
-            <h2>Inputs</h2>
             <div className='inputs channellist' ref={inputsContainer}/>
           </div>
           <div className='mixer'>
-            <h2>Outputs</h2>
             <div className='outputs channellist' ref={outputsContainer}/>
           </div>
         </div>
