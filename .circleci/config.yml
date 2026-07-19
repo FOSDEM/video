@@ -51,7 +51,7 @@ jobs:
     executor: debian
     steps:
     - run: apt-get update
-    - run: apt-get -y install dpkg-dev debhelper git golang-go golang dh-exec
+    - run: apt-get -y install dpkg-dev debhelper git golang-go golang dh-exec nodejs npm
     - run: git config --global --add safe.directory /tmp/_circleci_local_build_repo
     - checkout
     - run: chown -R $(id -nu):$(id -ng) . # another fix for wrong permissions in local builds
