@@ -18,34 +18,34 @@ executors:
     - image: cibuilds/github:0.13
 
 jobs:
-#  build_firmware:
-#    executor: archlinux
-#    steps:
-#    - run: >
-#        pacman -Syu --noconfirm \
-#          git \
-#          base-devel cmake \
-#          arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-newlib \
-#          libusb freetype2 \
-#          python openssh
-#
-#    # I have no idea why git fails locally otherwise, but...
-#    - run: git config --global --add safe.directory /tmp/_circleci_local_build_repo
-#    - checkout
-#    - run: chown -R $(id -nu):$(id -ng) . # another fix for wrong permissions in local builds
-#
-#    - run: bash ./hardware/firmware/box_rp2040/build.sh
-#    - run: bash ./hardware/firmware/audio_board/build.sh
-#    - run: mkdir firmware_build
-#    - run: cp -v hardware/firmware/audio_board/build/teensy_audio.hex firmware_build/audio_board_teensy.hex
-#    - run: cp -v hardware/firmware/box_rp2040/build/src/box_rp2040.elf firmware_build/box_rp2040.elf
-#
-#    - persist_to_workspace:
-#        root: .
-#        paths:
-#        - firmware_build
-#    - store_artifacts:
-#        path: firmware_build
+  build_firmware:
+    executor: archlinux
+    steps:
+    - run: >
+        pacman -Syu --noconfirm \
+          git \
+          base-devel cmake \
+          arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-newlib \
+          libusb freetype2 \
+          python openssh
+
+    # I have no idea why git fails locally otherwise, but...
+    - run: git config --global --add safe.directory /tmp/_circleci_local_build_repo
+    - checkout
+    - run: chown -R $(id -nu):$(id -ng) . # another fix for wrong permissions in local builds
+
+    - run: bash ./hardware/firmware/box_rp2040/build.sh
+    - run: bash ./hardware/firmware/audio_board/build.sh
+    - run: mkdir firmware_build
+    - run: cp -v hardware/firmware/audio_board/build/teensy_audio.hex firmware_build/audio_board_teensy.hex
+    - run: cp -v hardware/firmware/box_rp2040/build/src/box_rp2040.elf firmware_build/box_rp2040.elf
+
+    - persist_to_workspace:
+        root: .
+        paths:
+        - firmware_build
+    - store_artifacts:
+        path: firmware_build
 
   build_audioctl:
     executor: debian
@@ -97,27 +97,27 @@ jobs:
 workflows:
   build:
     jobs:
-#    - build_firmware:
-#        filters:
-#          tags:
-#            only: /.*/
+    - build_firmware:
+        filters:
+          tags:
+            only: /.*/
     - build_audioctl:
         filters:
           tags:
             only: /.*/
-#    - package:
-#        requires:
-#        - build_firmware
-#        filters:
-#          tags:
-#            only: /.*/
-#          branches:
-#            ignore: /.*/
+    - package:
+        requires:
+        - build_firmware
+        filters:
+          tags:
+            only: /.*/
+          branches:
+            ignore: /.*/
     - release:
         requires:
-#        - build_firmware
+        - build_firmware
         - build_audioctl
-#        - package
+        - package
         filters:
           tags:
             only: /.*/
