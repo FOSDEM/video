@@ -49,6 +49,7 @@ jobs:
 
   build_audioctl:
     executor: debian
+    steps:
     - run: git config --global --add safe.directory /tmp/_circleci_local_build_repo
     - checkout
     - run: chown -R $(id -nu):$(id -ng) . # another fix for wrong permissions in local builds
