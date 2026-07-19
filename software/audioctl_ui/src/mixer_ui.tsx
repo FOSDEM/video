@@ -61,7 +61,7 @@ export class MixerUI {
 
 
     setupModeSelector.value!.onchange = _ => this.toggleSetupMode(setupModeSelector.value!.checked)
-  this.toggleSetupMode(setupModeSelector.value!.checked)
+    this.toggleSetupMode(setupModeSelector.value!.checked)
 
     await this.client.subscribe_state(s => this.updateState(s))
     await this.client.subscribe_levels(l => this.updateVu(initialState, l))

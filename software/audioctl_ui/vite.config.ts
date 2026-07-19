@@ -5,7 +5,7 @@ import checker from 'vite-plugin-checker'
 
 export default defineConfig(({ mode }) => {
   let server_cfg = {}
-  let optimize_deps = {
+  const optimize_deps = {
     exclude: new Array<string>(),
     include: ['buffer'],  // used by MQTT.js
   }
