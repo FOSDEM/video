@@ -56,7 +56,13 @@ jobs:
     - checkout
     - run: chown -R $(id -nu):$(id -ng) . # another fix for wrong permissions in local builds
     - run: cd software/audioctl && DEB_BUILD_OPTIONS=nostrip fakeroot dpkg-buildpackage
-    - run: package_cloud push fosdem/video-team/debian/trixie software/*deb
+    - run: cd software/audioctl_ui && fakeroot dpkg-buildpackage
+    - persist_to_workspace:
+        root: .
+        paths:
+        - software/*.deb
+    - store_artifacts:
+        path: software/*.deb
     
 
   package:
@@ -75,7 +81,7 @@ jobs:
            hardware/firmware/tools/flash_rp2040_firmware.sh=/usr/share/fosdem_firmware/flash_rp2040_firmware.sh \
            hardware/firmware/tools/flash_audio_board_firmware.sh=/usr/share/fosdem_firmware/flash_audio_board_firmware.sh
     - run: package_cloud push fosdem/video-team/debian/bookworm release/*deb
-    - run: package_cloud push fosdem/video-team/debian/trixie release/*deb
+    - run: package_cloud push fosdem/video-team/debian/trixie release/*deb software/*deb
     - store_artifacts:
         path: release
     - persist_to_workspace:
