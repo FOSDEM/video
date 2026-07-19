@@ -55,7 +55,7 @@ jobs:
     - run: git config --global --add safe.directory /tmp/_circleci_local_build_repo
     - checkout
     - run: chown -R $(id -nu):$(id -ng) . # another fix for wrong permissions in local builds
-    - run: cd software/audioctl && fakeroot dpkg-buildpackage
+    - run: cd software/audioctl && DEB_BUILD_OPTIONS=nostrip fakeroot dpkg-buildpackage
     - run: package_cloud push fosdem/video-team/debian/trixie software/*deb
     
 
