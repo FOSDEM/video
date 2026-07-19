@@ -80,8 +80,10 @@ jobs:
            firmware_build/box_rp2040.elf=/usr/share/fosdem_firmware/box_rp2040.elf \
            hardware/firmware/tools/flash_rp2040_firmware.sh=/usr/share/fosdem_firmware/flash_rp2040_firmware.sh \
            hardware/firmware/tools/flash_audio_board_firmware.sh=/usr/share/fosdem_firmware/flash_audio_board_firmware.sh
+    - run: find . -type f
     - run: package_cloud push fosdem/video-team/debian/bookworm release/*deb
-    - run: package_cloud push fosdem/video-team/debian/trixie release/*deb software/*deb
+    - run: package_cloud push fosdem/video-team/debian/trixie release/*deb
+    - run: package_cloud push fosdem/video-team/debian/trixie software/*deb
     - store_artifacts:
         path: release
     - persist_to_workspace:
@@ -108,6 +110,7 @@ workflows:
     - package:
         requires:
         - build_firmware
+        - build_audioctl
         filters:
           tags:
             only: /.*/
