@@ -4,9 +4,12 @@ executors:
   go:
     docker:
     - image: cimg/go:1.23
-  debian:
+  archlinux:
     docker:
     - image: archlinux:latest
+  debian:
+    docker:
+    - image: debian:trixie
   ruby:
     docker:
     - image: cimg/ruby:3.4
@@ -16,7 +19,7 @@ executors:
 
 jobs:
   build_firmware:
-    executor: debian
+    executor: archlinux
     steps:
     - run: >
         pacman -Syu --noconfirm \
@@ -44,6 +47,24 @@ jobs:
     - store_artifacts:
         path: firmware_build
 
+  build_audioctl:
+    executor: debian
+    steps:
+    - run: apt-get update
+    - run: apt-get -y install dpkg-dev debhelper git golang-go golang dh-exec nodejs npm
+    - run: git config --global --add safe.directory /tmp/_circleci_local_build_repo
+    - checkout
+    - run: chown -R $(id -nu):$(id -ng) . # another fix for wrong permissions in local builds
+    - run: cd software/audioctl && DEB_BUILD_OPTIONS=nostrip fakeroot dpkg-buildpackage
+    - run: cd software/audioctl_ui && fakeroot dpkg-buildpackage
+    - persist_to_workspace:
+        root: .
+        paths:
+        - software/*.deb
+    - store_artifacts:
+        path: software/*.deb
+    
+
   package:
     executor: ruby
     steps:
@@ -59,8 +80,10 @@ jobs:
            firmware_build/box_rp2040.elf=/usr/share/fosdem_firmware/box_rp2040.elf \
            hardware/firmware/tools/flash_rp2040_firmware.sh=/usr/share/fosdem_firmware/flash_rp2040_firmware.sh \
            hardware/firmware/tools/flash_audio_board_firmware.sh=/usr/share/fosdem_firmware/flash_audio_board_firmware.sh
+    - run: find . -type f
     - run: package_cloud push fosdem/video-team/debian/bookworm release/*deb
     - run: package_cloud push fosdem/video-team/debian/trixie release/*deb
+    - run: package_cloud push fosdem/video-team/debian/trixie software/*deb
     - store_artifacts:
         path: release
     - persist_to_workspace:
@@ -80,9 +103,14 @@ workflows:
         filters:
           tags:
             only: /.*/
+    - build_audioctl:
+        filters:
+          tags:
+            only: /.*/
     - package:
         requires:
         - build_firmware
+        - build_audioctl
         filters:
           tags:
             only: /.*/
@@ -91,6 +119,7 @@ workflows:
     - release:
         requires:
         - build_firmware
+        - build_audioctl
         - package
         filters:
           tags:
