@@ -118,6 +118,8 @@ set(SOURCES
     src/cli/commands.cpp
     src/debug.cpp
     src/channels.cpp
+        src/channel_strip.cpp
+        src/channel_strip.h
 )
 
 # Build this project

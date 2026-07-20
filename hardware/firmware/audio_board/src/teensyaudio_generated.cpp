@@ -1,5 +1,6 @@
 // clang-format off
 
+#include "channel_strip.h"
 // GUItool: begin automatically generated code
 AudioInputTDM2  tdm1;    //xy=84,425
 AudioInputUSB  usb1;    //xy=84,1219
@@ -218,3 +219,25 @@ AudioConnection patchCord141(mixer32, 0, peak16, 0);
 AudioConnection patchCord142(mixer32, 0, rms16, 0);
 AudioConnection patchCord143(mixer32, 0, spdif2, 1);
 // GUItool: end automatically generated code
+
+InputChannel route_inputs[8] = {
+    InputChannel(&peak1, &rms1),
+    InputChannel(&peak2, &rms2),
+    InputChannel(&peak3, &rms3),
+    InputChannel(&peak4, &rms4),
+    InputChannel(&peak5, &rms5),
+    InputChannel(&peak6, &rms6),
+    InputChannel(&peak7, &rms7),
+    InputChannel(&peak8, &rms8),
+};
+
+OutputChannel route_outputs[8] = {
+    OutputChannel(&peak9, &rms9, {&mixer1, &mixer2, &mixer3}),
+    OutputChannel(&peak10, &rms10, {&mixer5, &mixer6, &mixer7}),
+    OutputChannel(&peak11, &rms11, {&mixer9, &mixer10, &mixer11}),
+    OutputChannel(&peak12, &rms12, {&mixer13, &mixer14, &mixer15}),
+    OutputChannel(&peak13, &rms13, {&mixer17, &mixer18, &mixer19}),
+    OutputChannel(&peak14, &rms14, {&mixer21, &mixer22, &mixer23}),
+    OutputChannel(&peak15, &rms15, {&mixer25, &mixer26, &mixer27}),
+    OutputChannel(&peak16, &rms16, {&mixer29, &mixer30, &mixer31}),
+};

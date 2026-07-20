@@ -18,55 +18,6 @@
 
 AudioControlTAA3040 taa3040;
 
-AudioMixer4* matrix[8][3] = {
-	{&mixer1, &mixer2, &mixer3},
-	{&mixer5, &mixer6, &mixer7},
-	{&mixer9, &mixer10, &mixer11},
-	{&mixer13, &mixer14, &mixer15},
-	{&mixer17, &mixer18, &mixer19},
-	{&mixer21, &mixer22, &mixer23},
-	{&mixer25, &mixer26, &mixer27},
-	{&mixer29, &mixer30, &mixer31},
-};
-
-AudioAnalyzeRMS* ent_rms[16] = {
-	&rms1,
-	&rms2,
-	&rms3,
-	&rms4,
-	&rms5,
-	&rms6,
-	&rms7,
-	&rms8,
-	&rms9,
-	&rms10,
-	&rms11,
-	&rms12,
-	&rms13,
-	&rms14,
-	&rms15,
-	&rms16,
-};
-
-AudioAnalyzePeak* ent_peak[16] = {
-	&peak1,
-	&peak2,
-	&peak3,
-	&peak4,
-	&peak5,
-	&peak6,
-	&peak7,
-	&peak8,
-	&peak9,
-	&peak10,
-	&peak11,
-	&peak12,
-	&peak13,
-	&peak14,
-	&peak15,
-	&peak16,
-};
-
 Levels     levels;
 AudioState state;
 
@@ -122,21 +73,24 @@ float level_multiplier(uint8_t meter_id) {
 }
 
 void audio_update_levels(Levels& levels) {
-	float temp;
 	if (rms1.available()) {
-		for (uint8_t i = 0; i < CHANNELS + BUSES; i++) {
-			temp             = ent_rms[i]->read() * level_multiplier(i);
-			levels.smooth[i] = ((levels.smooth[i] * 9) + temp) / 10;
-			temp             = levels.smooth[i];
-			// VU meter drains slowly after a peak
-			if (temp < levels.rms[i]) {
-				levels.rms[i] *= 0.97;
-			} else {
-				levels.rms[i] = temp;
-			}
-			levels.peak[i] = ent_peak[i]->read() * level_multiplier(i);
-			levels.state[i] = false;
+
+		for (size_t i=0;i<8; i++)
+		{
+			route_inputs[i].update();
+			levels.smooth[i] = route_inputs[i].level_smooth;
+			levels.peak[i] = route_inputs[i].level_peak;
+			levels.rms[i] = route_inputs[i].level_rms;
 		}
+		for (size_t i=0;i<8; i++)
+		{
+			size_t j = i + 8;
+			route_outputs[i].update();
+			levels.smooth[j] = route_outputs[i].level_smooth;
+			levels.peak[j] = route_outputs[i].level_peak;
+			levels.rms[j] = route_outputs[i].level_rms;
+		}
+
 
 		taa3040.getAsiStatus();
 
@@ -151,11 +105,11 @@ void audio_update_levels(Levels& levels) {
 Levels& audio_get_levels() { return levels; }
 
 void raw_set_crosspoint(uint8_t channel, uint8_t bus, float volume) {
-	matrix[bus][channel / 4]->gain(channel % 4, volume);
+	route_outputs[bus].SetCrosspointLevel(channel, volume);
 }
 
 float raw_get_crosspoint(uint8_t channel, uint8_t bus) {
-	return matrix[bus][channel / 4]->getGain(channel % 4);
+	return route_outputs[bus].GetCrosspointLevel(channel);
 }
 
 uint16_t mute_mask(uint64_t channel) {
