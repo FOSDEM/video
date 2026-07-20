@@ -4434,7 +4434,7 @@
 		(descr "Resistor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R30"
-			(at -2.070586 -0.007446 180)
+			(at 1.943523 -0.122236 180)
 			(layer "F.SilkS")
 			(uuid "faa80c63-3946-4d20-adc5-d29885cd0d2c")
 			(effects
@@ -21410,7 +21410,7 @@
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C60"
-			(at 1.956711 -0.107126 180)
+			(at -0.0375 -1.265 270)
 			(layer "F.SilkS")
 			(uuid "77070998-b9e3-461f-9b44-9adce6de417f")
 			(effects
@@ -27505,7 +27505,7 @@
 		(descr "Resistor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R69"
-			(at -1.96 0.04 270)
+			(at 1.870303 -0.001804 270)
 			(layer "F.SilkS")
 			(uuid "9ed34c23-bb97-4490-8a83-a1abf36efae5")
 			(effects
@@ -31932,7 +31932,7 @@
 		(descr "Resistor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R70"
-			(at -1.96 0.04 270)
+			(at 1.843209 -0.000641 270)
 			(layer "F.SilkS")
 			(uuid "45e0faae-0afe-420b-88f6-467d776eb122")
 			(effects
@@ -44724,7 +44724,7 @@
 		(descr "Inductor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 80, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "inductor")
 		(property "Reference" "L4"
-			(at -2.032142 -0.000292 180)
+			(at 1.925 -0.000292 180)
 			(layer "F.SilkS")
 			(uuid "cfc7aa53-24e5-4a73-bbe4-ede92eba1b29")
 			(effects
@@ -47017,7 +47017,7 @@
 		(descr "TRS 3.5mm, horizontal, through-hole, , circular holeshttps://www.cui.com/product/resource/sj1-353xng.pdf")
 		(tags "TRS audio jack stereo horizontal circular")
 		(property "Reference" "J9"
-			(at -5.019633 0.610741 240)
+			(at -2.580144 13.63606 330)
 			(layer "F.SilkS")
 			(uuid "2df1ea05-2896-4a7c-b1f3-bd697a7dc612")
 			(effects
@@ -65829,7 +65829,7 @@
 		(layer "User.6")
 		(uuid "8030f008-310a-415c-8985-c5f00f963c97")
 	)
-	(gr_text "FOSDEM Audio Interface rev. G"
+	(gr_text "FOSDEM Audio Interface rev. H"
 		(at 220 123.5 90)
 		(layer "F.SilkS")
 		(uuid "c552a0e3-5b1f-45a8-8548-8a99915e2453")
@@ -65841,7 +65841,91 @@
 			(justify left bottom)
 		)
 	)
-	(gr_text "FOSDEM Audio Interface rev. G"
+	(gr_text "OUT1"
+		(at 88.75 130.25 0)
+		(layer "F.SilkS")
+		(uuid "f812b1e7-b677-4899-83d0-3ef072d6f105")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify bottom)
+		)
+	)
+	(gr_text "OUT2"
+		(at 115.75 130.25 0)
+		(layer "F.SilkS")
+		(uuid "f4f9c115-d1a3-4747-b99a-a2e269474416")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify bottom)
+		)
+	)
+	(gr_text "IN1"
+		(at 145.5 130.1 0)
+		(layer "F.SilkS")
+		(uuid "24b9ea6e-5bac-4f0e-b430-bdef3cfa44c1")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify bottom)
+		)
+	)
+	(gr_text "IN2"
+		(at 172.6 130 0)
+		(layer "F.SilkS")
+		(uuid "739b6c44-d7be-4f10-bdfe-bf350f7080e3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify bottom)
+		)
+	)
+	(gr_text "IN3"
+		(at 199.5 130.1 0)
+		(layer "F.SilkS")
+		(uuid "a60e927a-7062-465c-bf12-9481cac86c5b")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify bottom)
+		)
+	)
+	(gr_text "HEADPHONE"
+		(at 215.1 134.3 0)
+		(layer "F.SilkS")
+		(uuid "633449cb-03c3-4f3b-9cbe-52f0e122234d")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify bottom)
+		)
+	)
+	(gr_text "IN PC (MONO)"
+		(at 197.792101 97.75293 60)
+		(layer "F.SilkS")
+		(uuid "1fb34658-21bc-4443-8a88-fcc4da85742f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify bottom)
+		)
+	)
+	(gr_text "FOSDEM Audio Interface rev. H"
 		(at 220 100 90)
 		(layer "B.SilkS")
 		(uuid "1d183e1d-c0ff-46f5-8148-08bb164ebc0d")
@@ -71187,24 +71271,6 @@
 		(free yes)
 		(net "GND")
 		(uuid "8ceb6175-6292-432e-891e-77c9de44991d")
-	)
-	(via
-		(at 198 96)
-		(size 0.6)
-		(drill 0.3)
-		(layers "F.Cu" "B.Cu")
-		(capping no)
-		(covering
-			(front no)
-			(back no)
-		)
-		(plugging
-			(front no)
-			(back no)
-		)
-		(filling no)
-		(net "GND")
-		(uuid "8d0fe404-672b-49e9-aa79-56c2f631d4d3")
 	)
 	(via
 		(at 164 113.25)
