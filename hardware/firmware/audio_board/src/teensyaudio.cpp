@@ -146,6 +146,11 @@ void set_phantom_off(uint8_t channel) {
 	route_inputs[channel].SetPhantom(false);
 }
 
+InputChannel* get_channel(uint8_t channel)
+{
+	return &route_inputs[channel];
+}
+
 bool is_muted(uint8_t channel, uint8_t bus) {
 	return route_outputs[bus].GetCrosspointMute(channel);
 }

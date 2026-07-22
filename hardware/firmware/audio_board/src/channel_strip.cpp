@@ -37,6 +37,10 @@ void InputChannel::SetGain(float gainDb)
 
 bool InputChannel::EepromSave()
 {
+    if (this->filter.dirty)
+    {
+        this->eepromDirty = true;
+    }
     if (!this->eepromDirty)
     {
         return false;
@@ -51,6 +55,14 @@ bool InputChannel::EepromSave()
         .checksum = 0,
     };
 
+    for (uint8_t i = 0; i < 4; i++)
+    {
+        data.eq[i].type = this->filter._band[i].type;
+        data.eq[i].frequency = this->filter._band[i].frequency;
+        data.eq[i].gain = this->filter._band[i].gain;
+        data.eq[i].q = this->filter._band[i].q;
+    }
+
     auto checksum = struct_checksum(data);
     data.checksum = checksum;
 
@@ -61,6 +73,7 @@ bool InputChannel::EepromSave()
     }
 
     this->eepromDirty = false;
+    this->filter.dirty = false;
     return true;
 }
 
@@ -85,12 +98,21 @@ bool InputChannel::EepromLoad()
     this->SetGain(data.gain);
     this->SetPhantom(data.phantom);
 
+    for (uint8_t i = 0; i < 4; i++)
+    {
+        this->filter._band[i].type = data.eq[i].type;
+        this->filter._band[i].frequency = data.eq[i].frequency;
+        this->filter._band[i].gain = data.eq[i].gain;
+        this->filter._band[i].q = data.eq[i].q;
+    }
+    this->filter.Apply();
+
     return true;
 }
 
 void OutputChannel::apply_matrix() const
 {
-    for (uint8_t i=0; i<CHANNELS; i++)
+    for (uint8_t i = 0; i < CHANNELS; i++)
     {
         float gain = _crosspoint_gain[i];
         gain += this->digital_gain;
