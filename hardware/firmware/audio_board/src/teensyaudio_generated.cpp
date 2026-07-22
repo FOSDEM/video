@@ -241,3 +241,19 @@ OutputChannel route_outputs[8] = {
     OutputChannel(&peak15, &rms15, {&mixer25, &mixer26, &mixer27}),
     OutputChannel(&peak16, &rms16, {&mixer29, &mixer30, &mixer31}),
 };
+
+ChannelStrip strip_inputs[6] = {
+    ChannelStrip(&route_inputs[0]),
+    ChannelStrip(&route_inputs[1]),
+    ChannelStrip(&route_inputs[2]),
+    ChannelStrip(&route_inputs[3]),
+    ChannelStrip(&route_inputs[4], &route_inputs[5]),
+    ChannelStrip(&route_inputs[6], &route_inputs[7]),
+};
+
+Bus buses[4] = {
+    Bus(&route_outputs[0], &route_outputs[1]),
+    Bus(&route_outputs[2], &route_outputs[3]),
+    Bus(&route_outputs[4], &route_outputs[5]),
+    Bus(&route_outputs[6], &route_outputs[7]),
+};
