@@ -3,13 +3,24 @@
 #include "analyze_rms.h"
 #include "channels.h"
 #include "debug.h"
+#include "filter.h"
+#include "filter_biquad.h"
 #include "mixer.h"
 
-struct EepromInput
+struct __attribute__((packed)) EepromBiquad
+{
+    uint8_t type;
+    float gain;
+    float frequency;
+    float q;
+};
+
+struct __attribute__((packed)) EepromInput
 {
     float gain;
     bool phantom;
     uint8_t checksum;
+    EepromBiquad eq[4];
 };
 
 class InputChannel
@@ -19,10 +30,13 @@ public:
     float level_rms;
     float level_smooth;
 
-    InputChannel(AudioAnalyzePeak* in_peak, AudioAnalyzeRMS* in_rms)
+    Filter filter;
+
+    InputChannel(AudioAnalyzePeak* in_peak, AudioAnalyzeRMS* in_rms, AudioFilterBiquad* biquad) : filter(biquad)
     {
         _peak = in_peak;
         _rms = in_rms;
+        _biquad = biquad;
         _level_multiplier = 1.0f;
 
         level_peak = 0.0f;
@@ -35,6 +49,7 @@ public:
     void update();
 
     void SetGain(float gainDb);
+
     float GetGain() const
     {
         return digital_gain + analog_gain;
@@ -105,13 +120,14 @@ private:
 
     AudioAnalyzePeak* _peak;
     AudioAnalyzeRMS* _rms;
+    AudioFilterBiquad* _biquad;
 };
 
 class OutputChannel : public InputChannel
 {
 public:
-    OutputChannel(AudioAnalyzePeak* out_peak, AudioAnalyzeRMS* out_rms,
-                  std::initializer_list<AudioMixer4*> mixers) : InputChannel(out_peak, out_rms)
+    OutputChannel(AudioAnalyzePeak* out_peak, AudioAnalyzeRMS* out_rms, AudioFilterBiquad* biquad,
+                  std::initializer_list<AudioMixer4*> mixers) : InputChannel(out_peak, out_rms, biquad)
     {
         for (auto m : mixers)
         {

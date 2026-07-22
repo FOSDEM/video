@@ -120,8 +120,10 @@ set(SOURCES
     src/cli/commands.cpp
     src/debug.cpp
     src/channels.cpp
-        src/channel_strip.cpp
-        src/channel_strip.h
+    src/channel_strip.cpp
+    src/channel_strip.h
+    src/filter.cpp
+    src/filter.h
 )
 
 # Build this project

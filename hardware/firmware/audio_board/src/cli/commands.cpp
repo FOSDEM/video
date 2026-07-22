@@ -274,6 +274,53 @@ const Cli::CmdDescr Cli::cmds[Cli::num_cmds + 1] = {
 		},
 	},
 	{
+	.name     = "channel.eq.set",
+	.help     = "for the given channel, configure an eq band",
+	.arghelp  = "<channel no> <band no> <shape> <freq> <gain> <q>",
+	.num_args = 6,
+	.callback = [](Cli* cli) {
+		uint16_t chan = cli->hop_uint();
+		uint16_t band = cli->hop_uint();
+		uint16_t shape = cli->hop_uint();
+		float freq = cli->hop_float();
+		float    gain = cli->hop_float();
+		float    q = cli->hop_float();
+
+		if (chan >= CHANNELS) {
+			cli->prefix_fail();
+			cli->port->printf("channel %d is invalid [0-%d]\n", chan, CHANNELS-1);
+			return;
+		}
+		if (band >= 4) {
+			cli->prefix_fail();
+			cli->port->printf("band %d is invalid [0-3]\n", chan);
+			return;
+		}
+
+		switch (shape)
+		{
+		case 0:
+			// All-pass
+			get_channel(chan)->filter.SetAllpass(band);
+			break;
+		case 1:
+			// Low-pass
+			get_channel(chan)->filter.SetLowpass(band, freq, q);
+			break;
+		case 2:
+			// High-pass
+			get_channel(chan)->filter.SetHighpass(band, freq, q);
+			break;
+		default:
+			cli->prefix_fail();
+			cli->port->printf("invalid band shape %d\n", shape);
+			return;
+		}
+
+		cli->report_ok();
+	},
+},
+	{
 		.name     = "factory-reset",
 		.help     = "clear all settings and state stored in the EEPROM",
 		.arghelp  = "",
