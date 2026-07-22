@@ -24,7 +24,9 @@ outputs = [
     (Node("AudioOutputUSB", "usb2"), 0, 1),
     (Node("AudioOutputSPDIF3", "spdif2"), 0, 1),
 ]
-
+print("// clang-format off")
+print()
+print('#include "channel_strip.h"')
 print("// GUItool: begin automatically generated code")
 
 
@@ -103,20 +105,29 @@ for i in inputs:
             g.edge(i[0].name, channel, f"peak{index}", 0)
             g.add(Node("AudioAnalyzeRMS", f"rms{index}"))
             g.edge(i[0].name, channel, f"rms{index}", 0)
+            g.add(Node("AudioFilterBiquad", f"biquad{index}"))
+            g.edge(i[0].name, channel, f"biquad{index}", 0)
+            cmap.append((f"biquad{index}", 0))
             index += 1
-        cmap.append((i[0].name, channel))
+        else:
+            cmap.append((i[0].name, channel))
 
 bmap = []
 for o in outputs:
     g.add(o[0])
     for channel in o[1:]:
+        g.add(Node('AudioFilterBiquad', f'biquad{index}'))
         g.add(Node("AudioAnalyzePeak", f"peak{index}"))
         g.add(Node("AudioAnalyzeRMS", f"rms{index}"))
 
+        g.edge(f"biquad{index}", 0, f"peak{index}", 0)
+        g.edge(f"biquad{index}", 0, f"rms{index}", 0)
+        g.edge(f"biquad{index}", 0, o[0].name, channel)
+
         bmap.append((
+            (f"biquad{index}", 0),
             (f"peak{index}", 0),
             (f"rms{index}", 0),
-            (o[0].name, channel),
         ))
 
         index += 1
@@ -140,8 +151,7 @@ for bus in bmap:
         g.edge(*m, f"mixer{index}", i)
         mline.append(m[0])
     matrix.append(mline)
-    for dest in bus:
-        g.edge(f"mixer{index}", 0, *dest)
+    g.edge(f"mixer{index}", 0, *bus[0])
     index += 1
 
 g.render()
@@ -150,17 +160,13 @@ print(g, end='')
 print("// GUItool: end automatically generated code")
 print("\n\n")
 
-print(f"AudioMixer4* matrix[{len(matrix)}][{len(matrix[0])}] = " + '{')
-for row in matrix:
-    print("\t{&" + ', &'.join(row) + '},')
+print(f"InputChannel route_inputs[{len(cmap) - 2}] = " + '{')
+for i, row in enumerate(cmap[:-2]):
+    print(f"\tInputChannel(&peak{i + 1}, &rms{i + 1}, &biquad{i + 1}),")
 print('};\n')
 
-num_rms = len(cmap) + len(bmap) - 2
-print(f"AudioAnalyzeRMS* ent_rms[{num_rms}] = " + '{')
-for i in range(num_rms):
-    print(f"\t&rms{i + 1},")
+print(f"OutputChannel route_outputs[{len(matrix)}] = " + '{')
+for i, row in enumerate(matrix):
+    b = bmap[i]
+    print(f"\tOutputChannel(&{b[1][0]}, &{b[2][0]}, &{b[0][0]}, " + '{&' + ', &'.join(row) + '}),')
 print('};\n')
-print(f"AudioAnalyzePeak* ent_peak[{num_rms}] = " + '{')
-for i in range(num_rms):
-    print(f"\t&peak{i + 1},")
-print('};')
