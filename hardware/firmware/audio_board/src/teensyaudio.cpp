@@ -21,15 +21,37 @@ AudioControlTAA3040 taa3040;
 Levels     levels;
 AudioState state;
 
+float taa3040_gainhandler(int chan, float gain)
+{
+	// Clamp to gain range on TAA3040
+	if (gain > 42)
+	{
+		gain = 42;
+	}
+	if (gain < 0)
+	{
+		gain = 0;
+	}
+	auto gainval = static_cast<uint8_t>(std::round(gain));
+	taa3040.gain(chan, gainval, IMPEDANCE_10k, 0, 0);
+
+	return static_cast<float>(gainval);
+}
+
 void audio_setup() {
 	AudioMemory(80);
 
 	Wire.begin();
 	Wire1.begin();
 
-	pinMode(PIN_PHANTOM_IN1, OUTPUT);
-	pinMode(PIN_PHANTOM_IN2, OUTPUT);
-	pinMode(PIN_PHANTOM_IN3, OUTPUT);
+	route_inputs[0].SetPhantomPowerPin(PIN_PHANTOM_IN1);
+	route_inputs[1].SetPhantomPowerPin(PIN_PHANTOM_IN2);
+	route_inputs[2].SetPhantomPowerPin(PIN_PHANTOM_IN3);
+
+	route_inputs[0].HandleAnalogGain(0, taa3040_gainhandler);
+	route_inputs[1].HandleAnalogGain(1, taa3040_gainhandler);
+	route_inputs[2].HandleAnalogGain(2, taa3040_gainhandler);
+	route_inputs[3].HandleAnalogGain(3, taa3040_gainhandler);
 
 	taa3040.enable();
 }
@@ -94,9 +116,9 @@ void audio_update_levels(Levels& levels) {
 
 		taa3040.getAsiStatus();
 
-		levels.state[0] = is_phantom_on(0);
-		levels.state[1] = is_phantom_on(1);
-		levels.state[2] = is_phantom_on(2);
+		levels.state[0] = route_inputs[0].IsPhantomEnabled();
+		levels.state[1] = route_inputs[1].IsPhantomEnabled();
+		levels.state[2] = route_inputs[2].IsPhantomEnabled();
 
 		levels.state[6] = !spdif1.isLocked();
 	}
@@ -112,51 +134,24 @@ float raw_get_crosspoint(uint8_t channel, uint8_t bus) {
 	return route_outputs[bus].GetCrosspointLevel(channel);
 }
 
-uint16_t mute_mask(uint64_t channel) {
-	return (uint16_t)1 << (uint16_t)(channel);
-}
-
-void apply_phantom(uint8_t channel) {
-	bool is_on = (state.phantoms & (1 << channel)) > 0;
-	switch (channel) {
-	case 0:
-		digitalWrite(PIN_PHANTOM_IN1, is_on ? HIGH : LOW);
-		break;
-	case 1:
-		digitalWrite(PIN_PHANTOM_IN2, is_on ? HIGH : LOW);
-		break;
-	case 2:
-		digitalWrite(PIN_PHANTOM_IN3, is_on ? HIGH : LOW);
-		break;
-	}
-}
-
 bool is_phantom_on(uint8_t channel) {
-	return !!(state.phantoms & (1 << channel));
+	return route_inputs[channel].IsPhantomEnabled();
 }
 
 void set_phantom_on(uint8_t channel) {
-	if (channel > 2) {
-		return;
-	}
-	state.phantoms |= (1 << channel);
-	apply_phantom(channel);
+	route_inputs[channel].SetPhantom(true);
 }
 
 void set_phantom_off(uint8_t channel) {
-	if (channel > 2) {
-		return;
-	}
-	state.phantoms &= ~(1 << channel);
-	apply_phantom(channel);
+	route_inputs[channel].SetPhantom(false);
 }
 
 bool is_muted(uint8_t channel, uint8_t bus) {
-	return !!(state.mutes[bus] & mute_mask(channel));
+	return route_outputs[bus].GetCrosspointMute(channel);
 }
 
 float get_volume_dB(uint8_t channel, uint8_t bus) {
-	return state.matrix_dB[channel][bus];
+	return route_outputs[bus].GetCrosspointLevel(channel);
 }
 
 float get_bus_volume_dB(uint8_t bus) {
@@ -168,54 +163,28 @@ void apply_channel_input_gain(uint8_t channel) {
 }
 
 float get_channel_input_gain_dB(uint8_t channel) {
-	return state.channel_input_gains_dB[channel];
+	return route_inputs[channel].GetGain();
 }
 
-float calc_real_volume(uint8_t channel, uint8_t bus) {
-	float input_volume_dB  = get_channel_gain_dB_digital(channel);
-	float matrix_volume_dB = state.matrix_dB[channel][bus];
-	float bus_volume_dB    = state.bus_volumes_dB[bus];
-
-	float volume_dB = input_volume_dB + matrix_volume_dB + bus_volume_dB;
-	float volume    = coef_from_dB(volume_dB);
-	return volume * !is_muted(channel, bus);
-}
-
-void apply_volume(uint8_t channel, uint8_t bus) {
-	raw_set_crosspoint(channel, bus, calc_real_volume(channel, bus));
+void set_channel_input_gain_dB(uint8_t channel, float gain)
+{
+	route_inputs[channel].SetGain(gain);
 }
 
 void mute(uint8_t channel, uint8_t bus) {
-	state.mutes[bus] |= mute_mask(channel);
-	apply_volume(channel, bus);
+	route_outputs[bus].SetCrosspointMute(channel, true);
 }
 
 void unmute(uint8_t channel, uint8_t bus) {
-	state.mutes[bus] &= ~mute_mask(channel);
-	apply_volume(channel, bus);
+	route_outputs[bus].SetCrosspointMute(channel, false);
 }
 
 void set_volume_dB(uint8_t channel, uint8_t bus, float volume) {
-	state.matrix_dB[channel][bus] = volume;
-	apply_volume(channel, bus);
+	route_outputs[bus].SetCrosspointLevel(channel, volume);
 }
 
 void set_bus_volume_dB(uint8_t bus, float vol) {
-	state.bus_volumes_dB[bus] = vol;
-	for (uint8_t channel = 0; channel < CHANNELS; ++channel) {
-		apply_volume(channel, bus);
-	}
-}
-
-void set_channel_input_gain_dB(uint8_t channel, float gain) {
-	state.channel_input_gains_dB[channel] = gain;
-
-	uint8_t analog_gain = get_channel_gain_dB_analog(channel);
-	taa3040.gain(channel, analog_gain, IMPEDANCE_10k, 0, 0);
-
-	for (uint8_t bus = 0; bus < BUSES; ++bus) {
-		apply_volume(channel, bus);
-	}
+	route_outputs[bus].SetGain(vol);
 }
 
 void reset_matrix() {
@@ -238,17 +207,6 @@ void reset_channel_input_gains() {
 	memcpy(state.channel_input_gains_dB, default_channel_input_gains_dB, CHANNELS * sizeof(float));
 }
 
-void apply_all() {
-	uint8_t i, j;
-	for (i = 0; i < CHANNELS; ++i) {
-		apply_channel_input_gain(i);
-		apply_phantom(i);
-		for (j = 0; j < BUSES; ++j) {
-			apply_volume(i, j);
-		}
-	}
-}
-
 void audio_reset_default_state() {
 	reset_matrix();
 	reset_mutes();
@@ -257,58 +215,23 @@ void audio_reset_default_state() {
 	reset_channel_input_gains();
 }
 
-bool matrix_ok() {
-	uint8_t i, j;
-	for (i = 0; i < CHANNELS; ++i) {
-		for (j = 0; j < BUSES; ++j) {
-			if (isnan(state.matrix_dB[i][j])) {
-				return false;
-			}
-		}
-	}
-
-	return true;
-}
-
-bool bus_volumes_ok() {
-	uint8_t i;
-	for (i = 0; i < BUSES; ++i) {
-		if (isnan(state.bus_volumes_dB[i])) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-bool channel_input_gains_ok() {
-	uint8_t i;
-	for (i = 0; i < CHANNELS; ++i) {
-		if (isnan(state.channel_input_gains_dB[i])) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
 #ifdef USE_EEPROM
 uint8_t audio_eeprom_save_all() {
-	return eeprom_save_all(state, STATE_EEPROM_OFFSET);
+	uint8_t saved = 0;
+	for (auto& chan : route_inputs)
+	{
+		if (chan.EepromSave())
+		{
+			saved++;
+		}
+	}
+	return saved;
 }
 #endif
 
 void audio_load_state() {
-#ifdef USE_EEPROM
-	eeprom_load_all(state, STATE_EEPROM_OFFSET);
-
-	if (!matrix_ok() || !bus_volumes_ok() || !channel_input_gains_ok()) {
-		audio_reset_default_state();
-		audio_eeprom_save_all();
+	for (auto& chan : route_inputs)
+	{
+		chan.EepromLoad();
 	}
-
-#else
-	audio_reset_default_state();
-#endif
-	apply_all();
 }

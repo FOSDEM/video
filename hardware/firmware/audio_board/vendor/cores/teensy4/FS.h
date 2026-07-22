@@ -200,7 +200,7 @@ public:
 	void close() {
 		if (f) {
 			f->close();
-			dec_refcount();
+			//dec_refcount();
 		}
 	}
 	operator bool() {

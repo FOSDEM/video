@@ -22,12 +22,14 @@ void setup() {
 	debug_init();
 	debug_print("board ready");
 
+	storage_setup();
+
 #ifdef USE_DISPLAY
 	display_setup();
 #endif
-	audio_load_state();
 
 	audio_setup();
+	audio_load_state();
 }
 
 Cli the_cli(&SerialUSB);
