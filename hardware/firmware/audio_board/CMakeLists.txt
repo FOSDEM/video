@@ -99,6 +99,8 @@ import_arduino_library(${VENDOR_ROOT} SdFat/src/common)
 import_arduino_library(${VENDOR_ROOT} SdFat/src/SdCard)
 import_arduino_library(${VENDOR_ROOT} SdFat/src/SpiDriver)
 import_arduino_library(${VENDOR_ROOT} SdFat/src/FsLib)
+import_arduino_library(${VENDOR_ROOT} LittleFS/src)
+import_arduino_library(${VENDOR_ROOT} LittleFS/src/littlefs)
 import_arduino_library(${VENDOR_ROOT} SerialFlash)
 
 set(FEATURES

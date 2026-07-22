@@ -37,3 +37,6 @@
 [submodule "hardware/firmware/audio_board/vendor/SerialFlash"]
 	path = hardware/firmware/audio_board/vendor/SerialFlash
 	url = https://github.com/PaulStoffregen/SerialFlash
+[submodule "hardware/firmware/audio_board/vendor/LittleFS"]
+	path = hardware/firmware/audio_board/vendor/LittleFS
+	url = https://github.com/PaulStoffregen/LittleFS
