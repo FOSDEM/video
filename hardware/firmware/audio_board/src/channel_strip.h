@@ -7,203 +7,178 @@
 #include "filter_biquad.h"
 #include "mixer.h"
 
-struct __attribute__((packed)) EepromBiquad
-{
-    uint8_t type;
-    float gain;
-    float frequency;
-    float q;
+struct __attribute__((packed)) EepromBiquad {
+		uint8_t type;
+		float   gain;
+		float   frequency;
+		float   q;
 };
 
-struct __attribute__((packed)) EepromInput
-{
-    float gain;
-    bool phantom;
-    uint8_t checksum;
-    EepromBiquad eq[4];
+struct __attribute__((packed)) EepromInput {
+		float        gain;
+		bool         phantom;
+		uint8_t      checksum;
+		EepromBiquad eq[4];
 };
 
-class InputChannel
-{
-public:
-    float level_peak;
-    float level_rms;
-    float level_smooth;
+class InputChannel {
+	public:
+		float level_peak;
+		float level_rms;
+		float level_smooth;
 
-    Filter filter;
+		Filter filter;
 
-    InputChannel(AudioAnalyzePeak* in_peak, AudioAnalyzeRMS* in_rms, AudioFilterBiquad* biquad) : filter(biquad)
-    {
-        _peak = in_peak;
-        _rms = in_rms;
-        _biquad = biquad;
-        _level_multiplier = 1.0f;
+		InputChannel(AudioAnalyzePeak* in_peak, AudioAnalyzeRMS* in_rms, AudioFilterBiquad* biquad) : filter(biquad) {
+			_peak             = in_peak;
+			_rms              = in_rms;
+			_biquad           = biquad;
+			_level_multiplier = 1.0f;
 
-        level_peak = 0.0f;
-        level_rms = 0.0f;
-        level_smooth = 0.0f;
+			level_peak   = 0.0f;
+			level_rms    = 0.0f;
+			level_smooth = 0.0f;
 
-        instanceId = instances++;
-    }
+			instanceId = instances++;
+		}
 
-    void update();
+		void update();
 
-    void SetGain(float gainDb);
+		void SetGain(float gainDb);
 
-    float GetGain() const
-    {
-        return digital_gain + analog_gain;
-    }
+		float GetGain() const {
+			return digital_gain + analog_gain;
+		}
 
-    bool EepromSave();
-    bool EepromLoad();
+		bool EepromSave();
+		bool EepromLoad();
 
-    void SetPhantomPowerPin(uint8_t pin)
-    {
-        pinMode(pin, OUTPUT);
-        has_phantom = true;
-        phantom_pin = pin;
-    }
+		void SetPhantomPowerPin(uint8_t pin) {
+			pinMode(pin, OUTPUT);
+			has_phantom = true;
+			phantom_pin = pin;
+		}
 
-    void HandleAnalogGain(int arg, float (*set_gain)(int, float))
-    {
-        this->has_analog_gain = true;
-        this->analog_gain_arg = arg;
-        this->adc_handler = set_gain;
-    }
+		void HandleAnalogGain(int arg, float (*set_gain)(int, float)) {
+			this->has_analog_gain = true;
+			this->analog_gain_arg = arg;
+			this->adc_handler     = set_gain;
+		}
 
-    [[nodiscard]] bool IsPhantomEnabled() const
-    {
-        return phantom_enabled;
-    }
+		[[nodiscard]] bool IsPhantomEnabled() const {
+			return phantom_enabled;
+		}
 
-    void SetPhantom(bool enable)
-    {
-        if (!has_phantom)
-        {
-            return;
-        }
-        digitalWrite(phantom_pin, enable);
-        phantom_enabled = enable;
-        eepromDirty = true;
-        // Immediately save phantom state changes so it doesn't accidentally get re-enabled when rebooting quickly
-        EepromSave();
-    }
+		void SetPhantom(bool enable) {
+			if (!has_phantom) {
+				return;
+			}
+			digitalWrite(phantom_pin, enable);
+			phantom_enabled = enable;
+			eepromDirty     = true;
+			// Immediately save phantom state changes so it doesn't accidentally get re-enabled when rebooting quickly
+			EepromSave();
+		}
 
-    void SetLevelCalibration(float multiplier)
-    {
-        _level_multiplier = multiplier;
-    }
+		void SetLevelCalibration(float multiplier) {
+			_level_multiplier = multiplier;
+		}
 
-protected:
-    float _level_multiplier;
-    float digital_gain = 0.0f;
+	protected:
+		float _level_multiplier;
+		float digital_gain = 0.0f;
 
-private:
-    // Phantom control
-    bool has_phantom;
-    bool phantom_enabled;
-    uint8_t phantom_pin = 0;
+	private:
+		// Phantom control
+		bool    has_phantom;
+		bool    phantom_enabled;
+		uint8_t phantom_pin = 0;
 
-    // ADC control
-    bool has_analog_gain;
-    int analog_gain_arg;
-    float (*adc_handler)(int, float);
+		// ADC control
+		bool has_analog_gain;
+		int  analog_gain_arg;
+		float (*adc_handler)(int, float);
 
-    // Gain
-    float analog_gain = 0.0f;
+		// Gain
+		float analog_gain = 0.0f;
 
-    // Storage
-    static int instances;
-    int instanceId;
-    bool eepromDirty;
+		// Storage
+		static int instances;
+		int        instanceId;
+		bool       eepromDirty;
 
-    AudioAnalyzePeak* _peak;
-    AudioAnalyzeRMS* _rms;
-    AudioFilterBiquad* _biquad;
+		AudioAnalyzePeak*  _peak;
+		AudioAnalyzeRMS*   _rms;
+		AudioFilterBiquad* _biquad;
 };
 
-class OutputChannel : public InputChannel
-{
-public:
-    OutputChannel(AudioAnalyzePeak* out_peak, AudioAnalyzeRMS* out_rms, AudioFilterBiquad* biquad,
-                  std::initializer_list<AudioMixer4*> mixers) : InputChannel(out_peak, out_rms, biquad)
-    {
-        for (auto m : mixers)
-        {
-            _matrix_bus.push_back(m);
-        }
-    }
+class OutputChannel : public InputChannel {
+	public:
+		OutputChannel(AudioAnalyzePeak* out_peak, AudioAnalyzeRMS* out_rms, AudioFilterBiquad* biquad, std::initializer_list<AudioMixer4*> mixers) : InputChannel(out_peak, out_rms, biquad) {
+			for (auto m : mixers) {
+				_matrix_bus.push_back(m);
+			}
+		}
 
-    void SetCrosspointLevel(int input_index, float gain)
-    {
-        _crosspoint_gain[input_index] = gain;
-        this->apply_matrix();
-    }
+		void SetCrosspointLevel(int input_index, float gain) {
+			_crosspoint_gain[input_index] = gain;
+			this->apply_matrix();
+		}
 
-    float GetCrosspointLevel(int input_index)
-    {
-        return _crosspoint_gain[input_index];
-    }
+		float GetCrosspointLevel(int input_index) {
+			return _crosspoint_gain[input_index];
+		}
 
-    void SetCrosspointMute(int input_index, bool mute)
-    {
-        _crosspoint_mute[input_index] = mute;
-        this->apply_matrix();
-    }
+		void SetCrosspointMute(int input_index, bool mute) {
+			_crosspoint_mute[input_index] = mute;
+			this->apply_matrix();
+		}
 
-    bool GetCrosspointMute(int input_index)
-    {
-        return _crosspoint_mute[input_index];
-    }
+		bool GetCrosspointMute(int input_index) {
+			return _crosspoint_mute[input_index];
+		}
 
-private:
-    void apply_matrix() const;
-    std::vector<AudioMixer4*> _matrix_bus;
-    float _crosspoint_gain[CHANNELS]; // dB
-    bool _crosspoint_mute[CHANNELS];
+	private:
+		void                      apply_matrix() const;
+		std::vector<AudioMixer4*> _matrix_bus;
+		float                     _crosspoint_gain[CHANNELS]; // dB
+		bool                      _crosspoint_mute[CHANNELS];
 };
 
-class ChannelStrip
-{
-public:
-    ChannelStrip(InputChannel* channel)
-    {
-        is_stereo = false;
-        left = channel;
-    }
+class ChannelStrip {
+	public:
+		ChannelStrip(InputChannel* channel) {
+			is_stereo = false;
+			left      = channel;
+		}
 
-    ChannelStrip(InputChannel* left, InputChannel* right)
-    {
-        is_stereo = true;
-        this->left = left;
-        this->right = right;
-    }
+		ChannelStrip(InputChannel* left, InputChannel* right) {
+			is_stereo   = true;
+			this->left  = left;
+			this->right = right;
+		}
 
-private:
-    bool is_stereo;
-    InputChannel* left;
-    InputChannel* right;
+	private:
+		bool          is_stereo;
+		InputChannel* left;
+		InputChannel* right;
 };
 
-class Bus
-{
-public:
-    Bus(OutputChannel* channel)
-    {
-        is_stereo = false;
-        left = channel;
-    }
+class Bus {
+	public:
+		Bus(OutputChannel* channel) {
+			is_stereo = false;
+			left      = channel;
+		}
 
-    Bus(OutputChannel* left, OutputChannel* right)
-    {
-        is_stereo = true;
-        this->left = left;
-        this->right = right;
-    }
+		Bus(OutputChannel* left, OutputChannel* right) {
+			is_stereo   = true;
+			this->left  = left;
+			this->right = right;
+		}
 
-private:
-    bool is_stereo;
-    OutputChannel* left;
-    OutputChannel* right;
+	private:
+		bool           is_stereo;
+		OutputChannel* left;
+		OutputChannel* right;
 };

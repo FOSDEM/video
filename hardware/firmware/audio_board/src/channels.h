@@ -7,15 +7,15 @@
 
 typedef struct ChanInfo {
 		uint16_t color;
-	    uint16_t color_alt;
+		uint16_t color_alt;
 		char     label[4];
 		char     desc[16];
 		uint8_t  link;
 
-	    // VU drawing info
-	    uint8_t   display;
-	    uint8_t   x;
-	    uint8_t   y;
+		// VU drawing info
+		uint8_t display;
+		uint8_t x;
+		uint8_t y;
 } ChanInfo;
 
 const ChanInfo& channel_info(uint8_t chan_id);

@@ -21,15 +21,12 @@ AudioControlTAA3040 taa3040;
 Levels     levels;
 AudioState state;
 
-float taa3040_gainhandler(int chan, float gain)
-{
+float taa3040_gainhandler(int chan, float gain) {
 	// Clamp to gain range on TAA3040
-	if (gain > 42)
-	{
+	if (gain > 42) {
 		gain = 42;
 	}
-	if (gain < 0)
-	{
+	if (gain < 0) {
 		gain = 0;
 	}
 	auto gainval = static_cast<uint8_t>(std::round(gain));
@@ -97,22 +94,19 @@ float level_multiplier(uint8_t meter_id) {
 void audio_update_levels(Levels& levels) {
 	if (rms1.available()) {
 
-		for (size_t i=0;i<8; i++)
-		{
+		for (size_t i = 0; i < 8; i++) {
 			route_inputs[i].update();
 			levels.smooth[i] = route_inputs[i].level_smooth;
-			levels.peak[i] = route_inputs[i].level_peak;
-			levels.rms[i] = route_inputs[i].level_rms;
+			levels.peak[i]   = route_inputs[i].level_peak;
+			levels.rms[i]    = route_inputs[i].level_rms;
 		}
-		for (size_t i=0;i<8; i++)
-		{
+		for (size_t i = 0; i < 8; i++) {
 			size_t j = i + 8;
 			route_outputs[i].update();
 			levels.smooth[j] = route_outputs[i].level_smooth;
-			levels.peak[j] = route_outputs[i].level_peak;
-			levels.rms[j] = route_outputs[i].level_rms;
+			levels.peak[j]   = route_outputs[i].level_peak;
+			levels.rms[j]    = route_outputs[i].level_rms;
 		}
-
 
 		taa3040.getAsiStatus();
 
@@ -146,8 +140,7 @@ void set_phantom_off(uint8_t channel) {
 	route_inputs[channel].SetPhantom(false);
 }
 
-InputChannel* get_channel(uint8_t channel)
-{
+InputChannel* get_channel(uint8_t channel) {
 	return &route_inputs[channel];
 }
 
@@ -171,8 +164,7 @@ float get_channel_input_gain_dB(uint8_t channel) {
 	return route_inputs[channel].GetGain();
 }
 
-void set_channel_input_gain_dB(uint8_t channel, float gain)
-{
+void set_channel_input_gain_dB(uint8_t channel, float gain) {
 	route_inputs[channel].SetGain(gain);
 }
 
@@ -223,10 +215,8 @@ void audio_reset_default_state() {
 #ifdef USE_EEPROM
 uint8_t audio_eeprom_save_all() {
 	uint8_t saved = 0;
-	for (auto& chan : route_inputs)
-	{
-		if (chan.EepromSave())
-		{
+	for (auto& chan : route_inputs) {
+		if (chan.EepromSave()) {
 			saved++;
 		}
 	}
@@ -235,8 +225,7 @@ uint8_t audio_eeprom_save_all() {
 #endif
 
 void audio_load_state() {
-	for (auto& chan : route_inputs)
-	{
+	for (auto& chan : route_inputs) {
 		chan.EepromLoad();
 	}
 }
