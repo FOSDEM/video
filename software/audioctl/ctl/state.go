@@ -17,8 +17,8 @@ type ChannelCfg struct {
 }
 
 type ChannelState struct {
-	ChannelCfg
-	Sends []SendState `json:"sends"`
+	ChannelCfg `json:",inline"`
+	Sends      []SendState `json:"sends"`
 }
 
 type BusState struct {
@@ -127,12 +127,14 @@ func (m *MixerState) Copy() *MixerState {
 
 func (c *ChannelState) Copy() *ChannelState {
 	copyChannel := &ChannelState{
-		Name:    c.Name,
-		Label:   c.Label,
-		Gain:    c.Gain,
-		Phantom: c.Phantom,
-		Eq:      make([]EqBand, len(c.Eq)),
-		Sends:   make([]SendState, len(c.Sends)),
+		ChannelCfg: ChannelCfg{
+			Name:    c.Name,
+			Label:   c.Label,
+			Gain:    c.Gain,
+			Phantom: c.Phantom,
+			Eq:      make([]EqBand, len(c.Eq)),
+		},
+		Sends: make([]SendState, len(c.Sends)),
 	}
 
 	for i, band := range c.Eq {

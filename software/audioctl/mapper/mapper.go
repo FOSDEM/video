@@ -1,9 +1,12 @@
 package mapper
 
 import (
+	"fmt"
 	"log/slog"
 
 	"github.com/goccy/go-json"
+
+	"github.com/fosdem/video/software/audioctl/ctl"
 )
 
 type MapperState struct {
@@ -12,38 +15,27 @@ type MapperState struct {
 }
 
 type ChannelState struct {
-	ctl.ChannelCfg
-	MasterFader   float32     `json:"master_fader"`
-	MasterUnmuted float32     `json:"master_unmuted"`
-	Sends         []SendState `json:"sends"`
+	ctl.ChannelCfg `json:",inline"`
+	MasterFader    float32     `json:"master_fader"`
+	MasterUnmuted  bool        `json:"master_unmuted"`
+	Sends          []SendState `json:"sends"`
 }
 
 type SendState struct {
-	Unmuted         bool    `json:"unmuted"`
-	Volume          float32 `json:"volume"`
-	PreChannelFader bool    `json:"pre_channel_fader"`
-	PreChannelMute  bool    `json:"pre_channel_mute"`
+	Unmuted        bool    `json:"unmuted"`
+	Volume         float32 `json:"volume"`
+	PreMasterFader bool    `json:"pre_channel_fader"`
+	PreMasterMute  bool    `json:"pre_channel_mute"`
 }
 
 type storedInfo struct {
-	// bitmasks for the sends of each channel
-	PreChannelFaders []uint16 `json:"pcf"`
-	PreChannelMutes  []uint16 `json:"pcm"`
-
-	// channel masters
-	MasterFaders  []float32 `json:"mf"`
-	MasterUnmuted []float32 `json:"mu"`
+	PreMasterFaders []uint16  `json:"pcf"`
+	PreMasterMutes  []uint16  `json:"pcm"`
+	MasterFaders    []float32 `json:"mf"`
+	MasterUnmuted   []bool    `json:"mu"`
 }
 
-func (s *storedInfo) Resize(numChans int) {
-	// TODO: resize all arrays
-}
-
-func (s *storedInfo) Blobify() string {
-	return string(json.Marshal(s))
-}
-
-func FromMixerState(mixerstate *MixerState, logger *slog.Logger) {
+func FromMixerState(mixerstate *ctl.MixerState, logger *slog.Logger) *MapperState {
 	m := &MapperState{
 		Channels: make([]ChannelState, len(mixerstate.Channels)),
 		Buses:    mixerstate.Buses,
@@ -71,16 +63,17 @@ func FromMixerState(mixerstate *MixerState, logger *slog.Logger) {
 			send := &channel.Sends[j]
 			mixersend := &mixerchannel.Sends[j]
 
-			send.PreChannelFader = storedinfo.PreChannelFader(i, j)
-			send.PreChannelMute = storedinfo.PreChannelMute(i, j)
+			send.PreMasterFader = storedinfo.PreMasterFader(i, j)
+			send.PreMasterMute = storedinfo.PreMasterMute(i, j)
 			send.Unmuted = mixersend.Unmuted
-			// FIXME: handle PreChannelMute properly - do we also need to store mute data in the blob?
 			send.Volume = mixersend.Volume
-			if !mixersend.PreChannelFader {
-				send.Volume -= mixerchannel.MasterFader
+			if !send.PreMasterFader {
+				send.Volume -= channel.MasterFader
 			}
 		}
 	}
+
+	return m
 }
 
 func (m *MapperState) ToMixerState() *ctl.MixerState {
@@ -90,31 +83,102 @@ func (m *MapperState) ToMixerState() *ctl.MixerState {
 	storedinfo.Resize(len(m.Channels))
 
 	for i := range channels {
-		mapperchannel := m.Channels[i]
+		mapperchannel := &m.Channels[i]
+		channels[i].ChannelCfg = mapperchannel.ChannelCfg
 		sends := make([]ctl.SendState, len(mapperchannel.Sends))
+
+		storedinfo.SetMasterFader(i, mapperchannel.MasterFader)
+		storedinfo.SetMasterUnmuted(i, mapperchannel.MasterUnmuted)
+
 		for j := range sends {
-			mappersend := m.Channels[i].Sends[j]
+			mappersend := &mapperchannel.Sends[j]
 			send := &sends[j]
 
 			send.Unmuted = mappersend.Unmuted
-			if !mappersend.PreChannelMute && !mapperchannel.MasterUnmuted {
+			if !mappersend.PreMasterMute && !mapperchannel.MasterUnmuted {
 				send.Unmuted = false
 			}
 			send.Volume = mappersend.Volume
-			if !mappersend.PreChannelFader {
+			if !mappersend.PreMasterFader {
 				send.Volume += mapperchannel.MasterFader
 			}
 
-			storedinfo.SetPreChannelMute(i, j, mappersend.PreChannelMute)
-			storedinfo.SetPreChannelFader(i, j, mappersend.PreChannelFader)
-			storedinfo.SetMasterFader(i, mapperchannel.MasterFader)
-			storedinfo.SetMasterUnmuted(i, mapperchannel.MasterUnmuted)
+			storedinfo.SetPreMasterMute(i, j, mappersend.PreMasterMute)
+			storedinfo.SetPreMasterFader(i, j, mappersend.PreMasterFader)
 		}
+
+		channels[i].Sends = sends
 	}
 
 	return &ctl.MixerState{
 		Channels: channels,
-		Buses:    h.state.Buses,
+		Buses:    m.Buses,
 		Blob:     storedinfo.Blobify(),
 	}
+}
+
+func (s *storedInfo) Resize(numChans int) {
+	s.PreMasterFaders = resizeSlice(s.PreMasterFaders, numChans)
+	s.PreMasterMutes = resizeSlice(s.PreMasterMutes, numChans)
+	s.MasterFaders = resizeSlice(s.MasterFaders, numChans)
+	s.MasterUnmuted = resizeSlice(s.MasterUnmuted, numChans)
+}
+
+func (s *storedInfo) PreMasterFader(ch, send int) bool {
+	return s.PreMasterFaders[ch]&(1<<uint(send)) != 0
+}
+
+func (s *storedInfo) PreMasterMute(ch, send int) bool {
+	return s.PreMasterMutes[ch]&(1<<uint(send)) != 0
+}
+
+func (s *storedInfo) SetPreMasterFader(ch, send int, v bool) {
+	s.PreMasterFaders[ch] = setBit(s.PreMasterFaders[ch], send, v)
+}
+
+func (s *storedInfo) SetPreMasterMute(ch, send int, v bool) {
+	s.PreMasterMutes[ch] = setBit(s.PreMasterMutes[ch], send, v)
+}
+
+func (s *storedInfo) SetMasterFader(ch int, v float32) {
+	s.MasterFaders[ch] = v
+}
+
+func (s *storedInfo) SetMasterUnmuted(ch int, v bool) {
+	s.MasterUnmuted[ch] = v
+}
+
+func (s *storedInfo) Blobify() string {
+	data, err := json.Marshal(s)
+	if err != nil {
+		panic(fmt.Sprintf("cannot blobify stored info: %s", err))
+	}
+	return string(data)
+}
+
+func deblobifyStoredInfo(blob string) (*storedInfo, error) {
+	s := &storedInfo{}
+	if blob == "" {
+		return s, nil
+	}
+	if err := json.Unmarshal([]byte(blob), s); err != nil {
+		return &storedInfo{}, err
+	}
+	return s, nil
+}
+
+func setBit(mask uint16, pos int, v bool) uint16 {
+	if v {
+		return mask | (1 << uint(pos))
+	}
+	return mask &^ (1 << uint(pos))
+}
+
+func resizeSlice[T any](s []T, n int) []T {
+	if len(s) == n {
+		return s
+	}
+	out := make([]T, n)
+	copy(out, s)
+	return out
 }
