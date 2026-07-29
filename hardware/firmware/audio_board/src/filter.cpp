@@ -2,6 +2,8 @@
 
 #include "debug.h"
 
+#include <algorithm>
+
 bool _compare_band(const Band& a, const Band& b) {
 	return a.gain < b.gain;
 }
