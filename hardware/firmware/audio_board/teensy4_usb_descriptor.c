@@ -9,7 +9,7 @@
 #define ENDPOINT_RECEIVE_ISOCHRONOUS	0x000000C4
 #define ENDPOINT_RECEIVE_BULK		0x000000C8
 #define ENDPOINT_RECEIVE_INTERRUPT	0x000000CC
-  
+
 #define VENDOR_ID		0x16C0
 #define PRODUCT_ID		0x048A
 #define MANUFACTURER_NAME	{'F','O','S','D','E','M'}
@@ -53,13 +53,13 @@
 #include "avr/pgmspace.h"
 #include "usb_names.h"
 
-PROGMEM extern struct usb_string_descriptor_struct usb_string_manufacturer_name = {
+PROGMEM struct usb_string_descriptor_struct usb_string_manufacturer_name = {
     2 + MANUFACTURER_NAME_LEN * 2,
     3,
     MANUFACTURER_NAME
 };
 
-PROGMEM extern struct usb_string_descriptor_struct usb_string_product_name = {
+PROGMEM struct usb_string_descriptor_struct usb_string_product_name = {
     2 + PRODUCT_NAME_LEN * 2,
     3,
     PRODUCT_NAME

@@ -313,7 +313,7 @@ const Cli::CmdDescr Cli::cmds[Cli::num_cmds + 1] = {
 			uint16_t band  = cli->hop_uint();
 			uint16_t shape = cli->hop_uint();
 			float    freq  = cli->hop_float();
-			float    gain  = cli->hop_float();
+			/* float    gain = */ cli->hop_float();
 			float    q     = cli->hop_float();
 
 			if (chan >= CHANNELS) {

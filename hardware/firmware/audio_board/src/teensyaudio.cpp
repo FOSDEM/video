@@ -13,7 +13,7 @@
 #endif
 
 #include "taa3040.h"
-#include "teensyaudio_defaults.cpp"
+#include "teensyaudio_defaults.h"
 #include "teensyaudio_generated.cpp"
 
 AudioControlTAA3040 taa3040;
@@ -189,7 +189,7 @@ void reset_matrix() {
 }
 
 void reset_mutes() {
-	memcpy(state.mutes, &default_mutes, sizeof(state.mutes) * 2);
+	memcpy(state.mutes, &default_mutes, sizeof(state.mutes));
 }
 
 void reset_phantoms() {
