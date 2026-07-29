@@ -86,6 +86,10 @@ class Filter {
 			Apply();
 		}
 
+		Band GetBand(uint8_t band) {
+			return _band[band];
+		}
+
 		Band _band[4];
 		bool dirty;
 

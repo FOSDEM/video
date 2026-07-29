@@ -273,6 +273,36 @@ const Cli::CmdDescr Cli::cmds[Cli::num_cmds + 1] = {
 			cli->report_ok();
 		},
 	},
+    {
+        .name = "channel.eq",
+        .help = "for the given channel. return the number of EQ bands available",
+        .arghelp  = "<channel no>",
+        .num_args = 1,
+        .callback = [](Cli* cli)
+        {
+            uint16_t chan = cli->hop_uint();
+
+            if (chan >= CHANNELS) {
+                cli->prefix_fail();
+                cli->port->printf("channel %d is invalid [0-%d]\n", chan, CHANNELS-1);
+                return;
+            }
+
+            cli->prefix_ok();
+            for (uint8_t band = 0; band < 4; band++) {
+                Band b = get_channel(chan)->filter.GetBand(band);
+                cli->port->print(b.type);
+                cli->port->print(" ");
+                cli->print_float_fixed(b.frequency, 5, 2);
+                cli->port->print(" ");
+                cli->print_float_fixed(b.gain, 3, 3);
+                cli->port->print(" ");
+                cli->print_float_fixed(b.q, 3, 4);
+                cli->port->print(" ");
+            }
+            cli->port->println();
+        }
+    },
 	{
 		.name     = "channel.eq.set",
 		.help     = "for the given channel, configure an eq band",
