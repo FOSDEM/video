@@ -31,6 +31,7 @@ type SendState struct {
 type storedInfo struct {
 	PreMasterFaders []uint16  `json:"pcf"`
 	PreMasterMutes  []uint16  `json:"pcm"`
+	Unmutes         []uint16  `json:"u"`
 	MasterFaders    []float32 `json:"mf"`
 	MasterUnmuted   []bool    `json:"mu"`
 }
@@ -65,7 +66,7 @@ func FromMixerState(mixerstate *ctl.MixerState, logger *slog.Logger) *MapperStat
 
 			send.PreMasterFader = storedinfo.PreMasterFader(i, j)
 			send.PreMasterMute = storedinfo.PreMasterMute(i, j)
-			send.Unmuted = mixersend.Unmuted
+			send.Unmuted = storedinfo.Unmuted(i, j)
 			send.Volume = mixersend.Volume
 			if !send.PreMasterFader {
 				send.Volume -= channel.MasterFader
@@ -105,6 +106,7 @@ func (m *MapperState) ToMixerState() *ctl.MixerState {
 
 			storedinfo.SetPreMasterMute(i, j, mappersend.PreMasterMute)
 			storedinfo.SetPreMasterFader(i, j, mappersend.PreMasterFader)
+			storedinfo.SetUnmuted(i, j, mappersend.Unmuted)
 		}
 
 		channels[i].Sends = sends
@@ -120,6 +122,7 @@ func (m *MapperState) ToMixerState() *ctl.MixerState {
 func (s *storedInfo) Resize(numChans int) {
 	s.PreMasterFaders = resizeSlice(s.PreMasterFaders, numChans)
 	s.PreMasterMutes = resizeSlice(s.PreMasterMutes, numChans)
+	s.Unmutes = resizeSlice(s.Unmutes, numChans)
 	s.MasterFaders = resizeSlice(s.MasterFaders, numChans)
 	s.MasterUnmuted = resizeSlice(s.MasterUnmuted, numChans)
 }
@@ -132,12 +135,20 @@ func (s *storedInfo) PreMasterMute(ch, send int) bool {
 	return s.PreMasterMutes[ch]&(1<<uint(send)) != 0
 }
 
+func (s *storedInfo) Unmuted(ch, send int) bool {
+	return s.Unmutes[ch]&(1<<uint(send)) != 0
+}
+
 func (s *storedInfo) SetPreMasterFader(ch, send int, v bool) {
 	s.PreMasterFaders[ch] = setBit(s.PreMasterFaders[ch], send, v)
 }
 
 func (s *storedInfo) SetPreMasterMute(ch, send int, v bool) {
 	s.PreMasterMutes[ch] = setBit(s.PreMasterMutes[ch], send, v)
+}
+
+func (s *storedInfo) SetUnmuted(ch, send int, v bool) {
+	s.Unmutes[ch] = setBit(s.Unmutes[ch], send, v)
 }
 
 func (s *storedInfo) SetMasterFader(ch int, v float32) {
