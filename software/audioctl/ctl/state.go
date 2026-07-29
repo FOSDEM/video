@@ -1,5 +1,7 @@
 package ctl
 
+import "fmt"
+
 type MixerState struct {
 	Channels []ChannelState `json:"channels"`
 	Buses    []BusState     `json:"buses"`
@@ -10,6 +12,7 @@ type ChannelState struct {
 	Label   string      `json:"label"` // short label
 	Gain    float32     `json:"gain"`  // input gain in dB (0 means identity)
 	Phantom bool        `json:"phantom"`
+	Eq      []EqBand    `json:"eq"`
 	Sends   []SendState `json:"sends"`
 }
 
@@ -22,6 +25,13 @@ type BusState struct {
 type SendState struct {
 	Unmuted bool    `json:"unmuted"`
 	Volume  float32 `json:"volume"` // crosspoint volume in dB (0 means identity)
+}
+
+type EqBand struct {
+	Type      int     `json:"type"`
+	Frequency float32 `json:"frequency"`
+	Gain      float32 `json:"gain"`
+	Q         float32 `json:"q"`
 }
 
 type Levels struct {
@@ -112,7 +122,12 @@ func (c *ChannelState) Copy() *ChannelState {
 		Label:   c.Label,
 		Gain:    c.Gain,
 		Phantom: c.Phantom,
+		Eq:      make([]EqBand, len(c.Eq)),
 		Sends:   make([]SendState, len(c.Sends)),
+	}
+
+	for i, band := range c.Eq {
+		copyChannel.Eq[i] = band.Copy()
 	}
 
 	for i, send := range c.Sends {
@@ -127,6 +142,28 @@ func (b *BusState) Copy() BusState {
 		Name:   b.Name,
 		Label:  b.Label,
 		Volume: b.Volume,
+	}
+}
+
+func (b *EqBand) Copy() EqBand {
+	return EqBand{
+		Type:      b.Type,
+		Frequency: b.Frequency,
+		Gain:      b.Gain,
+		Q:         b.Q,
+	}
+}
+
+func (b EqBand) ShapeToInt(shape string) (int, error) {
+	switch shape {
+	case "allpass":
+		return 0, nil
+	case "lowpass":
+		return 1, nil
+	case "highpass":
+		return 2, nil
+	default:
+		return 0, fmt.Errorf("invalid shape: %s", shape)
 	}
 }
 

@@ -12,6 +12,7 @@ type Ctl interface {
 	SetMatrixSend(ch uint8, bus uint8, unmuted bool) error
 	SetMatrixVolume(ch uint8, bus uint8, volume float32) error
 	SetInGain(ch uint8, gain float32) error
+	SetInputEQBand(ch uint8, band uint8, shape uint8, frequency float32, gain float32, q float32) error
 	SetPhantom(ch uint8, phantom bool) error
 	SetBusVolume(bus uint8, volume float32) error
 	FactoryReset() error

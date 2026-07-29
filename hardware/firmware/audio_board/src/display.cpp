@@ -55,7 +55,7 @@ void draw_meter(size_t d, int16_t x, int16_t y, int16_t w, int16_t h, float leve
 }
 
 void draw_channel(float rms, int id, const ChanInfo& channel_info, bool state) {
-	size_t d = channel_info.display;
+	size_t   d = channel_info.display;
 	uint16_t w = channel_info.link == 0 ? 12 : 24;
 	if (channel_info.link != 2) {
 		display[d].fillRoundRect(4 + channel_info.x, channel_info.y + (SCREEN_HEIGHT / 2) - 11, w, 10, 1, state ? channel_info.color_alt : channel_info.color);
@@ -65,9 +65,8 @@ void draw_channel(float rms, int id, const ChanInfo& channel_info, bool state) {
 	draw_meter(d, 6 + channel_info.x, channel_info.y + 1, 10, (SCREEN_HEIGHT / 2) - 13, out_level_to_scale(rms));
 }
 
-void display_update_vu(float levels_rms[CHANNELS + BUSES], bool state[CHANNELS+BUSES]) {
-	for (size_t d=0;d<2;d++)
-	{
+void display_update_vu(float levels_rms[CHANNELS + BUSES], bool state[CHANNELS + BUSES]) {
+	for (size_t d = 0; d < 2; d++) {
 		display[d].fillScreen(RGB(0, 0, 0));
 		display[d].setTextSize(1);
 		display[d].setTextColor(RGB(0, 0, 0));
@@ -78,4 +77,7 @@ void display_update_vu(float levels_rms[CHANNELS + BUSES], bool state[CHANNELS+B
 	}
 }
 
-void display_update_screen() { display[0].updateScreen(); display[1].updateScreen(); }
+void display_update_screen() {
+	display[0].updateScreen();
+	display[1].updateScreen();
+}

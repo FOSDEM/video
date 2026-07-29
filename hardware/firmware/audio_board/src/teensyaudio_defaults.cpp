@@ -1,3 +1,6 @@
+#include "teensyaudio_defaults.h"
+#include <Arduino.h>
+
 #define MIC (5.0f)
 
 const PROGMEM float default_bus_volumes_dB[BUSES] = {

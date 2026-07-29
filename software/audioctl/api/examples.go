@@ -22,6 +22,21 @@ var exampleInGainParam2 = SetInGainParam{
 	Gain:     &exampleFourTwo,
 }
 
+var exampleInEqBandParam1 = SetInEqBandParam{
+	Chan:      &exampleOne,
+	Band:      &exampleZero,
+	Shape:     &exampleOne,
+	Frequency: &exampleFourTwo,
+}
+
+var exampleInEqBandParam2 = SetInEqBandParam{
+	ChanName:  &exampleFoo,
+	Band:      &exampleZero,
+	ShapeName: &exampleLowpass,
+	Frequency: &exampleFourTwo,
+	Q:         &exampleSqrtHalf,
+}
+
 var examplePhantomParam1 = SetPhantomParam{
 	Chan:    &exampleOne,
 	Phantom: &exampleTrue,
@@ -59,7 +74,9 @@ var exampleFalse = false
 var exampleFoo = "foo"
 var exampleBar = "bar"
 var examplePenka = "penka"
+var exampleLowpass = "lowpass"
 var exampleThree = uint8(3)
 var exampleOne = uint8(1)
 var exampleZero = uint8(0)
 var exampleFourTwo = float32(42)
+var exampleSqrtHalf = float32(0.7071)

@@ -110,6 +110,14 @@ func New(logger *slog.Logger, cfg *config.ApiCfg, ctlInst ctl.Ctl) *Api {
 		PathValueAlias("set-in-gain/i/{channel}/{volume}").
 		PathValueAlias("set-in-gain/{channel_name}/{volume}")
 
+	msksrv.AddCall(a.srv, "set-in-eq-band", a.handleSetInEqBand).
+		Descr("set the configuration of a single EQ band of the given input channel").
+		Example(exampleInEqBandParam1, "ok").
+		Example(exampleInEqBandParam2, "ok").
+		PathValueAlias("set-in-eq-band/i/{channel}/{band}/s/{shape}/{frequency}/{gain}/{q}").
+		PathValueAlias("set-in-eq-band/{channel_name}/{band}/s/{shape}/{frequency}/{gain}/{q}").
+		PathValueAlias("set-in-eq-band/{channel_name}/{band}/{shape_name}/{frequency}/{gain}/{q}")
+
 	msksrv.AddCall(a.srv, "set-bus-volume", a.handleSetBusVolume).
 		Descr("set the volume (in decibels) of the given output bus").
 		Example(exampleBusVolumeParam1, "ok").

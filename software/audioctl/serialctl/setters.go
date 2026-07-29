@@ -20,6 +20,13 @@ func (c *SerialCtl) SetFullState(state *ctl.MixerState) error {
 			}
 		}
 
+		for b, eq := range state.Channels[i].Eq {
+			err = c.SetInputEQBand(uint8(i), uint8(b), uint8(eq.Type), eq.Frequency, eq.Gain, eq.Q)
+			if err != nil {
+				return fmt.Errorf("could not set eq band %d.%d: %w", i, b, err)
+			}
+		}
+
 		err = c.SetInGain(uint8(i), state.Channels[i].Gain)
 		if err != nil {
 			return fmt.Errorf("could not set gain on channel %d: %w", i, err)
@@ -73,6 +80,19 @@ func (c *SerialCtl) SetInGain(ch uint8, gain float32) error {
 	}
 
 	_, err := c.RawCmd(fmt.Sprintf("in-gain.set %d %.4f", ch, gain))
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c *SerialCtl) SetInputEQBand(ch uint8, band uint8, shape uint8, frequency float32, gain float32, q float32) error {
+	if int(ch) >= c.numChans {
+		return fmt.Errorf("malformed input")
+	}
+
+	_, err := c.RawCmd(fmt.Sprintf("channel.eq.set %d %d %d %.2f %.4f %.4f", ch, band, shape, frequency, gain, q))
 	if err != nil {
 		return err
 	}
