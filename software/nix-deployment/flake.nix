@@ -6,7 +6,7 @@
     deploy-o-matic.url = "github:dexterlb/deploy-o-matic";
     deploy-o-matic.inputs.nixpkgs.follows = "nixpkgs";
 
-    fazantix.url = "github:FOSDEM/video-fazantix";
+    fazantix.url = "github:FOSDEM/video-fazantix/frankenbox_fixes";
     fazantix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -16,7 +16,7 @@
         templatesDir = ./templates;
         overlaysDir = ./overlays;
         moduleArgs = { inherit inputs; };
-        nixpkgsConfig = (import ./nixpkgs-global-config.nix) // {
+        nixpkgsConfig = ((import ./nixpkgs-global-config.nix) { inherit lib; }) // {
           flake-inputs = inputs;
         };
       };

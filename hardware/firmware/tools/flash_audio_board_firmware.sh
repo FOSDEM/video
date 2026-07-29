@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -euo pipefail
 
@@ -9,8 +9,17 @@ if [[ $# -ne 1 ]] || [[ ! -f "${1}" ]]; then
     exit 1
 fi
 
-if ! { teensy_loader_cli --list-mcus || true; } | grep -qE '\bTEENSY41\b'; then
-    echo "a version of teensy_loader_cli that supports TEENSY41 not available on $(hostname), quitting" >&2
+if which teensy_loader_cli &>/dev/null; then
+    loader="$(which teensy_loader_cli)"
+elif which teensy-loader-cli &>/dev/null; then
+    loader="$(which teensy-loader-cli)"
+else
+    echo "teensy-loader-cli not found" >&2
+    exit 1
+fi
+
+if ! { "${loader}" --list-mcus || true; } | grep -qE '\bTEENSY41\b'; then
+    echo "${loader} on ${hostname} doesn't seem to support TEENSY41, quitting" >&2
     exit 1
 fi
 
@@ -31,7 +40,7 @@ done
 
 echo 'flashing'
 for i in {1..3}; do
-    if teensy_loader_cli --mcu TEENSY41 -v -w "${1}"; then
+    if "${loader}" --mcu TEENSY41 -v -w "${1}"; then
         echo 'flashed successfully'
         exit 0
     else

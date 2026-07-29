@@ -1,7 +1,7 @@
 { lib, pkgs, ... }: {
   imports = [ ../tools/dev-mapper.nix ];
 
-  mixos.devMap = {
+  fazant.devMap = {
     # videoStatus.paths = {
     #   cam = "pci-0000:00:14.0-usbv3-0:1:1.4-hidraw";
     #   slides = "pci-0000:00:14.0-usbv3-0:2:1.4-hidraw";

@@ -8,11 +8,8 @@ let
     moduleArgs = { inherit hostname system; };
     deploy = {
       # hostname = "box${id}.video.fosdem.org";
-      hostname = "${id}.d.qtrp.org";
+      hostname = "fazant-${id}.pit.protopit.eu";
       sshUser = "human";
-
-      remoteBuild = false;
-      fastConnection = true;
     };
   };
 in map mkFosbox fosboxes

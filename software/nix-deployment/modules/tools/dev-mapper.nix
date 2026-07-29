@@ -45,7 +45,7 @@ let
     };
   };
 in {
-  options.mixos.devMap = {
+  options.fazant.devMap = {
     videoCapture.by-path = lib.mkOption {
       type = lib.types.attrsOf (lib.types.submodule {
         options = {
@@ -97,8 +97,8 @@ in {
   };
 
   config = {
-    services.udev.extraRules = makeV4LRuleStr config.mixos.devMap.videoCapture;
+    services.udev.extraRules = makeV4LRuleStr config.fazant.devMap.videoCapture;
     services.pipewire.wireplumber.extraConfig =
-      makeWireplumberCfg config.mixos.devMap.audio;
+      makeWireplumberCfg config.fazant.devMap.audio;
   };
 }
