@@ -108,6 +108,13 @@ set(FEATURES
 	USE_DISPLAY
 )
 
+find_package(Python3 COMPONENTS Interpreter REQUIRED)
+set(GENERATED_GRAPH ${CMAKE_CURRENT_BINARY_DIR}/teensyaudio_generated.cpp)
+add_custom_command(
+        OUTPUT ${GENERATED_GRAPH}
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/helpers/generate_graph.py > ${GENERATED_GRAPH}
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/helpers/generate_graph.py)
+
 set(SOURCES
 	teensy4_usb_descriptor.c
 	src/main.cpp
@@ -123,6 +130,7 @@ set(SOURCES
     src/channel_strip.cpp
     src/filter.cpp
     src/teensyaudio_defaults.cpp
+    ${GENERATED_GRAPH}
 )
 
 # Build this project
@@ -134,7 +142,11 @@ set_source_files_properties(
         PROPERTIES COMPILE_OPTIONS "-Wno-error")    # disable Werror for vendored stuff
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES COMPILE_DEFINITIONS "${TEENSY_DEFINITIONS} ${INCLUDE_DIRECTORIES} -D__arm__ ")
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINK_FLAGS "-Os -Wl,--gc-sections,--defsym=__rtc_localtime=0 --specs=nano.specs -mcpu=${MCPU} -mthumb -T${LINKER_FILE}")
-target_include_directories(${PROJECT_NAME}.elf PRIVATE ${INCLUDE_DIRECTORIES})
+target_include_directories(
+    ${PROJECT_NAME}.elf PRIVATE
+    ${INCLUDE_DIRECTORIES}
+    src/
+)
 
 target_compile_definitions(${PROJECT_NAME}.elf PRIVATE ${FEATURES})
 string(JOIN " " FEATURES_LIST ${FEATURES})

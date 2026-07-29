@@ -27,6 +27,7 @@ outputs = [
 print("// clang-format off")
 print()
 print('#include "channel_strip.h"')
+print('#include <Audio.h>')
 print("// GUItool: begin automatically generated code")
 
 
