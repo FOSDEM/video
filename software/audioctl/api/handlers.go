@@ -104,6 +104,41 @@ func (a *Api) handleSetInGain(param SetInGainParam) (string, error) {
 	return "ok", nil
 }
 
+type SetInEqBandParam struct {
+	Chan      *uint8   `json:"channel"`
+	ChanName  *string  `json:"channel_name"`
+	Band      *uint8   `json:"band"`
+	Shape     *uint8   `json:"shape"`
+	ShapeName *string  `json:"shape_name"`
+	Frequency *float32 `json:"frequency"`
+	Gain      *float32 `json:"gain"`
+	Q         *float32 `json:"q"`
+}
+
+func (a *Api) handleSetInEqBand(param SetInEqBandParam) (string, error) {
+	err := a.getChanByName(&param.Chan, param.ChanName)
+	if err != nil {
+		return "", err
+	}
+	if param.ShapeName != nil {
+		shape, err := ctl.EqBand{}.ShapeToInt(*param.ShapeName)
+		if err != nil {
+			return "", err
+		}
+		shape8 := uint8(shape)
+		param.Shape = &shape8
+	}
+	if param.Chan == nil || param.Band == nil || param.Shape == nil {
+		return "", fmt.Errorf("missing fields (need channel, band, shape)")
+	}
+	err = a.ctl.SetInputEQBand(*param.Chan, *param.Band, *param.Shape, *param.Frequency, *param.Gain, *param.Q)
+	if err != nil {
+		return "", err
+	}
+	a.forceRefresh()
+	return "ok", nil
+}
+
 type SetPhantomParam struct {
 	Chan     *uint8  `json:"channel,omitempty"`
 	ChanName *string `json:"channel_name,omitempty"`

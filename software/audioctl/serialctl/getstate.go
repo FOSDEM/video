@@ -70,7 +70,14 @@ func (c *SerialCtl) GetFullState() (*ctl.MixerState, error) {
 		m.Channels[i].Name = chanNames[i]
 		m.Channels[i].Gain = gains[i]
 		m.Channels[i].Phantom = phantoms[i]
+
+		bands, err := c.GetInputEqBands(uint8(i))
+		if err != nil {
+			return nil, fmt.Errorf("could not get the eq bands: %w", err)
+		}
+
 		m.Channels[i].Sends = make([]ctl.SendState, c.numBuses)
+		m.Channels[i].Eq = bands
 		for j := range m.Buses {
 			m.Channels[i].Sends[j] = sends[i*c.numBuses+j]
 		}
@@ -107,6 +114,40 @@ func (c *SerialCtl) GetInputGains() ([]float32, error) {
 		return nil, err
 	}
 	return parseFloatList(resp)
+}
+
+func (c *SerialCtl) GetInputEqBands(ch uint8) ([]ctl.EqBand, error) {
+	resp, err := c.RawCmd(fmt.Sprintf("channel.eq %d", ch))
+	if err != nil {
+		return nil, err
+	}
+
+	fields := strings.Fields(resp)
+	result := make([]ctl.EqBand, len(fields)/4)
+	for i := 0; i < len(fields)/4; i += 4 {
+		band := i / 4
+		btype, err := strconv.ParseInt(fields[i], 10, 32)
+		if err != nil {
+			return nil, fmt.Errorf("invalid type at band %d: %w", band, err)
+		}
+		result[band].Type = int(btype)
+		freq, err := strconv.ParseFloat(fields[i+1], 32)
+		if err != nil {
+			return nil, fmt.Errorf("invalid frequency at band %d: %w", band, err)
+		}
+		result[band].Frequency = float32(freq)
+		gain, err := strconv.ParseFloat(fields[i+1], 32)
+		if err != nil {
+			return nil, fmt.Errorf("invalid gain at band %d: %w", band, err)
+		}
+		result[band].Frequency = float32(gain)
+		q, err := strconv.ParseFloat(fields[i+1], 32)
+		if err != nil {
+			return nil, fmt.Errorf("invalid Q at band %d: %w", band, err)
+		}
+		result[band].Frequency = float32(q)
+	}
+	return result, nil
 }
 
 func (c *SerialCtl) GetBusVolumes() ([]float32, error) {
