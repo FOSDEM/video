@@ -5,15 +5,20 @@ import "fmt"
 type MixerState struct {
 	Channels []ChannelState `json:"channels"`
 	Buses    []BusState     `json:"buses"`
+	Blob     string         `json:"blob"`
+}
+
+type ChannelCfg struct {
+	Name    string   `json:"name"`  // descriptive name of the input
+	Label   string   `json:"label"` // short label
+	Gain    float32  `json:"gain"`  // input gain in dB (0 means identity)
+	Phantom bool     `json:"phantom"`
+	Eq      []EqBand `json:"eq"`
 }
 
 type ChannelState struct {
-	Name    string      `json:"name"`  // descriptive name of the input
-	Label   string      `json:"label"` // short label
-	Gain    float32     `json:"gain"`  // input gain in dB (0 means identity)
-	Phantom bool        `json:"phantom"`
-	Eq      []EqBand    `json:"eq"`
-	Sends   []SendState `json:"sends"`
+	ChannelCfg
+	Sends []SendState `json:"sends"`
 }
 
 type BusState struct {
@@ -48,6 +53,10 @@ type LevelsBlock struct {
 func MixerStateEqual(x, y *MixerState) bool {
 	if x == nil || y == nil {
 		return x == y
+	}
+
+	if x.Blob != y.Blob {
+		return false
 	}
 
 	if len(x.Channels) != len(y.Channels) ||
