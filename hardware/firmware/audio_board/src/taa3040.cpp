@@ -186,7 +186,7 @@ uint8_t AudioControlTAA3040::getRegister(uint8_t page, uint8_t reg) {
 	Wire1.beginTransmission(0x4e);
 	Wire1.write(reg);
 	Wire1.endTransmission(false);
-	Wire1.requestFrom(0x4e, 1, true);
+	Wire1.requestFrom((uint8_t)0x4e, (uint8_t)1, true);
 	const uint8_t res = Wire.read();
 	if (Wire1.endTransmission() != 0) {
 		debug_println("I2C error");

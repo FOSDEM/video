@@ -121,14 +121,17 @@ set(SOURCES
     src/debug.cpp
     src/channels.cpp
     src/channel_strip.cpp
-    src/channel_strip.h
     src/filter.cpp
-    src/filter.h
+    src/teensyaudio_defaults.cpp
 )
 
 # Build this project
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${TEENSY_SOURCES} ${TEENSY_LIB_SOURCES})
-set_target_properties(${PROJECT_NAME}.elf PROPERTIES COMPILE_FLAGS "-Wall")
+set_target_properties(${PROJECT_NAME}.elf PROPERTIES COMPILE_FLAGS "-Wall -Werror")
+
+set_source_files_properties(
+        ${TEENSY_SOURCES} ${TEENSY_LIB_SOURCES}
+        PROPERTIES COMPILE_OPTIONS "-Wno-error")    # disable Werror for vendored stuff
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES COMPILE_DEFINITIONS "${TEENSY_DEFINITIONS} ${INCLUDE_DIRECTORIES} -D__arm__ ")
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINK_FLAGS "-Os -Wl,--gc-sections,--defsym=__rtc_localtime=0 --specs=nano.specs -mcpu=${MCPU} -mthumb -T${LINKER_FILE}")
 target_include_directories(${PROJECT_NAME}.elf PRIVATE ${INCLUDE_DIRECTORIES})
