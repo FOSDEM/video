@@ -134,6 +134,11 @@ func (c *FakeCtl) SetInGain(ch uint8, gain float32) error {
 	return nil
 }
 
+func (c *FakeCtl) SetInputEQBand(ch uint8, band uint8, shape uint8, frequency float32, gain float32, q float32) error {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (c *FakeCtl) SetPhantom(ch uint8, phantom bool) error {
 	if int(ch) >= len(c.state.Channels) {
 		return fmt.Errorf("malformed input")
