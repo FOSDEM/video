@@ -26,8 +26,11 @@ function do_build {
     mkdir -p "${cdir}"/build
     (
         set -euo pipefail
+        export CGO_ENABLED=0
         cd "${cdir}"
-        go build -o build/audioctl 'github.com/fosdem/video/software/audioctl/cmd/audioctl'
+        go build \
+            -o build/audioctl \
+            'github.com/fosdem/video/software/audioctl/cmd/audioctl'
     )
     run_linters
 }
