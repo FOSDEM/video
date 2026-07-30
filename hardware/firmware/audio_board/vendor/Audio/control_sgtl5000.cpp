@@ -1018,7 +1018,7 @@ void calcBiquad(uint8_t filtertype, float fC, float dB_Gain, float Q, uint32_t q
     a1 = 2.0F * cosw;
     a2 = alpha - 1.0F;
    break;
-  case FILTER_NOTCH:
+  case FILTER_NTCH:
     b0=1;
     b1=-2*cosw;
     b2=1;
