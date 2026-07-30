@@ -85,12 +85,10 @@ bool InputChannel::EepromLoad() {
 	this->SetPhantom(data.phantom);
 
 	for (uint8_t i = 0; i < 4; i++) {
-		this->filter._band[i].type      = data.eq[i].type;
-		this->filter._band[i].frequency = data.eq[i].frequency;
-		this->filter._band[i].gain      = data.eq[i].gain;
-		this->filter._band[i].q         = data.eq[i].q;
+		if (!this->filter.SetFilter(i, data.eq[i].type, data.eq[i].frequency, data.eq[i].gain, data.eq[i].q)) {
+			debug_printf("input: Unknown filter %d\n", data.eq[i].type);
+		}
 	}
-	this->filter.Apply();
 
 	return true;
 }
