@@ -3,6 +3,7 @@
 set -euo pipefail
 
 cdir="$(dirname "$(readlink -f "${0}")")"
+export CGO_ENABLED=0
 
 function run_linters {
     while read goproj_dir; do
@@ -26,7 +27,6 @@ function do_build {
     mkdir -p "${cdir}"/build
     (
         set -euo pipefail
-        export CGO_ENABLED=0
         cd "${cdir}"
         go build \
             -o build/audioctl \

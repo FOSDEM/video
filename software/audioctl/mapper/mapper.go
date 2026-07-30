@@ -33,7 +33,7 @@ type storedInfo struct {
 	PreMasterMutes  []uint16  `json:"pcm"`
 	Unmutes         []uint16  `json:"u"`
 	MasterFaders    []float32 `json:"mf"`
-	MasterUnmuted   []bool    `json:"mu"`
+	MasterUnmuteds  uint16    `json:"mu"`
 }
 
 func FromMixerState(mixerstate *ctl.MixerState, logger *slog.Logger) *MapperState {
@@ -47,7 +47,7 @@ func FromMixerState(mixerstate *ctl.MixerState, logger *slog.Logger) *MapperStat
 		logger.Error("cannot decode stored blob, reinitialising", "err", err)
 	}
 
-	storedinfo.Resize(len(mixerstate.Channels))
+	storedinfo.Resize(len(mixerstate.Channels), len(mixerstate.Buses))
 
 	for i := range mixerstate.Channels {
 		channel := &m.Channels[i]
@@ -55,7 +55,7 @@ func FromMixerState(mixerstate *ctl.MixerState, logger *slog.Logger) *MapperStat
 
 		channel.ChannelCfg = mixerchannel.ChannelCfg
 		channel.MasterFader = storedinfo.MasterFaders[i]
-		channel.MasterUnmuted = storedinfo.MasterUnmuted[i]
+		channel.MasterUnmuted = storedinfo.MasterUnmuted(i)
 
 		for j := range mixerchannel.Sends {
 			if len(channel.Sends) <= j {
@@ -81,7 +81,7 @@ func (m *MapperState) ToMixerState() *ctl.MixerState {
 	channels := make([]ctl.ChannelState, len(m.Channels))
 
 	storedinfo := &storedInfo{}
-	storedinfo.Resize(len(m.Channels))
+	storedinfo.Resize(len(m.Channels), len(m.Buses))
 
 	for i := range channels {
 		mapperchannel := &m.Channels[i]
@@ -119,12 +119,20 @@ func (m *MapperState) ToMixerState() *ctl.MixerState {
 	}
 }
 
-func (s *storedInfo) Resize(numChans int) {
-	s.PreMasterFaders = resizeSlice(s.PreMasterFaders, numChans)
-	s.PreMasterMutes = resizeSlice(s.PreMasterMutes, numChans)
-	s.Unmutes = resizeSlice(s.Unmutes, numChans)
-	s.MasterFaders = resizeSlice(s.MasterFaders, numChans)
-	s.MasterUnmuted = resizeSlice(s.MasterUnmuted, numChans)
+func (s *storedInfo) Resize(numChans int, numBuses int) {
+	brandNew := len(s.MasterFaders) == 0
+
+	falseMask := uint16(0)
+	trueMask := ^uint16(0)
+
+	s.PreMasterFaders = resizeSlice(s.PreMasterFaders, numChans, falseMask)
+	s.PreMasterMutes = resizeSlice(s.PreMasterMutes, numChans, falseMask)
+	s.Unmutes = resizeSlice(s.Unmutes, numChans, trueMask)
+	s.MasterFaders = resizeSlice(s.MasterFaders, numChans, 0)
+
+	if brandNew {
+		s.MasterUnmuteds = trueMask
+	}
 }
 
 func (s *storedInfo) PreMasterFader(ch, send int) bool {
@@ -137,6 +145,10 @@ func (s *storedInfo) PreMasterMute(ch, send int) bool {
 
 func (s *storedInfo) Unmuted(ch, send int) bool {
 	return s.Unmutes[ch]&(1<<uint(send)) != 0
+}
+
+func (s *storedInfo) MasterUnmuted(ch int) bool {
+	return s.MasterUnmuteds&(1<<uint(ch)) != 0
 }
 
 func (s *storedInfo) SetPreMasterFader(ch, send int, v bool) {
@@ -156,7 +168,7 @@ func (s *storedInfo) SetMasterFader(ch int, v float32) {
 }
 
 func (s *storedInfo) SetMasterUnmuted(ch int, v bool) {
-	s.MasterUnmuted[ch] = v
+	s.MasterUnmuteds = setBit(s.MasterUnmuteds, ch, v)
 }
 
 func (s *storedInfo) Blobify() string {
@@ -185,11 +197,13 @@ func setBit(mask uint16, pos int, v bool) uint16 {
 	return mask &^ (1 << uint(pos))
 }
 
-func resizeSlice[T any](s []T, n int) []T {
-	if len(s) == n {
-		return s
+func resizeSlice[T any](s []T, n int, dflt T) []T {
+	if n <= len(s) {
+		return s[:n]
 	}
-	out := make([]T, n)
-	copy(out, s)
-	return out
+	extras := make([]T, n-len(s))
+	for i := range extras {
+		extras[i] = dflt
+	}
+	return append(s, extras...)
 }

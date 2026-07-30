@@ -155,6 +155,81 @@ func TestSendMuteCombinations(t *testing.T) {
 	}
 }
 
+func TestResizeBusGrowth(t *testing.T) {
+	s := &storedInfo{}
+	s.Resize(1, 2)
+
+	s.SetUnmuted(0, 0, false)
+	s.SetUnmuted(0, 1, true)
+	s.SetPreMasterFader(0, 0, true)
+
+	s.Resize(1, 4)
+
+	if s.Unmuted(0, 0) {
+		t.Errorf("send 0 should stay muted after growth")
+	}
+	if !s.Unmuted(0, 1) {
+		t.Errorf("send 1 should stay unmuted after growth")
+	}
+	if !s.PreMasterFader(0, 0) {
+		t.Errorf("send 0 pre-master-fader should be preserved after growth")
+	}
+	for j := 2; j < 4; j++ {
+		if !s.Unmuted(0, j) {
+			t.Errorf("newly-appeared send %d should default to unmuted", j)
+		}
+		if s.PreMasterFader(0, j) {
+			t.Errorf("newly-appeared send %d pre-master-fader should default to false", j)
+		}
+		if s.PreMasterMute(0, j) {
+			t.Errorf("newly-appeared send %d pre-master-mute should default to false", j)
+		}
+	}
+}
+
+func TestResizeChannelGrowth(t *testing.T) {
+	s := &storedInfo{}
+	s.Resize(1, 2)
+	s.SetMasterUnmuted(0, false)
+
+	s.Resize(3, 2)
+
+	if s.MasterUnmuted(0) {
+		t.Errorf("channel 0 master should stay muted after growth")
+	}
+	for ch := 1; ch < 3; ch++ {
+		if !s.MasterUnmuted(ch) {
+			t.Errorf("newly-appeared channel %d master should default to unmuted", ch)
+		}
+		if !s.Unmuted(ch, 0) || !s.Unmuted(ch, 1) {
+			t.Errorf("newly-appeared channel %d sends should default to unmuted", ch)
+		}
+	}
+}
+
+func TestResizeShrink(t *testing.T) {
+	s := &storedInfo{}
+	s.Resize(3, 3)
+	s.SetMasterUnmuted(0, false)
+	s.SetUnmuted(1, 1, false)
+
+	s.Resize(2, 2)
+
+	if len(s.MasterFaders) != 2 || len(s.Unmutes) != 2 ||
+		len(s.PreMasterFaders) != 2 || len(s.PreMasterMutes) != 2 {
+		t.Fatalf("slices not shrunk to 2 channels: %+v", s)
+	}
+	if s.MasterUnmuted(0) {
+		t.Errorf("channel 0 master should stay muted after shrink")
+	}
+	if s.Unmuted(1, 1) {
+		t.Errorf("send (1,1) should stay muted after shrink")
+	}
+	if !s.Unmuted(1, 0) {
+		t.Errorf("send (1,0) should stay unmuted after shrink")
+	}
+}
+
 func approxEqual(x, y any, eps float64) bool {
 	return approxEqualValue(reflect.ValueOf(x), reflect.ValueOf(y), eps)
 }
