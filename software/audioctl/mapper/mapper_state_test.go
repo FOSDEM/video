@@ -1,8 +1,6 @@
 package mapper
 
 import (
-	"io"
-	"log/slog"
 	"math"
 	"math/rand"
 	"reflect"
@@ -10,10 +8,6 @@ import (
 
 	"github.com/fosdem/video/software/audioctl/ctl"
 )
-
-func discardLogger() *slog.Logger {
-	return slog.New(slog.NewTextHandler(io.Discard, nil))
-}
 
 type generator struct {
 	data []byte
@@ -88,7 +82,7 @@ func randomMapperState(g *generator) *MapperState {
 func checkRoundTrip(t *testing.T, a *MapperState) {
 	t.Helper()
 	b := a.ToMixerState()
-	c := BuildMapperState(b, discardLogger())
+	c := BuildMapperState(b, nil)
 	d := c.ToMixerState()
 
 	if !approxEqual(b, d, 1e-3) {

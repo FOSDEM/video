@@ -38,7 +38,16 @@ func (c *SerialCtl) SetFullState(state *ctl.MixerState) error {
 		}
 	}
 
+	err = c.SetBlob(state.Blob)
+	if err != nil {
+		return fmt.Errorf("could not set blob: %w", err)
+	}
+
 	return nil
+}
+
+func (c *SerialCtl) SetBlob(blob string) error {
+	panic("not implemented")
 }
 
 func (c *SerialCtl) SetMatrixSend(ch uint8, bus uint8, unmuted bool) error {

@@ -114,6 +114,7 @@ func (m *MixerState) Copy() *MixerState {
 	copyMixerState := &MixerState{
 		Channels: make([]ChannelState, len(m.Channels)),
 		Buses:    make([]BusState, len(m.Buses)),
+		Blob:     m.Blob,
 	}
 
 	for i, channel := range m.Channels {

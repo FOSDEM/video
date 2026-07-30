@@ -12,6 +12,7 @@ import (
 	"github.com/fosdem/video/software/audioctl/config"
 	"github.com/fosdem/video/software/audioctl/ctl"
 	"github.com/fosdem/video/software/audioctl/fakectl"
+	"github.com/fosdem/video/software/audioctl/mapper"
 )
 
 type Api struct {
@@ -19,14 +20,14 @@ type Api struct {
 	mainLoop     *msksrvbuilder.MainLoop
 	logger       *slog.Logger
 	cfg          *config.ApiCfg
-	ctl          ctl.Ctl
+	mapper       *mapper.Mapper
 	dying        chan struct{}
 	refreshState chan (chan struct{})
 	chanNames    []string
 	busNames     []string
 
 	heartbeatBus *mskbus.BusOf[Heartbeat]
-	stateBus     *mskbus.BusOf[*ctl.MixerState]
+	stateBus     *mskbus.BusOf[*mapper.MapperState]
 	levelsBus    *mskbus.BusOf[*ctl.Levels]
 }
 
@@ -34,7 +35,7 @@ func New(logger *slog.Logger, cfg *config.ApiCfg, ctlInst ctl.Ctl) *Api {
 	a := &Api{}
 	a.cfg = cfg
 	a.logger = logger
-	a.ctl = ctlInst
+	a.mapper = mapper.New(ctlInst, logger)
 	a.dying = make(chan struct{})
 	a.refreshState = make(chan (chan struct{}))
 
@@ -67,11 +68,13 @@ func New(logger *slog.Logger, cfg *config.ApiCfg, ctlInst ctl.Ctl) *Api {
 		Example(Heartbeat{Now: time.Now()}).
 		Bus()
 
-	a.stateBus = msksrv.AddTopic[*ctl.MixerState](a.srv, "state").
+	exampleState := mapper.BuildMapperState(fakectl.DefaultState, nil)
+
+	a.stateBus = msksrv.AddTopic[*mapper.MapperState](a.srv, "state").
 		Descr("sends the full audio control state").
-		Example(fakectl.DefaultState).
+		Example(exampleState).
 		Bus().
-		DedupBy(ctl.MixerStateEqual)
+		DedupBy(mapper.MapperStateEqual)
 
 	a.levelsBus = msksrv.AddTopic[*ctl.Levels](a.srv, "levels").
 		Descr("sends the audio levels of all inputs and outputs, in decibels").
@@ -80,7 +83,7 @@ func New(logger *slog.Logger, cfg *config.ApiCfg, ctlInst ctl.Ctl) *Api {
 
 	msksrv.AddCall(a.srv, "set-full-state", a.handleSetFullState).
 		Descr("set the full state of the audio mixer at once").
-		Example(fakectl.DefaultState, "ok")
+		Example(exampleState, "ok")
 
 	msksrv.AddCall(a.srv, "set-matrix-send", a.handleSetMatrixSend).
 		Descr("set the unmuted status of the given matrix cross-point").
@@ -118,12 +121,47 @@ func New(logger *slog.Logger, cfg *config.ApiCfg, ctlInst ctl.Ctl) *Api {
 		PathValueAlias("set-in-eq-band/{channel_name}/{band}/s/{shape}/{frequency}/{gain}/{q}").
 		PathValueAlias("set-in-eq-band/{channel_name}/{band}/{shape_name}/{frequency}/{gain}/{q}")
 
-	msksrv.AddCall(a.srv, "set-bus-volume", a.handleSetBusVolume).
-		Descr("set the volume (in decibels) of the given output bus").
-		Example(exampleBusVolumeParam1, "ok").
-		Example(exampleBusVolumeParam2, "ok").
-		PathValueAlias("set-bus-volume/i/{bus}/{volume}").
-		PathValueAlias("set-bus-volume/{bus_name}/{volume}")
+	msksrv.AddCall(a.srv, "set-bus-master-fader", a.handleSetBusMasterFader).
+		Descr("set the master fader (in decibels) of the given output bus").
+		Example(exampleBusMasterFaderParam1, "ok").
+		Example(exampleBusMasterFaderParam2, "ok").
+		PathValueAlias("set-bus-master-fader/i/{bus}/{fader}").
+		PathValueAlias("set-bus-master-fader/{bus_name}/{fader}")
+
+	msksrv.AddCall(a.srv, "set-channel-master-fader", a.handleSetChannelMasterFader).
+		Descr("set the master fader (in decibels) of the given input channel").
+		Example(exampleChannelMasterFaderParam1, "ok").
+		Example(exampleChannelMasterFaderParam2, "ok").
+		PathValueAlias("set-channel-master-fader/i/{channel}/{fader}").
+		PathValueAlias("set-channel-master-fader/{channel_name}/{fader}")
+
+	msksrv.AddCall(a.srv, "set-channel-master-unmuted", a.handleSetChannelMasterUnmuted).
+		Descr("set the master unmuted status of the given input channel").
+		Example(exampleChannelMasterUnmutedParam1, "ok").
+		Example(exampleChannelMasterUnmutedParam2, "ok").
+		PathValueAlias("set-channel-master-unmuted/i/{channel}/{unmuted}").
+		PathValueAlias("set-channel-master-unmuted/{channel_name}/{unmuted}")
+
+	msksrv.AddCall(a.srv, "set-bus-master-unmuted", a.handleSetBusMasterUnmuted).
+		Descr("set the master unmuted status of the given output bus").
+		Example(exampleBusMasterUnmutedParam1, "ok").
+		Example(exampleBusMasterUnmutedParam2, "ok").
+		PathValueAlias("set-bus-master-unmuted/i/{bus}/{unmuted}").
+		PathValueAlias("set-bus-master-unmuted/{bus_name}/{unmuted}")
+
+	msksrv.AddCall(a.srv, "set-send-pre-master-fader", a.handleSetSendPreMasterFader).
+		Descr("set whether the given matrix cross-point doesn't take into account the channel master fader").
+		Example(exampleSendPreMasterFaderParam1, "ok").
+		Example(exampleSendPreMasterFaderParam2, "ok").
+		PathValueAlias("set-send-pre-master-fader/i/{channel}/{bus}/{pre_master_fader}").
+		PathValueAlias("set-send-pre-master-fader/{channel_name}/{bus_name}/{pre_master_fader}")
+
+	msksrv.AddCall(a.srv, "set-send-pre-master-mute", a.handleSetSendPreMasterMute).
+		Descr("set whether the given matrix cross-point doesn't take into account the channel master mute").
+		Example(exampleSendPreMasterMuteParam1, "ok").
+		Example(exampleSendPreMasterMuteParam2, "ok").
+		PathValueAlias("set-send-pre-master-mute/i/{channel}/{bus}/{pre_master_mute}").
+		PathValueAlias("set-send-pre-master-mute/{channel_name}/{bus_name}/{pre_master_mute}")
 
 	msksrv.AddCall(a.srv, "raw-cmd", a.handleRawCmd).
 		Descr("execute a raw command on the audio hardware").
@@ -170,17 +208,17 @@ func (a *Api) poller() {
 	pollLevels := time.NewTicker(time.Duration(a.cfg.LevelsPollIntervalMsec) * time.Millisecond)
 	defer pollLevels.Stop()
 
-	a.pollState()
+	a.pollState(mapper.Force)
 	a.pollLevels()
 	for {
 		select {
 		case <-a.dying:
 			return
 		case done := <-a.refreshState:
-			a.pollState()
+			a.pollState(mapper.Lazy)
 			close(done)
 		case <-pollState.C:
-			a.pollState()
+			a.pollState(mapper.Force)
 		case <-pollLevels.C:
 			a.pollLevels()
 		}

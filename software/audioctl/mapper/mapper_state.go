@@ -31,6 +31,87 @@ type SendState struct {
 	PreMasterMute  bool    `json:"pre_channel_mute"`
 }
 
+func MapperStateEqual(x, y *MapperState) bool {
+	if x == nil || y == nil {
+		return x == y
+	}
+
+	if len(x.Channels) != len(y.Channels) ||
+		len(x.Buses) != len(y.Buses) {
+		return false
+	}
+
+	for i := range x.Channels {
+		if !ChannelStateEqual(&x.Channels[i], &y.Channels[i]) {
+			return false
+		}
+	}
+
+	for i := range x.Buses {
+		if !BusStateEqual(&x.Buses[i], &y.Buses[i]) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func ChannelStateEqual(a, b *ChannelState) bool {
+	if a.Name != b.Name ||
+		a.Label != b.Label ||
+		a.Gain != b.Gain ||
+		a.Phantom != b.Phantom ||
+		a.MasterFader != b.MasterFader ||
+		a.MasterUnmuted != b.MasterUnmuted ||
+		len(a.Sends) != len(b.Sends) {
+		return false
+	}
+
+	for i := range a.Sends {
+		if !SendStateEqual(&a.Sends[i], &b.Sends[i]) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func BusStateEqual(a, b *BusState) bool {
+	return a.Name == b.Name &&
+		a.Label == b.Label &&
+		a.MasterFader == b.MasterFader &&
+		a.MasterUnmuted == b.MasterUnmuted
+}
+
+func SendStateEqual(a, b *SendState) bool {
+	return a.Unmuted == b.Unmuted &&
+		a.Volume == b.Volume &&
+		a.PreMasterFader == b.PreMasterFader &&
+		a.PreMasterMute == b.PreMasterMute
+}
+
+func (m *MapperState) Copy() *MapperState {
+	out := &MapperState{
+		Channels: make([]ChannelState, len(m.Channels)),
+		Buses:    make([]BusState, len(m.Buses)),
+	}
+
+	copy(out.Buses, m.Buses)
+
+	for i := range m.Channels {
+		src := &m.Channels[i]
+		dst := &out.Channels[i]
+
+		dst.ChannelCfg = src.ChannelCfg
+		dst.Eq = append([]ctl.EqBand(nil), src.Eq...)
+		dst.MasterFader = src.MasterFader
+		dst.MasterUnmuted = src.MasterUnmuted
+		dst.Sends = append([]SendState(nil), src.Sends...)
+	}
+
+	return out
+}
+
 func BuildMapperState(mixerstate *ctl.MixerState, logger *slog.Logger) *MapperState {
 	m := &MapperState{
 		Channels: make([]ChannelState, len(mixerstate.Channels)),
@@ -38,7 +119,7 @@ func BuildMapperState(mixerstate *ctl.MixerState, logger *slog.Logger) *MapperSt
 	}
 
 	storedinfo, err := deblobifyStoredInfo(mixerstate.Blob)
-	if err != nil {
+	if err != nil && logger != nil {
 		logger.Error("cannot decode stored blob, reinitialising", "err", err)
 	}
 

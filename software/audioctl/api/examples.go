@@ -59,14 +59,68 @@ var exampleMatrixVolumeParam2 = SetMatrixVolumeParam{
 	Volume:   &exampleFourTwo,
 }
 
-var exampleBusVolumeParam1 = SetBusVolumeParam{
-	Bus:    &exampleOne,
-	Volume: &exampleFourTwo,
+var exampleBusMasterFaderParam1 = SetBusMasterFaderParam{
+	Bus:   &exampleOne,
+	Fader: &exampleFourTwo,
 }
 
-var exampleBusVolumeParam2 = SetBusVolumeParam{
+var exampleBusMasterFaderParam2 = SetBusMasterFaderParam{
 	BusName: &examplePenka,
-	Volume:  &exampleFourTwo,
+	Fader:   &exampleFourTwo,
+}
+
+var exampleChannelMasterFaderParam1 = SetChannelMasterFaderParam{
+	Chan:  &exampleOne,
+	Fader: &exampleFourTwo,
+}
+
+var exampleChannelMasterFaderParam2 = SetChannelMasterFaderParam{
+	ChanName: &exampleFoo,
+	Fader:    &exampleFourTwo,
+}
+
+var exampleChannelMasterUnmutedParam1 = SetChannelMasterUnmutedParam{
+	Chan:    &exampleOne,
+	Unmuted: &exampleTrue,
+}
+
+var exampleChannelMasterUnmutedParam2 = SetChannelMasterUnmutedParam{
+	ChanName: &exampleFoo,
+	Unmuted:  &exampleFalse,
+}
+
+var exampleBusMasterUnmutedParam1 = SetBusMasterUnmutedParam{
+	Bus:     &exampleOne,
+	Unmuted: &exampleTrue,
+}
+
+var exampleBusMasterUnmutedParam2 = SetBusMasterUnmutedParam{
+	BusName: &examplePenka,
+	Unmuted: &exampleFalse,
+}
+
+var exampleSendPreMasterFaderParam1 = SetSendPreMasterFaderParam{
+	Chan:           &exampleOne,
+	Bus:            &exampleThree,
+	PreMasterFader: &exampleTrue,
+}
+
+var exampleSendPreMasterFaderParam2 = SetSendPreMasterFaderParam{
+	ChanName:       &exampleFoo,
+	BusName:        &exampleBar,
+	PreMasterFader: &exampleFalse,
+}
+
+var exampleSendPreMasterMuteParam1 = SetSendPreMasterMuteParam{
+	Chan:          &exampleOne,
+	Bus:           &exampleThree,
+	PreMasterMute: &exampleTrue,
+}
+
+var exampleSendPreMasterMuteParam2 = SetSendPreMasterMuteParam{
+	ChanName:      &exampleFoo,
+	BusName:       &exampleBar,
+	PreMasterMute: &exampleFalse,
 }
 
 var exampleTrue = true

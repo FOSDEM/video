@@ -79,7 +79,16 @@ func (c *SerialCtl) GetFullState() (*ctl.MixerState, error) {
 		m.Buses[j].Name = busNames[j]
 	}
 
+	m.Blob, err = c.GetBlob()
+	if err != nil {
+		return nil, fmt.Errorf("could not get blob: %w", err)
+	}
+
 	return m, nil
+}
+
+func (c *SerialCtl) GetBlob() (string, error) {
+	panic("not implemented")
 }
 
 func (c *SerialCtl) GetChannelNames() ([]string, []string, error) {

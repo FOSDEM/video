@@ -28,6 +28,15 @@ func (c *FakeCtl) GetFullState() (*ctl.MixerState, error) {
 	return c.state.Copy(), nil
 }
 
+func (c *FakeCtl) GetBlob() (string, error) {
+	return c.state.Blob, nil
+}
+
+func (c *FakeCtl) SetBlob(blob string) error {
+	c.state.Blob = blob
+	return nil
+}
+
 func (c *FakeCtl) GetChannelNames() ([]string, []string, error) {
 	chanNames := make([]string, len(c.state.Channels))
 	for i := range c.state.Channels {
@@ -94,6 +103,9 @@ func (c *FakeCtl) SetFullState(state *ctl.MixerState) error {
 		if len(state.Channels[i].Sends) != len(state.Buses) {
 			return fmt.Errorf("matrix is not rectangular")
 		}
+	}
+	if err := c.SetBlob(state.Blob); err != nil {
+		return err
 	}
 	c.state = state
 	return nil
