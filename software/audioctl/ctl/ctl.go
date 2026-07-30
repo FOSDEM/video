@@ -5,7 +5,6 @@ type Ctl interface {
 	GetChannelNames() ([]string, []string, error)
 	GetChannelLabels() ([]string, []string, error)
 	GetInputGains() ([]float32, error)
-	GetBusVolumes() ([]float32, error)
 	GetPhantoms() ([]bool, error)
 	GetMatrix() ([]SendState, error)
 	SetFullState(state *MixerState) error
@@ -14,7 +13,6 @@ type Ctl interface {
 	SetInGain(ch uint8, gain float32) error
 	SetInputEQBand(ch uint8, band uint8, shape uint8, frequency float32, gain float32, q float32) error
 	SetPhantom(ch uint8, phantom bool) error
-	SetBusVolume(bus uint8, volume float32) error
 	FactoryReset() error
 	Loop() error
 	RawCmd(argstr string) (string, error)

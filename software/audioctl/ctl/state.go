@@ -21,10 +21,13 @@ type ChannelState struct {
 	Sends      []SendState `json:"sends"`
 }
 
+type BusCfg struct {
+	Name  string `json:"name"`  // descriptive name of the output bus
+	Label string `json:"label"` // short label
+}
+
 type BusState struct {
-	Name   string  `json:"name"`   // descriptive name of the output bus
-	Label  string  `json:"label"`  // short label
-	Volume float32 `json:"volume"` // volume in dB (0 means identity)
+	BusCfg `json:",inline"`
 }
 
 type SendState struct {
@@ -99,8 +102,7 @@ func ChannelStateEqual(a, b *ChannelState) bool {
 
 func BusStateEqual(a, b *BusState) bool {
 	return a.Name == b.Name &&
-		a.Label == b.Label &&
-		a.Volume == b.Volume
+		a.Label == b.Label
 }
 
 func SendStateEqual(a, b *SendState) bool {
@@ -150,9 +152,10 @@ func (c *ChannelState) Copy() *ChannelState {
 
 func (b *BusState) Copy() BusState {
 	return BusState{
-		Name:   b.Name,
-		Label:  b.Label,
-		Volume: b.Volume,
+		BusCfg: BusCfg{
+			Name:  b.Name,
+			Label: b.Label,
+		},
 	}
 }
 

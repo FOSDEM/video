@@ -64,14 +64,6 @@ func (c *FakeCtl) GetInputGains() ([]float32, error) {
 	return gains, nil
 }
 
-func (c *FakeCtl) GetBusVolumes() ([]float32, error) {
-	volumes := make([]float32, len(c.state.Buses))
-	for i := range c.state.Buses {
-		volumes[i] = c.state.Buses[i].Volume
-	}
-	return volumes, nil
-}
-
 func (c *FakeCtl) GetPhantoms() ([]bool, error) {
 	phantoms := make([]bool, len(c.state.Channels))
 	for i := range c.state.Channels {
@@ -148,15 +140,6 @@ func (c *FakeCtl) SetPhantom(ch uint8, phantom bool) error {
 	return nil
 }
 
-func (c *FakeCtl) SetBusVolume(bus uint8, volume float32) error {
-	if int(bus) > len(c.state.Buses) {
-		return fmt.Errorf("malformed input")
-	}
-
-	c.state.Buses[bus].Volume = volume
-	return nil
-}
-
 func (c *FakeCtl) FactoryReset() error {
 	c.state = DefaultState
 	return nil
@@ -199,7 +182,7 @@ func (c *FakeCtl) Loop() error {
 				mul := float32(0)
 				send := c.state.Channels[i].Sends[j]
 				if send.Unmuted {
-					gain_dB := send.Volume + c.state.Buses[j].Volume
+					gain_dB := send.Volume
 					mul = coef_from_dB(gain_dB)
 				}
 				busLevel += coef_from_dB(c.levels.RMS.Input[i]) * mul

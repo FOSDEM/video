@@ -47,12 +47,12 @@ func randomMapperState(g *generator) *MapperState {
 	numChans := g.intn(6) + 1
 	numBuses := g.intn(8) + 1
 
-	buses := make([]ctl.BusState, numBuses)
+	buses := make([]BusState, numBuses)
 	for i := range buses {
-		buses[i] = ctl.BusState{
-			Name:   "bus",
-			Label:  "b",
-			Volume: g.volume(),
+		buses[i] = BusState{
+			BusCfg:        ctl.BusCfg{Name: "bus", Label: "b"},
+			MasterFader:   g.volume(),
+			MasterUnmuted: g.bool(),
 		}
 	}
 
@@ -146,7 +146,7 @@ func TestSendMuteCombinations(t *testing.T) {
 							},
 						},
 					},
-					Buses: []ctl.BusState{{}},
+					Buses: []BusState{{MasterUnmuted: true}},
 				}
 
 				checkRoundTrip(t, m)
@@ -190,15 +190,15 @@ func TestResizeBusGrowth(t *testing.T) {
 func TestResizeChannelGrowth(t *testing.T) {
 	s := &storedInfo{}
 	s.Resize(1, 2)
-	s.SetMasterUnmuted(0, false)
+	s.SetChannelMasterUnmuted(0, false)
 
 	s.Resize(3, 2)
 
-	if s.MasterUnmuted(0) {
+	if s.ChannelMasterUnmuted(0) {
 		t.Errorf("channel 0 master should stay muted after growth")
 	}
 	for ch := 1; ch < 3; ch++ {
-		if !s.MasterUnmuted(ch) {
+		if !s.ChannelMasterUnmuted(ch) {
 			t.Errorf("newly-appeared channel %d master should default to unmuted", ch)
 		}
 		if !s.Unmuted(ch, 0) || !s.Unmuted(ch, 1) {
@@ -210,16 +210,16 @@ func TestResizeChannelGrowth(t *testing.T) {
 func TestResizeShrink(t *testing.T) {
 	s := &storedInfo{}
 	s.Resize(3, 3)
-	s.SetMasterUnmuted(0, false)
+	s.SetChannelMasterUnmuted(0, false)
 	s.SetUnmuted(1, 1, false)
 
 	s.Resize(2, 2)
 
-	if len(s.MasterFaders) != 2 || len(s.Unmutes) != 2 ||
+	if len(s.ChannelMasterFaders) != 2 || len(s.Unmutes) != 2 ||
 		len(s.PreMasterFaders) != 2 || len(s.PreMasterMutes) != 2 {
 		t.Fatalf("slices not shrunk to 2 channels: %+v", s)
 	}
-	if s.MasterUnmuted(0) {
+	if s.ChannelMasterUnmuted(0) {
 		t.Errorf("channel 0 master should stay muted after shrink")
 	}
 	if s.Unmuted(1, 1) {

@@ -11,7 +11,7 @@ import (
 
 type MapperState struct {
 	Channels []ChannelState `json:"channels"`
-	Buses    []ctl.BusState `json:"buses"`
+	Buses    []BusState     `json:"buses"`
 }
 
 type ChannelState struct {
@@ -19,6 +19,12 @@ type ChannelState struct {
 	MasterFader    float32     `json:"master_fader"`
 	MasterUnmuted  bool        `json:"master_unmuted"`
 	Sends          []SendState `json:"sends"`
+}
+
+type BusState struct {
+	ctl.BusCfg    `json:",inline"`
+	MasterFader   float32 `json:"master_fader"`
+	MasterUnmuted bool    `json:"master_unmuted"`
 }
 
 type SendState struct {
@@ -29,17 +35,21 @@ type SendState struct {
 }
 
 type storedInfo struct {
-	PreMasterFaders []uint16  `json:"pcf"`
-	PreMasterMutes  []uint16  `json:"pcm"`
-	Unmutes         []uint16  `json:"u"`
-	MasterFaders    []float32 `json:"mf"`
-	MasterUnmuteds  uint16    `json:"mu"`
+	PreMasterFaders []uint16 `json:"pcf"`
+	PreMasterMutes  []uint16 `json:"pcm"`
+	Unmutes         []uint16 `json:"u"`
+
+	ChannelMasterFaders   []float32 `json:"cmf"`
+	ChannelMasterUnmuteds uint16    `json:"cmu"`
+
+	BusMasterFaders   []float32 `json:"bmf"`
+	BusMasterUnmuteds uint16    `json:"bmu"`
 }
 
 func FromMixerState(mixerstate *ctl.MixerState, logger *slog.Logger) *MapperState {
 	m := &MapperState{
 		Channels: make([]ChannelState, len(mixerstate.Channels)),
-		Buses:    mixerstate.Buses,
+		Buses:    make([]BusState, len(mixerstate.Buses)),
 	}
 
 	storedinfo, err := deblobifyStoredInfo(mixerstate.Blob)
@@ -49,13 +59,20 @@ func FromMixerState(mixerstate *ctl.MixerState, logger *slog.Logger) *MapperStat
 
 	storedinfo.Resize(len(mixerstate.Channels), len(mixerstate.Buses))
 
+	for j := range mixerstate.Buses {
+		bus := &m.Buses[j]
+		bus.BusCfg = mixerstate.Buses[j].BusCfg
+		bus.MasterFader = storedinfo.BusMasterFaders[j]
+		bus.MasterUnmuted = storedinfo.BusMasterUnmuted(j)
+	}
+
 	for i := range mixerstate.Channels {
 		channel := &m.Channels[i]
 		mixerchannel := &mixerstate.Channels[i]
 
 		channel.ChannelCfg = mixerchannel.ChannelCfg
-		channel.MasterFader = storedinfo.MasterFaders[i]
-		channel.MasterUnmuted = storedinfo.MasterUnmuted(i)
+		channel.MasterFader = storedinfo.ChannelMasterFaders[i]
+		channel.MasterUnmuted = storedinfo.ChannelMasterUnmuted(i)
 
 		for j := range mixerchannel.Sends {
 			if len(channel.Sends) <= j {
@@ -71,6 +88,7 @@ func FromMixerState(mixerstate *ctl.MixerState, logger *slog.Logger) *MapperStat
 			if !send.PreMasterFader {
 				send.Volume -= channel.MasterFader
 			}
+			send.Volume -= m.Buses[j].MasterFader
 		}
 	}
 
@@ -79,23 +97,31 @@ func FromMixerState(mixerstate *ctl.MixerState, logger *slog.Logger) *MapperStat
 
 func (m *MapperState) ToMixerState() *ctl.MixerState {
 	channels := make([]ctl.ChannelState, len(m.Channels))
+	buses := make([]ctl.BusState, len(m.Buses))
 
 	storedinfo := &storedInfo{}
 	storedinfo.Resize(len(m.Channels), len(m.Buses))
+
+	for j := range m.Buses {
+		buses[j].BusCfg = m.Buses[j].BusCfg
+		storedinfo.SetBusMasterFader(j, m.Buses[j].MasterFader)
+		storedinfo.SetBusMasterUnmuted(j, m.Buses[j].MasterUnmuted)
+	}
 
 	for i := range channels {
 		mapperchannel := &m.Channels[i]
 		channels[i].ChannelCfg = mapperchannel.ChannelCfg
 		sends := make([]ctl.SendState, len(mapperchannel.Sends))
 
-		storedinfo.SetMasterFader(i, mapperchannel.MasterFader)
-		storedinfo.SetMasterUnmuted(i, mapperchannel.MasterUnmuted)
+		storedinfo.SetChannelMasterFader(i, mapperchannel.MasterFader)
+		storedinfo.SetChannelMasterUnmuted(i, mapperchannel.MasterUnmuted)
 
 		for j := range sends {
 			mappersend := &mapperchannel.Sends[j]
+			mapperbus := &m.Buses[j]
 			send := &sends[j]
 
-			send.Unmuted = mappersend.Unmuted
+			send.Unmuted = mappersend.Unmuted && mapperbus.MasterUnmuted
 			if !mappersend.PreMasterMute && !mapperchannel.MasterUnmuted {
 				send.Unmuted = false
 			}
@@ -103,6 +129,7 @@ func (m *MapperState) ToMixerState() *ctl.MixerState {
 			if !mappersend.PreMasterFader {
 				send.Volume += mapperchannel.MasterFader
 			}
+			send.Volume += mapperbus.MasterFader
 
 			storedinfo.SetPreMasterMute(i, j, mappersend.PreMasterMute)
 			storedinfo.SetPreMasterFader(i, j, mappersend.PreMasterFader)
@@ -114,13 +141,13 @@ func (m *MapperState) ToMixerState() *ctl.MixerState {
 
 	return &ctl.MixerState{
 		Channels: channels,
-		Buses:    m.Buses,
+		Buses:    buses,
 		Blob:     storedinfo.Blobify(),
 	}
 }
 
 func (s *storedInfo) Resize(numChans int, numBuses int) {
-	brandNew := len(s.MasterFaders) == 0
+	brandNew := len(s.ChannelMasterFaders) == 0
 
 	falseMask := uint16(0)
 	trueMask := ^uint16(0)
@@ -128,10 +155,12 @@ func (s *storedInfo) Resize(numChans int, numBuses int) {
 	s.PreMasterFaders = resizeSlice(s.PreMasterFaders, numChans, falseMask)
 	s.PreMasterMutes = resizeSlice(s.PreMasterMutes, numChans, falseMask)
 	s.Unmutes = resizeSlice(s.Unmutes, numChans, trueMask)
-	s.MasterFaders = resizeSlice(s.MasterFaders, numChans, 0)
+	s.ChannelMasterFaders = resizeSlice(s.ChannelMasterFaders, numChans, 0)
+	s.BusMasterFaders = resizeSlice(s.BusMasterFaders, numBuses, 0)
 
 	if brandNew {
-		s.MasterUnmuteds = trueMask
+		s.ChannelMasterUnmuteds = trueMask
+		s.BusMasterUnmuteds = trueMask
 	}
 }
 
@@ -147,8 +176,12 @@ func (s *storedInfo) Unmuted(ch, send int) bool {
 	return s.Unmutes[ch]&(1<<uint(send)) != 0
 }
 
-func (s *storedInfo) MasterUnmuted(ch int) bool {
-	return s.MasterUnmuteds&(1<<uint(ch)) != 0
+func (s *storedInfo) ChannelMasterUnmuted(ch int) bool {
+	return s.ChannelMasterUnmuteds&(1<<uint(ch)) != 0
+}
+
+func (s *storedInfo) BusMasterUnmuted(bus int) bool {
+	return s.BusMasterUnmuteds&(1<<uint(bus)) != 0
 }
 
 func (s *storedInfo) SetPreMasterFader(ch, send int, v bool) {
@@ -163,12 +196,20 @@ func (s *storedInfo) SetUnmuted(ch, send int, v bool) {
 	s.Unmutes[ch] = setBit(s.Unmutes[ch], send, v)
 }
 
-func (s *storedInfo) SetMasterFader(ch int, v float32) {
-	s.MasterFaders[ch] = v
+func (s *storedInfo) SetChannelMasterFader(ch int, v float32) {
+	s.ChannelMasterFaders[ch] = v
 }
 
-func (s *storedInfo) SetMasterUnmuted(ch int, v bool) {
-	s.MasterUnmuteds = setBit(s.MasterUnmuteds, ch, v)
+func (s *storedInfo) SetChannelMasterUnmuted(ch int, v bool) {
+	s.ChannelMasterUnmuteds = setBit(s.ChannelMasterUnmuteds, ch, v)
+}
+
+func (s *storedInfo) SetBusMasterFader(bus int, v float32) {
+	s.BusMasterFaders[bus] = v
+}
+
+func (s *storedInfo) SetBusMasterUnmuted(bus int, v bool) {
+	s.BusMasterUnmuteds = setBit(s.BusMasterUnmuteds, bus, v)
 }
 
 func (s *storedInfo) Blobify() string {

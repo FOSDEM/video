@@ -61,14 +61,16 @@ var DefaultState *ctl.MixerState = &ctl.MixerState{
 	},
 	Buses: []ctl.BusState{
 		{
-			Name:   "penka",
-			Label:  "pe",
-			Volume: 0,
+			BusCfg: ctl.BusCfg{
+				Name:  "penka",
+				Label: "pe",
+			},
 		},
 		{
-			Name:   "donka",
-			Label:  "do",
-			Volume: -10,
+			BusCfg: ctl.BusCfg{
+				Name:  "donka",
+				Label: "do",
+			},
 		},
 	},
 }

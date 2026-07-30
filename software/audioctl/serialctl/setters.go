@@ -38,13 +38,6 @@ func (c *SerialCtl) SetFullState(state *ctl.MixerState) error {
 		}
 	}
 
-	for j := range c.numBuses {
-		err = c.SetBusVolume(uint8(j), state.Buses[j].Volume)
-		if err != nil {
-			return fmt.Errorf("could not set volume on bus %d: %w", j, err)
-		}
-	}
-
 	return nil
 }
 
@@ -106,19 +99,6 @@ func (c *SerialCtl) SetPhantom(ch uint8, phantom bool) error {
 	}
 
 	_, err := c.RawCmd(fmt.Sprintf("phantom.set %d %d", ch, boolToNum(phantom)))
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (c *SerialCtl) SetBusVolume(bus uint8, volume float32) error {
-	if int(bus) > c.numBuses {
-		return fmt.Errorf("malformed input")
-	}
-
-	_, err := c.RawCmd(fmt.Sprintf("bus-volume.set %d %.4f", bus, volume))
 	if err != nil {
 		return err
 	}

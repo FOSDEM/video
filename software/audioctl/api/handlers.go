@@ -189,12 +189,13 @@ func (a *Api) handleSetBusVolume(param SetBusVolumeParam) (string, error) {
 	if param.Bus == nil || param.Volume == nil {
 		return "", fmt.Errorf("missing fields (need bus, volume)")
 	}
-	err = a.ctl.SetBusVolume(*param.Bus, *param.Volume)
-	if err != nil {
-		return "", err
-	}
-	a.forceRefresh()
-	return "ok", nil
+	panic("not implemented")
+	// err = a.ctl.SetBusVolume(*param.Bus, *param.Volume)
+	// if err != nil {
+	// 	return "", err
+	// }
+	// a.forceRefresh()
+	// return "ok", nil
 }
 
 func (a *Api) pollState() {

@@ -23,11 +23,6 @@ func (c *SerialCtl) GetFullState() (*ctl.MixerState, error) {
 		return nil, fmt.Errorf("could not get input gains: %w", err)
 	}
 
-	busVolumes, err := c.GetBusVolumes()
-	if err != nil {
-		return nil, fmt.Errorf("could not get bus volumes: %w", err)
-	}
-
 	phantoms, err := c.GetPhantoms()
 	if err != nil {
 		return nil, fmt.Errorf("could not get phantoms: %w", err)
@@ -56,10 +51,6 @@ func (c *SerialCtl) GetFullState() (*ctl.MixerState, error) {
 		return nil, fmt.Errorf("wrong number of matrix items (got %d, should be %d)", len(sends), c.numChans*c.numBuses)
 	}
 
-	if len(busVolumes) != c.numBuses {
-		return nil, fmt.Errorf("wrong number of busVolumes (got %d, should be %d)", len(busVolumes), c.numBuses)
-	}
-
 	m := &ctl.MixerState{
 		Channels: make([]ctl.ChannelState, c.numChans),
 		Buses:    make([]ctl.BusState, c.numBuses),
@@ -86,7 +77,6 @@ func (c *SerialCtl) GetFullState() (*ctl.MixerState, error) {
 	for j := range m.Buses {
 		m.Buses[j].Label = busLabels[j]
 		m.Buses[j].Name = busNames[j]
-		m.Buses[j].Volume = busVolumes[j]
 	}
 
 	return m, nil
@@ -148,14 +138,6 @@ func (c *SerialCtl) GetInputEqBands(ch uint8) ([]ctl.EqBand, error) {
 		result[band].Frequency = float32(q)
 	}
 	return result, nil
-}
-
-func (c *SerialCtl) GetBusVolumes() ([]float32, error) {
-	resp, err := c.RawCmd("bus-volumes")
-	if err != nil {
-		return nil, err
-	}
-	return parseFloatList(resp)
 }
 
 func (c *SerialCtl) GetPhantoms() ([]bool, error) {
