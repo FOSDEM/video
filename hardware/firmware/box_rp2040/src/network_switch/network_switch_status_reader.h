@@ -49,6 +49,7 @@ void nsw_dump_member_config();
 void nsw_dump_pvids();
 
 bool nsw_config_vlans(bool enable);
+bool nsw_config_is_vlans_enabled();
 bool nsw_vlan_set(nsw_vlan_cfg_t *cfg);
 bool nsw_vlan_get(vlan_id_t vid, nsw_vlan_cfg_t *cfg);
 

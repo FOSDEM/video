@@ -657,6 +657,13 @@ nsw_config_vlans(bool enable) {
     return true;
 }
 
+bool
+nsw_config_is_vlans_enabled() {
+    uint32_t reg;
+    smi_read(REG_VLAN_CONTROL, &reg);
+    return reg & 1;
+}
+
 uint16_t
 nsw_link_speed_mbps(nsw_port_regs_t *regs) {
     if ((regs->bmcr & MII_BMCR_AUTONEG_ENABLE) && (regs->bmsr & MII_BMSR_AUTONEG_COMPLETE)) {
