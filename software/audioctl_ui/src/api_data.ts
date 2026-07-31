@@ -1,9 +1,9 @@
-import { z } from "zod"
+import { z } from "zod";
 
 const SendStateSchema = z.object({
   unmuted: z.boolean(),
   volume: z.number(),
-})
+});
 
 const ChannelStateSchema = z.object({
   name: z.string(),
@@ -11,31 +11,31 @@ const ChannelStateSchema = z.object({
   gain: z.number(),
   phantom: z.boolean(),
   sends: z.array(SendStateSchema),
-})
+});
 
 const BusStateSchema = z.object({
   name: z.string(),
   label: z.string(),
   volume: z.number(),
-})
+});
 
 const MixerStateSchema = z.object({
   channels: z.array(ChannelStateSchema),
   buses: z.array(BusStateSchema),
-})
+});
 
 const LevelsBlockSchema = z.object({
   inputs: z.array(z.number()),
   buses: z.array(z.number()),
-})
+});
 
 const LevelsSchema = z.object({
   rms: LevelsBlockSchema,
   peak: LevelsBlockSchema,
   smooth: LevelsBlockSchema,
-})
+});
 
-const OkRespSchema = z.literal("ok")
+const OkRespSchema = z.literal("ok");
 
 export type SendState = z.infer<typeof SendStateSchema>;
 export type ChannelState = z.infer<typeof ChannelStateSchema>;
@@ -53,4 +53,4 @@ export {
   LevelsBlockSchema,
   LevelsSchema,
   OkRespSchema,
-}
+};
