@@ -2,6 +2,7 @@ import favicon_dataurl from "../assets/favicon.png?url&inline";
 import { render, Component } from "preact";
 import type { VNode } from "preact";
 import { MQTTClient, WSClient, MisirkaClient, SubClient } from "misirka";
+import { MixerUI } from "./mixer_ui.tsx";
 
 function setup_favicon() {
   const link = document.querySelector<HTMLLinkElement>("#favicon")!;
@@ -11,20 +12,23 @@ function setup_favicon() {
 }
 
 type AppState = {
-  status: VNode;
+  status: VNode | null;
+  connected_client: MisirkaClient | null;
 };
 
 class App extends Component<object, AppState> {
-  state: AppState = { status: <span>connecting</span> };
-
-  private client: MisirkaClient | null = null;
+  state: AppState = { status: <span>initialising</span>, connected_client: null };
 
   componentDidMount() {
-    this.client = this.connect();
-    if (this.client) {
-      this.client.on_alive(() => {
-        this.textStatus("connected!");
-      })
+    const client = this.connect();
+
+    if (client) {
+      client.on_alive(() => {
+        this.setState({ connected_client: client, status: null });
+      });
+      client.on_dead(() => {
+        this.setState({ connected_client: null, status: null });
+      });
     }
   }
 
@@ -91,7 +95,16 @@ class App extends Component<object, AppState> {
   }
 
   render() {
-    return <section>{this.state.status}</section>;
+    return (
+      <>
+        {this.state.status && (
+          <section>{this.state.status}</section>
+        )}
+        {this.state.connected_client && (
+          <MixerUI client={this.state.connected_client} />
+        )}
+      </>
+    );
   }
 }
 
