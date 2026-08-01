@@ -71,7 +71,6 @@ export class MixerUI extends Component<Props, State> {
   }
 
   private mk_input_actions(i: number): InputActions {
-    // TODO: use qui for all actions
     return {
       set_gain: (gain: number) => {
         this.props.qui.add(async () => {
@@ -79,26 +78,40 @@ export class MixerUI extends Component<Props, State> {
         }, `inp-${i}-gain`);
       },
       set_master_fader: (fader: number) => {
-        this.client.set_channel_master_fader(i, fader);
+        this.props.qui.add(async () => {
+          await this.client.set_channel_master_fader(i, fader);
+        }, `inp-${i}-master-fader`);
       },
       set_master_unmuted: (unmuted: boolean) => {
-        this.client.set_channel_master_unmuted(i, unmuted);
+        this.props.qui.add(async () => {
+          await this.client.set_channel_master_unmuted(i, unmuted);
+        }, `inp-${i}-master-unmuted`);
       },
       set_phantom: (on: boolean) => {
-        this.client.set_phantom(i, on);
+        this.props.qui.add(async () => {
+          await this.client.set_phantom(i, on);
+        }, `inp-${i}-phantom`);
       },
       send: (bus: number) => ({
         set_volume: (volume: number) => {
-          this.client.set_matrix_volume(i, bus, volume);
+          this.props.qui.add(async () => {
+            await this.client.set_matrix_volume(i, bus, volume);
+          }, `inp-${i}-send-${bus}-volume`);
         },
         set_unmuted: (unmuted: boolean) => {
-          this.client.set_matrix_send(i, bus, unmuted);
+          this.props.qui.add(async () => {
+            await this.client.set_matrix_send(i, bus, unmuted);
+          }, `inp-${i}-send-${bus}-unmuted`);
         },
         set_pre_fader: (pre: boolean) => {
-          this.client.set_send_pre_master_fader(i, bus, pre);
+          this.props.qui.add(async () => {
+            await this.client.set_send_pre_master_fader(i, bus, pre);
+          }, `inp-${i}-send-${bus}-pre-fader`);
         },
         set_pre_mute: (pre: boolean) => {
-          this.client.set_send_pre_master_mute(i, bus, pre);
+          this.props.qui.add(async () => {
+            await this.client.set_send_pre_master_mute(i, bus, pre);
+          }, `inp-${i}-send-${bus}-pre-mute`);
         },
       }),
     };
@@ -107,10 +120,14 @@ export class MixerUI extends Component<Props, State> {
   private mk_output_actions(i: number): OutputActions {
     return {
       set_master_fader: (fader: number) => {
-        this.client.set_bus_master_fader(i, fader);
+        this.props.qui.add(async () => {
+          await this.client.set_bus_master_fader(i, fader);
+        }, `out-${i}-master-fader`);
       },
       set_master_unmuted: (unmuted: boolean) => {
-        this.client.set_bus_master_unmuted(i, unmuted);
+        this.props.qui.add(async () => {
+          await this.client.set_bus_master_unmuted(i, unmuted);
+        }, `out-${i}-master-unmuted`);
       },
     };
   }
