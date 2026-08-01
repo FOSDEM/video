@@ -45,12 +45,19 @@ export function MixerInput(props: Props) {
         {setup && (
           <div className="sliders gain">
             <span className="label">gain</span>
-            <Slider value={channel.gain} onInput={actions.set_gain} />
+            <Slider
+              value={channel.gain}
+              min={-80}
+              max={60}
+              onInput={actions.set_gain}
+            />
           </div>
         )}
         <div className="sliders master">
           <Slider
             value={channel.master_fader}
+            min={-80}
+            max={60}
             onInput={actions.set_master_fader}
           />
           <VUMeter levels={props.levels} kind="inputs" idx={props.idx} />
@@ -100,7 +107,12 @@ function SendMap(props: {
   return (
     <div className="send">
       <h4 title={bus.name}>{bus.label}</h4>
-      <Slider value={send.volume} onInput={actions.set_volume} />
+      <Slider
+        value={send.volume}
+        min={-80}
+        max={60}
+        onInput={actions.set_volume}
+      />
       <Checkbox
         id={`${id}-${i}-unmuted`}
         className="mute"

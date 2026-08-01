@@ -25,7 +25,12 @@ export function MixerOutput(props: Props) {
       <h3 title={bus.name}>{bus.label}</h3>
       <div className="controls">
         <div className="sliders master">
-          <Slider value={bus.master_fader} onInput={actions.set_master_fader} />
+          <Slider
+            value={bus.master_fader}
+            min={-80}
+            max={60}
+            onInput={actions.set_master_fader}
+          />
           <VUMeter levels={props.levels} kind="buses" idx={props.idx} />
         </div>
         <Checkbox

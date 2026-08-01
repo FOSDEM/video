@@ -46,11 +46,6 @@ body {
   align-items: center;
 }
 
-.channel .send {
-  display: flex;
-  justify-content: center;
-}
-
 .channel h3 {
   text-align: center;
   margin: 0.5rem;
@@ -66,40 +61,12 @@ body {
   /* writing-mode: sideways-lr; FIXME: use transform() or something else */
 }
 
-.channel input[type="range"] {
-  direction: rtl;
-  writing-mode: vertical-lr;
-  margin: var(--mixer-vu-margin);
-  vertical-align: middle;
-  height: var(--mixer-vu-height);
-}
-
-.volume input[type="range"] {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.phantom {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.phantom input[type="checkbox"] {
-  font-size: x-large;
-  /* accent-color: red; FIXME: disable linter warning */
-}
-
 .sends {
   display: flex;
   flex-direction: row;
 }
 
-.send input[type="checkbox"] {
-  font-size: x-large;
-  /* accent-color: green; FIXME: disable linter warning */
-}
-
-.volume,
+.slider,
 .vu-meter {
   display: flex;
   flex-direction: column;
@@ -107,12 +74,12 @@ body {
 }
 
 .channel .send {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   border: 1px dotted black;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-  border-collapse: collapse;
 }
 
 .channel .send h4 {
@@ -128,6 +95,7 @@ body {
 
 .channel meter {
   height: var(--mixer-vu-height);
+  width: var(--mixer-vu-width);
   direction: rtl;
   writing-mode: vertical-lr;
   margin: var(--mixer-vu-margin);
@@ -136,6 +104,7 @@ body {
   --optimum: darkgoldenrod;
   --sub-optimum: forestgreen;
   --sub-sub-optimum: crimson;
+  border: 1px solid black;
 
   /* The gray background in Firefox */
   background: var(--background);
@@ -182,6 +151,32 @@ meter::-webkit-meter-even-less-good-value {
   font-weight: bold;
   padding: 1rem;
   font-size: x-large;
+}
+
+.slider .container {
+  cursor: pointer;
+  position: relative;
+  width: 2rem;
+  height: var(--mixer-vu-height);
+  margin: var(--mixer-vu-margin);
+  border: 1px solid black;
+  background: #dadada;
+}
+
+.slider .container > div {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.slider .container .real {
+  background: steelblue;
+}
+
+.slider .container .user {
+  background: transparent;
+  border-top: 2px solid goldenrod;
 }
 
 .checkbox {

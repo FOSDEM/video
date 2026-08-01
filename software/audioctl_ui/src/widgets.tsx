@@ -3,24 +3,56 @@ import { useComputed, type Signal } from "@preact/signals";
 import type { Levels } from "./api_data.ts";
 import { formatDb, logLinear } from "./helpers.ts";
 
-export function Slider(props: {
+type SliderProps = {
   value: number;
+  min: number;
+  max: number;
   onInput?: (value: number) => void;
-}) {
-  const { onInput } = props;
-  return (
-    <div className="volume">
-      <input
-        type="range"
-        min="-80"
-        max="60"
-        step="0.6"
-        value={props.value}
-        onInput={onInput && ((e) => onInput(+e.currentTarget.value))}
-      />
-      <div className="db gaindb">{formatDb(props.value)}</div>
-    </div>
-  );
+};
+
+type SliderState = {
+  user_req: number;
+};
+
+export class Slider extends Component<SliderProps, SliderState> {
+  state: SliderState = { user_req: this.props.value };
+
+  componentDidUpdate(prev_props: SliderProps) {
+    if (prev_props.value !== this.props.value) {
+      this.setState({ user_req: this.props.value });
+    }
+  }
+
+  private pct(value: number): number {
+    const { min, max } = this.props;
+    const frac = (value - min) / (max - min);
+    return Math.min(100, Math.max(0, frac * 100));
+  }
+
+  private handle_click = (e: MouseEvent) => {
+    const { onInput, min, max } = this.props;
+    if (!onInput) return;
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const frac = 1 - (e.clientY - rect.top) / rect.height;
+    const clamped = Math.min(1, Math.max(0, frac));
+    const value = min + clamped * (max - min);
+    this.setState({ user_req: value });
+    onInput(value);
+  };
+
+  render() {
+    const { value } = this.props;
+    const { user_req } = this.state;
+    return (
+      <div className="slider">
+        <div className="container" onClick={this.handle_click}>
+          <div className="real" style={{ height: `${this.pct(value)}%` }} />
+          <div className="user" style={{ height: `${this.pct(user_req)}%` }} />
+        </div>
+        <div className="db gaindb">{formatDb(value)}</div>
+      </div>
+    );
+  }
 }
 
 export function VUMeter(props: {
