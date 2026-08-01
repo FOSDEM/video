@@ -1,5 +1,5 @@
 import type { ChannelState, SendState } from "./api_data.ts";
-import { useId } from "preact/hooks";
+import { useId, useState } from "preact/hooks";
 import { formatDb } from "./helpers.ts";
 
 type Props = {
@@ -20,7 +20,9 @@ function Checkbox(props: {
   checked: boolean;
   label: string;
   className?: string;
+  onInput?: (checked: boolean) => void;
 }) {
+  const { onInput } = props;
   return (
     <span>
       <input
@@ -28,6 +30,7 @@ function Checkbox(props: {
         type="checkbox"
         className={props.className}
         checked={props.checked}
+        onInput={onInput && ((e) => onInput(e.currentTarget.checked))}
       />
       <label for={props.id}>{props.label}</label>
     </span>
@@ -63,38 +66,49 @@ function SendMap(props: { id: string; send: SendState; i: number }) {
 export function MixerInput(props: Props) {
   const channel = props.channel;
   const id = useId();
+  const [setup, setSetup] = useState(false);
 
   return (
     <div className="channel">
       <h3 title={channel.name}>{channel.label}</h3>
       <div className="controls">
-        <div className="sliders gain">
-          <span className="label">gain</span>
-          <Slider value={channel.gain} />
-        </div>
+        <Checkbox
+          id={`${id}-setup`}
+          checked={setup}
+          label={"\u{1F527}"}
+          onInput={setSetup}
+        />
+        {setup && (
+          <div className="sliders gain">
+            <span className="label">gain</span>
+            <Slider value={channel.gain} />
+          </div>
+        )}
         <div className="sliders master">
           <span className="label">master</span>
           <Slider value={channel.master_fader} />
         </div>
-        <div className="phantom" title="Phantom power">
+        {setup && (
           <Checkbox
             id={`${id}-phantom`}
             checked={channel.phantom}
             label={"\u{1F47B}"}
           />
-          <Checkbox
-            id={`${id}-master-unmuted`}
-            className="mute"
-            checked={channel.master_unmuted}
-            label="unmuted"
-          />
+        )}
+        <Checkbox
+          id={`${id}-master-unmuted`}
+          className="mute"
+          checked={channel.master_unmuted}
+          label="unmuted"
+        />
+      </div>
+      {setup && (
+        <div className="sends">
+          {channel.sends.map((send, i) => (
+            <SendMap key={i} id={`${id}-send`} send={send} i={i} />
+          ))}
         </div>
-      </div>
-      <div className="sends">
-        {channel.sends.map((send, i) => (
-          <SendMap key={i} id={`${id}-send`} send={send} i={i} />
-        ))}
-      </div>
+      )}
     </div>
   );
 }
