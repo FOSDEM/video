@@ -1,9 +1,12 @@
-import type { BusState } from "./api_data.ts";
+import type { BusState, Levels } from "./api_data.ts";
 import { useId } from "preact/hooks";
-import { Slider, Checkbox } from "./widgets.tsx";
+import type { Signal } from "@preact/signals";
+import { Slider, Checkbox, VUMeter } from "./widgets.tsx";
 
 type Props = {
   bus: BusState;
+  idx: number;
+  levels: Signal<Levels | null>;
   actions: OutputActions;
 };
 
@@ -25,6 +28,7 @@ export function MixerOutput(props: Props) {
           <span className="label">master</span>
           <Slider value={bus.master_fader} onInput={actions.set_master_fader} />
         </div>
+        <VUMeter levels={props.levels} kind="buses" idx={props.idx} />
         <Checkbox
           id={`${id}-master-unmuted`}
           className="mute"

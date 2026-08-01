@@ -1,9 +1,12 @@
-import type { ChannelState, SendState } from "./api_data.ts";
+import type { ChannelState, SendState, Levels } from "./api_data.ts";
 import { useId, useState } from "preact/hooks";
-import { Slider, Checkbox } from "./widgets.tsx";
+import type { Signal } from "@preact/signals";
+import { Slider, Checkbox, VUMeter } from "./widgets.tsx";
 
 type Props = {
   channel: ChannelState;
+  idx: number;
+  levels: Signal<Levels | null>;
   actions: InputActions;
 };
 
@@ -51,6 +54,7 @@ export function MixerInput(props: Props) {
             onInput={actions.set_master_fader}
           />
         </div>
+        <VUMeter levels={props.levels} kind="inputs" idx={props.idx} />
         {setup && (
           <Checkbox
             id={`${id}-phantom`}

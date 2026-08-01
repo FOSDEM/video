@@ -1,7 +1,8 @@
 import { Component } from "preact";
+import { signal } from "@preact/signals";
 import type { MisirkaClient } from "misirka";
 import { MixerClient } from "./mixerclient.ts";
-import type { MixerState } from "./api_data.ts";
+import type { MixerState, Levels } from "./api_data.ts";
 import { MixerInput, type InputActions } from "./input.tsx";
 import { MixerOutput, type OutputActions } from "./output.tsx";
 
@@ -18,9 +19,11 @@ export class MixerUI extends Component<Props, State> {
   state: State = { mstate: null, setup_mode: false };
 
   private client = new MixerClient(this.props.client);
+  private levels = signal<Levels | null>(null);
 
   componentDidMount() {
     this.client.subscribe_state((mstate) => this.setState({ mstate }));
+    this.client.subscribe_levels((levels) => this.set_levels(levels));
   }
 
   render() {
@@ -39,6 +42,8 @@ export class MixerUI extends Component<Props, State> {
                 <MixerInput
                   key={channel.name}
                   channel={channel}
+                  idx={i}
+                  levels={this.levels}
                   actions={this.mk_input_actions(i)}
                 />
               ))}
@@ -51,6 +56,8 @@ export class MixerUI extends Component<Props, State> {
                 <MixerOutput
                   key={bus.name}
                   bus={bus}
+                  idx={i}
+                  levels={this.levels}
                   actions={this.mk_output_actions(i)}
                 />
               ))}
@@ -103,5 +110,9 @@ export class MixerUI extends Component<Props, State> {
         this.client.set_bus_master_unmuted(i, unmuted);
       },
     };
+  }
+
+  private set_levels(levels: Levels) {
+    this.levels.value = levels;
   }
 }
