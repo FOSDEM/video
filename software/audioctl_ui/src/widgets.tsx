@@ -29,7 +29,9 @@ export class Slider extends Component<SliderProps, SliderState> {
     return Math.min(100, Math.max(0, frac * 100));
   }
 
-  private handle_click = (e: MouseEvent) => {
+  private dragging = false;
+
+  private handle_pointer_commit(e: PointerEvent) {
     const { onInput, min, max } = this.props;
     if (!onInput) return;
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
@@ -38,6 +40,21 @@ export class Slider extends Component<SliderProps, SliderState> {
     const value = min + clamped * (max - min);
     this.setState({ user_req: value });
     onInput(value);
+  }
+
+  private handle_pointer_down = (e: PointerEvent) => {
+    this.dragging = true;
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    this.handle_pointer_commit(e);
+  };
+
+  private handle_pointer_move = (e: PointerEvent) => {
+    if (this.dragging) this.handle_pointer_commit(e);
+  };
+
+  private handle_pointer_up = (e: PointerEvent) => {
+    this.dragging = false;
+    (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
   };
 
   render() {
@@ -45,7 +62,12 @@ export class Slider extends Component<SliderProps, SliderState> {
     const { user_req } = this.state;
     return (
       <div className="slider">
-        <div className="container" onClick={this.handle_click}>
+        <div
+          className="container"
+          onPointerDown={this.handle_pointer_down}
+          onPointerMove={this.handle_pointer_move}
+          onPointerUp={this.handle_pointer_up}
+        >
           <div className="real" style={{ height: `${this.pct(value)}%` }} />
           <div className="user" style={{ height: `${this.pct(user_req)}%` }} />
         </div>

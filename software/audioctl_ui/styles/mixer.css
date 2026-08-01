@@ -181,7 +181,6 @@ meter::-webkit-meter-even-less-good-value {
 
 .checkbox {
   cursor: pointer;
-  user-select: none;
   display: inline-block;
   margin: 0.2rem;
   padding: 0.2rem 0.4rem;
