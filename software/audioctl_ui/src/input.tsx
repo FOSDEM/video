@@ -1,41 +1,10 @@
 import type { ChannelState, SendState } from "./api_data.ts";
 import { useId, useState } from "preact/hooks";
-import { formatDb } from "./helpers.ts";
+import { Slider, Checkbox } from "./widgets.tsx";
 
 type Props = {
   channel: ChannelState;
 };
-
-function Slider(props: { value: number }) {
-  return (
-    <div className="volume">
-      <input type="range" min="-80" max="60" step="0.6" value={props.value} />
-      <div className="db gaindb">{formatDb(props.value)}</div>
-    </div>
-  );
-}
-
-function Checkbox(props: {
-  id: string;
-  checked: boolean;
-  label: string;
-  className?: string;
-  onInput?: (checked: boolean) => void;
-}) {
-  const { onInput } = props;
-  return (
-    <span>
-      <input
-        id={props.id}
-        type="checkbox"
-        className={props.className}
-        checked={props.checked}
-        onInput={onInput && ((e) => onInput(e.currentTarget.checked))}
-      />
-      <label for={props.id}>{props.label}</label>
-    </span>
-  );
-}
 
 function SendMap(props: { id: string; send: SendState; i: number }) {
   const { id, send, i } = props;

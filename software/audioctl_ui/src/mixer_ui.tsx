@@ -3,6 +3,7 @@ import type { MisirkaClient } from "misirka";
 import { MixerClient } from "./mixerclient.ts";
 import type { MixerState } from "./api_data.ts";
 import { MixerInput } from "./input.tsx";
+import { MixerOutput } from "./output.tsx";
 
 type Props = {
   client: MisirkaClient;
@@ -36,6 +37,14 @@ export class MixerUI extends Component<Props, State> {
             <div className="inputs channellist">
               {mstate.channels.map((channel) => (
                 <MixerInput key={channel.name} channel={channel} />
+              ))}
+            </div>
+          </div>
+          <div className="mixer">
+            <h2>Outputs</h2>
+            <div className="outputs channellist">
+              {mstate.buses.map((bus) => (
+                <MixerOutput key={bus.name} bus={bus} />
               ))}
             </div>
           </div>
