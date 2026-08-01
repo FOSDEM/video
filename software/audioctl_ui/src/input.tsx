@@ -48,13 +48,12 @@ export function MixerInput(props: Props) {
           </div>
         )}
         <div className="sliders master">
-          <span className="label">master</span>
           <Slider
             value={channel.master_fader}
             onInput={actions.set_master_fader}
           />
+          <VUMeter levels={props.levels} kind="inputs" idx={props.idx} />
         </div>
-        <VUMeter levels={props.levels} kind="inputs" idx={props.idx} />
         {setup && (
           <Checkbox
             id={`${id}-phantom`}
