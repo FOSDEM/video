@@ -2,6 +2,7 @@ import { Component } from "preact";
 import type { MisirkaClient } from "misirka";
 import { MixerClient } from "./mixerclient.ts";
 import type { MixerState } from "./api_data.ts";
+import { MixerInput } from "./input.tsx";
 
 type Props = {
   client: MisirkaClient;
@@ -22,10 +23,24 @@ export class MixerUI extends Component<Props, State> {
   }
 
   render() {
-    if (this.state.mstate) {
-      return <span>We have {this.state.mstate.channels.length} channels.</span>;
-    } else {
+    const mstate = this.state.mstate;
+    if (!mstate) {
       return <span>Connected, waiting for first state</span>;
     }
+
+    return (
+      <section>
+        <div className="mixer">
+          <div className="mixer">
+            <h2>Inputs</h2>
+            <div className="inputs channellist">
+              {mstate.channels.map((channel) => (
+                <MixerInput key={channel.name} channel={channel} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 }
