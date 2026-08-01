@@ -1,9 +1,20 @@
 import { formatDb } from "./helpers.ts";
 
-export function Slider(props: { value: number }) {
+export function Slider(props: {
+  value: number;
+  onInput?: (value: number) => void;
+}) {
+  const { onInput } = props;
   return (
     <div className="volume">
-      <input type="range" min="-80" max="60" step="0.6" value={props.value} />
+      <input
+        type="range"
+        min="-80"
+        max="60"
+        step="0.6"
+        value={props.value}
+        onInput={onInput && ((e) => onInput(+e.currentTarget.value))}
+      />
       <div className="db gaindb">{formatDb(props.value)}</div>
     </div>
   );
