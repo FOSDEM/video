@@ -30,5 +30,5 @@
     "src/**/*.js",
     "node_modules/misirka/ts/**/*.ts"
   ],
-  "exclude": ["src/old/**"]
+  "exclude": []
 }
