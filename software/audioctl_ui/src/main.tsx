@@ -11,36 +11,37 @@ function setup_favicon() {
   link.href = favicon_dataurl;
 }
 
-type AppState = {
-  status: VNode | null;
-  connected_client: MisirkaClient | null;
-};
+const status_messages = {
+  initialising: "initialising",
+  mqtt_connecting: "connecting to MQTT",
+  mqtt_connected_waiting_for_audioctl:
+    "MQTT connected, waiting for audioctl to appear",
+  mqtt_disconnected: "MQTT disconnected, reconnecting",
+  audioctl_died:
+    "MQTT still connected but audioctl died, waiting for it to appear",
+  ws_connecting: "connecting to websocket",
+  ws_disconnected: "websocket disconnected, reconnecting",
+} as const;
+
+type StatusMessage = keyof typeof status_messages;
+
+type AppState =
+  | { status: "showing_help" }
+  | { status: "showing_msg"; msg: StatusMessage }
+  | { status: "connected"; client: MisirkaClient };
 
 class App extends Component<object, AppState> {
-  state: AppState = { status: <span>initialising</span>, connected_client: null };
+  state: AppState = { status: "showing_msg", msg: "initialising" };
 
   componentDidMount() {
-    const client = this.connect();
-
-    if (client) {
-      client.on_alive(() => {
-        this.setState({ connected_client: client, status: null });
-      });
-      client.on_dead(() => {
-        this.setState({ connected_client: null, status: null });
-      });
-    }
+    this.connect();
   }
 
-  private setStatus = (status: VNode) => {
-    this.setState({ status });
-  };
+  private setAppState(state: AppState) {
+    this.setState(state);
+  }
 
-  private textStatus = (text: string) => {
-    this.setStatus(<span>{text}</span>);
-  };
-
-  private connect(): MisirkaClient | null {
+  private connect() {
     const params = new URLSearchParams(window.location.search);
     const mqtt_url = params.get("mqtt_url");
     const ws_url = params.get("ws_url");
@@ -56,55 +57,58 @@ class App extends Component<object, AppState> {
         prefix: mqtt_prefix,
       });
 
-      this.textStatus("connecting to MQTT");
+      this.setAppState({ status: "showing_msg", msg: "mqtt_connecting" });
 
       mqtt_client.on_alive(() => {
-        this.textStatus("MQTT connected, waiting for audioctl to appear");
+        this.setAppState({
+          status: "showing_msg",
+          msg: "mqtt_connected_waiting_for_audioctl",
+        });
       });
 
       mqtt_client.on_dead(() => {
-        this.textStatus("MQTT disconnected, reconnecting");
+        this.setAppState({ status: "showing_msg", msg: "mqtt_disconnected" });
       });
 
-      const mclient = new SubClient(mqtt_client, {
+      const client = new SubClient(mqtt_client, {
         prefix: "audioctl/",
         online_topic: "audioctl/online",
       });
 
-      mclient.on_dead(() => {
-        this.textStatus(
-          "MQTT still connected but audioctl died, waiting for it to appear",
-        );
+      client.on_alive(() => {
+        this.setAppState({ status: "connected", client });
       });
 
-      return mclient;
+      client.on_dead(() => {
+        this.setAppState({ status: "showing_msg", msg: "audioctl_died" });
+      });
     } else if (ws_url) {
-      const mclient = new WSClient({ ws_url: ws_url });
+      const client = new WSClient({ ws_url: ws_url });
 
-      this.textStatus("connecting to websocket");
+      this.setAppState({ status: "showing_msg", msg: "ws_connecting" });
 
-      mclient.on_dead(() => {
-        this.textStatus("websocket disconnected, reconnecting");
+      client.on_alive(() => {
+        this.setAppState({ status: "connected", client });
       });
 
-      return mclient;
+      client.on_dead(() => {
+        this.setAppState({ status: "showing_msg", msg: "ws_disconnected" });
+      });
     } else {
-      this.setStatus(help_message());
-      return null;
+      this.setAppState({ status: "showing_help" });
     }
   }
 
   render() {
-    return (
-      <>
-        {this.state.status && (
-          <section>{this.state.status}</section>
-        )}
-        {this.state.connected_client && (
-          <MixerUI client={this.state.connected_client} />
-        )}
-      </>
-    );
+    const state = this.state;
+    switch (state.status) {
+      case "connected":
+        return <MixerUI client={state.client} />;
+      case "showing_help":
+        return help_message();
+      case "showing_msg":
+        return <section>{status_messages[state.msg]}</section>;
+    }
   }
 }
 
