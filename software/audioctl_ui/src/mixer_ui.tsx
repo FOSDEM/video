@@ -5,9 +5,11 @@ import { MixerClient } from "./mixerclient.ts";
 import type { MixerState, Levels } from "./api_data.ts";
 import { MixerInput, type InputActions } from "./input.tsx";
 import { MixerOutput, type OutputActions } from "./output.tsx";
+import { QUI } from "rtui";
 
 type Props = {
   client: MisirkaClient;
+  qui: QUI;
 };
 
 type State = {
@@ -69,11 +71,12 @@ export class MixerUI extends Component<Props, State> {
   }
 
   private mk_input_actions(i: number): InputActions {
-    // for now we just fork the actions off, later we will handle
-    // asyncness in a more civilised way
+    // TODO: use qui for all actions
     return {
       set_gain: (gain: number) => {
-        this.client.set_in_gain(i, gain);
+        this.props.qui.add(async () => {
+          await this.client.set_in_gain(i, gain);
+        }, `inp-${i}-gain`);
       },
       set_master_fader: (fader: number) => {
         this.client.set_channel_master_fader(i, fader);

@@ -3,6 +3,7 @@ import { render, Component } from "preact";
 import type { VNode } from "preact";
 import { MQTTClient, WSClient, MisirkaClient, SubClient } from "misirka";
 import { MixerUI } from "./mixer_ui.tsx";
+import { QUI } from "rtui";
 
 function setup_favicon() {
   const link = document.querySelector<HTMLLinkElement>("#favicon")!;
@@ -34,7 +35,17 @@ class App extends Component<object, AppState> {
   state: AppState = { status: "showing_msg", msg: "initialising" };
 
   componentDidMount() {
+    const action_err_handler = async (err: any) => {
+      console.error("UI action failed to execute: ", err);
+      alert("Action failed");
+    };
+
+    this.qui.loop(action_err_handler);
     this.connect();
+  }
+
+  componentWillUnmount() {
+    this.qui.stop();
   }
 
   private setAppState(state: AppState) {
@@ -103,13 +114,15 @@ class App extends Component<object, AppState> {
     const state = this.state;
     switch (state.status) {
       case "connected":
-        return <MixerUI client={state.client} />;
+        return <MixerUI client={state.client} qui={this.qui} />;
       case "showing_help":
         return help_message();
       case "showing_msg":
         return <section>{status_messages[state.msg]}</section>;
     }
   }
+
+  private qui: QUI = new QUI();
 }
 
 function help_message(): VNode {

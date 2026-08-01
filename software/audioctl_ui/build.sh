@@ -11,6 +11,8 @@ if ! [[ package.json -ot node_modules/marker && package-lock.json -ot node_modul
 fi
 
 if [[ $# -eq 0 || "${1}" == build ]]; then
+    npm run lint
+    npm run format
     npm run build
 elif [[ "${1}" == serve ]]; then
     npm run dev
