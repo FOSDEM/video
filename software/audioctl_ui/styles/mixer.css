@@ -183,3 +183,29 @@ meter::-webkit-meter-even-less-good-value {
   padding: 1rem;
   font-size: x-large;
 }
+
+.checkbox {
+  cursor: pointer;
+  user-select: none;
+  display: inline-block;
+  margin: 0.2rem;
+  padding: 0.2rem 0.4rem;
+  border: 2px solid gray;
+  color: white;
+}
+
+.checkbox.checked {
+  background: rgba(20, 220, 20, 1);
+}
+
+.checkbox.unchecked {
+  background: rgba(220, 20, 20, 1);
+}
+
+.checkbox.wants-check {
+  background: rgba(20, 220, 20, 0.3);
+}
+
+.checkbox.wants-uncheck {
+  background: rgba(220, 20, 20, 0.3);
+}

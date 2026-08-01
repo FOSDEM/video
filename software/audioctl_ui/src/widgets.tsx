@@ -1,3 +1,4 @@
+import { Component } from "preact";
 import { useComputed, type Signal } from "@preact/signals";
 import type { Levels } from "./api_data.ts";
 import { formatDb, logLinear } from "./helpers.ts";
@@ -40,24 +41,54 @@ export function VUMeter(props: {
   );
 }
 
-export function Checkbox(props: {
+type CheckboxProps = {
   id: string;
   checked: boolean;
   label: string;
   className?: string;
   onInput?: (checked: boolean) => void;
-}) {
-  const { onInput } = props;
-  return (
-    <span>
-      <input
-        id={props.id}
-        type="checkbox"
-        className={props.className}
-        checked={props.checked}
-        onInput={onInput && ((e) => onInput(e.currentTarget.checked))}
-      />
-      <label for={props.id}>{props.label}</label>
-    </span>
-  );
+};
+
+type CheckboxState = {
+  user_req: boolean;
+};
+
+export class Checkbox extends Component<CheckboxProps, CheckboxState> {
+  state: CheckboxState = { user_req: this.props.checked };
+
+  componentDidUpdate(prev_props: CheckboxProps) {
+    if (prev_props.checked !== this.props.checked) {
+      this.setState({ user_req: this.props.checked });
+    }
+  }
+
+  private handle_click = () => {
+    const { onInput } = this.props;
+    if (!onInput) return;
+    const requested = !this.state.user_req;
+    this.setState({ user_req: requested });
+    onInput(requested);
+  };
+
+  render() {
+    const { id, checked, label, className } = this.props;
+    const { user_req } = this.state;
+
+    let state: string;
+    if (user_req === checked) {
+      state = checked ? "checked" : "unchecked";
+    } else {
+      state = user_req ? "wants-check" : "wants-uncheck";
+    }
+
+    return (
+      <span
+        id={id}
+        className={["checkbox", state, className].filter(Boolean).join(" ")}
+        onClick={this.handle_click}
+      >
+        {label}
+      </span>
+    );
+  }
 }
