@@ -4,6 +4,8 @@ import type { QUI } from "rtui";
 import type { Levels } from "./api_data.ts";
 import { formatDb, logLinear } from "./helpers.ts";
 
+// TODO: make some base class that the slider and checkbox inherit from,
+// and put this function and the resets and similar stuff there
 function exec_action(
   qui: QUI | undefined,
   bucket: string,
