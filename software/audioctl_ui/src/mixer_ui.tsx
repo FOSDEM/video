@@ -44,6 +44,7 @@ export class MixerUI extends Component<Props, State> {
                 <MixerInput
                   key={channel.name}
                   channel={channel}
+                  buses={mstate.buses}
                   idx={i}
                   levels={this.levels}
                   actions={this.mk_input_actions(i)}

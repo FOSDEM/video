@@ -1,10 +1,11 @@
-import type { ChannelState, SendState, Levels } from "./api_data.ts";
+import type { ChannelState, SendState, BusState, Levels } from "./api_data.ts";
 import { useId, useState } from "preact/hooks";
 import type { Signal } from "@preact/signals";
 import { Slider, Checkbox, VUMeter } from "./widgets.tsx";
 
 type Props = {
   channel: ChannelState;
+  buses: BusState[];
   idx: number;
   levels: Signal<Levels | null>;
   actions: InputActions;
@@ -77,6 +78,7 @@ export function MixerInput(props: Props) {
               key={i}
               id={`${id}-send`}
               send={send}
+              bus={props.buses[i]}
               i={i}
               actions={actions.send(i)}
             />
@@ -90,13 +92,14 @@ export function MixerInput(props: Props) {
 function SendMap(props: {
   id: string;
   send: SendState;
+  bus: BusState;
   i: number;
   actions: SendActions;
 }) {
-  const { id, send, i, actions } = props;
+  const { id, send, bus, i, actions } = props;
   return (
     <div className="send">
-      <h4>bus {i}</h4>
+      <h4 title={bus.name}>{bus.label}</h4>
       <Slider value={send.volume} onInput={actions.set_volume} />
       <Checkbox
         id={`${id}-${i}-unmuted`}
