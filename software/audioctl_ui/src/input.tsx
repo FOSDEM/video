@@ -1,6 +1,7 @@
 import type { ChannelState, SendState, BusState, Levels } from "./api_data.ts";
 import { useId, useState } from "preact/hooks";
 import type { Signal } from "@preact/signals";
+import type { QUI } from "rtui";
 import { Slider, Checkbox, VUMeter } from "./widgets.tsx";
 
 type Props = {
@@ -9,21 +10,22 @@ type Props = {
   idx: number;
   levels: Signal<Levels | null>;
   actions: InputActions;
+  qui: QUI;
 };
 
 export type InputActions = {
-  set_gain: (gain: number) => void;
-  set_master_fader: (fader: number) => void;
-  set_master_unmuted: (unmuted: boolean) => void;
-  set_phantom: (on: boolean) => void;
+  set_gain: (gain: number) => Promise<void>;
+  set_master_fader: (fader: number) => Promise<void>;
+  set_master_unmuted: (unmuted: boolean) => Promise<void>;
+  set_phantom: (on: boolean) => Promise<void>;
   send: (bus: number) => SendActions;
 };
 
 export type SendActions = {
-  set_volume: (volume: number) => void;
-  set_unmuted: (unmuted: boolean) => void;
-  set_pre_fader: (pre: boolean) => void;
-  set_pre_mute: (pre: boolean) => void;
+  set_volume: (volume: number) => Promise<void>;
+  set_unmuted: (unmuted: boolean) => Promise<void>;
+  set_pre_fader: (pre: boolean) => Promise<void>;
+  set_pre_mute: (pre: boolean) => Promise<void>;
 };
 
 export function MixerInput(props: Props) {
@@ -46,19 +48,25 @@ export function MixerInput(props: Props) {
           <div className="sliders gain">
             <span className="label">gain</span>
             <Slider
+              id={`${id}-gain`}
               value={channel.gain}
               min={-80}
               max={60}
               onInput={actions.set_gain}
+              qui={props.qui}
+              reset_after={1300}
             />
           </div>
         )}
         <div className="sliders master">
           <Slider
+            id={`${id}-master-fader`}
             value={channel.master_fader}
             min={-80}
             max={60}
             onInput={actions.set_master_fader}
+            qui={props.qui}
+            reset_after={1300}
           />
           <VUMeter levels={props.levels} kind="inputs" idx={props.idx} />
         </div>
@@ -68,6 +76,8 @@ export function MixerInput(props: Props) {
             checked={channel.phantom}
             onInput={actions.set_phantom}
             label={"\u{1F47B}"}
+            qui={props.qui}
+            reset_after={1300}
           />
         )}
         <Checkbox
@@ -76,6 +86,8 @@ export function MixerInput(props: Props) {
           checked={channel.master_unmuted}
           onInput={actions.set_master_unmuted}
           label="unmuted"
+          qui={props.qui}
+          reset_after={1300}
         />
       </div>
       {setup && (
@@ -88,6 +100,7 @@ export function MixerInput(props: Props) {
               bus={props.buses[i]}
               i={i}
               actions={actions.send(i)}
+              qui={props.qui}
             />
           ))}
         </div>
@@ -102,16 +115,20 @@ function SendMap(props: {
   bus: BusState;
   i: number;
   actions: SendActions;
+  qui: QUI;
 }) {
-  const { id, send, bus, i, actions } = props;
+  const { id, send, bus, i, actions, qui } = props;
   return (
     <div className="send">
       <h4 title={bus.name}>{bus.label}</h4>
       <Slider
+        id={`${id}-${i}-volume`}
         value={send.volume}
         min={-80}
         max={60}
         onInput={actions.set_volume}
+        qui={qui}
+        reset_after={1300}
       />
       <Checkbox
         id={`${id}-${i}-unmuted`}
@@ -119,18 +136,24 @@ function SendMap(props: {
         checked={send.unmuted}
         onInput={actions.set_unmuted}
         label="unmuted"
+        qui={qui}
+        reset_after={1300}
       />
       <Checkbox
         id={`${id}-${i}-pre-fader`}
         checked={send.pre_channel_fader}
         onInput={actions.set_pre_fader}
         label="pre-fader"
+        qui={qui}
+        reset_after={1300}
       />
       <Checkbox
         id={`${id}-${i}-pre-mute`}
         checked={send.pre_channel_mute}
         onInput={actions.set_pre_mute}
         label="pre-mute"
+        qui={qui}
+        reset_after={1300}
       />
     </div>
   );

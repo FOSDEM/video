@@ -3,7 +3,7 @@ import { signal } from "@preact/signals";
 import type { MisirkaClient } from "misirka";
 import { MixerClient } from "./mixerclient.ts";
 import type { MixerState, Levels } from "./api_data.ts";
-import { MixerInput, type InputActions } from "./input.tsx";
+import { MixerInput, type InputActions, type SendActions } from "./input.tsx";
 import { MixerOutput, type OutputActions } from "./output.tsx";
 import { QUI } from "rtui";
 
@@ -48,6 +48,7 @@ export class MixerUI extends Component<Props, State> {
                   idx={i}
                   levels={this.levels}
                   actions={this.mk_input_actions(i)}
+                  qui={this.props.qui}
                 />
               ))}
             </div>
@@ -62,6 +63,7 @@ export class MixerUI extends Component<Props, State> {
                   idx={i}
                   levels={this.levels}
                   actions={this.mk_output_actions(i)}
+                  qui={this.props.qui}
                 />
               ))}
             </div>
@@ -73,63 +75,32 @@ export class MixerUI extends Component<Props, State> {
 
   private mk_input_actions(i: number): InputActions {
     return {
-      set_gain: (gain: number) => {
-        this.props.qui.add(async () => {
-          await this.client.set_in_gain(i, gain);
-        }, `inp-${i}-gain`);
-      },
-      set_master_fader: (fader: number) => {
-        this.props.qui.add(async () => {
-          await this.client.set_channel_master_fader(i, fader);
-        }, `inp-${i}-master-fader`);
-      },
-      set_master_unmuted: (unmuted: boolean) => {
-        this.props.qui.add(async () => {
-          await this.client.set_channel_master_unmuted(i, unmuted);
-        }, `inp-${i}-master-unmuted`);
-      },
-      set_phantom: (on: boolean) => {
-        this.props.qui.add(async () => {
-          await this.client.set_phantom(i, on);
-        }, `inp-${i}-phantom`);
-      },
-      send: (bus: number) => ({
-        set_volume: (volume: number) => {
-          this.props.qui.add(async () => {
-            await this.client.set_matrix_volume(i, bus, volume);
-          }, `inp-${i}-send-${bus}-volume`);
-        },
-        set_unmuted: (unmuted: boolean) => {
-          this.props.qui.add(async () => {
-            await this.client.set_matrix_send(i, bus, unmuted);
-          }, `inp-${i}-send-${bus}-unmuted`);
-        },
-        set_pre_fader: (pre: boolean) => {
-          this.props.qui.add(async () => {
-            await this.client.set_send_pre_master_fader(i, bus, pre);
-          }, `inp-${i}-send-${bus}-pre-fader`);
-        },
-        set_pre_mute: (pre: boolean) => {
-          this.props.qui.add(async () => {
-            await this.client.set_send_pre_master_mute(i, bus, pre);
-          }, `inp-${i}-send-${bus}-pre-mute`);
-        },
-      }),
+      set_gain: (gain) => this.client.set_in_gain(i, gain),
+      set_master_fader: (fader) =>
+        this.client.set_channel_master_fader(i, fader),
+      set_master_unmuted: (unmuted) =>
+        this.client.set_channel_master_unmuted(i, unmuted),
+      set_phantom: (on) => this.client.set_phantom(i, on),
+      send: (bus) => this.mk_send_actions(i, bus),
+    };
+  }
+
+  private mk_send_actions(chan: number, bus: number): SendActions {
+    return {
+      set_volume: (volume) => this.client.set_matrix_volume(chan, bus, volume),
+      set_unmuted: (unmuted) => this.client.set_matrix_send(chan, bus, unmuted),
+      set_pre_fader: (pre) =>
+        this.client.set_send_pre_master_fader(chan, bus, pre),
+      set_pre_mute: (pre) =>
+        this.client.set_send_pre_master_mute(chan, bus, pre),
     };
   }
 
   private mk_output_actions(i: number): OutputActions {
     return {
-      set_master_fader: (fader: number) => {
-        this.props.qui.add(async () => {
-          await this.client.set_bus_master_fader(i, fader);
-        }, `out-${i}-master-fader`);
-      },
-      set_master_unmuted: (unmuted: boolean) => {
-        this.props.qui.add(async () => {
-          await this.client.set_bus_master_unmuted(i, unmuted);
-        }, `out-${i}-master-unmuted`);
-      },
+      set_master_fader: (fader) => this.client.set_bus_master_fader(i, fader),
+      set_master_unmuted: (unmuted) =>
+        this.client.set_bus_master_unmuted(i, unmuted),
     };
   }
 

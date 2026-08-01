@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => {
       watch: {
         ignored: ["!**/node_modules/misirka/**"],
       },
+      allowedHosts: true,
     };
 
     optimize_deps.exclude.push("misirka");

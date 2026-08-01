@@ -1,13 +1,38 @@
 import { Component } from "preact";
 import { useComputed, type Signal } from "@preact/signals";
+import type { QUI } from "rtui";
 import type { Levels } from "./api_data.ts";
 import { formatDb, logLinear } from "./helpers.ts";
 
+function exec_action(
+  qui: QUI | undefined,
+  bucket: string,
+  reset_after: number | undefined,
+  reset: () => void,
+  action: () => void | Promise<void>,
+) {
+  if (qui) {
+    qui.add({
+      handler: async () => {
+        await action();
+      },
+      bucket,
+      reset_after,
+      reset,
+    });
+  } else {
+    action();
+  }
+}
+
 type SliderProps = {
+  id: string;
   value: number;
   min: number;
   max: number;
-  onInput?: (value: number) => void;
+  onInput?: (value: number) => void | Promise<void>;
+  qui?: QUI;
+  reset_after?: number;
 };
 
 type SliderState = {
@@ -23,6 +48,12 @@ export class Slider extends Component<SliderProps, SliderState> {
     }
   }
 
+  private reset = () => {
+    // reset the user req value to the backend-provided one,
+    // since it failed to update
+    this.setState({ user_req: this.props.value });
+  };
+
   private pct(value: number): number {
     const { min, max } = this.props;
     const frac = (value - min) / (max - min);
@@ -32,14 +63,14 @@ export class Slider extends Component<SliderProps, SliderState> {
   private dragging = false;
 
   private handle_pointer_commit(e: PointerEvent) {
-    const { onInput, min, max } = this.props;
+    const { id, onInput, qui, reset_after, min, max } = this.props;
     if (!onInput) return;
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const frac = 1 - (e.clientY - rect.top) / rect.height;
     const clamped = Math.min(1, Math.max(0, frac));
     const value = min + clamped * (max - min);
     this.setState({ user_req: value });
-    onInput(value);
+    exec_action(qui, id, reset_after, this.reset, () => onInput(value));
   }
 
   private handle_pointer_down = (e: PointerEvent) => {
@@ -58,10 +89,10 @@ export class Slider extends Component<SliderProps, SliderState> {
   };
 
   render() {
-    const { value } = this.props;
+    const { id, value } = this.props;
     const { user_req } = this.state;
     return (
-      <div className="slider">
+      <div className="slider" id={id}>
         <div
           className="container"
           onPointerDown={this.handle_pointer_down}
@@ -100,7 +131,9 @@ type CheckboxProps = {
   checked: boolean;
   label: string;
   className?: string;
-  onInput?: (checked: boolean) => void;
+  onInput?: (checked: boolean) => void | Promise<void>;
+  qui?: QUI;
+  reset_after?: number;
 };
 
 type CheckboxState = {
@@ -116,12 +149,18 @@ export class Checkbox extends Component<CheckboxProps, CheckboxState> {
     }
   }
 
+  private reset = () => {
+    // reset the user req value to the backend-provided one,
+    // since it failed to update
+    this.setState({ user_req: this.props.checked });
+  };
+
   private handle_click = () => {
-    const { onInput } = this.props;
+    const { id, onInput, qui, reset_after } = this.props;
     if (!onInput) return;
     const requested = !this.state.user_req;
     this.setState({ user_req: requested });
-    onInput(requested);
+    exec_action(qui, id, reset_after, this.reset, () => onInput(requested));
   };
 
   render() {

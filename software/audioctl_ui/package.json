@@ -14,7 +14,7 @@
   "dependencies": {
     "@preact/signals": "^2.10.1",
     "misirka": "github:dexterlb/misirka#97edb75",
-    "rtui": "github:dexterlb/rtui#e9c9605",
+    "rtui": "github:dexterlb/rtui#b90885f",
     "preact": "^10.27.2",
     "zod": "^4.3.6"
   },
