@@ -6,9 +6,8 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
-    "jsx": "react",
-    "jsxFactory": "element",
-    "jsxFragmentFactory": "fragment",
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
 
     /* Bundler mode */
     "moduleResolution": "bundler",
