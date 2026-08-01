@@ -39,10 +39,55 @@ export class MixerClient {
     });
   }
 
-  async set_bus_volume(bus_idx: number, volume: number) {
-    await this.call_expecting_ok("set-bus-volume", {
+  async set_bus_master_fader(bus_idx: number, fader: number) {
+    await this.call_expecting_ok("set-bus-master-fader", {
       bus: bus_idx,
-      volume: volume,
+      fader: fader,
+    });
+  }
+
+  async set_bus_master_unmuted(bus_idx: number, unmuted: boolean) {
+    await this.call_expecting_ok("set-bus-master-unmuted", {
+      bus: bus_idx,
+      unmuted: unmuted,
+    });
+  }
+
+  async set_channel_master_fader(chan_idx: number, fader: number) {
+    await this.call_expecting_ok("set-channel-master-fader", {
+      channel: chan_idx,
+      fader: fader,
+    });
+  }
+
+  async set_channel_master_unmuted(chan_idx: number, unmuted: boolean) {
+    await this.call_expecting_ok("set-channel-master-unmuted", {
+      channel: chan_idx,
+      unmuted: unmuted,
+    });
+  }
+
+  async set_send_pre_master_fader(
+    chan_idx: number,
+    bus_idx: number,
+    pre_master_fader: boolean,
+  ) {
+    await this.call_expecting_ok("set-send-pre-master-fader", {
+      channel: chan_idx,
+      bus: bus_idx,
+      pre_master_fader: pre_master_fader,
+    });
+  }
+
+  async set_send_pre_master_mute(
+    chan_idx: number,
+    bus_idx: number,
+    pre_master_mute: boolean,
+  ) {
+    await this.call_expecting_ok("set-send-pre-master-mute", {
+      channel: chan_idx,
+      bus: bus_idx,
+      pre_master_mute: pre_master_mute,
     });
   }
 

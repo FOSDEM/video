@@ -3,6 +3,8 @@ import { z } from "zod";
 const SendStateSchema = z.object({
   unmuted: z.boolean(),
   volume: z.number(),
+  pre_channel_fader: z.boolean(),
+  pre_channel_mute: z.boolean(),
 });
 
 const ChannelStateSchema = z.object({
@@ -10,13 +12,16 @@ const ChannelStateSchema = z.object({
   label: z.string(),
   gain: z.number(),
   phantom: z.boolean(),
+  master_fader: z.number(),
+  master_unmuted: z.boolean(),
   sends: z.array(SendStateSchema),
 });
 
 const BusStateSchema = z.object({
   name: z.string(),
   label: z.string(),
-  volume: z.number(),
+  master_fader: z.number(),
+  master_unmuted: z.boolean(),
 });
 
 const MixerStateSchema = z.object({
