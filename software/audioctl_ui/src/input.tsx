@@ -4,33 +4,12 @@ import { Slider, Checkbox } from "./widgets.tsx";
 
 type Props = {
   channel: ChannelState;
+  actions: InputActions;
 };
 
-function SendMap(props: { id: string; send: SendState; i: number }) {
-  const { id, send, i } = props;
-  return (
-    <div className="send">
-      <h4>bus {i}</h4>
-      <Slider value={send.volume} />
-      <Checkbox
-        id={`${id}-${i}-unmuted`}
-        className="mute"
-        checked={send.unmuted}
-        label="unmuted"
-      />
-      <Checkbox
-        id={`${id}-${i}-pre-fader`}
-        checked={send.pre_channel_fader}
-        label="pre-fader"
-      />
-      <Checkbox
-        id={`${id}-${i}-pre-mute`}
-        checked={send.pre_channel_mute}
-        label="pre-mute"
-      />
-    </div>
-  );
-}
+export type InputActions = {
+  set_phantom: (on: boolean) => void;
+};
 
 export function MixerInput(props: Props) {
   const channel = props.channel;
@@ -61,6 +40,7 @@ export function MixerInput(props: Props) {
           <Checkbox
             id={`${id}-phantom`}
             checked={channel.phantom}
+            onInput={props.actions.set_phantom}
             label={"\u{1F47B}"}
           />
         )}
@@ -78,6 +58,32 @@ export function MixerInput(props: Props) {
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+function SendMap(props: { id: string; send: SendState; i: number }) {
+  const { id, send, i } = props;
+  return (
+    <div className="send">
+      <h4>bus {i}</h4>
+      <Slider value={send.volume} />
+      <Checkbox
+        id={`${id}-${i}-unmuted`}
+        className="mute"
+        checked={send.unmuted}
+        label="unmuted"
+      />
+      <Checkbox
+        id={`${id}-${i}-pre-fader`}
+        checked={send.pre_channel_fader}
+        label="pre-fader"
+      />
+      <Checkbox
+        id={`${id}-${i}-pre-mute`}
+        checked={send.pre_channel_mute}
+        label="pre-mute"
+      />
     </div>
   );
 }

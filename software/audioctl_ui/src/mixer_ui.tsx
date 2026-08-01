@@ -2,7 +2,7 @@ import { Component } from "preact";
 import type { MisirkaClient } from "misirka";
 import { MixerClient } from "./mixerclient.ts";
 import type { MixerState } from "./api_data.ts";
-import { MixerInput } from "./input.tsx";
+import { MixerInput, type InputActions } from "./input.tsx";
 import { MixerOutput } from "./output.tsx";
 
 type Props = {
@@ -35,8 +35,8 @@ export class MixerUI extends Component<Props, State> {
           <div className="mixer">
             <h2>Inputs</h2>
             <div className="inputs channellist">
-              {mstate.channels.map((channel) => (
-                <MixerInput key={channel.name} channel={channel} />
+              {mstate.channels.map((channel, i) => (
+                <MixerInput key={channel.name} channel={channel} actions={this.mk_input_actions(i)} />
               ))}
             </div>
           </div>
@@ -51,5 +51,15 @@ export class MixerUI extends Component<Props, State> {
         </div>
       </section>
     );
+  }
+
+  private mk_input_actions(i: number): InputActions {
+    // for now we just fork the actions off, later we will handle
+    // asyncness in a more civilised way
+    return {
+      set_phantom: (on: boolean) => {
+        this.client.set_phantom(i, on);
+      },
+    };
   }
 }
