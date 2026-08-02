@@ -7,6 +7,9 @@
 #include "filter_biquad.h"
 #include "mixer.h"
 
+// The matrix has an input for every channel, plus the noise/sine test generators
+#define CROSSPOINTS (CHANNELS + 2)
+
 struct __attribute__((packed)) EepromBiquad {
 		uint8_t type;
 		float   gain;
@@ -17,8 +20,16 @@ struct __attribute__((packed)) EepromBiquad {
 struct __attribute__((packed)) EepromInput {
 		float        gain;
 		bool         phantom;
-		uint8_t      checksum;
 		EepromBiquad eq[4];
+		uint8_t      checksum;
+};
+
+struct __attribute__((packed)) EepromOutput {
+	float        gain;
+	EepromBiquad eq[4];
+	float        matrix_gain[CROSSPOINTS];
+	bool         matrix_mute[CROSSPOINTS];
+	uint8_t      checksum;
 };
 
 class InputChannel {
@@ -88,6 +99,11 @@ class InputChannel {
 		float _level_multiplier;
 		float digital_gain = 0.0f;
 
+		// Storage
+		static int instances;
+		int        instanceId;
+		bool       eepromDirty;
+
 	private:
 		// Phantom control
 		bool    has_phantom;
@@ -102,11 +118,6 @@ class InputChannel {
 		// Gain
 		float analog_gain = 0.0f;
 
-		// Storage
-		static int instances;
-		int        instanceId;
-		bool       eepromDirty;
-
 		AudioAnalyzePeak*  _peak;
 		AudioAnalyzeRMS*   _rms;
 		AudioFilterBiquad* _biquad;
@@ -117,10 +128,21 @@ class OutputChannel : public InputChannel {
 		OutputChannel(AudioAnalyzePeak* out_peak, AudioAnalyzeRMS* out_rms, AudioFilterBiquad* biquad, std::initializer_list<AudioMixer4*> mixers) : InputChannel(out_peak, out_rms, biquad) {
 			for (auto m : mixers) {
 				_matrix_bus.push_back(m);
+				for (uint8_t i=0; i<0; i++) {
+					m->gain(i, 0.0f);
+				}
+			}
+			for (uint8_t i=0; i < CROSSPOINTS; i++) {
+				_crosspoint_mute[i] = true;
+				_crosspoint_gain[i] = 0.0f;
 			}
 		}
 
+		bool EepromSave();
+		bool EepromLoad();
+
 		void SetCrosspointLevel(int input_index, float gain) {
+			//debug_printf("matrix: [%d->%d] %d\n",input_index,  this->instanceId - CHANNELS, (int)gain);
 			_crosspoint_gain[input_index] = gain;
 			this->apply_matrix();
 		}
@@ -130,6 +152,7 @@ class OutputChannel : public InputChannel {
 		}
 
 		void SetCrosspointMute(int input_index, bool mute) {
+			//debug_printf("matrix: [%d->%d] mute %d\n",input_index,  this->instanceId - CHANNELS, mute);
 			_crosspoint_mute[input_index] = mute;
 			this->apply_matrix();
 		}
@@ -138,9 +161,20 @@ class OutputChannel : public InputChannel {
 			return _crosspoint_mute[input_index];
 		}
 
+		void DebugState() {
+			uint8_t idx = 0;
+			for (auto m : _matrix_bus) {
+				debug_printf("Mixer %d:\n", idx);
+				for (uint8_t i=0;i<4;i++) {
+					float gain = m->getGain(i);
+					debug_printf("  Input %d: %d\n", i, (int)(gain*100));
+				}
+			}
+		}
+
 	private:
 		void                      apply_matrix() const;
 		std::vector<AudioMixer4*> _matrix_bus;
-		float                     _crosspoint_gain[CHANNELS]; // dB
-		bool                      _crosspoint_mute[CHANNELS];
+		float                     _crosspoint_gain[CROSSPOINTS]; // dB
+		bool                      _crosspoint_mute[CROSSPOINTS];
 };

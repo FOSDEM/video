@@ -11,6 +11,7 @@
 void storage_setup();
 bool storage_save(const char* name, const void* data, uint32_t len);
 bool storage_load(const char* name, void* data, uint32_t len);
+bool storage_wipe();
 
 uint8_t eeprom_update_byte(uint8_t* addr_ptr, uint8_t data);
 uint8_t eeprom_update_block(const void* buf, void* addr, uint32_t len);
