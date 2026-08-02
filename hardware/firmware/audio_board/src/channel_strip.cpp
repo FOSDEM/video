@@ -106,3 +106,82 @@ void OutputChannel::apply_matrix() const {
 		_matrix_bus[m]->gain(i % 4, coef_from_dB(gain));
 	}
 }
+
+bool OutputChannel::EepromSave() {
+	if (this->filter.dirty) {
+		this->eepromDirty = true;
+	}
+	if (!this->eepromDirty) {
+		return false;
+	}
+
+	char fname[10];
+	sprintf(fname, "output.%d", this->instanceId);
+
+	EepromOutput data = {
+		.gain     = this->digital_gain,
+		.checksum = 0,
+	};
+
+	for (uint8_t c =0; c<CHANNELS; c++) {
+		data.matrix_gain[c] = this->_crosspoint_gain[c];
+		data.matrix_mute[c] = this->_crosspoint_mute[c];
+	}
+
+	for (uint8_t i = 0; i < 4; i++) {
+		data.eq[i].type      = this->filter._band[i].type;
+		data.eq[i].frequency = this->filter._band[i].frequency;
+		data.eq[i].gain      = this->filter._band[i].gain;
+		data.eq[i].q         = this->filter._band[i].q;
+	}
+
+	auto checksum = struct_checksum(data);
+	data.checksum = checksum;
+
+	if (!storage_save(fname, &data, sizeof(data))) {
+		debug_printf("storage: issue writing\n");
+		return false;
+	}
+
+	this->eepromDirty  = false;
+	this->filter.dirty = false;
+	return true;
+}
+
+bool OutputChannel::EepromLoad() {
+	char fname[10];
+	sprintf(fname, "output.%d", this->instanceId);
+	EepromOutput data = {0};
+
+	for (uint8_t c =0; c<CHANNELS; c++) {
+		this->_crosspoint_gain[c] = 1.0;
+		this->_crosspoint_mute[c] = c > (CHANNELS-3);
+	}
+
+	storage_load(fname, &data, sizeof(data));
+
+	uint8_t checksum = struct_checksum(data);
+	if (checksum != 0) {
+		debug_printf("storage: invalid checksum on index %d [%02x]\n", this->instanceId, checksum);
+		this->eepromDirty = true;
+		return false;
+	}
+
+	for (uint8_t c =0; c<CHANNELS; c++) {
+		this->_crosspoint_gain[c] = data.matrix_gain[c];
+		this->_crosspoint_mute[c] = data.matrix_mute[c];
+	}
+
+	debug_printf("output: Restored %s\n", fname);
+
+	this->SetGain(data.gain);
+	this->apply_matrix();
+
+	for (uint8_t i = 0; i < 4; i++) {
+		if (!this->filter.SetFilter(i, data.eq[i].type, data.eq[i].frequency, data.eq[i].gain, data.eq[i].q)) {
+			debug_printf("input: Unknown filter %d\n", data.eq[i].type);
+		}
+	}
+
+	return true;
+}

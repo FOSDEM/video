@@ -17,8 +17,16 @@ struct __attribute__((packed)) EepromBiquad {
 struct __attribute__((packed)) EepromInput {
 		float        gain;
 		bool         phantom;
-		uint8_t      checksum;
 		EepromBiquad eq[4];
+		uint8_t      checksum;
+};
+
+struct __attribute__((packed)) EepromOutput {
+	float        gain;
+	EepromBiquad eq[4];
+	float        matrix_gain[CHANNELS];
+	bool         matrix_mute[CHANNELS];
+	uint8_t      checksum;
 };
 
 class InputChannel {
@@ -88,6 +96,11 @@ class InputChannel {
 		float _level_multiplier;
 		float digital_gain = 0.0f;
 
+		// Storage
+		static int instances;
+		int        instanceId;
+		bool       eepromDirty;
+
 	private:
 		// Phantom control
 		bool    has_phantom;
@@ -102,11 +115,6 @@ class InputChannel {
 		// Gain
 		float analog_gain = 0.0f;
 
-		// Storage
-		static int instances;
-		int        instanceId;
-		bool       eepromDirty;
-
 		AudioAnalyzePeak*  _peak;
 		AudioAnalyzeRMS*   _rms;
 		AudioFilterBiquad* _biquad;
@@ -117,8 +125,14 @@ class OutputChannel : public InputChannel {
 		OutputChannel(AudioAnalyzePeak* out_peak, AudioAnalyzeRMS* out_rms, AudioFilterBiquad* biquad, std::initializer_list<AudioMixer4*> mixers) : InputChannel(out_peak, out_rms, biquad) {
 			for (auto m : mixers) {
 				_matrix_bus.push_back(m);
+				for (uint8_t i=0; i<0; i++) {
+					m->gain(i, 0.0f);
+				}
 			}
 		}
+
+		bool EepromSave();
+		bool EepromLoad();
 
 		void SetCrosspointLevel(int input_index, float gain) {
 			_crosspoint_gain[input_index] = gain;

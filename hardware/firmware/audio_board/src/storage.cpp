@@ -59,6 +59,10 @@ bool storage_load(const char* name, void* data, uint32_t len) {
 	return true;
 }
 
+bool storage_wipe() {
+	return configfs.quickFormat();
+}
+
 uint8_t eeprom_update_byte(uint8_t* addr_ptr, uint8_t data) {
 	if (data != eeprom_read_byte(addr_ptr)) {
 		eeprom_write_byte(addr_ptr, data);
