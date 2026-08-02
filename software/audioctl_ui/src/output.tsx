@@ -2,7 +2,7 @@ import type { BusState, Levels } from "./api_data.ts";
 import { useId } from "preact/hooks";
 import type { Signal } from "@preact/signals";
 import type { QUI } from "rtui";
-import { Slider, Checkbox, VUMeter } from "./widgets.tsx";
+import { VUSlider, Checkbox, VUMeter } from "./widgets.tsx";
 
 type Props = {
   bus: BusState;
@@ -27,11 +27,12 @@ export function MixerOutput(props: Props) {
       <h3 title={bus.name}>{bus.label}</h3>
       <div className="controls">
         <div className="sliders master">
-          <Slider
+          <VUSlider
             id={`${id}-master-fader`}
             value={bus.master_fader}
             min={-80}
             max={60}
+            direction="vertical"
             onInput={actions.set_master_fader}
             qui={props.qui}
             reset_after={1300}
@@ -41,7 +42,7 @@ export function MixerOutput(props: Props) {
         <Checkbox
           id={`${id}-master-unmuted`}
           className="mute"
-          checked={bus.master_unmuted}
+          value={bus.master_unmuted}
           onInput={actions.set_master_unmuted}
           label="unmuted"
           qui={props.qui}

@@ -66,7 +66,7 @@ body {
   flex-direction: row;
 }
 
-.slider,
+.vu-slider,
 .vu-meter {
   display: flex;
   flex-direction: column;
@@ -153,30 +153,56 @@ meter::-webkit-meter-even-less-good-value {
   font-size: x-large;
 }
 
-.slider .container {
+.slider {
   cursor: pointer;
   position: relative;
-  width: 2rem;
-  height: var(--mixer-vu-height);
   margin: var(--mixer-vu-margin);
   border: 1px solid black;
   background: #dadada;
 }
 
-.slider .container > div {
+.slider.vertical {
+  width: 2rem;
+  height: var(--mixer-vu-height);
+}
+
+.slider.horizontal {
+  width: var(--mixer-vu-height);
+  height: 2rem;
+}
+
+.slider > div {
   position: absolute;
+}
+
+/* vertical bars grow up from the bottom */
+.slider.vertical > div {
   left: 0;
   right: 0;
   bottom: 0;
 }
 
-.slider .container .real {
+/* horizontal bars grow from left to right */
+.slider.horizontal > div {
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.slider .real {
   background: steelblue;
 }
 
-.slider .container .user {
+.slider .user {
   background: transparent;
+}
+
+.slider.vertical .user {
   border-top: 2px solid goldenrod;
+}
+
+.slider.horizontal .user {
+  border-right: 2px solid goldenrod;
 }
 
 .checkbox {

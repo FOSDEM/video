@@ -4,75 +4,94 @@ import type { QUI } from "rtui";
 import type { Levels } from "./api_data.ts";
 import { formatDb, logLinear } from "./helpers.ts";
 
-// TODO: make some base class that the slider and checkbox inherit from,
-// and put this function and the resets and similar stuff there
-function exec_action(
-  qui: QUI | undefined,
-  bucket: string,
-  reset_after: number | undefined,
-  reset: () => void,
-  action: () => void | Promise<void>,
-) {
-  if (qui) {
-    qui.add({
-      handler: async () => {
-        await action();
-      },
-      bucket,
-      reset_after,
-      reset,
-    });
-  } else {
-    action();
-  }
-}
-
-type SliderProps = {
+type RTProps<T> = {
   id: string;
-  value: number;
-  min: number;
-  max: number;
-  onInput?: (value: number) => void | Promise<void>;
+  value: T;
+  onInput?: (value: T) => void | Promise<void>;
   qui?: QUI;
   reset_after?: number;
 };
 
-type SliderState = {
-  user_req: number;
+type RTState<T> = {
+  user_req: T;
 };
 
-export class Slider extends Component<SliderProps, SliderState> {
-  state: SliderState = { user_req: this.props.value };
+// base for widgets that show both a "real" value that comes from
+// the backend and an "user" value that is set by the user.
+// upon failure to set the value, or upon optional timeout,
+// the user value resets to the real value.
+abstract class RTWidget<T, P extends RTProps<T>> extends Component<
+  P,
+  RTState<T>
+> {
+  state: RTState<T> = { user_req: this.props.value };
 
-  componentDidUpdate(prev_props: SliderProps) {
+  componentDidUpdate(prev_props: P) {
     if (prev_props.value !== this.props.value) {
       this.setState({ user_req: this.props.value });
     }
   }
 
-  private reset = () => {
-    // reset the user req value to the backend-provided one,
-    // since it failed to update
+  // reset the user req value to the backend-provided one,
+  // since it failed to update
+  protected reset = () => {
     this.setState({ user_req: this.props.value });
   };
 
+  protected exec_action(action: () => void | Promise<void>) {
+    const { qui, id, reset_after } = this.props;
+    if (qui) {
+      qui.add({
+        handler: async () => {
+          await action();
+        },
+        bucket: id,
+        reset_after,
+        reset: this.reset,
+      });
+    } else {
+      action();
+    }
+  }
+}
+
+type SliderProps = RTProps<number> & {
+  min: number;
+  max: number;
+  direction: "vertical" | "horizontal";
+  extra_indicators?: [string, number][];  // list of tuples key -> coef to display in addition to 'real' and 'user'
+};
+
+export class Slider extends RTWidget<number, SliderProps> {
   private pct(value: number): number {
     const { min, max } = this.props;
     const frac = (value - min) / (max - min);
     return Math.min(100, Math.max(0, frac * 100));
   }
 
+  private bar_style(value: number) {
+    const size = `${this.pct(value)}%`;
+    if (this.props.direction == "vertical") {
+      return { height: size };
+    } else {
+      return { width: size };
+    }
+  }
+
   private dragging = false;
 
   private handle_pointer_commit(e: PointerEvent) {
-    const { id, onInput, qui, reset_after, min, max } = this.props;
+    const { onInput, min, max, direction } = this.props;
     if (!onInput) return;
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    const frac = 1 - (e.clientY - rect.top) / rect.height;
+    const frac =
+      direction === "vertical"
+        ? 1 - (e.clientY - rect.top) / rect.height
+        : (e.clientX - rect.left) / rect.width;
     const clamped = Math.min(1, Math.max(0, frac));
     const value = min + clamped * (max - min);
     this.setState({ user_req: value });
-    exec_action(qui, id, reset_after, this.reset, () => onInput(value));
+    this.exec_action(() => onInput(value));
   }
 
   private handle_pointer_down = (e: PointerEvent) => {
@@ -91,23 +110,33 @@ export class Slider extends Component<SliderProps, SliderState> {
   };
 
   render() {
-    const { id, value } = this.props;
+    const { id, value, direction, extra_indicators } = this.props;
     const { user_req } = this.state;
     return (
-      <div className="slider" id={id}>
-        <div
-          className="container"
-          onPointerDown={this.handle_pointer_down}
-          onPointerMove={this.handle_pointer_move}
-          onPointerUp={this.handle_pointer_up}
-        >
-          <div className="real" style={{ height: `${this.pct(value)}%` }} />
-          <div className="user" style={{ height: `${this.pct(user_req)}%` }} />
-        </div>
-        <div className="db gaindb">{formatDb(value)}</div>
+      <div
+        className={`slider ${direction}`}
+        id={id}
+        onPointerDown={this.handle_pointer_down}
+        onPointerMove={this.handle_pointer_move}
+        onPointerUp={this.handle_pointer_up}
+      >
+        <div className="real" style={this.bar_style(value)} />
+        <div className="user" style={this.bar_style(user_req)} />
+        {extra_indicators?.map(([cls, v]) => (
+          <div key={cls} className={cls} style={this.bar_style(v)} />
+        ))}
       </div>
     );
   }
+}
+
+export function VUSlider(props: SliderProps) {
+  return (
+    <div className="vu-slider">
+      <Slider {...props} />
+      <div className="db gaindb">{formatDb(props.value)}</div>
+    </div>
+  );
 }
 
 export function VUMeter(props: {
@@ -128,50 +157,27 @@ export function VUMeter(props: {
   );
 }
 
-type CheckboxProps = {
-  id: string;
-  checked: boolean;
+type CheckboxProps = RTProps<boolean> & {
   label: string;
   className?: string;
-  onInput?: (checked: boolean) => void | Promise<void>;
-  qui?: QUI;
-  reset_after?: number;
 };
 
-type CheckboxState = {
-  user_req: boolean;
-};
-
-export class Checkbox extends Component<CheckboxProps, CheckboxState> {
-  state: CheckboxState = { user_req: this.props.checked };
-
-  componentDidUpdate(prev_props: CheckboxProps) {
-    if (prev_props.checked !== this.props.checked) {
-      this.setState({ user_req: this.props.checked });
-    }
-  }
-
-  private reset = () => {
-    // reset the user req value to the backend-provided one,
-    // since it failed to update
-    this.setState({ user_req: this.props.checked });
-  };
-
+export class Checkbox extends RTWidget<boolean, CheckboxProps> {
   private handle_click = () => {
-    const { id, onInput, qui, reset_after } = this.props;
+    const { onInput } = this.props;
     if (!onInput) return;
     const requested = !this.state.user_req;
     this.setState({ user_req: requested });
-    exec_action(qui, id, reset_after, this.reset, () => onInput(requested));
+    this.exec_action(() => onInput(requested));
   };
 
   render() {
-    const { id, checked, label, className } = this.props;
+    const { id, value, label, className } = this.props;
     const { user_req } = this.state;
 
     let state: string;
-    if (user_req === checked) {
-      state = checked ? "checked" : "unchecked";
+    if (user_req === value) {
+      state = value ? "checked" : "unchecked";
     } else {
       state = user_req ? "wants-check" : "wants-uncheck";
     }

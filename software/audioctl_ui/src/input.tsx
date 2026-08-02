@@ -2,7 +2,7 @@ import type { ChannelState, SendState, BusState, Levels } from "./api_data.ts";
 import { useId, useState } from "preact/hooks";
 import type { Signal } from "@preact/signals";
 import type { QUI } from "rtui";
-import { Slider, Checkbox, VUMeter } from "./widgets.tsx";
+import { VUSlider, Checkbox, VUMeter } from "./widgets.tsx";
 
 type Props = {
   channel: ChannelState;
@@ -40,18 +40,19 @@ export function MixerInput(props: Props) {
       <div className="controls">
         <Checkbox
           id={`${id}-setup`}
-          checked={setup}
+          value={setup}
           label={"\u{1F527}"}
           onInput={setSetup}
         />
         {setup && (
           <div className="sliders gain">
             <span className="label">gain</span>
-            <Slider
+            <VUSlider
               id={`${id}-gain`}
               value={channel.gain}
               min={-80}
               max={60}
+              direction="vertical"
               onInput={actions.set_gain}
               qui={props.qui}
               reset_after={1300}
@@ -59,11 +60,12 @@ export function MixerInput(props: Props) {
           </div>
         )}
         <div className="sliders master">
-          <Slider
+          <VUSlider
             id={`${id}-master-fader`}
             value={channel.master_fader}
             min={-80}
             max={60}
+            direction="vertical"
             onInput={actions.set_master_fader}
             qui={props.qui}
             reset_after={1300}
@@ -73,7 +75,7 @@ export function MixerInput(props: Props) {
         {setup && (
           <Checkbox
             id={`${id}-phantom`}
-            checked={channel.phantom}
+            value={channel.phantom}
             onInput={actions.set_phantom}
             label={"\u{1F47B}"}
             qui={props.qui}
@@ -83,7 +85,7 @@ export function MixerInput(props: Props) {
         <Checkbox
           id={`${id}-master-unmuted`}
           className="mute"
-          checked={channel.master_unmuted}
+          value={channel.master_unmuted}
           onInput={actions.set_master_unmuted}
           label="unmuted"
           qui={props.qui}
@@ -121,11 +123,12 @@ function SendMap(props: {
   return (
     <div className="send">
       <h4 title={bus.name}>{bus.label}</h4>
-      <Slider
+      <VUSlider
         id={`${id}-${i}-volume`}
         value={send.volume}
         min={-80}
         max={60}
+        direction="vertical"
         onInput={actions.set_volume}
         qui={qui}
         reset_after={1300}
@@ -133,7 +136,7 @@ function SendMap(props: {
       <Checkbox
         id={`${id}-${i}-unmuted`}
         className="mute"
-        checked={send.unmuted}
+        value={send.unmuted}
         onInput={actions.set_unmuted}
         label="unmuted"
         qui={qui}
@@ -141,7 +144,7 @@ function SendMap(props: {
       />
       <Checkbox
         id={`${id}-${i}-pre-fader`}
-        checked={send.pre_channel_fader}
+        value={send.pre_channel_fader}
         onInput={actions.set_pre_fader}
         label="pre-fader"
         qui={qui}
@@ -149,7 +152,7 @@ function SendMap(props: {
       />
       <Checkbox
         id={`${id}-${i}-pre-mute`}
-        checked={send.pre_channel_mute}
+        value={send.pre_channel_mute}
         onInput={actions.set_pre_mute}
         label="pre-mute"
         qui={qui}
