@@ -149,6 +149,10 @@ InputChannel* get_channel(uint8_t channel) {
 	return &route_inputs[channel];
 }
 
+OutputChannel* get_bus(uint8_t bus) {
+	return &route_outputs[bus];
+}
+
 bool is_muted(uint8_t channel, uint8_t bus) {
 	return route_outputs[bus].GetCrosspointMute(channel);
 }

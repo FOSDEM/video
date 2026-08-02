@@ -275,7 +275,7 @@ const Cli::CmdDescr Cli::cmds[Cli::num_cmds + 1] = {
 	},
     {
         .name = "channel.eq",
-        .help = "for the given channel. return the number of EQ bands available",
+        .help = "for the given channel. return the EQ state",
         .arghelp  = "<channel no>",
         .num_args = 1,
         .callback = [](Cli* cli)
@@ -323,11 +323,74 @@ const Cli::CmdDescr Cli::cmds[Cli::num_cmds + 1] = {
 			}
 			if (band >= 4) {
 				cli->prefix_fail();
-				cli->port->printf("band %d is invalid [0-3]\n", chan);
+				cli->port->printf("band %d is invalid [0-3]\n", band);
 				return;
 			}
 
 			if (!get_channel(chan)->filter.SetFilter(band, shape, freq, gain, q)) {
+				cli->prefix_fail();
+				cli->port->printf("invalid band shape %d\n", shape);
+				return;
+			}
+
+			cli->report_ok();
+		},
+	},
+	{
+		.name = "bus.eq",
+		.help = "for the given bus. return the state of the EQ bands",
+		.arghelp  = "<bus no>",
+		.num_args = 1,
+		.callback = [](Cli* cli)
+		{
+			uint16_t bus = cli->hop_uint();
+
+			if (bus >= BUSES) {
+				cli->prefix_fail();
+				cli->port->printf("bus %d is invalid [0-%d]\n", bus, BUSES-1);
+				return;
+			}
+
+			cli->prefix_ok();
+			for (uint8_t band = 0; band < 4; band++) {
+				Band b = get_bus(bus)->filter.GetBand(band);
+				cli->port->print(b.type);
+				cli->port->print(" ");
+				cli->print_float_fixed(b.frequency, 5, 2);
+				cli->port->print(" ");
+				cli->print_float_fixed(b.gain, 3, 3);
+				cli->port->print(" ");
+				cli->print_float_fixed(b.q, 3, 4);
+				cli->port->print(" ");
+			}
+			cli->port->println();
+		}
+	},
+{
+		.name     = "bus.eq.set",
+		.help     = "for the given bus, configure an eq band",
+		.arghelp  = "<bus no> <band no> <shape> <freq> <gain> <q>",
+		.num_args = 6,
+		.callback = [](Cli* cli) {
+			uint16_t bus  = cli->hop_uint();
+			uint16_t band  = cli->hop_uint();
+			uint16_t shape = cli->hop_uint();
+			float    freq  = cli->hop_float();
+			float    gain  = cli->hop_float();
+			float    q     = cli->hop_float();
+
+			if (bus >= BUSES) {
+				cli->prefix_fail();
+				cli->port->printf("bus %d is invalid [0-%d]\n", bus, BUSES - 1);
+				return;
+			}
+			if (band >= 4) {
+				cli->prefix_fail();
+				cli->port->printf("band %d is invalid [0-3]\n", band);
+				return;
+			}
+
+			if (!get_bus(bus)->filter.SetFilter(band, shape, freq, gain, q)) {
 				cli->prefix_fail();
 				cli->port->printf("invalid band shape %d\n", shape);
 				return;
