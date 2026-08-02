@@ -149,6 +149,10 @@ InputChannel* get_channel(uint8_t channel) {
 	return &route_inputs[channel];
 }
 
+OutputChannel* get_bus(uint8_t bus) {
+	return &route_outputs[bus];
+}
+
 bool is_muted(uint8_t channel, uint8_t bus) {
 	return route_outputs[bus].GetCrosspointMute(channel);
 }
@@ -210,6 +214,7 @@ void reset_channel_input_gains() {
 }
 
 void audio_reset_default_state() {
+	storage_wipe();
 	reset_matrix();
 	reset_mutes();
 	reset_phantoms();
@@ -225,6 +230,12 @@ uint8_t audio_eeprom_save_all() {
 			saved++;
 		}
 	}
+	for (auto& bus : route_outputs) {
+		if (bus.EepromSave()) {
+			saved++;
+		}
+	}
+
 	return saved;
 }
 #endif
@@ -232,5 +243,8 @@ uint8_t audio_eeprom_save_all() {
 void audio_load_state() {
 	for (auto& chan : route_inputs) {
 		chan.EepromLoad();
+	}
+	for (auto& bus : route_outputs) {
+		bus.EepromLoad();
 	}
 }

@@ -1,0 +1,13 @@
+# Example config for switch vlans
+vlans = true
+
+[wan]
+vlan = 10
+tagged = ["IN"]
+untagged = ["01"]
+
+[lan]
+vlan = 11
+tagged = ["IN"]
+untagged = ["02", "03", "04"]
+

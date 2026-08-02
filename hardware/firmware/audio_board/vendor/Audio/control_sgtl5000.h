@@ -126,7 +126,7 @@ private:
   #define FILTER_LOPASS 0
   #define FILTER_HIPASS 1
   #define FILTER_BANDPASS 2
-  #define FILTER_NOTCH 3
+  #define FILTER_NTCH 3
   #define FILTER_PARAEQ 4
   #define FILTER_LOSHELF 5
   #define FILTER_HISHELF 6

@@ -13,30 +13,49 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "../network_switch/network_switch_status_reader.h"
+
 void help(void) {
     io_say("available commands:\n");
-    io_say("    netswitch.info          -- respond with network switch info\n");
-    io_say("    display.text.line       -- show text on the display\n");
-    io_say("    display.text.clear      -- clear text shown on display\n");
-    io_say("    display.img             -- display an image\n");
-    io_say("    display.img.clear       -- clear image(s) shown on display\n");
-    io_say("    display.refresh         -- commit all previously called display commands\n");
-    io_say("    display.imgonly         -- like display.refresh, but hides all text. very fast.\n");
-    io_say("    pb.gpio.read.raw        -- read raw GPIO status on the power board\n");
-    io_say("    pb.temp.raw             -- show raw power board temperature reading\n");
-    io_say("    pb.chargers.on          -- turn chargers on or off\n");
-    io_say("    pb.i2c.scan             -- scan for devices on the power board i²c bus\n");
-    io_say("    pb.i2c.dump_all_regs    -- try to dump all registers of an i²c device\n");
-    io_say("    pb.fan.status           -- get a magic number whose bits encode fan statuses\n");
-    io_say("    pb.fan.speed.get        -- get fan speed\n");
-    io_say("    pb.fan.speed.target     -- set fan speed\n");
-    io_say("    pb.fan.pwm              -- get fan pwm duty cycle\n");
-    io_say("    pb.fan.pwm.force        -- force fan into raw pwm mode\n");
-    io_say("    bootloader              -- reboot into bootloader\n");
-    io_say("    status                  -- general human-readable status\n");
+    io_say("    netswitch.info               -- respond with network switch info\n");
+    io_say("    netswitch.vlans              -- respond with switch vlan info\n");
+    io_say("    netswitch.vlan-member-define -- store a new vlan table entry\n");
+    io_say("    netswitch.vlan-member-define -- store a new vlan memberconfig\n");
+    io_say("    netswitch.vlan-filtering     -- set vlan filter mode for port\n");
+    io_say("    display.text.line            -- show text on the display\n");
+    io_say("    display.text.clear           -- clear text shown on display\n");
+    io_say("    display.img                  -- display an image\n");
+    io_say("    display.img.clear            -- clear image(s) shown on display\n");
+    io_say("    display.refresh              -- commit all previously called display commands\n");
+    io_say("    display.imgonly              -- like display.refresh, but hides all text. very fast.\n");
+    io_say("    pb.gpio.read.raw             -- read raw GPIO status on the power board\n");
+    io_say("    pb.temp.raw                  -- show raw power board temperature reading\n");
+    io_say("    pb.chargers.on               -- turn chargers on or off\n");
+    io_say("    pb.i2c.scan                  -- scan for devices on the power board i²c bus\n");
+    io_say("    pb.i2c.dump_all_regs         -- try to dump all registers of an i²c device\n");
+    io_say("    pb.fan.status                -- get a magic number whose bits encode fan statuses\n");
+    io_say("    pb.fan.speed.get             -- get fan speed\n");
+    io_say("    pb.fan.speed.target          -- set fan speed\n");
+    io_say("    pb.fan.pwm                   -- get fan pwm duty cycle\n");
+    io_say("    pb.fan.pwm.force             -- force fan into raw pwm mode\n");
+    io_say("    bootloader                   -- reboot into bootloader\n");
+    io_say("    status                       -- general human-readable status\n");
     io_say("call a command without arguments for usage\n");
     io_say("every command's output ends with '^(ok|fail) .*\\n'\n");
     io_say("ok help\n");
+}
+
+void io_print_netswitch_vlans(void)
+{
+    if (nsw_config_is_vlans_enabled())
+    {
+        io_say("vlan support is enabled\n");
+        nsw_dump_vlan_table();
+        nsw_dump_member_config();
+    } else
+    {
+        io_say("vlans are disabled\n");
+    }
 }
 
 bool io_print_netswitch_port_info(void) {
@@ -181,6 +200,94 @@ void io_handle_cmd(char* line, io_state_t* state) {
             io_say("fail netswitch.info\n");
             return;
         }
+        return;
+    }
+
+    if (hop_word(&line, "netswitch.vlans")) {
+        io_print_netswitch_vlans();
+        io_say("ok netswitch.vlans\n");
+        return;
+    }
+
+    if (hop_word(&line, "netswitch.vlan-init")) {
+        if (line[0] == '\0') {
+            io_say("usage: netswitch.vlan-init <enable>\n");
+            io_say("enable or disable vlan support and clear the table\n");
+            return;
+        }
+        uint16_t enable = parse_number(&line);
+        if (enable) {
+            nsw_vlan_init();
+            nsw_config_vlans(true);
+        }
+        else {
+            nsw_config_vlans(false);
+        }
+
+        io_say("ok netswitch.vlan-init\n");
+        return;
+    }
+
+    if (hop_word(&line, "netswitch.vlan-entry-define")) {
+        if (line[0] == '\0') {
+            io_say("usage: netswitch.vlan-entry-define <vid> <members> <untagged>\n");
+            io_say("define an entry in the vlan table\n");
+            return;
+        }
+        uint16_t vid = parse_number(&line);
+        uint16_t members = parse_number(&line);
+        uint16_t untagged = parse_number(&line);
+
+        nsw_vlan_cfg_t entry = {
+            .vid = vid,
+            .mbr = members,
+            .untag = untagged,
+        };
+        nsw_vlan_set(&entry);
+        io_say("ok netswitch.vlan-entry-define\n");
+        return;
+    }
+
+    if (hop_word(&line, "netswitch.vlan-member-define")) {
+        if (line[0] == '\0') {
+            io_say("usage: netswitch.vlan-member-define <mc-index> <vid> <ports>\n");
+            io_say("define a memberconfig entry to tag incoming untagged traffic\n");
+            return;
+        }
+        uint16_t mc = parse_number(&line);
+        uint16_t vid = parse_number(&line);
+        uint16_t ports = parse_number(&line);
+
+        nsw_mc_set(mc, vid, ports);
+        for (uint8_t p = 0; p < 5; p++) {
+            if ((ports & (1 << p)) > 0) {
+                nsw_port_set_mc(mc, p);
+            }
+        }
+        io_say("ok netswitch.vlan-member-define\n");
+        return;
+    }
+
+    if (hop_word(&line, "netswitch.vlan-filtering")) {
+        if (line[0] == '\0') {
+            io_say("usage: netswitch.vlan-filtering <port> <tagged-only|untagged-only|all>\n");
+            io_say("configure filter to drop tagged or untagged traffic on port\n");
+            return;
+        }
+        uint16_t port = parse_number(&line);
+        if (hop_word(&line, "tagged-only")) {
+            nsw_port_vlan_filtering(port, PORT_ACCEPT_TAGGED_ONLY);
+        }
+        else if (hop_word(&line, "untagged-only")) {
+            nsw_port_vlan_filtering(port, PORT_ACCEPT_UNTAGGED_ONLY);
+        }
+        else if (hop_word(&line, "all")) {
+            nsw_port_vlan_filtering(port, PORT_ACCEPT_ALL);
+        }
+        else {
+            io_say("fail unknown mode\n");
+        }
+        io_say("ok netswitch.vlan-filtering\n");
         return;
     }
 
