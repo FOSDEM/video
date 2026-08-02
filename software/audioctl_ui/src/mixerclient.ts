@@ -1,26 +1,26 @@
-import type { MisirkaClient } from "misirka";
-import { MixerStateSchema, LevelsSchema, OkRespSchema } from "./api_data.ts";
-import type { MixerState, Levels } from "./api_data.ts";
+import type { MisirkaClient } from "misirka"
+import { MixerStateSchema, LevelsSchema, OkRespSchema } from "./api_data.ts"
+import type { MixerState, Levels } from "./api_data.ts"
 
 export class MixerClient {
   constructor(private client: MisirkaClient) {}
 
   async get_state(): Promise<MixerState> {
-    return await this.client.get("state", MixerStateSchema);
+    return await this.client.get("state", MixerStateSchema)
   }
 
   async set_in_gain(chan_idx: number, gain: number) {
     await this.call_expecting_ok("set-in-gain", {
       channel: chan_idx,
       gain: gain,
-    });
+    })
   }
 
   async set_phantom(chan_idx: number, phantom: boolean) {
     await this.call_expecting_ok("set-phantom", {
       channel: chan_idx,
       phantom: phantom,
-    });
+    })
   }
 
   async set_matrix_send(chan_idx: number, bus_idx: number, unmuted: boolean) {
@@ -28,7 +28,7 @@ export class MixerClient {
       channel: chan_idx,
       bus: bus_idx,
       unmuted: unmuted,
-    });
+    })
   }
 
   async set_matrix_volume(chan_idx: number, bus_idx: number, volume: number) {
@@ -36,35 +36,35 @@ export class MixerClient {
       channel: chan_idx,
       bus: bus_idx,
       volume: volume,
-    });
+    })
   }
 
   async set_bus_master_fader(bus_idx: number, fader: number) {
     await this.call_expecting_ok("set-bus-master-fader", {
       bus: bus_idx,
       fader: fader,
-    });
+    })
   }
 
   async set_bus_master_unmuted(bus_idx: number, unmuted: boolean) {
     await this.call_expecting_ok("set-bus-master-unmuted", {
       bus: bus_idx,
       unmuted: unmuted,
-    });
+    })
   }
 
   async set_channel_master_fader(chan_idx: number, fader: number) {
     await this.call_expecting_ok("set-channel-master-fader", {
       channel: chan_idx,
       fader: fader,
-    });
+    })
   }
 
   async set_channel_master_unmuted(chan_idx: number, unmuted: boolean) {
     await this.call_expecting_ok("set-channel-master-unmuted", {
       channel: chan_idx,
       unmuted: unmuted,
-    });
+    })
   }
 
   async set_send_pre_master_fader(
@@ -76,7 +76,7 @@ export class MixerClient {
       channel: chan_idx,
       bus: bus_idx,
       pre_master_fader: pre_master_fader,
-    });
+    })
   }
 
   async set_send_pre_master_mute(
@@ -88,18 +88,18 @@ export class MixerClient {
       channel: chan_idx,
       bus: bus_idx,
       pre_master_mute: pre_master_mute,
-    });
+    })
   }
 
   async subscribe_state(handler: (state: MixerState) => void) {
-    await this.client.subscribe("state", MixerStateSchema, handler);
+    await this.client.subscribe("state", MixerStateSchema, handler)
   }
 
   async subscribe_levels(handler: (levels: Levels) => void) {
-    await this.client.subscribe("levels", LevelsSchema, handler);
+    await this.client.subscribe("levels", LevelsSchema, handler)
   }
 
   private async call_expecting_ok(method: string, param: any) {
-    await this.client.call(method, param, OkRespSchema);
+    await this.client.call(method, param, OkRespSchema)
   }
 }

@@ -1,8 +1,8 @@
-import js from "@eslint/js";
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import css from "@eslint/css";
-import { defineConfig, globalIgnores } from "eslint/config";
+import js from "@eslint/js"
+import globals from "globals"
+import tseslint from "typescript-eslint"
+import css from "@eslint/css"
+import { defineConfig, globalIgnores } from "eslint/config"
 
 export default defineConfig([
   globalIgnores(["!node_modules/", "node_modules/*", "!node_modules/misirka/"]),
@@ -31,4 +31,4 @@ export default defineConfig([
     language: "css/css",
     extends: ["css/recommended"],
   },
-]);
+])

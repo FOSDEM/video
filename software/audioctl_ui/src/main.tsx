@@ -1,128 +1,36 @@
-import favicon_dataurl from "../assets/favicon.png?url&inline";
-import { render, Component } from "preact";
-import type { VNode } from "preact";
-import { MQTTClient, WSClient, MisirkaClient, SubClient } from "misirka";
-import { MixerUI } from "./mixer_ui.tsx";
-import { QUI } from "rtui";
+import favicon_dataurl from "../assets/favicon.png?url&inline"
+import { render } from "preact"
+import type { VNode } from "preact"
+import { MixerUI } from "./mixer_ui.tsx"
+import useAppState, {status_messages} from "./appstate.ts"
+import {linkify, mqtt_dflt_url, ws_dflt_url} from "./helpers.tsx"
+import {QuiContext, useQui} from "./quicontext.ts"
+
+import 'preact/debug'
 
 function setup_favicon() {
-  const link = document.querySelector<HTMLLinkElement>("#favicon")!;
-  link.rel = "icon";
-  link.type = "image/png";
-  link.href = favicon_dataurl;
+  const link = document.querySelector<HTMLLinkElement>("#favicon")!
+  link.rel = "icon"
+  link.type = "image/png"
+  link.href = favicon_dataurl
 }
 
-const status_messages = {
-  initialising: "initialising",
-  mqtt_connecting: "connecting to MQTT",
-  mqtt_connected_waiting_for_audioctl:
-    "MQTT connected, waiting for audioctl to appear",
-  mqtt_disconnected: "MQTT disconnected, reconnecting",
-  audioctl_died:
-    "MQTT still connected but audioctl died, waiting for it to appear",
-  ws_connecting: "connecting to websocket",
-  ws_disconnected: "websocket disconnected, reconnecting",
-} as const;
+function App() {
+  const appState = useAppState()
+  const qui = useQui(action_err_handler)
 
-type StatusMessage = keyof typeof status_messages;
+  console.log(appState.status)
 
-type AppState =
-  | { status: "showing_help" }
-  | { status: "showing_msg"; msg: StatusMessage }
-  | { status: "connected"; client: MisirkaClient };
+  return <QuiContext.Provider value={qui}>
+    {(appState.status == "connected") && <MixerUI client={appState.client}/>}
+    {(appState.status == "showing_help") && help_message()}
+    {(appState.status == "showing_msg") && <section>{status_messages[appState.msg]}</section>}
+  </QuiContext.Provider>
+}
 
-class App extends Component<object, AppState> {
-  state: AppState = { status: "showing_msg", msg: "initialising" };
-
-  componentDidMount() {
-    const action_err_handler = async (err: any) => {
-      console.error("UI action failed to execute: ", err);
-      alert("Action failed");
-    };
-
-    this.qui.loop(action_err_handler);
-    this.connect();
-  }
-
-  componentWillUnmount() {
-    this.qui.stop();
-  }
-
-  private setAppState(state: AppState) {
-    this.setState(state);
-  }
-
-  private connect() {
-    const params = new URLSearchParams(window.location.search);
-    const mqtt_url = params.get("mqtt_url");
-    const ws_url = params.get("ws_url");
-
-    if (mqtt_url) {
-      let mqtt_prefix = params.get("mqtt_prefix");
-      if (!mqtt_prefix) {
-        mqtt_prefix = "/fosdem/";
-      }
-
-      const mqtt_client = new MQTTClient({
-        mqtt_url: mqtt_url,
-        prefix: mqtt_prefix,
-      });
-
-      this.setAppState({ status: "showing_msg", msg: "mqtt_connecting" });
-
-      mqtt_client.on_alive(() => {
-        this.setAppState({
-          status: "showing_msg",
-          msg: "mqtt_connected_waiting_for_audioctl",
-        });
-      });
-
-      mqtt_client.on_dead(() => {
-        this.setAppState({ status: "showing_msg", msg: "mqtt_disconnected" });
-      });
-
-      const client = new SubClient(mqtt_client, {
-        prefix: "audioctl/",
-        online_topic: "audioctl/online",
-      });
-
-      client.on_alive(() => {
-        this.setAppState({ status: "connected", client });
-      });
-
-      client.on_dead(() => {
-        this.setAppState({ status: "showing_msg", msg: "audioctl_died" });
-      });
-    } else if (ws_url) {
-      const client = new WSClient({ ws_url: ws_url });
-
-      this.setAppState({ status: "showing_msg", msg: "ws_connecting" });
-
-      client.on_alive(() => {
-        this.setAppState({ status: "connected", client });
-      });
-
-      client.on_dead(() => {
-        this.setAppState({ status: "showing_msg", msg: "ws_disconnected" });
-      });
-    } else {
-      this.setAppState({ status: "showing_help" });
-    }
-  }
-
-  render() {
-    const state = this.state;
-    switch (state.status) {
-      case "connected":
-        return <MixerUI client={state.client} qui={this.qui} />;
-      case "showing_help":
-        return help_message();
-      case "showing_msg":
-        return <section>{status_messages[state.msg]}</section>;
-    }
-  }
-
-  private qui: QUI = new QUI();
+const action_err_handler = async (err: any) => {
+  console.error("UI action failed to execute: ", err)
+  alert("Action failed")
 }
 
 function help_message(): VNode {
@@ -135,26 +43,15 @@ function help_message(): VNode {
         <li>MQTT: {linkify(mqtt_dflt_url())}</li>
       </ul>
     </section>
-  );
+  )
 }
 
-function linkify(l: string): VNode {
-  return <a href={l}>{l}</a>;
-}
-
-function ws_dflt_url() {
-  return `${location.protocol}//${location.host}${location.pathname}?ws_url=http://localhost:8811/ws`;
-}
-
-function mqtt_dflt_url(): string {
-  return `${location.protocol}//${location.host}${location.pathname}?mqtt_url=http://localhost:1880&mqtt_prefix=/fosdem/`;
-}
 
 function main() {
-  setup_favicon();
+  setup_favicon()
 
-  const mixer_el = document.querySelector<HTMLDivElement>("#mixer")!;
-  render(<App />, mixer_el);
+  const mixer_el = document.querySelector<HTMLDivElement>("#mixer")!
+  render(<App />, mixer_el)
 }
 
-main();
+main()
