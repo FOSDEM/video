@@ -2,8 +2,9 @@
 
 #include <stdint.h>
 
-#define CHANNELS 8
-#define BUSES    8
+#define CHANNELS  8
+#define BUSES     8
+#define NUM_BLOBS 1
 
 typedef struct ChanInfo {
 		uint16_t color;

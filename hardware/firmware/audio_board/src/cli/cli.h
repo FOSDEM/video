@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+#include "../config.h"
+
 class Cli {
 	public:
 		Cli(Stream*);
@@ -19,7 +21,7 @@ class Cli {
 		static const uint8_t  num_cmds = 22;
 		static const CmdDescr cmds[num_cmds + 1];
 
-		char    input_buf[100];
+		char    input_buf[CMD_BUF_SIZE];
 		uint8_t input_pos = 0;
 
 		void exec_cmd();

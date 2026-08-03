@@ -8,3 +8,6 @@
 #define PIN_PHANTOM_IN3 35
 
 #define OUT_SPAN_VOLTS  (1.2258f)
+
+#define BLOB_SIZE 180
+#define CMD_BUF_SIZE (BLOB_SIZE + 20)

@@ -127,6 +127,7 @@ set(SOURCES
     src/cli/commands.cpp
     src/debug.cpp
     src/channel_info.cpp
+    src/blob_storage.cpp
     src/channel.cpp
     src/channel_input.cpp
     src/channel_output.cpp

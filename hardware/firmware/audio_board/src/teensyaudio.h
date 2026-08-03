@@ -36,6 +36,9 @@ void set_phantom_off(uint8_t channel);
 InputChannel* get_channel(uint8_t channel);
 OutputChannel* get_bus(uint8_t bus);
 
+bool        set_blob(uint8_t index, const char* text);
+const char* get_blob(uint8_t index);
+
 #ifdef USE_EEPROM
 uint8_t audio_eeprom_save_all();
 #endif

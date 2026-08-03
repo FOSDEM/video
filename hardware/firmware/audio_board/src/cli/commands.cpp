@@ -377,6 +377,47 @@ const Cli::CmdDescr Cli::cmds[Cli::num_cmds + 1] = {
 		},
 	},
 	{
+		.name     = "blob.set",
+		.help     = "store a text blob",
+		.arghelp  = "<blob idx> <text>",
+		.num_args = -1,
+		.callback = [](Cli* cli) {
+			uint16_t blob = cli->hop_uint();
+
+			if (blob >= NUM_BLOBS) {
+				cli->prefix_fail();
+				cli->port->printf("blob %d is invalid [0-%d]\n", blob, NUM_BLOBS - 1);
+				return;
+			}
+
+			if (!set_blob(blob, cli->cmd)) {
+				cli->prefix_fail();
+				cli->port->println("blob too big");
+				return;
+			}
+
+			cli->report_ok();
+		},
+	},
+	{
+		.name     = "blob.get",
+		.help     = "retrieve a stored text blob",
+		.arghelp  = "<blob idx>",
+		.num_args = 1,
+		.callback = [](Cli* cli) {
+			uint16_t blob = cli->hop_uint();
+
+			if (blob >= NUM_BLOBS) {
+				cli->prefix_fail();
+				cli->port->printf("blob %d is invalid [0-%d]\n", blob, NUM_BLOBS - 1);
+				return;
+			}
+
+			cli->prefix_ok();
+			cli->port->println(get_blob(blob));
+		},
+	},
+	{
 		.name     = "commands",
 		.help     = "get a list of available commands",
 		.arghelp  = "",
