@@ -6,10 +6,13 @@
 #include <initializer_list>
 #include <vector>
 
+// The matrix has an input for every channel, plus the noise/sine test generators
+#define CROSSPOINTS (CHANNELS + 2)
+
 struct __attribute__((packed)) EepromOutput {
 	EepromBiquad eq[4];
-	float        matrix_gain[CHANNELS];
-	bool         matrix_mute[CHANNELS];
+	float        matrix_gain[CROSSPOINTS];
+	bool         matrix_mute[CROSSPOINTS];
 	uint8_t      checksum;
 };
 
@@ -28,9 +31,11 @@ class OutputChannel : public Channel {
 
 		bool GetCrosspointMute(int input_index);
 
+		void DebugState();
+
 	private:
 		void                      apply_matrix() const;
 		std::vector<AudioMixer4*> _matrix_bus;
-		float                     _crosspoint_gain[CHANNELS];
-		bool                      _crosspoint_mute[CHANNELS];
+		float                     _crosspoint_gain[CROSSPOINTS];
+		bool                      _crosspoint_mute[CROSSPOINTS];
 };

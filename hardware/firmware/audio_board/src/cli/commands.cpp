@@ -466,6 +466,17 @@ const Cli::CmdDescr Cli::cmds[Cli::num_cmds + 1] = {
 		},
 	},
 	{
+		.name     = "dbgbus",
+		.help     = "print some log messages to check your debug logging",
+		.arghelp  = "<bus>",
+		.num_args = 1,
+		.callback = [](Cli* cli) {
+			uint16_t bus  = cli->hop_uint();
+			auto b = get_bus(bus);
+			b->DebugState();
+		},
+	},
+	{
 		.name = "END",
 	},
 };

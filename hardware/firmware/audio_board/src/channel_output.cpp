@@ -11,18 +11,24 @@ OutputChannel::OutputChannel(AudioAnalyzePeak* out_peak, AudioAnalyzeRMS* out_rm
 			m->gain(i, 0.0f);
 		}
 	}
+	for (uint8_t i = 0; i < CROSSPOINTS; i++) {
+		this->_crosspoint_mute[i] = true;
+		this->_crosspoint_gain[i] = 0.0f;
+	}
 }
 
 void OutputChannel::apply_matrix() const {
-	for (uint8_t i = 0; i < CHANNELS; i++) {
+	for (uint8_t i = 0; i < CROSSPOINTS; i++) {
 		float gain = this->_crosspoint_gain[i];
 
+		float coef = coef_from_dB(gain);
+
 		if (this->_crosspoint_mute[i]) {
-			gain = 0.0f;
+			coef = 0.0f;
 		}
 
 		size_t m = i / 4;
-		this->_matrix_bus[m]->gain(i % 4, coef_from_dB(gain));
+		this->_matrix_bus[m]->gain(i % 4, coef);
 	}
 }
 
@@ -44,6 +50,18 @@ bool OutputChannel::GetCrosspointMute(int input_index) {
 	return this->_crosspoint_mute[input_index];
 }
 
+void OutputChannel::DebugState() {
+	uint8_t idx = 0;
+	for (auto m : this->_matrix_bus) {
+		debug_printf("Mixer %d:\n", idx);
+		for (uint8_t i = 0; i < 4; i++) {
+			float gain = m->getGain(i);
+			debug_printf("  Input %d: %d\n", i, (int)(gain * 100));
+		}
+		idx++;
+	}
+}
+
 bool OutputChannel::EepromSave() {
 	if (this->filter.dirty) {
 		this->eepromDirty = true;
@@ -59,7 +77,7 @@ bool OutputChannel::EepromSave() {
 		.checksum = 0,
 	};
 
-	for (uint8_t c =0; c<CHANNELS; c++) {
+	for (uint8_t c =0; c<CROSSPOINTS; c++) {
 		data.matrix_gain[c] = this->_crosspoint_gain[c];
 		data.matrix_mute[c] = this->_crosspoint_mute[c];
 	}
@@ -89,9 +107,9 @@ bool OutputChannel::EepromLoad() {
 	sprintf(fname, "output.%d", this->instanceId);
 	EepromOutput data = {0};
 
-	for (uint8_t c =0; c<CHANNELS; c++) {
-		this->_crosspoint_gain[c] = 1.0;
-		this->_crosspoint_mute[c] = c > (CHANNELS-3);
+	for (uint8_t c =0; c < CROSSPOINTS; c++) {
+		this->_crosspoint_gain[c] = 0.0;
+		this->_crosspoint_mute[c] = true;
 	}
 
 	storage_load(fname, &data, sizeof(data));
@@ -103,7 +121,7 @@ bool OutputChannel::EepromLoad() {
 		return false;
 	}
 
-	for (uint8_t c =0; c<CHANNELS; c++) {
+	for (uint8_t c =0; c < CROSSPOINTS; c++) {
 		this->_crosspoint_gain[c] = data.matrix_gain[c];
 		this->_crosspoint_mute[c] = data.matrix_mute[c];
 	}

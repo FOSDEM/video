@@ -18,7 +18,7 @@ class Cli {
 				std::function<void(Cli*)> callback;
 		};
 
-		static const uint8_t  num_cmds = 22;
+		static const uint8_t  num_cmds = 23;
 		static const CmdDescr cmds[num_cmds + 1];
 
 		char    input_buf[CMD_BUF_SIZE];
