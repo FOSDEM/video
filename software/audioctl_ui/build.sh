@@ -4,6 +4,8 @@ set -euo pipefail
 
 cdir="$(dirname "$(readlink -f "${0}")")"
 
+export NPM_CONFIG_ALLOW_GIT=all
+
 cd "${cdir}"
 
 if ! [[ package.json -ot node_modules/marker && package-lock.json -ot node_modules/marker ]]; then
