@@ -21,9 +21,6 @@ void unmute(uint8_t channel, uint8_t bus);
 void  set_volume_dB(uint8_t channel, uint8_t bus, float vol_dB);
 float get_volume_dB(uint8_t channel, uint8_t bus);
 
-float get_bus_volume_dB(uint8_t bus);
-void  set_bus_volume_dB(uint8_t bus, float vol_dB);
-
 float get_channel_input_gain_dB(uint8_t channel);
 void  set_channel_input_gain_dB(uint8_t channel, float gain);
 

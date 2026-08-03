@@ -146,20 +146,6 @@ const Cli::CmdDescr Cli::cmds[Cli::num_cmds + 1] = {
 		},
 	},
 	{
-		.name     = "bus-volumes",
-		.help     = "for each output bus, returns its volume in dB",
-		.arghelp  = "",
-		.num_args = 0,
-		.callback = [](Cli* cli) {
-			cli->prefix_ok();
-			for (uint8_t bus = 0; bus < BUSES; bus++) {
-				cli->port->print(" ");
-				cli->print_float_fixed(get_bus_volume_dB(bus), 3, 3);
-			}
-			cli->port->println();
-		},
-	},
-	{
 		.name     = "send.set",
 		.help     = "for the given channel/bus crosspoint, set the send bit in the matrix",
 		.arghelp  = "<in channel no> <out bus no> (0|1)",
@@ -249,26 +235,6 @@ const Cli::CmdDescr Cli::cmds[Cli::num_cmds + 1] = {
 			}
 
 			set_channel_input_gain_dB(chan, gain);
-
-			cli->report_ok();
-		},
-	},
-	{
-		.name     = "bus-volume.set",
-		.help     = "for the given out bus, set its global volume to the given value",
-		.arghelp  = "<out bus no> <volume in dB>",
-		.num_args = 2,
-		.callback = [](Cli* cli) {
-			uint16_t bus = cli->hop_uint();
-			float    vol = cli->hop_float();
-
-			if (bus >= BUSES) {
-				cli->prefix_fail();
-				cli->port->printf("bus %d is invalid\n", bus);
-				return;
-			}
-
-			set_bus_volume_dB(bus, vol);
 
 			cli->report_ok();
 		},

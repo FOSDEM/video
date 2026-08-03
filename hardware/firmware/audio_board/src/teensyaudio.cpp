@@ -161,10 +161,6 @@ float get_volume_dB(uint8_t channel, uint8_t bus) {
 	return route_outputs[bus].GetCrosspointLevel(channel);
 }
 
-float get_bus_volume_dB(uint8_t bus) {
-	return state.bus_volumes_dB[bus];
-}
-
 void apply_channel_input_gain(uint8_t channel) {
 	set_channel_input_gain_dB(channel, state.channel_input_gains_dB[channel]);
 }
@@ -187,10 +183,6 @@ void unmute(uint8_t channel, uint8_t bus) {
 
 void set_volume_dB(uint8_t channel, uint8_t bus, float volume) {
 	route_outputs[bus].SetCrosspointLevel(channel, volume);
-}
-
-void set_bus_volume_dB(uint8_t bus, float vol) {
-	route_outputs[bus].SetGain(vol);
 }
 
 void reset_matrix() {
