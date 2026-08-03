@@ -96,7 +96,6 @@ bool InputChannel::EepromLoad() {
 void OutputChannel::apply_matrix() const {
 	for (uint8_t i = 0; i < CHANNELS; i++) {
 		float gain = _crosspoint_gain[i];
-		gain += this->digital_gain;
 
 		if (_crosspoint_mute[i]) {
 			gain = 0.0f;
