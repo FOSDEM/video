@@ -19,11 +19,17 @@ export default function useReactive<T>(opts: {
 
   const { real_val, on_new_user_val, sync_back_after } = opts
   const [user_val, set_user_val] = useState(real_val) // initial
-  const [user_mirrors_real, set_user_mirrors_real] = useState(false)
+  const [user_mirrors_real, set_user_mirrors_real] = useState(true)
 
-  // on "user_val" value change, enqueue to qui
+  const syncing_user_to_real = useRef(true)
+
   useEffect(() => {
-    // TODO: this effect MUST NOT fire when caused by sync_user_to_real
+    if (syncing_user_to_real.current) {
+      // this change came from initialisation or sync_user_to_real(), not the user
+      syncing_user_to_real.current = false
+      return
+    }
+
     console.log(`user val change to ${user_val}`)
 
     throttler.current.do(
@@ -42,8 +48,9 @@ export default function useReactive<T>(opts: {
   }, [user_val])
 
   const sync_user_to_real = () => {
-    if (user_mirrors_real) {
+    if (user_mirrors_real && user_val !== real_val) {
       console.log(`user val sync back from ${user_val} to ${real_val}`)
+      syncing_user_to_real.current = true
       set_user_val(real_val)
     }
   }
