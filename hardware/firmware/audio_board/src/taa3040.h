@@ -1,5 +1,4 @@
-#ifndef TEENSY_AUDIO_TAA3040_H
-#define TEENSY_AUDIO_TAA3040_H
+#pragma once
 #include <stdint.h>
 
 #define REG_P0_SW_RESET      (0x01)
@@ -40,5 +39,3 @@ class AudioControlTAA3040 {
 		uint8_t last_sts1   = 0;
 		uint8_t last_asi    = 0;
 };
-
-#endif // TEENSY_AUDIO_TAA3040_H

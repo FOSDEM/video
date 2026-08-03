@@ -4,7 +4,7 @@
 #include "../teensyaudio.h"
 #include "../db_conversion.h"
 #include "../debug.h"
-#include "../channels.h"
+#include "../channel_info.h"
 
 const Cli::CmdDescr Cli::cmds[Cli::num_cmds + 1] = {
 	{

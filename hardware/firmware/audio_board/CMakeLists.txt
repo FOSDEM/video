@@ -126,8 +126,10 @@ set(SOURCES
     src/cli/cli.cpp
     src/cli/commands.cpp
     src/debug.cpp
-    src/channels.cpp
-    src/channel_strip.cpp
+    src/channel_info.cpp
+    src/channel.cpp
+    src/channel_input.cpp
+    src/channel_output.cpp
     src/filter.cpp
     src/teensyaudio_defaults.cpp
     ${GENERATED_GRAPH}

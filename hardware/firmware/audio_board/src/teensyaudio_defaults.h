@@ -1,6 +1,6 @@
 #pragma once
 
-#include "channels.h"
+#include "channel_info.h"
 
 extern const float default_bus_volumes_dB[BUSES];
 extern const float default_channel_input_gains_dB[CHANNELS];

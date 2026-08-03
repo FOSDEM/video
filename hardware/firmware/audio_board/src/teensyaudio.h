@@ -1,5 +1,4 @@
-#ifndef _TEENSY_AUDIO_H_
-#define _TEENSY_AUDIO_H_
+#pragma once
 
 #include "config.h"
 
@@ -7,7 +6,8 @@
 
 #include <stdbool.h>
 
-#include "channel_strip.h"
+#include "channel_input.h"
+#include "channel_output.h"
 
 void audio_setup();
 void audio_load_state();
@@ -38,6 +38,4 @@ OutputChannel* get_bus(uint8_t bus);
 
 #ifdef USE_EEPROM
 uint8_t audio_eeprom_save_all();
-#endif
-
 #endif

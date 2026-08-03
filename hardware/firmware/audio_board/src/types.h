@@ -1,7 +1,7 @@
 #pragma once
 
 #include "config.h"
-#include "channels.h"
+#include "channel_info.h"
 #include <stdint.h>
 
 struct AudioState {

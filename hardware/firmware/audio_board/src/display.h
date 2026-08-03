@@ -1,9 +1,8 @@
-#ifndef _MIXER_DISPLAY_H_
-#define _MIXER_DISPLAY_H_
+#pragma once
 
 #include "config.h"
 
-#include "channels.h"
+#include "channel_info.h"
 
 #include <ST7735_t3.h>
 
@@ -15,5 +14,3 @@ void display_setup();
 void display_update_vu(float levels_rms[CHANNELS + BUSES], bool state[CHANNELS + BUSES]);
 
 void display_update_screen();
-
-#endif

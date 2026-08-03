@@ -1,5 +1,5 @@
 #include "display.h"
-#include "channels.h"
+#include "channel_info.h"
 #include "db_conversion.h"
 
 #include <ST7735_t3.h>

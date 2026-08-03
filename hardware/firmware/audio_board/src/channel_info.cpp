@@ -1,4 +1,4 @@
-#include "channels.h"
+#include "channel_info.h"
 
 static constexpr ChanInfo the_channel_info[] = {
 	{CHAN_WHITE, CHAN_ORANGE, "1", "IN1", 0, 0, 6, 0},
