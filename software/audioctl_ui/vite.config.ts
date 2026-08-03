@@ -1,14 +1,14 @@
-import { defineConfig } from "vite"
-import { viteSingleFile } from "vite-plugin-singlefile"
-import viteCompression from "vite-plugin-compression"
-import checker from "vite-plugin-checker"
+import { defineConfig } from "vite";
+import { viteSingleFile } from "vite-plugin-singlefile";
+import viteCompression from "vite-plugin-compression";
+import checker from "vite-plugin-checker";
 
 export default defineConfig(({ mode }) => {
-  let server_cfg = {}
+  let server_cfg = {};
   const optimize_deps = {
     exclude: new Array<string>(),
     include: ["buffer"], // used by MQTT.js
-  }
+  };
 
   if (mode === "development") {
     server_cfg = {
@@ -16,14 +16,14 @@ export default defineConfig(({ mode }) => {
         ignored: ["!**/node_modules/misirka/**"],
       },
       allowedHosts: true,
-    }
+    };
 
-    optimize_deps.exclude.push("misirka")
+    optimize_deps.exclude.push("misirka");
   }
 
   const checker_cfg = {
     typescript: true,
-  }
+  };
 
   return {
     optimizeDeps: optimize_deps,
@@ -32,5 +32,5 @@ export default defineConfig(({ mode }) => {
       assetsInlineLimit: Number.MAX_SAFE_INTEGER,
     },
     server: server_cfg,
-  }
-})
+  };
+});

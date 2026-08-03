@@ -1,24 +1,24 @@
-import type { BusState, Levels } from "./api_data.ts"
-import { useId } from "preact/hooks"
-import type { Signal } from "@preact/signals"
-import { VUSlider, Checkbox, VUMeter } from "./widgets.tsx"
+import type { BusState, Levels } from "./api_data.ts";
+import { useId } from "preact/hooks";
+import type { Signal } from "@preact/signals";
+import { VUSlider, Checkbox, VUMeter } from "./widgets.tsx";
 
 type Props = {
-  bus: BusState
-  idx: number
-  levels: Signal<Levels | null>
-  actions: OutputActions
-}
+  bus: BusState;
+  idx: number;
+  levels: Signal<Levels | null>;
+  actions: OutputActions;
+};
 
 export type OutputActions = {
-  set_master_fader: (fader: number) => Promise<void>
-  set_master_unmuted: (unmuted: boolean) => Promise<void>
-}
+  set_master_fader: (fader: number) => Promise<void>;
+  set_master_unmuted: (unmuted: boolean) => Promise<void>;
+};
 
 export function MixerOutput(props: Props) {
-  const bus = props.bus
-  const actions = props.actions
-  const id = useId()
+  const bus = props.bus;
+  const actions = props.actions;
+  const id = useId();
 
   return (
     <div className="channel">
@@ -31,7 +31,7 @@ export function MixerOutput(props: Props) {
             min={-80}
             max={60}
             direction="vertical"
-            onInput={actions.set_master_fader}
+            on_new_user_val={actions.set_master_fader}
             reset_after={1300}
           />
           <VUMeter levels={props.levels} kind="buses" idx={props.idx} />
@@ -40,11 +40,11 @@ export function MixerOutput(props: Props) {
           id={`${id}-master-unmuted`}
           className="mute"
           checked={bus.master_unmuted}
-          onInput={actions.set_master_unmuted}
+          on_new_user_val={actions.set_master_unmuted}
           label="unmuted"
           reset_after={1300}
         />
       </div>
     </div>
-  )
+  );
 }

@@ -1,9 +1,9 @@
-import js from "@eslint/js"
-import globals from "globals"
-import tseslint from "typescript-eslint"
-import css from "@eslint/css"
-import eslintConfigPrettier from "eslint-config-prettier"
-import { defineConfig, globalIgnores } from "eslint/config"
+import js from "@eslint/js";
+import globals from "globals";
+import tseslint from "typescript-eslint";
+import css from "@eslint/css";
+import eslintConfigPrettier from "eslint-config-prettier";
+import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
   globalIgnores([
@@ -37,4 +37,4 @@ export default defineConfig([
   // formatting is Prettier's job; turn off any ESLint rules that conflict.
   // keep this last so it overrides the configs above.
   eslintConfigPrettier,
-])
+]);
