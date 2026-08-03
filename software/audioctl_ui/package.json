@@ -14,8 +14,8 @@
   "dependencies": {
     "@preact/signals": "^2.10.1",
     "misirka": "github:dexterlb/misirka#97edb75",
-    "rtui": "github:dexterlb/rtui#b90885f",
     "preact": "^10.27.2",
+    "rtui": "github:dexterlb/rtui#994e923",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -23,6 +23,7 @@
     "@eslint/js": "^10.0.1",
     "@types/node": "^25.6.0",
     "eslint": "^10.2.0",
+    "eslint-config-prettier": "^10.1.8",
     "globals": "^17.5.0",
     "jiti": "^2.6.1",
     "node": "^25.9.0",

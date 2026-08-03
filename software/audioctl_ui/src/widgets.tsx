@@ -1,19 +1,19 @@
 import { useComputed, type Signal } from "@preact/signals"
 import type { Levels } from "./api_data.ts"
 import { formatDb, logLinear } from "./helpers.tsx"
-import { useEffect, useState} from "preact/hooks"
+import { useEffect, useState } from "preact/hooks"
 import useReactive from "./reactive.ts"
 
 type SliderProps = {
-  id: string;
-  value: number;
-  min: number;
-  max: number;
-  onInput?: (value: number) => void | Promise<void>;
-  reset_after?: number;
-  direction: "vertical" | "horizontal";
-  extra_indicators?: [string, number][];  // list of tuples key -> coef to display in addition to 'real' and 'user'
-};
+  id: string
+  value: number
+  min: number
+  max: number
+  onInput?: (value: number) => Promise<void>
+  reset_after?: number
+  direction: "vertical" | "horizontal"
+  extra_indicators?: [string, number][] // list of tuples key -> coef to display in addition to 'real' and 'user'
+}
 
 export function VUSlider(props: SliderProps) {
   return (
@@ -27,11 +27,11 @@ export function VUSlider(props: SliderProps) {
 export function Slider(props: SliderProps) {
   const [dragging, setDragging] = useState(false)
 
-  const [req, setReq] = useReactive(props.id,
-    props.value,
-    props.onInput ?? (() => null),
-    props.reset_after,
-  )
+  const [req, setReq] = useReactive({
+    real_val: props.value,
+    on_new_user_val: props.onInput ?? (async () => {}),
+    sync_back_after: props.reset_after,
+  })
 
   const pct = (value: number) => {
     const { min, max } = props
@@ -52,9 +52,9 @@ export function Slider(props: SliderProps) {
     const { min, max, direction } = props
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
     const frac =
-        direction === "vertical"
-          ? 1 - (e.clientY - rect.top) / rect.height
-          : (e.clientX - rect.left) / rect.width
+      direction === "vertical"
+        ? 1 - (e.clientY - rect.top) / rect.height
+        : (e.clientX - rect.left) / rect.width
 
     const clamped = Math.min(1, Math.max(0, frac))
     const value = min + clamped * (max - min)
@@ -62,8 +62,8 @@ export function Slider(props: SliderProps) {
   }
 
   const handle_pointer_down = (e: PointerEvent) => {
-    setDragging(true);
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+    setDragging(true)
+    ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
     handle_pointer_commit(e)
   }
 
@@ -72,8 +72,8 @@ export function Slider(props: SliderProps) {
   }
 
   const handle_pointer_up = (e: PointerEvent) => {
-    setDragging(false);
-    (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId)
+    setDragging(false)
+    ;(e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId)
   }
 
   const { id, extra_indicators, value, direction } = props
@@ -96,9 +96,9 @@ export function Slider(props: SliderProps) {
 }
 
 export function VUMeter(props: {
-  levels: Signal<Levels | null>;
-  kind: "inputs" | "buses";
-  idx: number;
+  levels: Signal<Levels | null>
+  kind: "inputs" | "buses"
+  idx: number
 }) {
   const { levels, kind, idx } = props
   const db = useComputed(() => levels.value?.smooth[kind][idx] ?? -120)
@@ -114,29 +114,29 @@ export function VUMeter(props: {
 }
 
 type CheckboxProps = {
-  id: string;
-  checked: boolean;
-  label: string;
-  className?: string;
-  onInput?: (checked: boolean) => any;
-  reset_after?: number;
-};
-
+  id: string
+  checked: boolean
+  label: string
+  className?: string
+  onInput?: (checked: boolean) => any
+  reset_after?: number
+}
 
 export function Checkbox(props: CheckboxProps) {
-  const [bc, setBc] = useState('')
-  const [req, setReq] = useReactive(props.id,
-    props.checked,
-    props.onInput ?? (_ => null),
-    props.reset_after,
-  )
+  const [bc, setBc] = useState("")
+  const [req, setReq] = useReactive({
+    real_val: props.checked,
+    on_new_user_val: props.onInput ?? (async () => null),
+    sync_back_after: props.reset_after,
+  })
 
   useEffect(() => {
     if (req === props.checked) {
       setBc(req ? "checked" : "unchecked")
     } else {
       setBc(req ? "wants-check" : "wants-uncheck")
-    }}, [req, props.checked])
+    }
+  }, [req, props.checked])
 
   return (
     <span

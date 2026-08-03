@@ -1,29 +1,29 @@
 import type { ChannelState, SendState, BusState, Levels } from "./api_data.ts"
-import {useId} from "preact/hooks"
-import {type Signal, useSignal} from "@preact/signals"
+import { useId } from "preact/hooks"
+import { type Signal, useSignal } from "@preact/signals"
 import { VUSlider, Checkbox, VUMeter } from "./widgets.tsx"
 
 type Props = {
-  channel: ChannelState;
-  buses: BusState[];
-  idx: number;
-  levels: Signal<Levels | null>;
-  actions: InputActions;
-};
+  channel: ChannelState
+  buses: BusState[]
+  idx: number
+  levels: Signal<Levels | null>
+  actions: InputActions
+}
 
 export interface InputActions {
-  set_gain: (gain: number) => Promise<void>;
-  set_master_fader: (fader: number) => Promise<void>;
-  set_master_unmuted: (unmuted: boolean) => Promise<void>;
-  set_phantom: (on: boolean) => Promise<void>;
-  send: (bus: number) => SendActions;
+  set_gain: (gain: number) => Promise<void>
+  set_master_fader: (fader: number) => Promise<void>
+  set_master_unmuted: (unmuted: boolean) => Promise<void>
+  set_phantom: (on: boolean) => Promise<void>
+  send: (bus: number) => SendActions
 }
 
 export interface SendActions {
-  set_volume: (volume: number) => Promise<void>;
-  set_unmuted: (unmuted: boolean) => Promise<void>;
-  set_pre_fader: (pre: boolean) => Promise<void>;
-  set_pre_mute: (pre: boolean) => Promise<void>;
+  set_volume: (volume: number) => Promise<void>
+  set_unmuted: (unmuted: boolean) => Promise<void>
+  set_pre_fader: (pre: boolean) => Promise<void>
+  set_pre_mute: (pre: boolean) => Promise<void>
 }
 
 export function MixerInput(props: Props) {
@@ -40,7 +40,7 @@ export function MixerInput(props: Props) {
           id={`${id}-setup`}
           checked={setup.value}
           label={"\u{1F527}"}
-          onInput={(val) => setup.value = val}
+          onInput={(val) => (setup.value = val)}
         />
         {setup.value && (
           <div className="sliders gain">
@@ -105,11 +105,11 @@ export function MixerInput(props: Props) {
 }
 
 function SendMap(props: {
-  id: string;
-  send: SendState;
-  bus: BusState;
-  i: number;
-  actions: SendActions;
+  id: string
+  send: SendState
+  bus: BusState
+  i: number
+  actions: SendActions
 }) {
   const { id, send, bus, i, actions } = props
   return (

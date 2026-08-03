@@ -4,16 +4,16 @@ import type { Signal } from "@preact/signals"
 import { VUSlider, Checkbox, VUMeter } from "./widgets.tsx"
 
 type Props = {
-  bus: BusState;
-  idx: number;
-  levels: Signal<Levels | null>;
-  actions: OutputActions;
-};
+  bus: BusState
+  idx: number
+  levels: Signal<Levels | null>
+  actions: OutputActions
+}
 
 export type OutputActions = {
-  set_master_fader: (fader: number) => Promise<void>;
-  set_master_unmuted: (unmuted: boolean) => Promise<void>;
-};
+  set_master_fader: (fader: number) => Promise<void>
+  set_master_unmuted: (unmuted: boolean) => Promise<void>
+}
 
 export function MixerOutput(props: Props) {
   const bus = props.bus

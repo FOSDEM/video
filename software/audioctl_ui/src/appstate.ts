@@ -1,27 +1,30 @@
-import {MisirkaClient, MQTTClient, SubClient, WSClient} from "misirka"
-import {useEffect, useState} from "preact/hooks"
+import { MisirkaClient, MQTTClient, SubClient, WSClient } from "misirka"
+import { useEffect, useState } from "preact/hooks"
 
 export const status_messages = {
   initialising: "initialising",
   mqtt_connecting: "connecting to MQTT",
   mqtt_connected_waiting_for_audioctl:
-        "MQTT connected, waiting for audioctl to appear",
+    "MQTT connected, waiting for audioctl to appear",
   mqtt_disconnected: "MQTT disconnected, reconnecting",
   audioctl_died:
-        "MQTT still connected but audioctl died, waiting for it to appear",
+    "MQTT still connected but audioctl died, waiting for it to appear",
   ws_connecting: "connecting to websocket",
   ws_disconnected: "websocket disconnected, reconnecting",
 } as const
 
-type StatusMessage = keyof typeof status_messages;
+type StatusMessage = keyof typeof status_messages
 
 type AppState =
-    | { status: "showing_help" }
-    | { status: "showing_msg"; msg: StatusMessage }
-    | { status: "connected"; client: MisirkaClient };
+  | { status: "showing_help" }
+  | { status: "showing_msg"; msg: StatusMessage }
+  | { status: "connected"; client: MisirkaClient }
 
 export default function useAppState() {
-  const [appState, setAppState] = useState<AppState>({status: "showing_msg", msg: "initialising"})
+  const [appState, setAppState] = useState<AppState>({
+    status: "showing_msg",
+    msg: "initialising",
+  })
   useEffect(() => {
     function connect() {
       const params = new URLSearchParams(window.location.search)
@@ -39,7 +42,7 @@ export default function useAppState() {
           prefix: mqtt_prefix,
         })
 
-        setAppState({status: "showing_msg", msg: "mqtt_connecting"})
+        setAppState({ status: "showing_msg", msg: "mqtt_connecting" })
 
         mqtt_client.on_alive(() => {
           setAppState({
@@ -49,7 +52,7 @@ export default function useAppState() {
         })
 
         mqtt_client.on_dead(() => {
-          setAppState({status: "showing_msg", msg: "mqtt_disconnected"})
+          setAppState({ status: "showing_msg", msg: "mqtt_disconnected" })
         })
 
         const client = new SubClient(mqtt_client, {
@@ -58,26 +61,26 @@ export default function useAppState() {
         })
 
         client.on_alive(() => {
-          setAppState({status: "connected", client})
+          setAppState({ status: "connected", client })
         })
 
         client.on_dead(() => {
-          setAppState({status: "showing_msg", msg: "audioctl_died"})
+          setAppState({ status: "showing_msg", msg: "audioctl_died" })
         })
       } else if (ws_url) {
-        const client = new WSClient({ws_url: ws_url})
+        const client = new WSClient({ ws_url: ws_url })
 
-        setAppState({status: "showing_msg", msg: "ws_connecting"})
+        setAppState({ status: "showing_msg", msg: "ws_connecting" })
 
         client.on_alive(() => {
-          setAppState({status: "connected", client})
+          setAppState({ status: "connected", client })
         })
 
         client.on_dead(() => {
-          setAppState({status: "showing_msg", msg: "ws_disconnected"})
+          setAppState({ status: "showing_msg", msg: "ws_disconnected" })
         })
       } else {
-        setAppState({status: "showing_help"})
+        setAppState({ status: "showing_help" })
       }
     }
 
@@ -85,7 +88,6 @@ export default function useAppState() {
 
     // return () => disconnect();
   }, [])
-
 
   return appState
 }

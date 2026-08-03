@@ -1,67 +1,54 @@
-import {useContext, useEffect, useState, type Dispatch, type StateUpdater} from "preact/hooks"
-import {QuiContext} from "./quicontext.ts"
-import type {QUI} from "rtui"
+import {
+  useRef,
+  useEffect,
+  useState,
+  useContext,
+  type Dispatch,
+  type StateUpdater,
+} from "preact/hooks"
+import { Throttler } from "rtui"
+import { ErrHandlerCtx } from "./err_context.ts"
 
-interface ActionProps {
-    bucket: string,
-    reset_after?: number,
-    action: () => void | Promise<void>
-    syncBack: () => void | Promise<void>
-}
+export default function useReactive<T>(opts: {
+  real_val: T
+  on_new_user_val: (v: T) => Promise<void>
+  sync_back_after?: number
+}): [T, Dispatch<StateUpdater<T>>] {
+  const throttler = useRef(new Throttler())
+  const err_handler = useContext(ErrHandlerCtx)
 
-function exec_action(qui: QUI | null, props: ActionProps) {
-  if (qui) {
-    qui.add({
-      handler: async () => {
-        await props.action()
+  const { real_val, on_new_user_val, sync_back_after } = opts
+  const [user_val, set_user_val] = useState(real_val) // initial
+  const [user_mirrors_real, set_user_mirrors_real] = useState(false)
+
+  // on "user_val" value change, enqueue to qui
+  useEffect(() => {
+    // TODO: this effect MUST NOT fire when caused by sync_user_to_real
+    console.log(`user val change to ${user_val}`)
+
+    throttler.current.do(
+      async () => {
+        set_user_mirrors_real(false)
+        console.log(`user val begin update to ${user_val}`)
+        await on_new_user_val(user_val)
+        console.log(`user val end update to ${user_val}`)
       },
-      bucket: props.bucket,
-      reset_after: props.reset_after,
-      reset: props.syncBack,
-    })
-  } else {
-    props.action()
+      {
+        sync_back: () => set_user_mirrors_real(true),
+        sync_back_after: sync_back_after,
+        err_handler: err_handler,
+      },
+    )
+  }, [user_val])
+
+  const sync_user_to_real = () => {
+    if (user_mirrors_real) {
+      console.log(`user val sync back from ${user_val} to ${real_val}`)
+      set_user_val(real_val)
+    }
   }
-}
 
-export default function useReactive<T>(id: string, real: T, setReal: (v: T) => void, reset_after?: number): [T, Dispatch<StateUpdater<T>>] {
-  const qui = useContext(QuiContext)
-  const [user, setUser] = useState(real) // initial
+  useEffect(sync_user_to_real, [real_val, user_mirrors_real])
 
-  const [previous, setPrevious] = useState(real) // this only changes on frontend push
-
-  const [forceSync, setForceSync] = useState(false)
-
-  // on "user" value change, enqueue to qui
-  useEffect(() => {
-    // don't handle unchanged values or force pushes from the backend here
-    if(forceSync || real === user) return
-
-    exec_action(qui, {
-      bucket: id,
-      action: () => {
-        setForceSync(false)
-        setReal(user)
-        setPrevious(user)
-      },
-      syncBack: () => setForceSync(true),
-      reset_after: reset_after,
-    })
-  }, [user])
-
-  // on real value change without user input
-  useEffect(() => {
-    if(previous == user || real != user) setForceSync(true)
-  }, [real])
-
-  // if force pushed, update UI value and unlock back
-  useEffect(() => {
-    if (!forceSync) return
-
-    console.debug(`force sync from ${user} to ${real}`)
-    setUser(real)
-    setForceSync(false)
-  }, [forceSync])
-
-  return [user, setUser]
+  return [user_val, set_user_val]
 }

@@ -2,20 +2,23 @@ import js from "@eslint/js"
 import globals from "globals"
 import tseslint from "typescript-eslint"
 import css from "@eslint/css"
+import eslintConfigPrettier from "eslint-config-prettier"
 import { defineConfig, globalIgnores } from "eslint/config"
 
 export default defineConfig([
-  globalIgnores(["!node_modules/", "node_modules/*", "!node_modules/misirka/"]),
+  globalIgnores([
+    "!node_modules/",
+    "node_modules/*",
+    "!node_modules/misirka/",
+    "!node_modules/rtui/",
+  ]),
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,tsx,jsx}"],
     plugins: { js },
     extends: ["js/recommended"],
     languageOptions: { globals: globals.browser },
     rules: {
-      indent: ["error", 2],
-      semi: ["error", "never"],
       "no-unused-vars": "off",
-      "comma-dangle": ["error", "always-multiline"],
     },
   },
   {
@@ -31,4 +34,7 @@ export default defineConfig([
     language: "css/css",
     extends: ["css/recommended"],
   },
+  // formatting is Prettier's job; turn off any ESLint rules that conflict.
+  // keep this last so it overrides the configs above.
+  eslintConfigPrettier,
 ])

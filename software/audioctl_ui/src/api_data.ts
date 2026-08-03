@@ -42,13 +42,13 @@ const LevelsSchema = z.object({
 
 const OkRespSchema = z.literal("ok")
 
-export type SendState = z.infer<typeof SendStateSchema>;
-export type ChannelState = z.infer<typeof ChannelStateSchema>;
-export type BusState = z.infer<typeof BusStateSchema>;
-export type MixerState = z.infer<typeof MixerStateSchema>;
-export type LevelsBlock = z.infer<typeof LevelsBlockSchema>;
-export type Levels = z.infer<typeof LevelsSchema>;
-export type OkResp = z.infer<typeof OkRespSchema>;
+export type SendState = z.infer<typeof SendStateSchema>
+export type ChannelState = z.infer<typeof ChannelStateSchema>
+export type BusState = z.infer<typeof BusStateSchema>
+export type MixerState = z.infer<typeof MixerStateSchema>
+export type LevelsBlock = z.infer<typeof LevelsBlockSchema>
+export type Levels = z.infer<typeof LevelsSchema>
+export type OkResp = z.infer<typeof OkRespSchema>
 
 export {
   SendStateSchema,
