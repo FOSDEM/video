@@ -41,7 +41,11 @@ func (m *Mapper) getFullState(force ForceGet) (*MapperState, error) {
 			return nil, err
 		}
 
-		m.state = BuildMapperState(mixerstate, m.logger)
+		var requiresUpdate bool
+		m.state, requiresUpdate = BuildMapperState(mixerstate, m.logger)
+		if requiresUpdate {
+			m.setFullState(m.state)
+		}
 	}
 
 	return m.state.Copy(), nil

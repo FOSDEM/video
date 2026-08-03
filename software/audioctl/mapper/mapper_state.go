@@ -112,7 +112,9 @@ func (m *MapperState) Copy() *MapperState {
 	return out
 }
 
-func BuildMapperState(mixerstate *ctl.MixerState, logger *slog.Logger) *MapperState {
+func BuildMapperState(mixerstate *ctl.MixerState, logger *slog.Logger) (*MapperState, bool) {
+	var requiresUpdate bool
+
 	m := &MapperState{
 		Channels: make([]ChannelState, len(mixerstate.Channels)),
 		Buses:    make([]BusState, len(mixerstate.Buses)),
@@ -121,6 +123,7 @@ func BuildMapperState(mixerstate *ctl.MixerState, logger *slog.Logger) *MapperSt
 	storedinfo, err := deblobifyStoredInfo(mixerstate.Blob)
 	if err != nil && logger != nil {
 		logger.Error("cannot decode stored blob, reinitialising", "err", err)
+		requiresUpdate = true
 	}
 
 	storedinfo.Resize(len(mixerstate.Channels), len(mixerstate.Buses))
@@ -158,7 +161,7 @@ func BuildMapperState(mixerstate *ctl.MixerState, logger *slog.Logger) *MapperSt
 		}
 	}
 
-	return m
+	return m, requiresUpdate
 }
 
 func (m *MapperState) ToMixerState() *ctl.MixerState {

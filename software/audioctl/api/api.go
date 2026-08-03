@@ -68,7 +68,7 @@ func New(logger *slog.Logger, cfg *config.ApiCfg, ctlInst ctl.Ctl) *Api {
 		Example(Heartbeat{Now: time.Now()}).
 		Bus()
 
-	exampleState := mapper.BuildMapperState(fakectl.DefaultState, nil)
+	exampleState, _ := mapper.BuildMapperState(fakectl.DefaultState, nil)
 
 	a.stateBus = msksrv.AddTopic[*mapper.MapperState](a.srv, "state").
 		Descr("sends the full audio control state").

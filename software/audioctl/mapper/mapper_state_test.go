@@ -82,7 +82,7 @@ func randomMapperState(g *generator) *MapperState {
 func checkRoundTrip(t *testing.T, a *MapperState) {
 	t.Helper()
 	b := a.ToMixerState()
-	c := BuildMapperState(b, nil)
+	c, _ := BuildMapperState(b, nil)
 	d := c.ToMixerState()
 
 	if !approxEqual(b, d, 1e-3) {

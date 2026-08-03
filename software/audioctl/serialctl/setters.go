@@ -2,6 +2,7 @@ package serialctl
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/fosdem/video/software/audioctl/ctl"
 )
@@ -47,7 +48,12 @@ func (c *SerialCtl) SetFullState(state *ctl.MixerState) error {
 }
 
 func (c *SerialCtl) SetBlob(blob string) error {
-	panic("not implemented")
+	if strings.ContainsAny(blob, "\n\r") {
+		return fmt.Errorf("blob contains newlines, this is illegal")
+	}
+
+	_, err := c.RawCmd(fmt.Sprintf("blob.set 0 %s", blob))
+	return err
 }
 
 func (c *SerialCtl) SetMatrixSend(ch uint8, bus uint8, unmuted bool) error {

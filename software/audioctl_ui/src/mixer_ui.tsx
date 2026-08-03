@@ -56,7 +56,7 @@ export function MixerUI(props: Props) {
           <div className="inputs channellist">
             {mixerState.channels.map((channel, i) => (
               <MixerInput
-                key={channel.name}
+                key={`chan-${i}`}
                 channel={channel}
                 buses={mixerState.buses}
                 idx={i}
@@ -71,7 +71,7 @@ export function MixerUI(props: Props) {
           <div className="outputs channellist">
             {mixerState.buses.map((bus, i) => (
               <MixerOutput
-                key={bus.name}
+                key={`bus-${i}`}
                 bus={bus}
                 idx={i}
                 levels={levels}

@@ -88,7 +88,7 @@ func (c *SerialCtl) GetFullState() (*ctl.MixerState, error) {
 }
 
 func (c *SerialCtl) GetBlob() (string, error) {
-	panic("not implemented")
+	return c.RawCmd("blob.get 0")
 }
 
 func (c *SerialCtl) GetChannelNames() ([]string, []string, error) {
