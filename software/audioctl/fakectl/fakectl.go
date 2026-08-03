@@ -163,7 +163,13 @@ func (c *FakeCtl) Loop() error {
 	diffs := make([]float32, len(c.state.Channels))
 	inputLevels := make([]float32, len(c.state.Channels))
 
+	var stateReport string
 	for {
+		newStateReport := c.state.String()
+		if newStateReport != stateReport {
+			stateReport = newStateReport
+			fmt.Println(stateReport)
+		}
 		time.Sleep(10 * time.Millisecond)
 
 		for i := range diffs {

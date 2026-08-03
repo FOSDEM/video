@@ -1,6 +1,9 @@
 package ctl
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type MixerState struct {
 	Channels []ChannelState `json:"channels"`
@@ -51,6 +54,69 @@ type Levels struct {
 type LevelsBlock struct {
 	Input []float32 `json:"inputs"`
 	Bus   []float32 `json:"buses"`
+}
+
+func (m *MixerState) String() string {
+	if m == nil {
+		return "MixerState(nil)"
+	}
+
+	var b strings.Builder
+	fmt.Fprintf(&b, "blob=<%s> channels=[", m.Blob)
+	for i := range m.Channels {
+		if i > 0 {
+			b.WriteByte(' ')
+		}
+		b.WriteString(m.Channels[i].String())
+	}
+	b.WriteString("] buses=[")
+	for i := range m.Buses {
+		if i > 0 {
+			b.WriteByte(' ')
+		}
+		b.WriteString(m.Buses[i].String())
+	}
+	b.WriteString("]")
+	return b.String()
+}
+
+func (c *ChannelState) String() string {
+	label := c.Label
+	if label == "" {
+		label = c.Name
+	}
+
+	var b strings.Builder
+	fmt.Fprintf(&b, "%s(g=%+.1f", label, c.Gain)
+	if c.Phantom {
+		b.WriteString(" +PH")
+	}
+	if len(c.Eq) > 0 {
+		fmt.Fprintf(&b, " eq=%d", len(c.Eq))
+	}
+	b.WriteString(" sends=")
+	for i := range c.Sends {
+		if i > 0 {
+			b.WriteByte(',')
+		}
+		b.WriteString(c.Sends[i].String())
+	}
+	b.WriteByte(')')
+	return b.String()
+}
+
+func (b *BusState) String() string {
+	if b.Label != "" {
+		return b.Label
+	}
+	return b.Name
+}
+
+func (s *SendState) String() string {
+	if s.Unmuted {
+		return fmt.Sprintf("%+.1f", s.Volume)
+	}
+	return fmt.Sprintf("(%+.1f)", s.Volume)
 }
 
 func MixerStateEqual(x, y *MixerState) bool {
