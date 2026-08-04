@@ -50,6 +50,20 @@
     buildInputs = [];
   };
 
+  audioctl-ui-pkg = pkgs.buildNpmPackage {
+    name = "audioctl-ui";
+    src = ../../../audioctl_ui;
+    npmDepsHash = "sha256-pjfZzzumrv7DjF6NPHkQvMLzBhHnvKJfXZ/EUuFbbEI=";
+    npmBuildScript = "build";
+    makeCacheWritable = true;
+    installPhase = ''
+      runHook preInstall
+      mkdir -p $out
+      cp -r dist/* $out/
+      runHook postInstall
+    '';
+  };
+
   audioctl-config-file = pkgs.writeTextFile {
     name = "audioctl-config.json";
     text = builtins.toJSON audioctl-config;
@@ -86,7 +100,18 @@ in {
       ExecStart = "${audioctl-pkg}/bin/audioctl ${audioctl-config-file}";
       User = "human";
       Group = "human";
+      Restart = "always";
+      RestartSec = "3s";
     };
     wantedBy = [ "multi-user.target" ];
+  };
+
+  services.nginx = {
+    enable = true;
+    virtualHosts."*" = {
+      locations."/audioctl-ui" = {
+        root = "${audioctl-ui-pkg}";
+      };
+    };
   };
 }

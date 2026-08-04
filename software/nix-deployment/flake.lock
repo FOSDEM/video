@@ -28,27 +28,26 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1785244332,
+        "lastModified": 1785505603,
         "narHash": "sha256-DKArNcvcLaZ1G/3znhsLQyO+cZJKMnefXayyz3NpXt4=",
         "owner": "FOSDEM",
         "repo": "video-fazantix",
-        "rev": "5e919e4424e11ec00e5a638d33b551d0e2e4c012",
+        "rev": "244926dbf047376fbef7f0f270b8e9675ef93f1d",
         "type": "github"
       },
       "original": {
         "owner": "FOSDEM",
-        "ref": "frankenbox_fixes",
         "repo": "video-fazantix",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1785325225,
-        "narHash": "sha256-5tapy5fceUetiahspLuH+IE9zlH0GV4rp0I5RopsEvU=",
+        "lastModified": 1785831796,
+        "narHash": "sha256-QvQSoa/nSPdFlnEC6wLNJfByPGWc1nV6LDfdwdswfiQ=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "7dbb379d395b1209f3641fa310cc2f907d64de42",
+        "rev": "4a37013ff95a693de1ed1145ce064737eef19aa1",
         "type": "github"
       },
       "original": {

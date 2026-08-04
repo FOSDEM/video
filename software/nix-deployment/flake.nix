@@ -6,7 +6,7 @@
     deploy-o-matic.url = "github:dexterlb/deploy-o-matic";
     deploy-o-matic.inputs.nixpkgs.follows = "nixpkgs";
 
-    fazantix.url = "github:FOSDEM/video-fazantix/frankenbox_fixes";
+    fazantix.url = "github:FOSDEM/video-fazantix";
     fazantix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
