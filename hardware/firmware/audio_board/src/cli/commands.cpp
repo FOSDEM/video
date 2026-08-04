@@ -374,6 +374,7 @@ const Cli::CmdDescr Cli::cmds[Cli::num_cmds + 1] = {
 			audio_reset_default_state();
 			audio_eeprom_save_all();
 			cli->report_ok();
+            SCB_AIRCR = 0x05FA0004; // reboot
 		},
 	},
 	{
