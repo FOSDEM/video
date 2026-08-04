@@ -2,7 +2,6 @@
   audioboard-tty = "tty_fosdem_audio_ctl";
 
   audioctl-listen-port = 8811;
-  networking.firewall.allowedTCPPorts = [ audioctl-listen-port ];
 
   audioctl-config = {
     api = {
@@ -107,10 +106,17 @@ in {
   };
 
   services.nginx = {
-    enable = true;
-    virtualHosts."*" = {
-      locations."/audioctl-ui" = {
-        root = "${audioctl-ui-pkg}";
+    virtualHosts.localhost = {
+      locations."= /audioctl-ui" = {
+        alias = "${audioctl-ui-pkg}/index.html";
+        extraConfig = ''
+          default_type text/html;
+        '';
+      };
+      locations."= /audio".return = "302 /audioctl-ui?ws_url=/audioctl/ws";
+      locations."/audioctl/" = {
+        proxyPass = "http://localhost:${builtins.toString audioctl-listen-port}/";
+        proxyWebsockets = true;
       };
     };
   };
