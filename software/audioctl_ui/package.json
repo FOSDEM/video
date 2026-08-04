@@ -15,7 +15,7 @@
     "@preact/signals": "^2.10.1",
     "misirka": "github:dexterlb/misirka#97edb75",
     "preact": "^10.27.2",
-    "rtui": "github:dexterlb/rtui#8c815c2",
+    "rtui": "github:dexterlb/rtui#a9936df",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -26,7 +26,6 @@
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.5.0",
     "jiti": "^2.6.1",
-    "node": "^25.9.0",
     "prettier": "^3.8.2",
     "tsx-vanilla": "^1.2.0",
     "typescript": "~6.0.2",

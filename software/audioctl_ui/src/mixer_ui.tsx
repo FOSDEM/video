@@ -5,6 +5,7 @@ import type { MixerState, Levels } from "./api_data.ts";
 import { MixerInput, type InputActions, type SendActions } from "./input.tsx";
 import { MixerOutput, type OutputActions } from "./output.tsx";
 import { useEffect, useState } from "preact/hooks";
+import { Button } from "rtui/preact";
 
 type Props = {
   client: MisirkaClient;
@@ -80,6 +81,7 @@ export function MixerUI(props: Props) {
             ))}
           </div>
         </div>
+        <Button label="Factory Reset" action={() => client.factory_reset()} />
       </div>
     </section>
   );

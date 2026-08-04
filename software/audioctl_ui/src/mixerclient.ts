@@ -91,6 +91,10 @@ export class MixerClient {
     });
   }
 
+  async factory_reset() {
+    await this.call_expecting_ok("factory-reset", {});
+  }
+
   async subscribe_state(handler: (state: MixerState) => void) {
     await this.client.subscribe("state", MixerStateSchema, handler);
   }
