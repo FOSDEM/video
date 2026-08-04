@@ -9,5 +9,5 @@
 
 #define OUT_SPAN_VOLTS  (1.2258f)
 
-#define BLOB_SIZE 180
+#define BLOB_SIZE 1024
 #define CMD_BUF_SIZE (BLOB_SIZE + 20)
