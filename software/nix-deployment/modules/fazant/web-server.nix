@@ -15,11 +15,14 @@
     </html>
   '';
 in {
-  networking.firewall.allowedTCPPorts = [ 80 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  security.acme.acceptTerms = true;
   services.nginx = {
     enable = true;
     virtualHosts.localhost = {
       default = true;
+      enableACME = true;
+      addSSL = true;
       locations."= /" = {
         root = "${index-page}";
         index = "index.html";
