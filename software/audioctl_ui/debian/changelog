@@ -1,3 +1,10 @@
+fosdem-audioctl-ui (0.0.16) UNRELEASED; urgency=medium
+
+  * Non-maintainer upload.
+  * Release 0.0.16
+
+ -- FOSDEM Team <noreply@fosdem.org>  Thu, 06 Aug 2026 06:55:36 +0300
+
 fosdem-audioctl-ui (0.0.1) stable; urgency=medium
 
   * Released
