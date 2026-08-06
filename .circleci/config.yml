@@ -27,7 +27,7 @@ jobs:
           base-devel cmake \
           arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-newlib \
           libusb freetype2 \
-          python openssh
+          python python-networkx openssh
 
     # I have no idea why git fails locally otherwise, but...
     - run: git config --global --add safe.directory /tmp/_circleci_local_build_repo
