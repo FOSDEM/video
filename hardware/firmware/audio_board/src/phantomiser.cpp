@@ -49,9 +49,16 @@ void Phantomiser::update() {
 }
 
 bool Phantomiser::updateActivation(uint8_t i) {
+	float speed;
+	if (this->duties[i] <= float(this->wantedState[i])) {
+		speed = PHANTOM_ACTIVATION_SPEED_ON;
+	} else {
+		speed = PHANTOM_ACTIVATION_SPEED_OFF;
+	}
+
 	this->duties[i] = linear_ramp_to(
 		this->duties[i],
-		PHANTOM_ACTIVATION_SPEED * this->dt,
+		speed * this->dt,
 		float(this->wantedState[i])
 	);
 
@@ -62,12 +69,17 @@ bool Phantomiser::updateActivation(uint8_t i) {
 
 void Phantomiser::applyDuty(uint8_t i, float duty) {
 	if (duty <= 0.0f) {
+		pinMode(this->pins[i], OUTPUT);
 		digitalWrite(this->pins[i], LOW);
 		return;
 	}
 	if (duty >= 1.0f) {
+		pinMode(this->pins[i], OUTPUT);
 		digitalWrite(this->pins[i], HIGH);
 		return;
 	}
-	analogWrite(this->pins[i], uint8_t(duty * 255.0f + 0.5f));
+
+	float curvedDuty = powf(duty, PHANTOM_ACTIVATION_CURVE);
+
+	analogWrite(this->pins[i], uint8_t(curvedDuty * 255.0f + 0.5f));
 }
