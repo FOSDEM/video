@@ -40,7 +40,7 @@ unsigned long last_save = 0;
 void loop() {
 	Levels& levels = audio_get_levels();
 
-	audio_update_levels(levels);
+	audio_update();
 
 #ifdef USE_DISPLAY
 	display_update_vu(levels.rms, levels.state);

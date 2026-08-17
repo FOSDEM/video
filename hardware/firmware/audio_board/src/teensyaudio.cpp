@@ -4,6 +4,7 @@
 #include "blob_storage.h"
 #include "config.h"
 #include "db_conversion.h"
+#include "phantomiser.h"
 #include "teensyaudio.h"
 
 #ifdef USE_EEPROM
@@ -18,8 +19,9 @@
 
 AudioControlTAA3040 taa3040;
 
-Levels     levels;
-AudioState state;
+Levels      levels;
+AudioState  state;
+Phantomiser phantomiser;
 
 BlobStorage blobs[NUM_BLOBS];
 
@@ -43,15 +45,19 @@ float taa3040_gainhandler(int chan, float gain) {
 	return static_cast<float>(gainval);
 }
 
+void phantom_handler(uint8_t id, bool val) {
+	phantomiser.setPhantom(id, val);
+}
+
 void audio_setup() {
 	AudioMemory(80);
 
 	Wire.begin();
 	Wire1.begin();
 
-	route_inputs[0].SetPhantomPowerPin(PIN_PHANTOM_IN1);
-	route_inputs[1].SetPhantomPowerPin(PIN_PHANTOM_IN2);
-	route_inputs[2].SetPhantomPowerPin(PIN_PHANTOM_IN3);
+	route_inputs[0].HandlePhantom(0, phantom_handler);
+	route_inputs[1].HandlePhantom(1, phantom_handler);
+	route_inputs[2].HandlePhantom(2, phantom_handler);
 
 	route_inputs[0].HandleAnalogGain(0, taa3040_gainhandler);
 	route_inputs[1].HandleAnalogGain(1, taa3040_gainhandler);
@@ -97,6 +103,11 @@ float level_multiplier(uint8_t meter_id) {
 	} else {
 		return level_multiplier_bus(meter_id - CHANNELS);
 	}
+}
+
+void audio_update() {
+	audio_update_levels(levels);
+	phantomiser.update();
 }
 
 void audio_update_levels(Levels& levels) {

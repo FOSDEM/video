@@ -19,10 +19,10 @@ float InputChannel::GetGain() const {
 	return this->digital_gain + this->analog_gain;
 }
 
-void InputChannel::SetPhantomPowerPin(uint8_t pin) {
-	pinMode(pin, OUTPUT);
-	this->has_phantom = true;
-	this->phantom_pin = pin;
+void InputChannel::HandlePhantom(uint8_t arg, void (*handler)(uint8_t, bool)) {
+	this->has_phantom     = true;
+	this->phantom_arg     = arg;
+	this->phantom_handler = handler;
 }
 
 void InputChannel::HandleAnalogGain(int arg, float (*set_gain)(int, float)) {
@@ -39,7 +39,7 @@ void InputChannel::SetPhantom(bool enable) {
 	if (!this->has_phantom) {
 		return;
 	}
-	digitalWrite(this->phantom_pin, enable);
+	this->phantom_handler(this->phantom_arg, enable);
 	this->phantom_enabled = enable;
 	this->eepromDirty     = true;
 	this->EepromSave();

@@ -19,7 +19,7 @@ class InputChannel : public Channel {
 		bool EepromSave();
 		bool EepromLoad();
 
-		void SetPhantomPowerPin(uint8_t pin);
+		void HandlePhantom(uint8_t arg, void (*handler)(uint8_t, bool));
 
 		void HandleAnalogGain(int arg, float (*set_gain)(int, float));
 
@@ -30,7 +30,8 @@ class InputChannel : public Channel {
 	private:
 		bool    has_phantom;
 		bool    phantom_enabled;
-		uint8_t phantom_pin = 0;
+		uint8_t phantom_arg;
+		void (*phantom_handler)(uint8_t, bool);
 
 		bool has_analog_gain;
 		int  analog_gain_arg;

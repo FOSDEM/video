@@ -11,6 +11,7 @@
 
 void audio_setup();
 void audio_load_state();
+void audio_update();
 
 void update_levels(float levels_smooth[CHANNELS + BUSES], float levels_rms[CHANNELS + BUSES], float levels_peak[CHANNELS + BUSES]);
 

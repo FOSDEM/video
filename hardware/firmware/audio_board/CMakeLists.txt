@@ -131,6 +131,7 @@ set(SOURCES
     src/channel.cpp
     src/channel_input.cpp
     src/channel_output.cpp
+    src/phantomiser.cpp
     src/filter.cpp
     src/teensyaudio_defaults.cpp
     ${GENERATED_GRAPH}
