@@ -20,7 +20,7 @@ static float linear_ramp_to(float x, float step, float target) {
 
 void Phantomiser::begin() {
 	for (uint8_t i = 0; i < PHANTOM_NUM; i++) {
-		this->hardwarePwm[i] = isPwmPin(pins[i]);
+		this->isHardwarePWM[i] = isPwmPin(pins[i]);
 	}
 }
 
@@ -38,6 +38,8 @@ void Phantomiser::update() {
 	if (dt <= 0) {
 		return;
 	}
+
+	this->softPWMcounter++;
 
 	if (this->idBeingActivated != 0xff) {
 		if (this->updateActivation(this->idBeingActivated)) {
@@ -85,13 +87,20 @@ void Phantomiser::applyDuty(uint8_t i, float duty) {
 		return;
 	}
 
-	float curvedDuty = powf(duty, PHANTOM_ACTIVATION_CURVE);
+	float   curvedDuty = powf(duty, PHANTOM_ACTIVATION_CURVE);
+	uint8_t intDuty    = uint8_t(curvedDuty * 255.0f + 0.5f);
 
-	if (this->hardwarePwm[i]) {
-		analogWrite(this->pins[i], uint8_t(curvedDuty * 255.0f + 0.5f));
+	if (this->isHardwarePWM[i]) {
+		analogWrite(this->pins[i], intDuty);
 	} else {
-		digitalWrite(this->pins[i], HIGH);
-		delayMicroseconds(uint32_t(curvedDuty * 255.0f + 1.0f));
-		digitalWrite(this->pins[i], HIGH);
+		this->softPWM(this->pins[i], intDuty);
+	}
+}
+
+void Phantomiser::softPWM(int pin, uint8_t intDuty) {
+	if (this->softPWMcounter < intDuty) {
+		digitalWrite(pin, HIGH);
+	} else {
+		digitalWrite(pin, LOW);
 	}
 }

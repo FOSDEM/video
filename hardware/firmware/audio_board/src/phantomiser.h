@@ -15,11 +15,14 @@ class Phantomiser {
 		void applyDuty(uint8_t i, float duty);
 
 		const uint8_t pins[PHANTOM_NUM] = PHANTOM_PINS;
-		bool          hardwarePwm[PHANTOM_NUM]{};
 		float         duties[PHANTOM_NUM]{};
 		bool          wantedState[PHANTOM_NUM]{};
 
 		uint8_t idBeingActivated = 0xff;
+
+		bool    isHardwarePWM[PHANTOM_NUM]{};
+		uint8_t softPWMcounter;
+		void    softPWM(int pin, uint8_t intDuty);
 
 		unsigned long t{};
 		float         dt{};
