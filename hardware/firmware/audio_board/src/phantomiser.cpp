@@ -18,6 +18,12 @@ static float linear_ramp_to(float x, float step, float target) {
 	return x - step * signf(err);
 }
 
+void Phantomiser::begin() {
+	for (uint8_t i = 0; i < PHANTOM_NUM; i++) {
+		this->hardwarePwm[i] = isPwmPin(pins[i]);
+	}
+}
+
 void Phantomiser::setPhantom(uint8_t id, bool val) {
 	if (id >= PHANTOM_NUM) {
 		return;
@@ -81,5 +87,11 @@ void Phantomiser::applyDuty(uint8_t i, float duty) {
 
 	float curvedDuty = powf(duty, PHANTOM_ACTIVATION_CURVE);
 
-	analogWrite(this->pins[i], uint8_t(curvedDuty * 255.0f + 0.5f));
+	if (this->hardwarePwm[i]) {
+		analogWrite(this->pins[i], uint8_t(curvedDuty * 255.0f + 0.5f));
+	} else {
+		digitalWrite(this->pins[i], HIGH);
+		delayMicroseconds(uint32_t(curvedDuty * 255.0f + 1.0f));
+		digitalWrite(this->pins[i], HIGH);
+	}
 }

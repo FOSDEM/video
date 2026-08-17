@@ -54,6 +54,7 @@ void audio_setup() {
 
 	Wire.begin();
 	Wire1.begin();
+	phantomiser.begin();
 
 	route_inputs[0].HandlePhantom(0, phantom_handler);
 	route_inputs[1].HandlePhantom(1, phantom_handler);

@@ -263,6 +263,15 @@ void quadtimerFrequency(IMXRT_TMR_t *p, unsigned int submodule, float frequency)
 		TMR_CTRL_LENGTH | TMR_CTRL_OUTMODE(6);
 }
 
+uint8_t isPwmPin(uint8_t pin) {
+	const struct pwm_pin_info_struct *info;
+
+	if (pin >= CORE_NUM_DIGITAL) return 0;
+	info = pwm_pin_info + pin;
+
+	return info->type != 0;
+}
+
 void analogWrite(uint8_t pin, int val)
 {
 	const struct pwm_pin_info_struct *info;

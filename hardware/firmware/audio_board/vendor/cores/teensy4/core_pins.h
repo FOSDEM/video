@@ -2315,6 +2315,7 @@ void init_pins(void);
 // used, the range is 0 (pin stays LOW) to 256 (pin stays HIGH).  The
 // PWM frequency may be configured with analogWriteFrequency().
 void analogWrite(uint8_t pin, int value);
+uint8_t isPwmPin(uint8_t pin);
 uint32_t analogWriteRes(uint32_t bits);
 // Configure PWM resolution for the analogWrite() function.  For example, 12
 // bits gives a range of 0 to 4096.  This function returns the prior
