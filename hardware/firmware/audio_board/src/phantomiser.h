@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include <IntervalTimer.h>
 
 #include "config.h"
 
@@ -18,12 +19,17 @@ class Phantomiser {
 		float         duties[PHANTOM_NUM]{};
 		bool          wantedState[PHANTOM_NUM]{};
 
-		uint8_t idBeingActivated = 0xff;
+		IntervalTimer    softPWMtimer;
+		volatile uint8_t idBeingActivated = 0xff;
+		volatile enum {
+			Off,
+			High,
+			Low
+		} softPWMstate                  = Off;
+		volatile uint32_t softPWMperiod = 0;
+		void              softPWMtick();
+		void              softPWMsettle(int pin, bool level);
 
-		bool    isHardwarePWM[PHANTOM_NUM]{};
-		uint8_t softPWMcounter;
-		void    softPWM(int pin, uint8_t intDuty);
-
-		unsigned long t{};
-		float         dt{};
+		unsigned long t  = 0;
+		float         dt = 0;
 };

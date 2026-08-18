@@ -11,6 +11,7 @@
 #define PHANTOM_ACTIVATION_SPEED_ON  (1.0f / (2.5f /* seconds */))
 #define PHANTOM_ACTIVATION_SPEED_OFF INFINITY
 #define PHANTOM_ACTIVATION_CURVE     2.5f
+#define PHANTOM_SOFTPWM_PERIOD_US    400
 
 #define OUT_SPAN_VOLTS               (1.2258f)
 
