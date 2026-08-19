@@ -21,7 +21,7 @@ static float linear_ramp_to(float x, float step, float target) {
 void Phantomiser::begin() {
 	for (uint8_t i = 0; i < PHANTOM_NUM; i++) {
 		pinMode(this->pins[i], OUTPUT);
-		digitalWrite(this->pins[i], LOW);
+		digitalWriteFast(this->pins[i], LOW);
 	}
 }
 
@@ -91,11 +91,11 @@ void Phantomiser::applyDuty(uint8_t i, float duty) {
 	this->softPWMperiod = pwmPeriod;
 	if (this->softPWMstate == Off) {
 		noInterrupts();
-		digitalWrite(pin, LOW);
+		digitalWriteFast(pin, LOW);
 		this->softPWMstate = Low;
-		bool success       = this->softPWMtimer.begin(
+		bool success = this->softPWMtimer.begin(
 			[this] { this->softPWMtick(); },
-			PHANTOM_SOFTPWM_PERIOD_US - pwmPeriod
+			pwmPeriod
 		);
 		if (!success) {
 			this->softPWMstate = Off;
@@ -106,22 +106,25 @@ void Phantomiser::applyDuty(uint8_t i, float duty) {
 
 void Phantomiser::softPWMsettle(int pin, bool level) {
 	this->softPWMstate = Off;
-	digitalWrite(pin, level);
+	digitalWriteFast(pin, level);
 }
 
 void Phantomiser::softPWMtick() {
 	uint32_t period = this->softPWMperiod;
 
+	// softPWMtimer.update() has 1 period latency, so each Low period
+	// calls update with the period for Low, which will take effect at
+	// the period after the next one, instead of calling update with High
 	switch (this->softPWMstate) {
 	case High:
-		digitalWrite(this->pins[this->idBeingActivated], LOW);
+		digitalWriteFast(this->pins[this->idBeingActivated], LOW);
 		this->softPWMstate = Low;
-		this->softPWMtimer.update(PHANTOM_SOFTPWM_PERIOD_US - period);
+		this->softPWMtimer.update(period);
 		return;
 	case Low:
-		digitalWrite(this->pins[this->idBeingActivated], HIGH);
+		digitalWriteFast(this->pins[this->idBeingActivated], HIGH);
 		this->softPWMstate = High;
-		this->softPWMtimer.update(period);
+		this->softPWMtimer.update(PHANTOM_SOFTPWM_PERIOD_US - period);
 		return;
 	case Off:
 		this->softPWMtimer.end();

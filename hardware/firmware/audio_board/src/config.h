@@ -8,10 +8,10 @@
 #define PHANTOM_ID_IN1               0
 #define PHANTOM_ID_IN2               1
 #define PHANTOM_ID_IN3               2
-#define PHANTOM_ACTIVATION_SPEED_ON  (1.0f / (2.5f /* seconds */))
+#define PHANTOM_ACTIVATION_SPEED_ON  (1.0f / (3.0f /* seconds */))
 #define PHANTOM_ACTIVATION_SPEED_OFF INFINITY
-#define PHANTOM_ACTIVATION_CURVE     2.5f
-#define PHANTOM_SOFTPWM_PERIOD_US    400
+#define PHANTOM_ACTIVATION_CURVE     4.5f
+#define PHANTOM_SOFTPWM_PERIOD_US    200
 
 #define OUT_SPAN_VOLTS               (1.2258f)
 
