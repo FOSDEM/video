@@ -1,7 +1,6 @@
 #include "usb.h"
 #include "config.h"
 #include "pico/bootrom.h"
-
 // TODO: implement vendor-reset interface
 
 void usb_init(void) {
@@ -66,4 +65,59 @@ void tud_cdc_line_coding_cb(uint8_t itf, cdc_line_coding_t const* p_line_coding)
         // when baud is set to the magic number, restart into bootloader
         reset_usb_boot(0, 0);
     }
+}
+
+bool vendor_request_temperature_cb(uint8_t rhport, uint8_t stage, tusb_control_request_t const * request)
+{
+    if (request->bmRequestType_bit.direction != TUSB_DIR_IN)
+	    return false;
+
+    if (stage != CONTROL_STAGE_SETUP)
+	    return true;
+
+    uint8_t reg = 0;
+    uint8_t buffer[2] = {0};
+    i2c_write_blocking_until(PWR_BRD_I2C_INST, PWR_BRD_TEMP_SENS_ADDR, &reg, 1, true, make_timeout_time_ms(20));
+    i2c_read_blocking_until(PWR_BRD_I2C_INST, PWR_BRD_TEMP_SENS_ADDR, &buffer, 2, false, make_timeout_time_ms(20));
+    io_say_f("  TEMP: [%d, %d]\r\n", buffer[0], buffer[1]);
+
+    return tud_control_xfer(rhport, request, &buffer, sizeof(buffer));
+}
+
+bool vendor_request_fanspeed_cb(uint8_t rhport, uint8_t stage, tusb_control_request_t const * request)
+{
+    if (request->bmRequestType_bit.direction != TUSB_DIR_IN)
+	    return false;
+
+    if (stage != CONTROL_STAGE_SETUP)
+	    return true;
+
+    uint8_t buffer[2] = {0};
+    uint16_t fs = 0;
+    fan_ctl_get_fan_speed(request->wIndex, &fs);
+    buffer[0] = (fs>>8) & 0xFF;
+    buffer[1] = (fs>>0) & 0xFF;
+    io_say_f("  FANSPEED %d: %d\r\n", request->wIndex, fs);
+    return tud_control_xfer(rhport, request, &buffer, sizeof(buffer));
+}
+
+
+bool tud_vendor_control_xfer_cb(uint8_t rhport, uint8_t stage, tusb_control_request_t const* request) {
+    bool result = false;
+    switch (request->bmRequestType_bit.type) {
+        case TUSB_REQ_TYPE_VENDOR:
+            io_say_f("XFER: bRequest=%d, wValue=%d, wIndex=%d, wLength=%d\r\n", request->bRequest, request->wValue, request->wIndex, request->wLength);
+            switch (request->bRequest) {
+                case VENDOR_REQUEST_TEMPERATURE:
+                    result = vendor_request_temperature_cb(rhport, stage, request);
+                    break;
+                case VENDOR_REQUEST_FANSPEED:
+                    result = vendor_request_fanspeed_cb(rhport, stage, request);
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
+    return result;
 }
