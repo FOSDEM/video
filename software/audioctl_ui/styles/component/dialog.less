@@ -63,6 +63,36 @@ dialog {
   }
 }
 
+dialog.eq-panel {
+  .bands {
+    display: flex;
+    width: 100%;
+    padding: 10px 0;
+
+    .band {
+      flex: 1;
+      padding: 10px;
+
+      header {
+        font-size: 0.85em;
+        text-align: center;
+      }
+
+      border-left: 1px solid black;
+      &:first-child {
+        border-left: none;
+      }
+
+      label {
+        display: block;
+        padding-top: 4px;
+        font-size: 0.85em;
+        line-height: 2em;
+      }
+    }
+  }
+}
+
 dialog.setup-panel {
   .phantom {
     display: block;

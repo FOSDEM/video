@@ -8,6 +8,17 @@ button {
   padding: 3px;
   cursor: pointer;
 
+  &.invisible {
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+
+    &:hover {
+      background: none;
+    }
+  }
+
   &:hover {
     background: rgba(255, 255, 255, 0.04);
   }

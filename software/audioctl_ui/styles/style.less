@@ -64,6 +64,15 @@ div.mixer {
       padding-top: 10px;
     }
 
+    canvas.eq-curve {
+      max-width: 100%;
+      border-radius: 3px;
+      margin-top: 4px;
+      background: black;
+      display: block;
+      border: 1px solid black;
+    }
+
     .channel:not(:first-child) {
       padding-left: 8px;
       padding-right: 8px;
@@ -141,4 +150,15 @@ div.mixer {
   &.output {
     background: @scribbleOutput;
   }
+}
+
+select, input[type=number] {
+  background: transparent;
+  border: 1px solid black;
+  .bevel();
+  color: white;
+  display: block;
+  width: 100%;
+  padding: 3px;
+  -moz-appearance: textfield;
 }

@@ -1,6 +1,7 @@
 import type {ChannelState, SendState, BusState, Levels} from "./api_data.ts";
 import {type Signal} from "@preact/signals";
 import {VUSlider, Checkbox, VUMeter} from "./widgets.tsx";
+import {EqCurve} from "./eqcurve.tsx";
 
 type Props = {
   channel: ChannelState;
@@ -83,6 +84,45 @@ export function MixerInput(props: Props) {
         <span className={["checkbox", "phantom", "indicator", channel.phantom ? "checked" : "unchecked"].join(" ")}>
           +48V
         </span>
+        <button class="invisible" command="show-modal" commandfor={"eq-panel-" + channel.name}>
+          <EqCurve bands={channel.eq} width={87} height={60}/>
+        </button>
+        <dialog className="eq-panel" id={"eq-panel-" + channel.name} closedby="any">
+          <div className="headerbar">
+            <h4>Equalizer for {channel.name}</h4>
+            <button commandfor={"eq-panel-" + channel.name} command="close">&times;</button>
+          </div>
+          <main>
+            <section>
+              <EqCurve bands={channel.eq} width={600} height={250}/>
+              <div class="bands">
+                {channel.eq.map((band, i) => (
+                    <div class="band">
+                      <header>Band {i + 1}</header>
+                      <select value={band.type}>
+                        <option value={0}>Disabled</option>
+                        <option value={1}>Low-pass</option>
+                        <option value={2}>High-pass</option>
+                        <option value={3}>Low-shelf</option>
+                        <option value={4}>High-shelf</option>
+                        <option value={5}>Notch</option>
+                        <option value={6}>Peak</option>
+                      </select>
+                      <label>Frequency
+                        <input type="number" value={band.frequency} min={19} max={2200}/>
+                      </label>
+                      <label>Gain
+                        <input type="number" value={band.gain} min={-60} max={60} step={0.1}/>
+                      </label>
+                      <label>Q
+                        <input type="number" value={band.q} defaultValue={0.717} step={0.01} />
+                      </label>
+                    </div>
+                ))}
+              </div>
+            </section>
+          </main>
+        </dialog>
         <h3 title={channel.name} className="scribblestrip input">{channel.name}</h3>
         <div className="controls">
           <Checkbox

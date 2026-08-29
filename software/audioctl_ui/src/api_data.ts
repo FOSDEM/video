@@ -7,11 +7,19 @@ const SendStateSchema = z.object({
   pre_channel_mute: z.boolean(),
 });
 
+const EqBandSchema = z.object({
+  type: z.number(),
+  frequency: z.number(),
+  gain: z.number(),
+  q: z.number(),
+});
+
 const ChannelStateSchema = z.object({
   name: z.string(),
   label: z.string(),
   gain: z.number(),
   phantom: z.boolean(),
+  eq: z.array(EqBandSchema),
   master_fader: z.number(),
   master_unmuted: z.boolean(),
   sends: z.array(SendStateSchema),
@@ -44,6 +52,7 @@ const OkRespSchema = z.literal("ok");
 
 export type SendState = z.infer<typeof SendStateSchema>;
 export type ChannelState = z.infer<typeof ChannelStateSchema>;
+export type EqBandState = z.infer<typeof EqBandSchema>;
 export type BusState = z.infer<typeof BusStateSchema>;
 export type MixerState = z.infer<typeof MixerStateSchema>;
 export type LevelsBlock = z.infer<typeof LevelsBlockSchema>;
@@ -53,6 +62,7 @@ export type OkResp = z.infer<typeof OkRespSchema>;
 export {
   SendStateSchema,
   ChannelStateSchema,
+  EqBandSchema,
   BusStateSchema,
   MixerStateSchema,
   LevelsBlockSchema,
